@@ -1,5 +1,5 @@
 // KIS Token Refresh API Route
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { configRepository } from '@/lib/kis/config-repository';
 import { KISApiClient } from '@/lib/kis/api-client';
 import { tokenRepository } from '@/lib/kis/token-repository';

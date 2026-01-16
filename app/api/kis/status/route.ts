@@ -1,5 +1,5 @@
 // KIS Status API Route
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { tokenRepository } from '@/lib/kis/token-repository';
 import { configRepository } from '@/lib/kis/config-repository';
 

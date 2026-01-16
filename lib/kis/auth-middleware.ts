@@ -1,5 +1,5 @@
 // KIS Authentication Middleware
-import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosError, AxiosResponse } from 'axios';
 import { TokenManager } from './token-manager';
 import { logger } from './logger';
 import { retryWithBackoff } from './retry';

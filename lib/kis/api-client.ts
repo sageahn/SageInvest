@@ -1,6 +1,6 @@
 // KIS API Client
 import axios, { AxiosInstance } from 'axios';
-import type { KISAuthToken, KISConfig, KISEnvironment, KISApiEndpoints } from './types';
+import type { KISAuthToken, KISEnvironment, KISApiEndpoints } from './types';
 
 export interface TokenIssueResponse {
   access_token: string;

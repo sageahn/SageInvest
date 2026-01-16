@@ -38,7 +38,7 @@ export async function retryWithBackoff<T>(
 
       console.warn(
         `Retry attempt ${attempt + 1}/${maxRetries} after ${delay}ms`,
-        error?.message || 'Unknown error'
+        JSON.stringify(error) || 'Unknown error'
       );
 
       // Wait before retrying

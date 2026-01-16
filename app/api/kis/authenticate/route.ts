@@ -6,7 +6,7 @@ import { KISApiClient } from '@/lib/kis/api-client';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = await request.json() as { appKey: string; appSecret: string; environment: 'production' | 'mock' };
     const { appKey, appSecret, environment } = body;
 
     if (!appKey || !appSecret || !environment) {

@@ -54,12 +54,12 @@ export default function KISAuthPage() {
       ]);
 
       if (configRes.ok) {
-        const config = await configRes.json();
+        const config = await configRes.json() as { app_key: string; environment: string } | null;
         setCurrentConfig(config);
       }
 
       if (tokenRes.ok) {
-        const data = await tokenRes.json();
+        const data = await tokenRes.json() as { token?: any };
         setCurrentToken(data.token);
       }
     } catch (error) {
@@ -87,7 +87,7 @@ export default function KISAuthPage() {
         throw new Error('인증 실패');
       }
 
-      const data = await response.json();
+      const data = await response.json() as { token?: any };
       setCurrentToken(data.token);
       setMessage({ type: 'success', text: '인증 성공! 토큰이 발급되었습니다.' });
       setAppSecret('');
@@ -108,7 +108,7 @@ export default function KISAuthPage() {
         throw new Error('토큰 갱신 실패');
       }
 
-      const data = await response.json();
+      const data = await response.json() as { token?: any };
       setCurrentToken(data.token);
       setMessage({ type: 'success', text: '토큰이 갱신되었습니다.' });
     } catch (error) {
@@ -135,7 +135,7 @@ export default function KISAuthPage() {
               <input
                 type="text"
                 value={appKey}
-                onChange={(e) => setAppKey(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAppKey(e.target.value)}
                 placeholder="36자 App Key"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 maxLength={36}
@@ -149,7 +149,7 @@ export default function KISAuthPage() {
               <input
                 type="password"
                 value={appSecret}
-                onChange={(e) => setAppSecret(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAppSecret(e.target.value)}
                 placeholder="180자 App Secret"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 maxLength={180}
@@ -162,7 +162,7 @@ export default function KISAuthPage() {
               </label>
               <select
                 value={environment}
-                onChange={(e) => setEnvironment(e.target.value as any)}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setEnvironment(e.target.value as any)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               >
                 <option value="production">Production (실전)</option>

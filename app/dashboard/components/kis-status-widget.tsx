@@ -25,7 +25,7 @@ export default function KISDashboardWidget() {
           return;
         }
 
-        const data = await response.json();
+        const data = await response.json() as { configured: boolean; token?: any };
 
         if (!data.token) {
           setConnectionStatus({ status: 'disconnected' });
@@ -144,7 +144,7 @@ export default function KISDashboardWidget() {
               onClick={async () => {
                 try {
                   await fetch('/api/kis/refresh', { method: 'POST' });
-                  window.location.reload();
+                  if (typeof window !== "undefined") { window.location.reload(); };
                 } catch (error) {
                   console.error('Token refresh failed:', error);
                 }
@@ -176,7 +176,7 @@ export default function KISDashboardWidget() {
             onClick={async () => {
               try {
                 await fetch('/api/kis/refresh', { method: 'POST' });
-                window.location.reload();
+                if (typeof window !== "undefined") { window.location.reload(); };
               } catch (error) {
                 console.error('Token refresh failed:', error);
               }

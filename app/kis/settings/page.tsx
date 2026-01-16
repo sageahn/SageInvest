@@ -59,7 +59,7 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
   };
 
   const handleDelete = async () => {
-    if (!confirm('정말로 설정을 삭제하시겠습니까?')) {
+    if (typeof window !== "undefined" && !window.confirm('정말로 설정을 삭제하시겠습니까?')) {
       return;
     }
 
@@ -97,7 +97,7 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
         throw new Error('연결 테스트 실패');
       }
 
-      const data = await response.json();
+      const data = await response.json() as { success: boolean; expires_at: string };
       setMessage({ type: 'success', text: `연결 성공! 토큰 만료: ${new Date(data.expires_at).toLocaleString()}` });
     } catch (error) {
       setMessage({ type: 'error', text: '연결 테스트 실패' });
@@ -120,7 +120,7 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
             <input
               type="text"
               value={appKey}
-              onChange={(e) => setAppKey(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAppKey(e.target.value)}
               placeholder="36자 App Key를 입력하세요"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               maxLength={36}
@@ -138,7 +138,7 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
             <input
               type="password"
               value={appSecret}
-              onChange={(e) => setAppSecret(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAppSecret(e.target.value)}
               placeholder="180자 App Secret를 입력하세요"
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               maxLength={180}
@@ -155,7 +155,7 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
             </label>
             <select
               value={environment}
-              onChange={(e) => setEnvironment(e.target.value as 'production' | 'mock')}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setEnvironment(e.target.value as 'production' | 'mock')}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="production">Production (실전)</option>
