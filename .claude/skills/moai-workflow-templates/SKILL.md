@@ -6,16 +6,8 @@ version: 3.1.0
 category: workflow
 modularized: true
 user-invocable: false
-tags:
-  [
-    "workflow",
-    "templates",
-    "boilerplate",
-    "scaffolding",
-    "optimization",
-    "feedback",
-  ]
-status: "active"
+tags: ['workflow', 'templates', 'boilerplate', 'scaffolding', 'optimization', 'feedback']
+status: 'active'
 replaces: moai-core-code-templates, moai-core-feedback-templates, moai-project-template-optimizer
 updated: 2026-01-11
 allowed-tools:

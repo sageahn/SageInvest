@@ -18,7 +18,7 @@ dotnet add package MediatR.Extensions.Microsoft.DependencyInjection
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
-    
+
     // Add behaviors (pipeline)
     cfg.AddBehavior<LoggingBehavior<,>>();
     cfg.AddBehavior<ValidationBehavior<,>>();
@@ -102,7 +102,7 @@ public class CreateOrderCommandHandler(
     public async Task<OrderDto> Handle(CreateOrderCommand request, CancellationToken ct)
     {
         var order = Order.Create(request.CustomerId, request.Items);
-        
+
         context.Orders.Add(order);
         await context.SaveChangesAsync(ct);
 
@@ -560,7 +560,7 @@ public class CreateUserCommandHandler(
     public async Task<UserDto> Handle(CreateUserCommand request, CancellationToken ct)
     {
         var user = User.Create(request.Name, request.Email, request.Password);
-        
+
         context.Users.Add(user);
         await context.SaveChangesAsync(ct);
 

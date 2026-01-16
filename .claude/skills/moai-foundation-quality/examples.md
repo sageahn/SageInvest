@@ -44,6 +44,7 @@ await quality_orchestrator.generate_report(
 ```
 
 Output:
+
 ```
 Overall Quality Score: 0.87
 TRUST 5 Validation: PASSED
@@ -105,29 +106,30 @@ await security_scanner.generate_security_report(
 ```
 
 Sample Security Issues Found:
+
 ```json
 {
- "critical_issues": [
- {
- "title": "SQL Injection in User Authentication",
- "file": "src/auth/user_service.py",
- "line": 45,
- "severity": "critical",
- "description": "Direct SQL query construction with user input",
- "recommended_fix": "Use parameterized queries or ORM",
- "owasp_category": "A03:2021 – Injection"
- }
- ],
- "medium_issues": [
- {
- "title": "Missing Rate Limiting",
- "file": "src/api/endpoints.py",
- "line": 120,
- "severity": "medium",
- "description": "API endpoint lacks rate limiting protection",
- "recommended_fix": "Implement rate limiting middleware"
- }
- ]
+  "critical_issues": [
+    {
+      "title": "SQL Injection in User Authentication",
+      "file": "src/auth/user_service.py",
+      "line": 45,
+      "severity": "critical",
+      "description": "Direct SQL query construction with user input",
+      "recommended_fix": "Use parameterized queries or ORM",
+      "owasp_category": "A03:2021 – Injection"
+    }
+  ],
+  "medium_issues": [
+    {
+      "title": "Missing Rate Limiting",
+      "file": "src/api/endpoints.py",
+      "line": 120,
+      "severity": "medium",
+      "description": "API endpoint lacks rate limiting protection",
+      "recommended_fix": "Implement rate limiting middleware"
+    }
+  ]
 }
 ```
 
@@ -189,6 +191,7 @@ for i, rec in enumerate(recommendations, 1):
 ```
 
 Performance Issues Identified:
+
 ```python
 # Example output
 Performance Analysis Results:
@@ -279,6 +282,7 @@ if consistency.inconsistencies:
 ```
 
 Sample Multi-Language Output:
+
 ```
 Multi-Language Quality Report:
 ==================================================
@@ -394,6 +398,7 @@ jobs:
 ```
 
 Python Quality Analysis Script:
+
 ```python
 # quality_pipeline.py
 import asyncio
@@ -663,6 +668,7 @@ if debt_analysis.historical_data:
 ```
 
 Sample Technical Debt Output:
+
 ```
 Technical Debt Analysis
 ========================================
@@ -755,6 +761,7 @@ print(f" Quality trends: {monitoring_report.quality_trend}")
 ```
 
 Custom Alert Handler:
+
 ```python
 class CustomQualityAlertHandler:
  """Custom handler for quality alerts"""
@@ -1066,6 +1073,7 @@ print(f" Time range: 30 days")
 ```
 
 Dashboard Widget Examples:
+
 ```python
 # Custom widget for executive summary
 executive_widget = {

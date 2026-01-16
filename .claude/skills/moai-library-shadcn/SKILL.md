@@ -1,14 +1,14 @@
 ---
-name: "moai-library-shadcn"
-description: "Moai Lib Shadcn Ui - Professional implementation guide"
+name: 'moai-library-shadcn'
+description: 'Moai Lib Shadcn Ui - Professional implementation guide'
 version: 2.1.0
-category: "library"
+category: 'library'
 modularized: true
 user-invocable: false
 tags: ['library', 'shadcn', 'enterprise', 'development', 'ui']
 aliases: ['moai-library-shadcn']
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Grep

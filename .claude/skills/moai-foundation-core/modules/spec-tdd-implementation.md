@@ -230,7 +230,7 @@ on:
 
 jobs:
   spec-validation:
-    name: "Phase 1: SPEC Validation"
+    name: 'Phase 1: SPEC Validation'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -240,7 +240,7 @@ jobs:
         run: python .moai/scripts/check_traceability.py
 
   tdd-implementation:
-    name: "Phase 2: TDD Implementation"
+    name: 'Phase 2: TDD Implementation'
     needs: spec-validation
     runs-on: ubuntu-latest
     steps:
@@ -251,7 +251,7 @@ jobs:
         run: python .moai/scripts/verify_test_coverage_mapping.py
 
   quality-gates:
-    name: "Phase 3: Quality Gates"
+    name: 'Phase 3: Quality Gates'
     needs: tdd-implementation
     runs-on: ubuntu-latest
     steps:

@@ -9,6 +9,7 @@ Multishot prompting examples demonstrating practical context management patterns
 **Scenario**: Implement real-time token budget monitoring with automatic actions.
 
 **Input**:
+
 ```python
 # Need: Token budget management that:
 # - Tracks usage against 200K limit
@@ -18,6 +19,7 @@ Multishot prompting examples demonstrating practical context management patterns
 ```
 
 **Output**:
+
 ```python
 from dataclasses import dataclass
 from typing import Optional, Callable
@@ -193,6 +195,7 @@ manager.update_usage(175000, source="agent_output")  # 87.5% - critical triggere
 **Scenario**: Implement session state persistence for resumable workflows.
 
 **Input**:
+
 ```python
 # Need: Session management that:
 # - Persists state across interruptions
@@ -202,6 +205,7 @@ manager.update_usage(175000, source="agent_output")  # 87.5% - critical triggere
 ```
 
 **Output**:
+
 ```python
 import json
 from pathlib import Path
@@ -451,6 +455,7 @@ print(f"Context to reload after clear: {clear_context}")
 **Scenario**: Implement efficient context handoff between agents.
 
 **Input**:
+
 ```python
 # Need: Multi-agent handoff that:
 # - Minimizes token overhead
@@ -460,6 +465,7 @@ print(f"Context to reload after clear: {clear_context}")
 ```
 
 **Output**:
+
 ```python
 from dataclasses import dataclass, field
 from typing import Dict, Any, List, Optional
@@ -795,7 +801,7 @@ class ClearStrategy:
 
 Compress context while preserving key information:
 
-```python
+````python
 class ProgressiveSummarizer:
     """Compress context progressively to save tokens."""
 
@@ -873,7 +879,7 @@ Compression ratio: {target_ratio * 100:.0f}%
         if not items:
             return "- None"
         return "\n".join(f"- {item}" for item in items)
-```
+````
 
 ### Pattern 3: Context Tag References
 
@@ -1045,4 +1051,4 @@ session.update_work_state(phase=SessionPhase.DOCUMENTATION)
 
 ---
 
-*For detailed implementation patterns and module references, see the `modules/` directory.*
+_For detailed implementation patterns and module references, see the `modules/` directory._

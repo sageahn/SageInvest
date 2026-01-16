@@ -5,6 +5,7 @@
 ### Kotlin 2.0
 
 Version Information:
+
 - Latest: 2.0.20 (November 2025)
 - K2 Compiler: 2x faster compilation, better type inference
 - Multiplatform: JVM, JS, Native, WASM targets
@@ -13,32 +14,38 @@ Version Information:
 Core Features:
 
 K2 Compiler Features:
+
 - Stable - New compiler frontend with 2x performance improvement
 - Better type inference and error messages
 - Improved smart casts and control flow analysis
 - Enhanced kapt alternative: KSP 2.0
 
 Context Receivers:
+
 - Experimental feature for multiple implicit receivers
 - Enable with `-Xcontext-receivers` compiler flag
 - Useful for dependency injection patterns
 
 Data Objects:
+
 - Stable singleton data classes
 - Automatically generated `toString()` returns object name
 - No `copy()` or `componentN()` methods
 
 Value Classes:
+
 - Stable inline wrapper types (formerly inline classes)
 - Zero runtime overhead for primitive wrappers
 - Use `@JvmInline` annotation
 
 Sealed Interfaces:
+
 - Stable restricted interface implementations
 - Enable exhaustive `when` expressions
 - Support hierarchical type modeling
 
 Explicit API Mode:
+
 - Stable mode for library development
 - Enforces explicit visibility modifiers
 - Enable with `explicitApi()` in Gradle
@@ -50,6 +57,7 @@ Explicit API Mode:
 ### Coroutines (kotlinx.coroutines 1.9)
 
 Core Components:
+
 - `CoroutineScope` - Structured concurrency boundary
 - `Job` - Cancellable background operation
 - `Deferred` - Future with result value
@@ -57,12 +65,14 @@ Core Components:
 - `StateFlow` / `SharedFlow` - Hot observable streams
 
 Dispatchers:
+
 - `Dispatchers.Default` - CPU-intensive work
 - `Dispatchers.IO` - Blocking I/O operations
 - `Dispatchers.Main` - UI thread (Android/Desktop)
 - `Dispatchers.Unconfined` - Immediate execution
 
 Virtual Thread Integration (JVM 21+):
+
 ```kotlin
 val vtDispatcher = Executors.newVirtualThreadPerTaskExecutor()
     .asCoroutineDispatcher()
@@ -75,6 +85,7 @@ withContext(vtDispatcher) {
 ### Ktor 3.0
 
 Server Features:
+
 - Async HTTP with Netty, CIO, Jetty engines
 - WebSocket support with routing
 - JWT, OAuth, Session authentication
@@ -83,6 +94,7 @@ Server Features:
 - OpenAPI/Swagger integration
 
 Client Features:
+
 - Multiplatform HTTP client
 - Connection pooling and retry
 - Serialization support
@@ -90,6 +102,7 @@ Client Features:
 - Logging and monitoring
 
 Plugins Ecosystem:
+
 - `ContentNegotiation` - JSON/XML serialization
 - `Authentication` - JWT, OAuth, Basic, Form
 - `StatusPages` - Exception handling
@@ -101,6 +114,7 @@ Plugins Ecosystem:
 ### Exposed 0.55
 
 Features:
+
 - Type-safe SQL DSL
 - DAO pattern support
 - Transaction management
@@ -108,11 +122,13 @@ Features:
 - Coroutines support via `exposed-kotlin-datetime`
 
 Supported Databases:
+
 - PostgreSQL, MySQL, MariaDB
 - SQLite, H2, Oracle
 - SQL Server
 
 Table Types:
+
 - `Table` - Base table definition
 - `IdTable<T>` - Table with typed ID column
 - `IntIdTable` - Table with Int ID
@@ -122,12 +138,14 @@ Table Types:
 ### Arrow 2.0
 
 Core Modules:
+
 - `arrow-core` - Either, Option, Validated
 - `arrow-fx-coroutines` - Effectful programming
 - `arrow-optics` - Lens, Prism, Traversal
 - `arrow-resilience` - Retry, Circuit breaker
 
 Key Types:
+
 - `Either<A, B>` - Disjoint union type
 - `Option<A>` - Nullable alternative
 - `Validated<E, A>` - Accumulating errors
@@ -136,12 +154,14 @@ Key Types:
 ### Compose Multiplatform 1.7
 
 Supported Platforms:
+
 - Android (native Compose)
 - Desktop (JVM with Skia)
 - iOS (Kotlin/Native with Skia)
 - Web (Kotlin/JS or WASM)
 
 UI Components:
+
 - Material 3 design system
 - Custom component creation
 - Animation framework
@@ -149,6 +169,7 @@ UI Components:
 - Navigation library
 
 State Management:
+
 - `remember` - Composition-scoped state
 - `mutableStateOf` - Observable state
 - `derivedStateOf` - Computed state
@@ -159,6 +180,7 @@ State Management:
 ## Context7 Library Mappings
 
 Kotlin Core:
+
 ```
 /JetBrains/kotlin - Kotlin language reference
 /Kotlin/kotlinx.coroutines - Coroutines library
@@ -166,6 +188,7 @@ Kotlin Core:
 ```
 
 Server Frameworks:
+
 ```
 /ktorio/ktor - Ktor server and client
 /JetBrains/Exposed - SQL framework
@@ -174,6 +197,7 @@ Server Frameworks:
 ```
 
 Functional Programming:
+
 ```
 /arrow-kt/arrow - Arrow FP library
 /cashapp/sqldelight - Type-safe SQL
@@ -181,6 +205,7 @@ Functional Programming:
 ```
 
 Multiplatform:
+
 ```
 /jetbrains/compose-multiplatform - Compose UI
 /touchlab/SKIE - Swift-Kotlin interop
@@ -188,6 +213,7 @@ Multiplatform:
 ```
 
 Android:
+
 ```
 /android/architecture-components - Jetpack
 /coil-kt/coil - Image loading
@@ -196,6 +222,7 @@ Android:
 ```
 
 Testing:
+
 ```
 /mockk/mockk - Mocking library
 /kotest/kotest - Testing framework
@@ -342,11 +369,13 @@ class UserRoutesTest {
 ### Compilation Times
 
 Build Performance (Kotlin 2.0 with K2):
+
 - Clean build: 30-60% faster than Kotlin 1.9
 - Incremental build: 10-20% faster
 - KSP processing: 2-3x faster than kapt
 
 Gradle Configuration:
+
 ```kotlin
 // gradle.properties
 kotlin.experimental.tryK2=true
@@ -359,12 +388,14 @@ org.gradle.caching=true
 ### Runtime Performance
 
 JVM Performance:
+
 - Inline functions: Zero overhead
 - Value classes: Zero runtime allocation
 - Coroutines: ~100 bytes per suspended coroutine
 - Flow: Minimal allocation per emission
 
 Ktor Performance:
+
 - Throughput: ~200K requests/sec (Netty)
 - Latency P99: ~1ms
 - Memory: ~256MB base heap
@@ -372,6 +403,7 @@ Ktor Performance:
 ### Memory Usage
 
 Coroutine Memory:
+
 - Continuation: ~100-200 bytes
 - Job: ~300 bytes
 - Channel: ~500 bytes per buffer slot
@@ -383,18 +415,21 @@ Coroutine Memory:
 ### IDE Support
 
 IntelliJ IDEA (Recommended):
+
 - Full K2 compiler support
 - Advanced refactoring tools
 - Debugging with coroutine visualization
 - Profiling integration
 
 Android Studio:
+
 - Based on IntelliJ IDEA
 - Android-specific tooling
 - Compose preview support
 - Layout inspector
 
 VS Code:
+
 - Kotlin extension available
 - Basic syntax highlighting
 - Limited refactoring support
@@ -402,6 +437,7 @@ VS Code:
 ### Recommended Plugins
 
 IntelliJ IDEA:
+
 - Kotlin (bundled)
 - Ktor (official)
 - Exposed (database tooling)
@@ -411,6 +447,7 @@ IntelliJ IDEA:
 ### Linting and Formatting
 
 Detekt Configuration:
+
 ```yaml
 # detekt.yml
 build:
@@ -433,6 +470,7 @@ complexity:
 ```
 
 ktlint Configuration:
+
 ```properties
 # .editorconfig
 [*.kt]
@@ -488,11 +526,11 @@ containers:
     image: myapp:latest
     resources:
       requests:
-        memory: "256Mi"
-        cpu: "250m"
+        memory: '256Mi'
+        cpu: '250m'
       limits:
-        memory: "512Mi"
-        cpu: "500m"
+        memory: '512Mi'
+        cpu: '500m'
     env:
       - name: JAVA_OPTS
         value: >-
@@ -509,12 +547,14 @@ containers:
 ### Kotlin 1.9 to 2.0
 
 Enable K2 Compiler:
+
 ```properties
 # gradle.properties
 kotlin.experimental.tryK2=true
 ```
 
 Key Changes:
+
 - Improved smart casts in complex conditions
 - Better type inference for builders
 - Enhanced SAM conversion
@@ -523,6 +563,7 @@ Key Changes:
 ### Java to Kotlin
 
 Data Classes:
+
 ```kotlin
 // Java
 public class User {
@@ -536,6 +577,7 @@ data class User(val name: String, val email: String)
 ```
 
 Null Safety:
+
 ```kotlin
 // Java nullable parameter
 fun process(value: String?) {
@@ -548,6 +590,7 @@ val safeResult: String = javaResult ?: "default" // Make safe
 ```
 
 Extension Functions:
+
 ```kotlin
 // Replace utility classes
 fun String.toTitleCase(): String =

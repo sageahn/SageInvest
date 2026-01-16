@@ -29,7 +29,7 @@ Setup Steps:
 
 5. Build HTML documentation:
    - Run make html in docs directory
-   - Output appears in docs/_build/html
+   - Output appears in docs/\_build/html
 
 Result: Professional HTML documentation with automatically generated API reference from docstrings, syntax highlighting, and navigation sidebar.
 
@@ -203,6 +203,7 @@ Result: Documentation automatically rebuilt and deployed on every code change, k
 ### Pattern 1: Documentation as Code
 
 Treat documentation like source code:
+
 - Store in version control alongside code
 - Review documentation changes in pull requests
 - Use CI/CD to build and deploy
@@ -211,6 +212,7 @@ Treat documentation like source code:
 ### Pattern 2: Single Source of Truth
 
 Generate documentation from authoritative sources:
+
 - API docs from code annotations and types
 - Configuration docs from schema files
 - Architecture docs from diagrams-as-code
@@ -218,6 +220,7 @@ Generate documentation from authoritative sources:
 ### Pattern 3: Progressive Documentation
 
 Layer documentation for different audiences:
+
 - Quick start for new users
 - Tutorials for learning
 - How-to guides for tasks

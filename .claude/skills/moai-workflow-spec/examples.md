@@ -8,7 +8,7 @@ This document provides complete, production-ready SPEC examples for common devel
 
 ## Example 1: User Authentication System (Simple CRUD)
 
-```markdown
+````markdown
 # SPEC-001: User Authentication System
 
 Created: 2025-12-07
@@ -26,6 +26,7 @@ Version: 1.0.0
 Implement JWT-based user authentication system with email/password login. Users authenticate with credentials, receive JWT access token and refresh token, and use tokens to access protected resources.
 
 ### User Stories
+
 - As a user, I want to log in with email and password to access my account
 - As a user, I want my session to persist for 24 hours without re-login
 - As a system admin, I want failed login attempts logged for security monitoring
@@ -33,29 +34,34 @@ Implement JWT-based user authentication system with email/password login. Users 
 ## Requirements
 
 ### Ubiquitous
+
 - 시스템은 항상 로그인 시도를 로깅해야 한다 (timestamp, user_id, IP, success/failure)
 - 시스템은 항상 비밀번호를 bcrypt로 해싱하여 저장해야 한다 (salt rounds: 12)
 - 시스템은 항상 토큰 검증 실패 시 명확한 에러 메시지를 반환해야 한다
 
 ### Event-Driven
+
 - WHEN 사용자가 유효한 자격증명으로 로그인하면 THEN JWT 액세스 토큰과 리프레시 토큰을 발급한다
 - WHEN 액세스 토큰이 만료되면 THEN 리프레시 토큰으로 새 액세스 토큰을 발급한다
 - WHEN 로그인 실패가 5회 연속 발생하면 THEN 계정을 15분간 일시 잠금한다
 - WHEN 사용자가 로그아웃하면 THEN 해당 세션의 리프레시 토큰을 무효화한다
 
 ### State-Driven
+
 - IF 계정 상태가 "active"이면 THEN 로그인을 허용한다
 - IF 계정 상태가 "suspended" 또는 "deleted"이면 THEN 로그인을 거부하고 403 에러를 반환한다
 - IF 로그인 실패 횟수가 5회 이상이면 THEN 계정 잠금 시간 종료까지 로그인을 차단한다
 - IF 마지막 비밀번호 변경일로부터 90일이 지났으면 THEN 비밀번호 변경을 요구한다
 
 ### Unwanted
+
 - 시스템은 평문 비밀번호를 데이터베이스에 저장하지 않아야 한다
 - 시스템은 비밀번호를 로그 파일에 기록하지 않아야 한다
 - 시스템은 인증되지 않은 사용자의 보호된 리소스 접근을 허용하지 않아야 한다
 - 시스템은 만료된 토큰으로 리소스 접근을 허용하지 않아야 한다
 
 ### Optional
+
 - 가능하면 OAuth 2.0 소셜 로그인(Google, GitHub)을 제공한다
 - 가능하면 이중 인증(2FA, TOTP)을 지원한다
 - 가능하면 "Remember Me" 기능으로 30일간 자동 로그인을 제공한다
@@ -65,6 +71,7 @@ Implement JWT-based user authentication system with email/password login. Users 
 ### POST /api/auth/login
 
 Request:
+
 ```json
 {
   "email": "user@example.com",
@@ -72,8 +79,10 @@ Request:
   "rememberMe": false
 }
 ```
+````
 
 Success Response (200 OK):
+
 ```json
 {
   "accessToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -92,6 +101,7 @@ Success Response (200 OK):
 Error Responses:
 
 401 Unauthorized - Invalid Credentials:
+
 ```json
 {
   "error": "INVALID_CREDENTIALS",
@@ -101,6 +111,7 @@ Error Responses:
 ```
 
 403 Forbidden - Account Locked:
+
 ```json
 {
   "error": "ACCOUNT_LOCKED",
@@ -111,6 +122,7 @@ Error Responses:
 ```
 
 403 Forbidden - Account Suspended:
+
 ```json
 {
   "error": "ACCOUNT_SUSPENDED",
@@ -120,13 +132,14 @@ Error Responses:
 ```
 
 400 Bad Request - Validation Error:
+
 ```json
 {
   "error": "VALIDATION_ERROR",
   "message": "Request validation failed",
   "details": [
-    {"field": "email", "issue": "Invalid email format"},
-    {"field": "password", "issue": "Password is required"}
+    { "field": "email", "issue": "Invalid email format" },
+    { "field": "password", "issue": "Password is required" }
   ],
   "timestamp": "2025-12-07T10:00:00Z"
 }
@@ -135,6 +148,7 @@ Error Responses:
 ### POST /api/auth/refresh
 
 Request:
+
 ```json
 {
   "refreshToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -142,6 +156,7 @@ Request:
 ```
 
 Success Response (200 OK):
+
 ```json
 {
   "accessToken": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
@@ -153,6 +168,7 @@ Success Response (200 OK):
 ### POST /api/auth/logout
 
 Request:
+
 ```
 Headers:
   Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
@@ -163,6 +179,7 @@ Success Response (204 No Content)
 ## Constraints
 
 ### Technical Constraints
+
 - Backend: Node.js 20+ with Express.js 4.18+
 - Database: PostgreSQL 15+ for user credentials and session storage
 - Authentication: JWT with RS256 algorithm (RSA public/private key pair)
@@ -170,18 +187,20 @@ Success Response (204 No Content)
 - Token Storage: Redis 7+ for refresh token blacklist and rate limiting
 
 ### Business Constraints
+
 - Session Timeout: 24 hours for standard users, 1 hour for admin users
 - Password Policy:
   - Minimum 8 characters
   - At least 1 uppercase letter
   - At least 1 lowercase letter
   - At least 1 number
-  - At least 1 special character (!@#$%^&*)
+  - At least 1 special character (!@#$%^&\*)
 - Login Attempt Limit: 5 failures trigger 15-minute account lockout
 - Password Rotation: Required every 90 days for compliance
 - Concurrent Sessions: Maximum 3 active sessions per user
 
 ### Security Constraints
+
 - OWASP Authentication Cheat Sheet compliance
 - TLS 1.3 required for all authentication endpoints
 - Rate Limiting: 10 login attempts per minute per IP address
@@ -191,12 +210,14 @@ Success Response (204 No Content)
 ## Success Criteria
 
 ### Functional Criteria
+
 - All EARS requirements implemented and verified
 - All API endpoints return correct status codes and response schemas
 - Test coverage >= 85% for authentication module
 - All test scenarios pass with expected results
 
 ### Performance Criteria
+
 - Login endpoint response time P95 < 200ms
 - Token generation time < 50ms
 - Password hashing time < 500ms
@@ -204,6 +225,7 @@ Success Response (204 No Content)
 - Concurrent login throughput >= 100 requests/second
 
 ### Security Criteria
+
 - OWASP Top 10 vulnerabilities absent (verified by OWASP ZAP scan)
 - No SQL injection vulnerabilities (verified by SQLMap)
 - No plaintext passwords in database (verified by audit)
@@ -212,26 +234,26 @@ Success Response (204 No Content)
 
 ## Test Scenarios
 
-| ID | Category | Scenario | Input | Expected | Status |
-|---|---|---|---|---|---|
-| TC-1 | Normal | Valid login | email+password | JWT tokens, 200 | Pending |
-| TC-2 | Normal | Token refresh | valid refresh token | new access token, 200 | Pending |
-| TC-3 | Normal | Logout | valid access token | session invalidated, 204 | Pending |
-| TC-4 | Error | Invalid password | wrong password | 401 error | Pending |
-| TC-5 | Error | Nonexistent user | unknown email | 401 error | Pending |
-| TC-6 | Error | Empty email | empty string | 400 error | Pending |
-| TC-7 | Error | Invalid email format | "notanemail" | 400 error | Pending |
-| TC-8 | Error | Expired access token | expired token | 401 error | Pending |
-| TC-9 | Error | Revoked refresh token | blacklisted token | 401 error | Pending |
-| TC-10 | State | Suspended account | valid credentials | 403 error | Pending |
-| TC-11 | State | Deleted account | valid credentials | 403 error | Pending |
-| TC-12 | State | Account lockout | 5 failed attempts | 403 error, locked 15min | Pending |
-| TC-13 | State | Lockout expiry | after 15min wait | login succeeds | Pending |
-| TC-14 | Security | SQL injection | ' OR '1'='1 | 400 error, blocked | Pending |
-| TC-15 | Security | XSS in password | <script>alert(1)</script> | sanitized, blocked | Pending |
-| TC-16 | Security | Rate limit | 11 requests/min | 429 error | Pending |
-| TC-17 | Performance | Concurrent logins | 100 req/sec | < 200ms P95 | Pending |
-| TC-18 | Performance | Token refresh load | 500 req/sec | < 100ms P95 | Pending |
+| ID    | Category    | Scenario              | Input                     | Expected                 | Status  |
+| ----- | ----------- | --------------------- | ------------------------- | ------------------------ | ------- |
+| TC-1  | Normal      | Valid login           | email+password            | JWT tokens, 200          | Pending |
+| TC-2  | Normal      | Token refresh         | valid refresh token       | new access token, 200    | Pending |
+| TC-3  | Normal      | Logout                | valid access token        | session invalidated, 204 | Pending |
+| TC-4  | Error       | Invalid password      | wrong password            | 401 error                | Pending |
+| TC-5  | Error       | Nonexistent user      | unknown email             | 401 error                | Pending |
+| TC-6  | Error       | Empty email           | empty string              | 400 error                | Pending |
+| TC-7  | Error       | Invalid email format  | "notanemail"              | 400 error                | Pending |
+| TC-8  | Error       | Expired access token  | expired token             | 401 error                | Pending |
+| TC-9  | Error       | Revoked refresh token | blacklisted token         | 401 error                | Pending |
+| TC-10 | State       | Suspended account     | valid credentials         | 403 error                | Pending |
+| TC-11 | State       | Deleted account       | valid credentials         | 403 error                | Pending |
+| TC-12 | State       | Account lockout       | 5 failed attempts         | 403 error, locked 15min  | Pending |
+| TC-13 | State       | Lockout expiry        | after 15min wait          | login succeeds           | Pending |
+| TC-14 | Security    | SQL injection         | ' OR '1'='1               | 400 error, blocked       | Pending |
+| TC-15 | Security    | XSS in password       | <script>alert(1)</script> | sanitized, blocked       | Pending |
+| TC-16 | Security    | Rate limit            | 11 requests/min           | 429 error                | Pending |
+| TC-17 | Performance | Concurrent logins     | 100 req/sec               | < 200ms P95              | Pending |
+| TC-18 | Performance | Token refresh load    | 500 req/sec               | < 100ms P95              | Pending |
 
 ## Implementation Notes
 
@@ -319,7 +341,8 @@ RATE_LIMIT_MAX_REQUESTS=10
 - JWT RFC 7519: https://tools.ietf.org/html/rfc7519
 - bcrypt Algorithm: https://en.wikipedia.org/wiki/Bcrypt
 - Redis Best Practices: https://redis.io/docs/manual/
-```
+
+````
 
 ---
 
@@ -412,9 +435,10 @@ Request:
     "usePoints": 1000
   }
 }
-```
+````
 
 Success Response (200 OK):
+
 ```json
 {
   "orderId": "order_123abc",
@@ -458,18 +482,20 @@ Success Response (200 OK):
 Error Responses:
 
 400 Bad Request - Precondition Failed:
+
 ```json
 {
   "error": "PRECONDITION_FAILED",
   "message": "Payment cannot be processed due to failed preconditions",
   "details": [
-    {"check": "order_status", "expected": "pending_payment", "actual": "paid"},
-    {"check": "inventory", "expected": "available", "actual": "out_of_stock"}
+    { "check": "order_status", "expected": "pending_payment", "actual": "paid" },
+    { "check": "inventory", "expected": "available", "actual": "out_of_stock" }
   ]
 }
 ```
 
 402 Payment Required - Insufficient Funds:
+
 ```json
 {
   "error": "INSUFFICIENT_FUNDS",
@@ -480,18 +506,22 @@ Error Responses:
 ```
 
 409 Conflict - Duplicate Payment:
+
 ```json
 {
   "error": "DUPLICATE_PAYMENT",
   "message": "Payment with this idempotency key already processed",
   "originalPaymentId": "payment_456def",
-  "originalPayment": { /* original payment response */ }
+  "originalPayment": {
+    /* original payment response */
+  }
 }
 ```
 
 ## Constraints
 
 ### Technical Constraints
+
 - Backend: Node.js 20+ with NestJS framework
 - Database: PostgreSQL 15+ with transaction support
 - Payment Gateways: Stripe, PayPal SDK integration
@@ -499,6 +529,7 @@ Error Responses:
 - Object Storage: AWS S3 for invoice PDFs
 
 ### Business Constraints
+
 - Payment Gateway Fees: 2.9% + $0.30 per transaction (Stripe)
 - Transaction Timeout: 30 seconds maximum processing time
 - Refund Window: 30 days from payment date
@@ -506,6 +537,7 @@ Error Responses:
 - Daily Limit: $50,000 per user account
 
 ### Security Constraints
+
 - PCI DSS Level 1 compliance (no card data storage)
 - TLS 1.3 required for all payment endpoints
 - Rate Limiting: 10 payment attempts per hour per user
@@ -515,6 +547,7 @@ Error Responses:
 ## Success Criteria
 
 ### Functional Criteria
+
 - All preconditions validated before payment processing
 - All side effects executed in correct order
 - Rollback mechanism tested for all failure points
@@ -522,12 +555,14 @@ Error Responses:
 - Test coverage >= 90% for payment module
 
 ### Performance Criteria
+
 - Payment processing P95 < 2000ms (includes gateway roundtrip)
 - Precondition validation < 200ms
 - Side effect execution < 500ms per step
 - Rollback execution < 1000ms
 
 ### Security Criteria
+
 - PCI DSS compliance verified by QSA audit
 - No sensitive payment data in logs or database
 - All transactions encrypted end-to-end
@@ -535,31 +570,33 @@ Error Responses:
 
 ## Test Scenarios
 
-| ID | Category | Scenario | Input | Expected | Status |
-|---|---|---|---|---|---|
-| TC-1 | Normal | Valid payment | valid order+payment | payment succeeds, 200 | Pending |
-| TC-2 | Normal | Payment with coupon | coupon code | discount applied | Pending |
-| TC-3 | Normal | Idempotent retry | same idempotency key | same result, 200 | Pending |
-| TC-4 | Error | Order not pending | paid order | 400 precondition failed | Pending |
-| TC-5 | Error | Insufficient stock | out of stock item | 400 precondition failed | Pending |
-| TC-6 | Error | Amount mismatch | wrong amount | 400 validation error | Pending |
-| TC-7 | Error | Insufficient funds | balance too low | 402 payment required | Pending |
-| TC-8 | Error | Gateway timeout | slow gateway | 504 gateway timeout | Pending |
-| TC-9 | Rollback | Side effect failure | DB error | payment rolled back | Pending |
-| TC-10 | Rollback | Gateway decline | card declined | no side effects | Pending |
-| TC-11 | Security | PCI data exposure | card number | masked, not stored | Pending |
-| TC-12 | Security | Rate limit | 11 payments/hour | 429 too many requests | Pending |
-| TC-13 | Performance | Concurrent payments | 50 req/sec | < 2000ms P95 | Pending |
+| ID    | Category    | Scenario            | Input                | Expected                | Status  |
+| ----- | ----------- | ------------------- | -------------------- | ----------------------- | ------- |
+| TC-1  | Normal      | Valid payment       | valid order+payment  | payment succeeds, 200   | Pending |
+| TC-2  | Normal      | Payment with coupon | coupon code          | discount applied        | Pending |
+| TC-3  | Normal      | Idempotent retry    | same idempotency key | same result, 200        | Pending |
+| TC-4  | Error       | Order not pending   | paid order           | 400 precondition failed | Pending |
+| TC-5  | Error       | Insufficient stock  | out of stock item    | 400 precondition failed | Pending |
+| TC-6  | Error       | Amount mismatch     | wrong amount         | 400 validation error    | Pending |
+| TC-7  | Error       | Insufficient funds  | balance too low      | 402 payment required    | Pending |
+| TC-8  | Error       | Gateway timeout     | slow gateway         | 504 gateway timeout     | Pending |
+| TC-9  | Rollback    | Side effect failure | DB error             | payment rolled back     | Pending |
+| TC-10 | Rollback    | Gateway decline     | card declined        | no side effects         | Pending |
+| TC-11 | Security    | PCI data exposure   | card number          | masked, not stored      | Pending |
+| TC-12 | Security    | Rate limit          | 11 payments/hour     | 429 too many requests   | Pending |
+| TC-13 | Performance | Concurrent payments | 50 req/sec           | < 2000ms P95            | Pending |
 
 ## Rollback Strategy
 
 ### Rollback Triggers
+
 - Payment gateway returns decline or error
 - Database transaction fails during side effects
 - Notification service unavailable (optional, compensate later)
 - Inventory update fails (race condition)
 
 ### Rollback Steps
+
 1. If payment charged: Initiate automatic refund via gateway
 2. Revert order status to "pending_payment"
 3. Delete payment transaction record
@@ -569,6 +606,7 @@ Error Responses:
 7. Notify user of payment failure
 
 ### Compensating Transactions
+
 - Async notifications: Retry with exponential backoff (not rollback trigger)
 - Email delivery: Queue for retry, not critical path
 - Invoice generation: Regenerate on-demand, not rollback trigger
@@ -606,7 +644,8 @@ processing → [success] → paid
 processing → [failure] → failed → [rollback] → pending_payment
 paid → [refund request] → refunding → refunded
 ```
-```
+
+````
 
 ---
 
@@ -691,7 +730,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   style?: React.CSSProperties;
 }
-```
+````
 
 ### Usage Examples
 
@@ -734,6 +773,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 ## Constraints
 
 ### Technical Constraints
+
 - React: 19+ with React Server Components support
 - TypeScript: 5.3+ with strict mode
 - Styling: Tailwind CSS 4+ or CSS Modules
@@ -741,6 +781,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 - Testing: Vitest + React Testing Library
 
 ### Design Constraints
+
 - Color Palette: Must use design system tokens
 - Typography: Inter font family, variable sizes
 - Spacing: 4px grid system (padding: 8px, 12px, 16px)
@@ -748,6 +789,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 - Transition: 150ms ease-in-out for all state changes
 
 ### Accessibility Constraints
+
 - WCAG 2.1 AA compliance mandatory
 - Color contrast ratio >= 4.5:1 for text
 - Focus indicator visible and distinct (2px outline)
@@ -757,6 +799,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 ## Success Criteria
 
 ### Functional Criteria
+
 - All variants render correctly
 - All sizes apply correct styles
 - Loading and disabled states work as expected
@@ -764,6 +807,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 - Icons render in correct positions
 
 ### Accessibility Criteria
+
 - Passes axe-core automated accessibility audit
 - Keyboard navigation works for all interactions
 - Screen reader announces button purpose and state
@@ -771,6 +815,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 - Focus indicators clearly visible
 
 ### Quality Criteria
+
 - Test coverage >= 90% for component
 - TypeScript strict mode with no errors
 - Bundle size < 5KB (gzipped)
@@ -779,21 +824,21 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 ## Test Scenarios
 
-| ID | Category | Scenario | Input | Expected | Status |
-|---|---|---|---|---|---|
-| TC-1 | Render | Primary variant | variant="primary" | blue bg, white text | Pending |
-| TC-2 | Render | Small size | size="small" | 8px padding, 14px font | Pending |
-| TC-3 | State | Loading | isLoading=true | spinner visible, text hidden | Pending |
-| TC-4 | State | Disabled | isDisabled=true | gray bg, no click | Pending |
-| TC-5 | Event | Click handler | onClick={fn} | function called on click | Pending |
-| TC-6 | Event | Disabled click | isDisabled + click | function not called | Pending |
-| TC-7 | A11y | Keyboard focus | Tab key | focus ring visible | Pending |
-| TC-8 | A11y | Enter key | Enter key | onClick called | Pending |
-| TC-9 | A11y | Space key | Space key | onClick called | Pending |
-| TC-10 | A11y | ARIA label | ariaLabel prop | screen reader announces | Pending |
-| TC-11 | A11y | Color contrast | all variants | ratio >= 4.5:1 | Pending |
-| TC-12 | Icon | Left icon | leftIcon prop | icon before text | Pending |
-| TC-13 | Icon | Right icon | rightIcon prop | icon after text | Pending |
+| ID    | Category | Scenario        | Input              | Expected                     | Status  |
+| ----- | -------- | --------------- | ------------------ | ---------------------------- | ------- |
+| TC-1  | Render   | Primary variant | variant="primary"  | blue bg, white text          | Pending |
+| TC-2  | Render   | Small size      | size="small"       | 8px padding, 14px font       | Pending |
+| TC-3  | State    | Loading         | isLoading=true     | spinner visible, text hidden | Pending |
+| TC-4  | State    | Disabled        | isDisabled=true    | gray bg, no click            | Pending |
+| TC-5  | Event    | Click handler   | onClick={fn}       | function called on click     | Pending |
+| TC-6  | Event    | Disabled click  | isDisabled + click | function not called          | Pending |
+| TC-7  | A11y     | Keyboard focus  | Tab key            | focus ring visible           | Pending |
+| TC-8  | A11y     | Enter key       | Enter key          | onClick called               | Pending |
+| TC-9  | A11y     | Space key       | Space key          | onClick called               | Pending |
+| TC-10 | A11y     | ARIA label      | ariaLabel prop     | screen reader announces      | Pending |
+| TC-11 | A11y     | Color contrast  | all variants       | ratio >= 4.5:1               | Pending |
+| TC-12 | Icon     | Left icon       | leftIcon prop      | icon before text             | Pending |
+| TC-13 | Icon     | Right icon      | rightIcon prop     | icon after text              | Pending |
 
 ## Implementation Notes
 
@@ -818,16 +863,17 @@ const variantStyles = {
   secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 active:bg-gray-400',
   outline: 'border-2 border-blue-600 text-blue-600 hover:bg-blue-50',
   ghost: 'text-blue-600 hover:bg-blue-50 active:bg-blue-100',
-  danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800'
+  danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800',
 };
 
 const sizeStyles = {
   small: 'px-3 py-1.5 text-sm',
   medium: 'px-4 py-2 text-base',
-  large: 'px-6 py-3 text-lg'
+  large: 'px-6 py-3 text-lg',
 };
 
-const baseStyles = 'inline-flex items-center justify-center font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+const baseStyles =
+  'inline-flex items-center justify-center font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 ```
 
 ### Accessibility Implementation
@@ -858,13 +904,13 @@ export default {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'outline', 'ghost', 'danger']
+      options: ['primary', 'secondary', 'outline', 'ghost', 'danger'],
     },
     size: {
       control: 'select',
-      options: ['small', 'medium', 'large']
-    }
-  }
+      options: ['small', 'medium', 'large'],
+    },
+  },
 };
 
 export const AllVariants = () => (
@@ -887,14 +933,20 @@ export const AllSizes = () => (
 
 export const LoadingStates = () => (
   <div className="space-x-2">
-    <Button variant="primary" isLoading>Loading</Button>
-    <Button variant="secondary" isLoading>Processing</Button>
+    <Button variant="primary" isLoading>
+      Loading
+    </Button>
+    <Button variant="secondary" isLoading>
+      Processing
+    </Button>
   </div>
 );
 ```
+
 ```
 
 ---
 
 Version: 1.0.0
 Last Updated: 2025-12-07
+```

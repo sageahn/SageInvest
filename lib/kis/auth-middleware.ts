@@ -116,7 +116,9 @@ export class KISAuthMiddleware {
 
             // Retry original request with new token
             if (error.config) {
-              error.config.headers['Authorization'] = `Bearer ${await (await this.tokenManager.getValidToken()).access_token}`;
+              error.config.headers['Authorization'] = `Bearer ${await (
+                await this.tokenManager.getValidToken()
+              ).access_token}`;
               return this.axiosInstance.request(error.config);
             }
           } catch (retryError) {
@@ -130,7 +132,7 @@ export class KISAuthMiddleware {
           const retryAfter = error.response.headers['retry-after'];
           const waitTime = retryAfter ? parseInt(retryAfter) * 1000 : 60000;
 
-          await new Promise(resolve => setTimeout(resolve, waitTime));
+          await new Promise((resolve) => setTimeout(resolve, waitTime));
 
           if (error.config) {
             return this.axiosInstance.request(error.config);

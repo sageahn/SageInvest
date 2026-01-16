@@ -1,14 +1,14 @@
 ---
-name: "moai-workflow-project"
-description: "Integrated project management system with documentation, language initialization, and template optimization modules. Use when setting up projects, generating documentation, configuring multilingual support, or optimizing templates."
+name: 'moai-workflow-project'
+description: 'Integrated project management system with documentation, language initialization, and template optimization modules. Use when setting up projects, generating documentation, configuring multilingual support, or optimizing templates.'
 version: 2.0.0
-category: "workflow"
+category: 'workflow'
 modularized: true
 user-invocable: false
-tags: ["workflow", "project", "documentation", "initialization", "templates"]
+tags: ['workflow', 'project', 'documentation', 'initialization', 'templates']
 updated: 2026-01-08
-status: "active"
-aliases: ["moai-workflow-project"]
+status: 'active'
+aliases: ['moai-workflow-project']
 allowed-tools:
   - Read
   - Write

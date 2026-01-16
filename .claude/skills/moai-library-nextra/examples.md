@@ -9,6 +9,7 @@
 **Scenario**: 새로운 문서 사이트를 Nextra로 초기화하는 상황
 
 **Input**:
+
 ```bash
 # Nextra 프로젝트 생성
 npx create-nextra-app@latest my-docs --template docs
@@ -19,6 +20,7 @@ tree -L 2
 ```
 
 **Output**:
+
 ```
 my-docs/
 ├── pages/
@@ -37,7 +39,7 @@ my-docs/
 └── tsconfig.json
 ```
 
-**Explanation**: Nextra는 Next.js 기반의 문서 프레임워크로, 파일 시스템 라우팅을 사용합니다. pages/ 디렉토리의 MDX 파일이 자동으로 문서 페이지가 되며, _meta.json으로 네비게이션을 구성합니다.
+**Explanation**: Nextra는 Next.js 기반의 문서 프레임워크로, 파일 시스템 라우팅을 사용합니다. pages/ 디렉토리의 MDX 파일이 자동으로 문서 페이지가 되며, \_meta.json으로 네비게이션을 구성합니다.
 
 ---
 
@@ -46,6 +48,7 @@ my-docs/
 **Scenario**: 브랜딩과 기능을 포함한 완전한 테마 설정
 
 **Input**:
+
 ```typescript
 // theme.config.tsx
 import { DocsThemeConfig } from 'nextra-theme-docs';
@@ -154,6 +157,7 @@ export default config;
 ```
 
 **Output**:
+
 ```
 문서 사이트 기능:
 - 커스텀 로고와 브랜딩
@@ -176,39 +180,27 @@ export default config;
 **Scenario**: React 컴포넌트를 활용한 인터랙티브 문서 작성
 
 **Input**:
-```mdx
-// pages/docs/components.mdx
----
+
+````mdx
+## // pages/docs/components.mdx
+
 title: Component Examples
 description: Interactive component documentation
+
 ---
 
 import { Callout, Tabs, Tab, Cards, Card, Steps } from 'nextra/components';
 
 # Component Library
 
-<Callout type="info">
-  This page demonstrates interactive documentation features.
-</Callout>
+<Callout type="info">This page demonstrates interactive documentation features.</Callout>
 
 ## Installation
 
 <Tabs items={['npm', 'yarn', 'pnpm']}>
-  <Tab>
-    ```bash
-    npm install @myproject/components
-    ```
-  </Tab>
-  <Tab>
-    ```bash
-    yarn add @myproject/components
-    ```
-  </Tab>
-  <Tab>
-    ```bash
-    pnpm add @myproject/components
-    ```
-  </Tab>
+  <Tab>```bash npm install @myproject/components ```</Tab>
+  <Tab>```bash yarn add @myproject/components ```</Tab>
+  <Tab>```bash pnpm add @myproject/components ```</Tab>
 </Tabs>
 
 ## Quick Start
@@ -221,6 +213,7 @@ Import the Button component from the library:
 ```tsx
 import { Button } from '@myproject/components';
 ```
+````
 
 ### Use in your app
 
@@ -241,6 +234,7 @@ Adjust props to match your design:
   Large Secondary Button
 </Button>
 ```
+
 </Steps>
 
 ## Component Cards
@@ -260,15 +254,14 @@ Adjust props to match your design:
 ## Live Example
 
 export const LiveButton = () => {
-  const [count, setCount] = React.useState(0);
-  return (
-    <button
-      onClick={() => setCount(c => c + 1)}
-      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-    >
-      Clicked {count} times
-    </button>
-  );
+const [count, setCount] = React.useState(0);
+return (
+<button
+onClick={() => setCount(c => c + 1)}
+className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" >
+Clicked {count} times
+</button>
+);
 };
 
 Try the interactive button below:
@@ -295,6 +288,7 @@ Try the interactive button below:
 ```
 
 **Output**:
+
 ```
 렌더링된 문서 페이지:
 1. Callout 박스 - 정보 강조
@@ -311,7 +305,7 @@ Try the interactive button below:
 
 ## Common Patterns
 
-### Pattern 1: 네비게이션 구조화 (_meta.json)
+### Pattern 1: 네비게이션 구조화 (\_meta.json)
 
 사이드바 메뉴와 페이지 순서를 정의하는 패턴입니다.
 
@@ -380,20 +374,20 @@ const withNextra = require('nextra')({
   theme: 'nextra-theme-docs',
   themeConfig: './theme.config.tsx',
   search: {
-    codeblocks: true  // 코드 블록도 검색 대상에 포함
+    codeblocks: true, // 코드 블록도 검색 대상에 포함
   },
   defaultShowCopyCode: true,
   flexsearch: {
-    codeblocks: true
-  }
+    codeblocks: true,
+  },
 });
 
 module.exports = withNextra({
   // Next.js 설정
   reactStrictMode: true,
   images: {
-    domains: ['example.com']
-  }
+    domains: ['example.com'],
+  },
 });
 ```
 
@@ -419,14 +413,14 @@ const config: DocsThemeConfig = {
 // next.config.js
 const withNextra = require('nextra')({
   theme: 'nextra-theme-docs',
-  themeConfig: './theme.config.tsx'
+  themeConfig: './theme.config.tsx',
 });
 
 module.exports = withNextra({
   i18n: {
     locales: ['en', 'ko', 'ja'],
-    defaultLocale: 'en'
-  }
+    defaultLocale: 'en',
+  },
 });
 ```
 
@@ -436,8 +430,8 @@ const config: DocsThemeConfig = {
   i18n: [
     { locale: 'en', text: 'English' },
     { locale: 'ko', text: '한국어' },
-    { locale: 'ja', text: '日本語' }
-  ]
+    { locale: 'ja', text: '日本語' },
+  ],
 };
 ```
 
@@ -457,9 +451,9 @@ pages/
 
 ## Anti-Patterns (피해야 할 패턴)
 
-### Anti-Pattern 1: _meta.json 누락
+### Anti-Pattern 1: \_meta.json 누락
 
-**Problem**: _meta.json 없이 페이지를 추가하면 네비게이션 순서가 알파벳 순
+**Problem**: \_meta.json 없이 페이지를 추가하면 네비게이션 순서가 알파벳 순
 
 ```
 pages/docs/
@@ -468,14 +462,14 @@ pages/docs/
 └── installation.mdx
 ```
 
-**Solution**: 모든 디렉토리에 _meta.json 추가
+**Solution**: 모든 디렉토리에 \_meta.json 추가
 
 ```json
 // pages/docs/_meta.json
 {
-  "getting-started": "Getting Started",  // 첫 번째
-  "installation": "Installation",        // 두 번째
-  "advanced": "Advanced"                 // 세 번째
+  "getting-started": "Getting Started", // 첫 번째
+  "installation": "Installation", // 두 번째
+  "advanced": "Advanced" // 세 번째
 }
 ```
 
@@ -507,7 +501,9 @@ pages/
 
 ```mdx
 <!-- 잘못된 예시 -->
+
 ![Large Image](/images/screenshot-4k.png)
+
 <!-- 4K 이미지 그대로 로드 → 성능 저하 -->
 ```
 
@@ -515,6 +511,7 @@ pages/
 
 ```mdx
 <!-- 올바른 예시 -->
+
 import Image from 'next/image';
 
 <Image
@@ -533,7 +530,9 @@ import Image from 'next/image';
 
 ```mdx
 <!-- 잘못된 예시 -->
+
 Visit [our API](https://docs.myproject.com/api) for more info.
+
 <!-- 도메인 변경 시 모든 링크 수정 필요 -->
 ```
 
@@ -541,9 +540,11 @@ Visit [our API](https://docs.myproject.com/api) for more info.
 
 ```mdx
 <!-- 올바른 예시 -->
+
 Visit [our API](/api) for more info.
 
 <!-- 또는 컴포넌트 활용 -->
+
 import Link from 'next/link';
 
 <Link href="/api">our API</Link>
@@ -555,18 +556,18 @@ import Link from 'next/link';
 
 Nextra 사이트 배포 전 확인 사항:
 
-| 항목 | 확인 |
-|------|------|
-| theme.config.tsx에 모든 필수 설정 완료 | |
-| 모든 디렉토리에 _meta.json 존재 | |
-| 이미지 최적화 (WebP, 적절한 크기) | |
-| SEO 메타데이터 설정 완료 | |
-| 404 페이지 커스터마이징 | |
-| 검색 기능 테스트 | |
-| 다크 모드 테스트 | |
-| 모바일 반응형 확인 | |
-| 빌드 성공 (npm run build) | |
-| 링크 깨짐 검사 | |
+| 항목                                   | 확인 |
+| -------------------------------------- | ---- |
+| theme.config.tsx에 모든 필수 설정 완료 |      |
+| 모든 디렉토리에 \_meta.json 존재       |      |
+| 이미지 최적화 (WebP, 적절한 크기)      |      |
+| SEO 메타데이터 설정 완료               |      |
+| 404 페이지 커스터마이징                |      |
+| 검색 기능 테스트                       |      |
+| 다크 모드 테스트                       |      |
+| 모바일 반응형 확인                     |      |
+| 빌드 성공 (npm run build)              |      |
+| 링크 깨짐 검사                         |      |
 
 ---
 

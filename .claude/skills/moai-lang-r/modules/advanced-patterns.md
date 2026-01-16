@@ -3,6 +3,7 @@
 ## Advanced Shiny Patterns
 
 Async Processing:
+
 ```r
 library(shiny)
 library(promises)
@@ -22,6 +23,7 @@ server <- function(input, output, session) {
 ```
 
 Caching with memoise:
+
 ```r
 library(memoise)
 
@@ -41,6 +43,7 @@ server <- function(input, output, session) {
 ```
 
 Shiny Modules Advanced:
+
 ```r
 # Advanced module with return values
 filterModuleUI <- function(id) {
@@ -89,6 +92,7 @@ filterModuleServer <- function(id, data, default_category = NULL) {
 ## Complex ggplot2 Extensions
 
 Custom Theme:
+
 ```r
 library(ggplot2)
 
@@ -130,6 +134,7 @@ ggplot(data, aes(x, y)) +
 ```
 
 Custom Geom:
+
 ```r
 library(ggplot2)
 library(grid)
@@ -185,6 +190,7 @@ geom_timeline <- function(mapping = NULL, data = NULL, stat = "identity",
 ## Database Integration
 
 dbplyr with pool:
+
 ```r
 library(DBI)
 library(pool)
@@ -222,6 +228,7 @@ onStop(function() {
 ```
 
 Transaction Handling:
+
 ```r
 with_transaction <- function(pool, expr) {
   conn <- poolCheckout(pool)
@@ -249,6 +256,7 @@ with_transaction(pool, {
 ## R Package Development
 
 Package Structure:
+
 ```r
 # DESCRIPTION file
 Package: mypackage
@@ -272,6 +280,7 @@ Config/testthat/edition: 3
 ```
 
 Roxygen Documentation:
+
 ```r
 #' Calculate Growth Rate
 #'
@@ -306,6 +315,7 @@ calculate_growth <- function(x, periods = 1, na.rm = TRUE) {
 ## Performance Optimization
 
 data.table for Large Data:
+
 ```r
 library(data.table)
 
@@ -330,6 +340,7 @@ dt[, rolling_mean := frollmean(value, n = 7), by = category]
 ```
 
 Parallel Processing:
+
 ```r
 library(future)
 library(furrr)
@@ -354,6 +365,7 @@ plan(sequential)
 ## Production Deployment
 
 Docker for R:
+
 ```dockerfile
 FROM rocker/shiny:4.4.0
 
@@ -375,6 +387,7 @@ CMD ["/usr/bin/shiny-server"]
 ```
 
 Posit Connect Deployment:
+
 ```r
 # rsconnect for deployment
 library(rsconnect)
@@ -398,6 +411,7 @@ rsconnect::deployApp(
 ## testthat Advanced Patterns
 
 Test Fixtures:
+
 ```r
 # tests/testthat/helper.R
 setup_test_db <- function() {
@@ -424,6 +438,7 @@ test_that("database operations work correctly", {
 ```
 
 Property-Based Testing:
+
 ```r
 library(hedgehog)
 
@@ -443,6 +458,7 @@ test_that("sort is idempotent", {
 ## Error Handling
 
 Condition System:
+
 ```r
 # Define custom conditions
 validation_error <- function(message, field = NULL) {

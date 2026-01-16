@@ -9,6 +9,7 @@
 **Scenario**: 사용자가 FastAPI JWT 인증 구현 방법을 질문하는 상황
 
 **Input**:
+
 ```python
 # 사용자 질문
 user_query = "FastAPI에서 JWT 인증을 어떻게 구현하나요?"
@@ -18,6 +19,7 @@ Skill("moai-workflow-jit-docs")
 ```
 
 **Output**:
+
 ```python
 # 1. Intent Analysis (의도 분석)
 intent = {
@@ -73,6 +75,7 @@ quality_report = {
 **Scenario**: PostgreSQL 쿼리 성능 문제 해결을 위한 문서 로딩
 
 **Input**:
+
 ```python
 # 사용자 질문
 user_query = "PostgreSQL 쿼리가 느려요. 어떻게 최적화하나요?"
@@ -82,6 +85,7 @@ intent = analyze_user_intent(user_query, project_context)
 ```
 
 **Output**:
+
 ```python
 # 의도 분석 결과
 intent = {
@@ -159,6 +163,7 @@ enriched_context = {
 **Scenario**: 기존 REST API 프로젝트에 GraphQL 도입을 검토하는 상황
 
 **Input**:
+
 ```python
 # 사용자 요청
 user_query = "기존 REST API에 GraphQL을 추가하고 싶어요. 마이그레이션 가이드가 필요합니다."
@@ -172,6 +177,7 @@ project_context = {
 ```
 
 **Output**:
+
 ```python
 # Multi-Source Documentation Loading
 graphql_docs = {
@@ -526,14 +532,15 @@ def get_docs(query, intent):
 
 JIT 문서 로딩 품질 평가 기준:
 
-| 메트릭 | 가중치 | 설명 |
-|--------|--------|------|
-| Authority | 30% | 공식 문서 = 1.0, 커뮤니티 = 0.7 |
-| Recency | 25% | 6개월 이내 = 1.0, 1년 = 0.6 |
-| Completeness | 25% | 코드 예시, 설명 포함 여부 |
-| Relevance | 20% | 쿼리와의 관련성 점수 |
+| 메트릭       | 가중치 | 설명                            |
+| ------------ | ------ | ------------------------------- |
+| Authority    | 30%    | 공식 문서 = 1.0, 커뮤니티 = 0.7 |
+| Recency      | 25%    | 6개월 이내 = 1.0, 1년 = 0.6     |
+| Completeness | 25%    | 코드 예시, 설명 포함 여부       |
+| Relevance    | 20%    | 쿼리와의 관련성 점수            |
 
 품질 임계값:
+
 - 0.8 이상: 높은 신뢰도
 - 0.6-0.8: 참고용
 - 0.6 미만: 추가 검증 필요

@@ -9,6 +9,7 @@ Multishot prompting examples demonstrating practical backend development pattern
 **Scenario**: Create a secure user management API with JWT authentication.
 
 **Input**:
+
 ```python
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -39,6 +40,7 @@ class TokenResponse(BaseModel):
 ```
 
 **Output**:
+
 ```python
 # Complete implementation with authentication
 SECRET_KEY = "your-secret-key"  # Use environment variable in production
@@ -103,6 +105,7 @@ async def get_current_user_profile(
 **Scenario**: Implement a repository pattern with Redis caching for optimal performance.
 
 **Input**:
+
 ```python
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -122,6 +125,7 @@ class UserRepository:
 ```
 
 **Output**:
+
 ```python
 class UserRepository:
     def __init__(
@@ -223,6 +227,7 @@ class UserRepository:
 **Scenario**: Implement an order processing service with event-driven communication.
 
 **Input**:
+
 ```python
 from aio_pika import connect_robust, Message, ExchangeType
 import json
@@ -240,6 +245,7 @@ class OrderCreatedEvent:
 ```
 
 **Output**:
+
 ```python
 import asyncio
 from aio_pika import connect_robust, Message, ExchangeType
@@ -715,4 +721,4 @@ async def log_requests(request: Request, call_next):
 
 ---
 
-*For additional patterns and advanced configurations, see the related skills and documentation.*
+_For additional patterns and advanced configurations, see the related skills and documentation._

@@ -14,17 +14,20 @@ This directory contains modular components for comprehensive documentation gener
 ### Tool Categories
 
 API Documentation Tools:
+
 - FastAPI automatic OpenAPI generation
 - swagger-jsdoc for Express/Node.js
 - Redoc and Swagger UI for rendering
 
 Code Documentation Tools:
+
 - Sphinx with autodoc for Python
 - TypeDoc for TypeScript
 - JSDoc for JavaScript
 - mkdocstrings for MkDocs integration
 
 Static Site Generators:
+
 - Nextra (Next.js-based)
 - Docusaurus (React-based)
 - VitePress (Vue-based)

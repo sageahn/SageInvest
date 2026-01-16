@@ -1,14 +1,14 @@
 ---
-name: "moai-foundation-quality"
-description: "Enterprise code quality orchestrator with TRUST 5 validation, proactive analysis, and automated best practices enforcement"
+name: 'moai-foundation-quality'
+description: 'Enterprise code quality orchestrator with TRUST 5 validation, proactive analysis, and automated best practices enforcement'
 version: 2.2.0
-category: "foundation"
+category: 'foundation'
 modularized: true
 user-invocable: false
 tags: ['foundation', 'quality', 'testing', 'validation', 'trust-5', 'best-practices', 'code-review']
 aliases: ['moai-foundation-quality']
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Grep

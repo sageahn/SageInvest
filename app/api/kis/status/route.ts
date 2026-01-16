@@ -26,9 +26,6 @@ export async function GET() {
     });
   } catch (error) {
     console.error('Failed to get status:', error);
-    return NextResponse.json(
-      { error: 'Failed to get status' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to get status' }, { status: 500 });
   }
 }

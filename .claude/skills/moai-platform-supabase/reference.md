@@ -14,21 +14,28 @@ updated: 2026-01-06
 
 ```typescript
 // Select
-const { data, error } = await supabase.from('table').select('*')
-const { data } = await supabase.from('table').select('id, name, relation(*)').eq('id', 1)
+const { data, error } = await supabase.from('table').select('*');
+const { data } = await supabase.from('table').select('id, name, relation(*)').eq('id', 1);
 
 // Insert
-const { data, error } = await supabase.from('table').insert({ column: 'value' }).select()
-const { data } = await supabase.from('table').insert([...items]).select()
+const { data, error } = await supabase.from('table').insert({ column: 'value' }).select();
+const { data } = await supabase
+  .from('table')
+  .insert([...items])
+  .select();
 
 // Update
-const { data, error } = await supabase.from('table').update({ column: 'value' }).eq('id', 1).select()
+const { data, error } = await supabase
+  .from('table')
+  .update({ column: 'value' })
+  .eq('id', 1)
+  .select();
 
 // Upsert
-const { data, error } = await supabase.from('table').upsert({ id: 1, column: 'value' }).select()
+const { data, error } = await supabase.from('table').upsert({ id: 1, column: 'value' }).select();
 
 // Delete
-const { error } = await supabase.from('table').delete().eq('id', 1)
+const { error } = await supabase.from('table').delete().eq('id', 1);
 ```
 
 ### Query Filters
@@ -67,88 +74,86 @@ const { error } = await supabase.from('table').delete().eq('id', 1)
 ```typescript
 const { data, error } = await supabase.rpc('function_name', {
   arg1: 'value1',
-  arg2: 'value2'
-})
+  arg2: 'value2',
+});
 ```
 
 ## Auth Methods
 
 ```typescript
 // Sign up
-await supabase.auth.signUp({ email, password })
+await supabase.auth.signUp({ email, password });
 
 // Sign in
-await supabase.auth.signInWithPassword({ email, password })
-await supabase.auth.signInWithOAuth({ provider: 'google' })
-await supabase.auth.signInWithOtp({ email })
+await supabase.auth.signInWithPassword({ email, password });
+await supabase.auth.signInWithOAuth({ provider: 'google' });
+await supabase.auth.signInWithOtp({ email });
 
 // Session
-await supabase.auth.getUser()
-await supabase.auth.getSession()
-await supabase.auth.refreshSession()
+await supabase.auth.getUser();
+await supabase.auth.getSession();
+await supabase.auth.refreshSession();
 
 // Sign out
-await supabase.auth.signOut()
+await supabase.auth.signOut();
 
 // Password
-await supabase.auth.resetPasswordForEmail(email)
-await supabase.auth.updateUser({ password: newPassword })
+await supabase.auth.resetPasswordForEmail(email);
+await supabase.auth.updateUser({ password: newPassword });
 
 // Listener
-supabase.auth.onAuthStateChange((event, session) => {})
+supabase.auth.onAuthStateChange((event, session) => {});
 ```
 
 ## Real-time Methods
 
 ```typescript
 // Subscribe to changes
-const channel = supabase.channel('channel-name')
-  .on('postgres_changes',
-    { event: '*', schema: 'public', table: 'table_name' },
-    (payload) => {}
-  )
-  .subscribe()
+const channel = supabase
+  .channel('channel-name')
+  .on('postgres_changes', { event: '*', schema: 'public', table: 'table_name' }, (payload) => {})
+  .subscribe();
 
 // Presence
 channel.on('presence', { event: 'sync' }, () => {
-  const state = channel.presenceState()
-})
-await channel.track({ user_id: 'id', online_at: new Date() })
+  const state = channel.presenceState();
+});
+await channel.track({ user_id: 'id', online_at: new Date() });
 
 // Broadcast
-await channel.send({ type: 'broadcast', event: 'name', payload: {} })
-channel.on('broadcast', { event: 'name' }, ({ payload }) => {})
+await channel.send({ type: 'broadcast', event: 'name', payload: {} });
+channel.on('broadcast', { event: 'name' }, ({ payload }) => {});
 
 // Unsubscribe
-await supabase.removeChannel(channel)
-await supabase.removeAllChannels()
+await supabase.removeChannel(channel);
+await supabase.removeAllChannels();
 ```
 
 ## Storage Methods
 
 ```typescript
 // Upload
-await supabase.storage.from('bucket').upload('path/file.ext', file, { cacheControl: '3600' })
+await supabase.storage.from('bucket').upload('path/file.ext', file, { cacheControl: '3600' });
 
 // Download
-await supabase.storage.from('bucket').download('path/file.ext')
+await supabase.storage.from('bucket').download('path/file.ext');
 
 // Get URL
 supabase.storage.from('bucket').getPublicUrl('path/file.ext', {
-  transform: { width: 800, height: 600, resize: 'cover' }
-})
+  transform: { width: 800, height: 600, resize: 'cover' },
+});
 
 // Signed URL
-await supabase.storage.from('bucket').createSignedUrl('path/file.ext', 3600)
+await supabase.storage.from('bucket').createSignedUrl('path/file.ext', 3600);
 
 // List
-await supabase.storage.from('bucket').list('folder', { limit: 100 })
+await supabase.storage.from('bucket').list('folder', { limit: 100 });
 
 // Delete
-await supabase.storage.from('bucket').remove(['path/file.ext'])
+await supabase.storage.from('bucket').remove(['path/file.ext']);
 
 // Move
-await supabase.storage.from('bucket').move('old/path', 'new/path')
+await supabase.storage.from('bucket').move('old/path', 'new/path');
 ```
 
 ## Edge Functions
@@ -157,8 +162,8 @@ await supabase.storage.from('bucket').move('old/path', 'new/path')
 // Invoke
 const { data, error } = await supabase.functions.invoke('function-name', {
   body: { key: 'value' },
-  headers: { 'Custom-Header': 'value' }
-})
+  headers: { 'Custom-Header': 'value' },
+});
 ```
 
 ## SQL Quick Reference
@@ -275,6 +280,7 @@ mcp__context7__get-library-docs with:
 ```
 
 Common topics:
+
 - "javascript client select insert update"
 - "auth signIn signUp oauth"
 - "realtime postgres_changes presence"

@@ -11,6 +11,7 @@
 ### TRUST 5 Categories
 
 Truthfulness (25% weight):
+
 - Code correctness validation
 - Logic error detection
 - Unreachable code identification
@@ -18,6 +19,7 @@ Truthfulness (25% weight):
 - Data flow analysis
 
 Relevance (20% weight):
+
 - Requirements fulfillment
 - TODO/FIXME comment tracking
 - Dead code detection
@@ -25,6 +27,7 @@ Relevance (20% weight):
 - Purpose alignment checking
 
 Usability (25% weight):
+
 - Maintainability assessment
 - Code complexity analysis
 - Documentation completeness
@@ -32,6 +35,7 @@ Usability (25% weight):
 - Code organization review
 
 Safety (20% weight):
+
 - Security vulnerability detection
 - Error handling validation
 - Exception safety checking
@@ -39,6 +43,7 @@ Safety (20% weight):
 - Input validation review
 
 Timeliness (10% weight):
+
 - Performance optimization opportunities
 - Deprecated code identification
 - Modern practices adoption
@@ -106,12 +111,14 @@ def _analyze_truthfulness(self, file_path: str, tree: ast.AST) -> List[CodeIssue
 ```
 
 Unreachable Code Detection:
+
 - Identifies code after return statements
 - Detects code after raise statements
 - Finds code after break/continue in loops
 - Reports dead code with confidence scores
 
 Logic Issue Detection:
+
 - Checks for None comparison patterns (use 'is None' instead of '== None')
 - Identifies constant conditions in if statements
 - Detects tautological comparisons
@@ -151,6 +158,7 @@ def _analyze_relevance(self, file_path: str, content: str) -> List[CodeIssue]:
 ```
 
 Relevance Checks:
+
 - TODO/FIXME comment tracking
 - Dead code identification (unused imports, variables, functions)
 - Feature completeness validation
@@ -190,6 +198,7 @@ def _analyze_usability(self, file_path: str, content: str, tree: ast.AST) -> Lis
 ```
 
 Usability Metrics:
+
 - Function length analysis (default max: 50 lines)
 - Cyclomatic complexity calculation (default max: 10)
 - Nesting depth assessment (default max: 4 levels)
@@ -230,6 +239,7 @@ def _analyze_safety(self, file_path: str, tree: ast.AST) -> List[CodeIssue]:
 ```
 
 Safety Checks:
+
 - Bare except clause detection
 - Exception handling validation
 - Resource leak detection (file handles, database connections)
@@ -277,6 +287,7 @@ def _analyze_timeliness(self, file_path: str, content: str) -> List[CodeIssue]:
 ```
 
 Timeliness Indicators:
+
 - Deprecated import detection
 - Performance anti-pattern identification
 - Modern Python features adoption

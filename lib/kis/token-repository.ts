@@ -66,10 +66,7 @@ export class TokenRepository {
    * Delete token for environment
    */
   async deleteToken(environment: KISEnvironment): Promise<void> {
-    await query(
-      `DELETE FROM kis_tokens WHERE environment = $1`,
-      [environment]
-    );
+    await query(`DELETE FROM kis_tokens WHERE environment = $1`, [environment]);
   }
 
   /**

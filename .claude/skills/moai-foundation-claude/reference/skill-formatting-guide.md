@@ -17,7 +17,7 @@ Core Format: YAML frontmatter + markdown content with progressive disclosure. Na
 
 ## Complete Skill Template
 
-```yaml
+````yaml
 ---
 name: skill-name # Required: kebab-case, max 64 chars
 description: Specific description of skill purpose and trigger scenarios (max 1024 chars) # Required
@@ -56,7 +56,7 @@ def example_function():
  Clear purpose and expected outcome
  """
  return result
-```
+````
 
 ```bash
 # Pattern 2: Command-line example
@@ -66,12 +66,14 @@ command --option --argument
 
 ## Best Practices
 
- DO:
+DO:
+
 - Specific positive recommendation with clear rationale
 - Concrete example of recommended practice
 - Performance consideration or optimization tip
 
- DON'T:
+DON'T:
+
 - Common mistake with explanation of negative impact
 - Anti-pattern with better alternative suggestion
 - Security or performance pitfall to avoid
@@ -84,9 +86,11 @@ command --option --argument
 ## Advanced Features
 
 ### Feature 1: Complex capability
+
 Detailed explanation of advanced functionality with examples.
 
 ### Feature 2: Integration pattern
+
 How this skill integrates with other tools or systems.
 
 ## Troubleshooting
@@ -96,7 +100,8 @@ Solution: Step-by-step resolution approach
 
 Issue: Another problem description
 Solution: Clear fix with verification steps
-```
+
+````
 
 ---
 
@@ -143,12 +148,14 @@ allowed-tools: [Read, Grep, Glob]
 
 # WRONG: Overly permissive
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, WebFetch, MultiEdit
-```
+````
 
 #### `version` (String)
+
 Format: Semantic versioning (X.Y.Z)
 Purpose: Track skill evolution
 Examples:
+
 ```yaml
 version: 1.0.0 # Initial release
 version: 1.1.0 # Feature addition
@@ -157,9 +164,11 @@ version: 2.0.0 # Breaking changes
 ```
 
 #### `tags` (Array)
+
 Format: List of category tags
 Purpose: Skill discovery and categorization
 Examples:
+
 ```yaml
 tags: [documentation, claude-code, formatting]
 tags: [python, testing, tdd]
@@ -167,17 +176,21 @@ tags: [security, owasp, validation]
 ```
 
 #### `updated` (Date)
+
 Format: YYYY-MM-DD
 Purpose: Track last modification
 Examples:
+
 ```yaml
 updated: 2025-11-25
 ```
 
 #### `status` (String)
+
 Options: `active`, `deprecated`, `experimental`
 Purpose: Indicate skill status
 Examples:
+
 ```yaml
 status: active # Production ready
 status: experimental # Testing phase
@@ -194,6 +207,7 @@ Purpose: Immediate value proposition
 Length: 2-4 sentences maximum
 Content: Core functionality + primary use cases
 Example:
+
 ```markdown
 ## Quick Reference (30 seconds)
 
@@ -204,29 +218,36 @@ Context7 MCP server integration for real-time library documentation access. Reso
 
 Purpose: Step-by-step usage instructions
 Structure:
+
 - Core Capabilities (bullet points)
 - When to Use (specific scenarios)
 - Essential Patterns (code examples)
 
 #### Core Capabilities Format
+
 ```markdown
 ### Core Capabilities
+
 - Capability Name: Clear description with measurable outcome
 - Another Capability: Specific description with expected results
 - Third Capability: Detailed explanation of functionality
 ```
 
 #### When to Use Format
+
 ```markdown
 ### When to Use
+
 - Specific Scenario: Clear trigger condition with indicators
 - Another Scenario: Detailed context and requirements
 - Edge Case: Special circumstances and handling approach
 ```
 
 #### Essential Patterns Format
-```markdown
+
+````markdown
 ### Essential Patterns
+
 ```python
 # Pattern Name: Clear purpose
 def example_function(param1, param2):
@@ -236,13 +257,15 @@ def example_function(param1, param2):
  """
  return result # Clear outcome
 ```
+````
 
 ```bash
 # Command Pattern: Clear purpose
 command --option value --flag
 # Expected output or result
 ```
-```
+
+````
 
 ### Section 3: Best Practices
 
@@ -261,7 +284,7 @@ Format: DO/DON'T lists with explanations
 - Common mistake with explanation of negative impact
 - Anti-pattern with better alternative
 - Security vulnerability or performance issue
-```
+````
 
 ### Section 4: Works Well With
 
@@ -383,6 +406,7 @@ templates/: Reusable file templates and patterns
 ### Content Distribution Strategy
 
 SKILL.md (≤500 lines):
+
 - Quick Reference: 50-80 lines
 - Implementation Guide: 200-300 lines
 - Best Practices: 80-120 lines
@@ -390,12 +414,14 @@ SKILL.md (≤500 lines):
 - Advanced Features: 0-50 lines (optional)
 
 reference.md (unlimited):
+
 - Official documentation links
 - External resources and tutorials
 - Related tools and libraries
 - Community resources
 
 examples.md (unlimited):
+
 - Complete working examples
 - Integration scenarios
 - Test cases and validation
@@ -408,6 +434,7 @@ examples.md (unlimited):
 ### Pre-publication Validation
 
 Frontmatter Validation:
+
 - [ ] Name uses kebab-case (64 chars max)
 - [ ] Description specific and under 1024 chars
 - [ ] allowed-tools follows principle of least privilege
@@ -415,6 +442,7 @@ Frontmatter Validation:
 - [ ] No deprecated or invalid fields
 
 Content Structure Validation:
+
 - [ ] Quick Reference section present (30-second value)
 - [ ] Implementation Guide with all required subsections
 - [ ] Best Practices with DO/DON'T format
@@ -422,6 +450,7 @@ Content Structure Validation:
 - [ ] Total line count ≤ 500 for SKILL.md
 
 Code Example Validation:
+
 - [ ] All code examples are functional and tested
 - [ ] Proper language identifiers in code blocks
 - [ ] Comments and documentation included
@@ -429,6 +458,7 @@ Code Example Validation:
 - [ ] No hardcoded credentials or sensitive data
 
 Link Validation:
+
 - [ ] Internal links use relative paths
 - [ ] External links are accessible and relevant
 - [ ] No broken or outdated references
@@ -437,18 +467,21 @@ Link Validation:
 ### Quality Standards Validation
 
 Clarity and Specificity:
+
 - [ ] Clear value proposition in Quick Reference
 - [ ] Specific trigger scenarios and use cases
 - [ ] Actionable examples and patterns
 - [ ] No ambiguous or vague language
 
 Technical Accuracy:
+
 - [ ] Code examples follow language conventions
 - [ ] Technical details are current and accurate
 - [ ] Best practices align with official documentation
 - [ ] Security considerations where relevant
 
 User Experience:
+
 - [ ] Logical flow from simple to complex
 - [ ] Progressive disclosure structure
 - [ ] Effective troubleshooting section
@@ -461,6 +494,7 @@ User Experience:
 ### YAML Frontmatter Errors
 
 Invalid Array Format:
+
 ```yaml
 # WRONG: YAML array syntax
 allowed-tools: [Read, Write, Bash]
@@ -470,12 +504,12 @@ allowed-tools: Read, Write, Bash
 ```
 
 Missing Required Fields:
+
 ```yaml
 # WRONG: Missing description
 ---
 name: my-skill
 ---
-
 # CORRECT: All required fields present
 ---
 name: my-skill
@@ -486,57 +520,75 @@ description: Specific description of skill purpose
 ### Content Structure Errors
 
 Line Count Exceeded:
+
 ```markdown
 # WRONG: SKILL.md exceeds 500 lines
+
 # (too much content in main file)
 
 # CORRECT: Move detailed content to supporting files
+
 # Main SKILL.md: ≤500 lines
+
 # reference.md: Additional documentation
+
 # examples.md: More working examples
 ```
 
 Missing Required Sections:
+
 ```markdown
 # WRONG: Missing Quick Reference section
+
 # No clear value proposition
 
 # CORRECT: All required sections present
+
 ## Quick Reference (30 seconds)
+
 Brief summary of core functionality...
 
 ## Implementation Guide
+
 ### Core Capabilities
+
 ...
 ```
 
 ### Link and Reference Errors
 
 Broken Internal Links:
+
 ```markdown
 # WRONG: Incorrect relative path
+
 - [`related-skill`](./related-skil/SKILL.md) # typo in path
 
 # CORRECT: Valid relative path
+
 - [`related-skill`](../related-skill/SKILL.md)
 ```
 
 Missing Code Language Identifiers:
+
 ```markdown
 # WRONG: No language specified
 ```
+
 function example() {
- return "result";
+return "result";
 }
-```
+
+````
 
 # CORRECT: Language specified
 ```javascript
 function example() {
  return "result";
 }
-```
-```
+````
+
+````
 
 ---
 
@@ -582,9 +634,10 @@ Sequential Usage:
 
 - [`skill-a`](../skill-a/SKILL.md) - Use first for data preparation
 - [`skill-b`](../skill-b/SKILL.md) - Use after skill-a for analysis
-```
+````
 
 Parallel Usage:
+
 ```markdown
 ## Works Well With
 
@@ -595,6 +648,7 @@ Parallel Usage:
 ### MCP Integration Patterns
 
 Context7 Integration:
+
 ```yaml
 allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 ```
@@ -610,6 +664,7 @@ docs = await mcp__context7__get-library_docs(
 ```
 
 Multi-MCP Integration:
+
 ```yaml
 allowed-tools: mcp__context7__*, mcp__playwright__*, mcp__figma__*
 ```
@@ -621,11 +676,13 @@ allowed-tools: mcp__context7__*, mcp__playwright__*, mcp__figma__*
 ### Version Management
 
 Semantic Versioning:
+
 - Major (X.0.0): Breaking changes, incompatible API
 - Minor (0.Y.0): New features, backward compatible
 - Patch (0.0.Z): Bug fixes, documentation updates
 
 Update Process:
+
 1. Update version number in frontmatter
 2. Update `updated` field
 3. Document changes in changelog
@@ -635,12 +692,14 @@ Update Process:
 ### Compatibility Tracking
 
 Claude Code Version Compatibility:
+
 - Document compatible Claude Code versions
 - Test with latest Claude Code release
 - Update examples for breaking changes
 - Monitor official documentation updates
 
 Library Version Compatibility:
+
 - Track supported library versions
 - Update examples for breaking changes
 - Document migration paths
@@ -653,46 +712,58 @@ Library Version Compatibility:
 ### Conditional Content
 
 Model-Specific Content:
+
 ```markdown
 ### For Claude Sonnet
+
 Advanced patterns requiring complex reasoning...
 
 ### For Claude Haiku
+
 Optimized patterns for fast execution...
 ```
 
 Context-Dependent Content:
+
 ```markdown
 ### When Working with Large Files
+
 Use streaming approaches and chunk processing...
 
 ### When Working with APIs
+
 Implement retry logic and error handling...
 ```
 
 ### Interactive Examples
 
 Step-by-Step Tutorials:
-```markdown
+
+````markdown
 ### Tutorial: Complete Workflow
 
 Step 1: Setup and preparation
+
 ```bash
 # Setup commands
 ```
+````
 
 Step 2: Core implementation
+
 ```python
 # Implementation code
 ```
 
 Step 3: Validation and testing
+
 ```bash
 # Test commands
 ```
 
 Expected result: [Clear outcome description]
-```
+
+````
 
 ### Multi-language Support
 
@@ -706,17 +777,20 @@ Language-Agnostic Patterns:
 Python Implementation:
 ```python
 # Python-specific code
-```
+````
 
 JavaScript Implementation:
+
 ```javascript
 // JavaScript-specific code
 ```
 
 Go Implementation:
+
 ```go
 // Go-specific code
 ```
+
 ```
 
 ---
@@ -727,3 +801,4 @@ Last Updated: 2025-11-25
 Next Review: 2025-12-25 or standards update
 
 Generated with Claude Code using official documentation and best practices.
+```

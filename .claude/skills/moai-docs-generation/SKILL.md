@@ -1,15 +1,15 @@
 ---
-name: "moai-docs-generation"
-description: "Documentation generation patterns for technical specs, API docs, user guides, and knowledge bases using real tools like Sphinx, MkDocs, TypeDoc, and Nextra. Use when creating docs from code, building doc sites, or automating documentation workflows."
+name: 'moai-docs-generation'
+description: 'Documentation generation patterns for technical specs, API docs, user guides, and knowledge bases using real tools like Sphinx, MkDocs, TypeDoc, and Nextra. Use when creating docs from code, building doc sites, or automating documentation workflows.'
 version: 2.1.0
-category: "workflow"
+category: 'workflow'
 modularized: true
 user-invocable: false
 context: fork
 agent: general-purpose
 tags: ['workflow', 'documentation', 'sphinx', 'mkdocs', 'typedoc', 'api-docs', 'static-sites']
 updated: 2026-01-08
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Write
@@ -28,6 +28,7 @@ allowed-tools:
 Purpose: Generate professional documentation using established tools and frameworks.
 
 Core Documentation Tools:
+
 - Python: Sphinx with autodoc, MkDocs with Material theme, pydoc
 - TypeScript/JavaScript: TypeDoc, JSDoc, TSDoc
 - API Documentation: OpenAPI/Swagger from FastAPI/Express, Redoc, Stoplight
@@ -35,6 +36,7 @@ Core Documentation Tools:
 - Universal: Markdown, MDX, reStructuredText
 
 When to Use This Skill:
+
 - Generating API documentation from code annotations
 - Building documentation sites with search and navigation
 - Creating user guides and technical specifications
@@ -54,6 +56,7 @@ Install Sphinx and extensions with pip install sphinx sphinx-autodoc-typehints s
 Initialize a Sphinx project by running sphinx-quickstart docs which creates the basic structure.
 
 Configure conf.py with the following key settings:
+
 - Set extensions to include autodoc, napoleon, typehints, and myst_parser
 - Configure html_theme to sphinx_rtd_theme for a professional look
 - Add autodoc_typehints set to description for inline type hints
@@ -67,6 +70,7 @@ MkDocs Material Setup:
 Install with pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python
 
 Create mkdocs.yml configuration:
+
 - Set site_name and site_url
 - Configure theme with name material and desired color palette
 - Add plugins including search and mkdocstrings
@@ -85,6 +89,7 @@ Install with npm install typedoc --save-dev
 Add to package.json scripts: typedoc --out docs/api src/index.ts
 
 Configure with typedoc.json:
+
 - Set entryPoints to source files
 - Configure out to docs/api
 - Enable includeVersion and categorizeByGroup
@@ -99,11 +104,13 @@ JSDoc Setup:
 Install with npm install jsdoc --save-dev
 
 Create jsdoc.json configuration:
+
 - Set source include paths and includePattern
 - Configure templates and output destination
 - Enable markdown plugin for rich formatting
 
 Document functions with JSDoc comments using tags:
+
 - @param for parameters with type and description
 - @returns for return value documentation
 - @example for usage examples
@@ -116,6 +123,7 @@ FastAPI Auto-Documentation:
 FastAPI provides automatic OpenAPI docs. Access Swagger UI at /docs and ReDoc at /redoc.
 
 Enhance documentation by:
+
 - Adding docstrings to route handlers
 - Using response_model for typed responses
 - Defining examples in Pydantic model Config class
@@ -149,6 +157,7 @@ Docusaurus (React):
 Initialize with npx create-docusaurus@latest my-docs classic
 
 Configure in docusaurus.config.js:
+
 - Set siteMetadata with title, tagline, url
 - Configure presets with docs and blog settings
 - Add themeConfig for navbar and footer
@@ -161,6 +170,7 @@ VitePress (Vue):
 Initialize with npm init vitepress
 
 Configure in .vitepress/config.js:
+
 - Set title, description, base path
 - Define themeConfig with nav and sidebar
 - Configure search and social links
@@ -178,6 +188,7 @@ Pattern for generating documentation from MoAI SPEC files:
 Read SPEC file content and extract key sections: id, title, description, requirements, api_endpoints.
 
 Generate structured Markdown documentation:
+
 - Create overview section from description
 - List requirements as feature bullets
 - Document each API endpoint with method, path, and description
@@ -192,6 +203,7 @@ GitHub Actions Workflow:
 Create .github/workflows/docs.yml that triggers on push to main branch when src or docs paths change.
 
 Workflow steps:
+
 - Checkout repository
 - Setup language runtime (Python, Node.js)
 - Install documentation dependencies
@@ -199,11 +211,13 @@ Workflow steps:
 - Deploy to GitHub Pages, Netlify, or Vercel
 
 Example for Python/Sphinx:
+
 - Install with pip install sphinx sphinx-rtd-theme
 - Generate with sphinx-build -b html docs/source docs/build
 - Deploy using actions-gh-pages action
 
 Example for TypeScript/TypeDoc:
+
 - Install with npm ci
 - Generate with npm run docs:generate
 - Deploy to Pages
@@ -253,6 +267,7 @@ Organize translations in i18n/[locale] directory structure.
 ## Works Well With
 
 Skills:
+
 - moai-library-nextra - Comprehensive Nextra documentation framework patterns
 - moai-lang-python - Python docstring conventions and typing
 - moai-lang-typescript - TypeScript/JSDoc documentation patterns
@@ -260,11 +275,13 @@ Skills:
 - moai-workflow-project - Project documentation integration
 
 Agents:
+
 - manager-docs - Documentation workflow orchestration
 - expert-backend - API endpoint documentation
 - expert-frontend - Component documentation
 
 Commands:
+
 - /moai:3-sync - Documentation synchronization with code changes
 
 ---
@@ -272,28 +289,33 @@ Commands:
 ## Tool Reference
 
 Python Documentation:
+
 - Sphinx: https://www.sphinx-doc.org/
 - MkDocs: https://www.mkdocs.org/
 - MkDocs Material: https://squidfunk.github.io/mkdocs-material/
 - mkdocstrings: https://mkdocstrings.github.io/
 
 JavaScript/TypeScript Documentation:
+
 - TypeDoc: https://typedoc.org/
 - JSDoc: https://jsdoc.app/
 - TSDoc: https://tsdoc.org/
 
 API Documentation:
+
 - OpenAPI Specification: https://spec.openapis.org/
 - Swagger UI: https://swagger.io/tools/swagger-ui/
 - Redoc: https://redocly.github.io/redoc/
 - Stoplight: https://stoplight.io/
 
 Static Site Generators:
+
 - Nextra: https://nextra.site/
 - Docusaurus: https://docusaurus.io/
 - VitePress: https://vitepress.dev/
 
 Style Guides:
+
 - Google Developer Documentation Style Guide: https://developers.google.com/style
 - Microsoft Writing Style Guide: https://learn.microsoft.com/style-guide/
 

@@ -107,20 +107,20 @@ Storybook Configuration (v8.x):
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
- stories: ['../src//*.stories.@(js|jsx|ts|tsx|mdx)'],
- addons: [
- '@storybook/addon-links',
- '@storybook/addon-essentials',
- '@storybook/addon-interactions',
- '@storybook/addon-a11y', // Accessibility testing
- ],
- framework: {
- name: '@storybook/react-vite',
- options: {},
- },
- docs: {
- autodocs: 'tag', // Auto-generate docs
- },
+  stories: ['../src//*.stories.@(js|jsx|ts|tsx|mdx)'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+    '@storybook/addon-a11y', // Accessibility testing
+  ],
+  framework: {
+    name: '@storybook/react-vite',
+    options: {},
+  },
+  docs: {
+    autodocs: 'tag', // Auto-generate docs
+  },
 };
 
 export default config;
@@ -194,14 +194,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
  ({ label, error, required, ...props }, ref) => {
  const inputId = useId();
  const errorId = `${inputId}-error`;
- 
+
  return (
  <div className="form-field">
  <label htmlFor={inputId} className="form-label">
  {label}
  {required && <span aria-label="required">*</span>}
  </label>
- 
+
  <input
  ref={ref}
  id={inputId}
@@ -210,7 +210,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
  aria-required={required}
  {...props}
  />
- 
+
  {error && (
  <span id={errorId} role="alert" className="error-message">
  {error}

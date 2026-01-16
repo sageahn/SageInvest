@@ -9,6 +9,7 @@
 **Scenario**: 새로운 웹 애플리케이션 프로젝트를 다국어 지원으로 초기화하는 상황
 
 **Input**:
+
 ```python
 from moai_menu_project import MoaiMenuProject
 
@@ -26,6 +27,7 @@ result = project.initialize_complete_project(
 ```
 
 **Output**:
+
 ```json
 {
   "initialization_status": "success",
@@ -45,12 +47,7 @@ result = project.initialize_complete_project(
     }
   },
   "documentation_structure": {
-    "created_directories": [
-      "docs/ko/",
-      "docs/en/",
-      ".moai/docs/",
-      ".moai/specs/"
-    ],
+    "created_directories": ["docs/ko/", "docs/en/", ".moai/docs/", ".moai/specs/"],
     "generated_files": [
       "README.md",
       "docs/ko/index.md",
@@ -76,6 +73,7 @@ result = project.initialize_complete_project(
 **Scenario**: 사용자 인증 SPEC에서 API 문서와 기능 문서를 자동 생성
 
 **Input**:
+
 ```python
 # SPEC 데이터 정의
 spec_data = {
@@ -133,17 +131,20 @@ docs_result = project.generate_documentation_from_spec(spec_data)
 ```
 
 **Output**:
+
 ```markdown
 # 생성된 문서: docs/features/SPEC-001-authentication.md
 
 # User Authentication System
 
 ## Overview
+
 Implement secure authentication with JWT
 
 **Status**: Planned | **Priority**: High
 
 ## Requirements
+
 - [ ] User registration with email verification
 - [ ] JWT token generation and validation
 - [ ] Password reset functionality
@@ -152,6 +153,7 @@ Implement secure authentication with JWT
 ## API Reference
 
 ### POST /api/auth/register
+
 User registration endpoint
 
 **Request Body**:
@@ -169,6 +171,7 @@ User registration endpoint
 | verification_sent | boolean |
 
 ### POST /api/auth/login
+
 User login endpoint
 
 **Request Body**:
@@ -185,9 +188,11 @@ User login endpoint
 | expires_in | number |
 
 ### POST /api/auth/refresh
+
 Token refresh endpoint
 
 ---
+
 Generated from: SPEC-001
 Last Updated: 2025-12-06
 ```
@@ -201,6 +206,7 @@ Last Updated: 2025-12-06
 **Scenario**: 기존 프로젝트의 템플릿을 분석하고 최적화하는 상황
 
 **Input**:
+
 ```python
 # 템플릿 분석
 analysis = project.template_optimizer.analyze_project_templates()
@@ -222,6 +228,7 @@ optimization_result = project.optimize_project_templates(optimization_options)
 ```
 
 **Output**:
+
 ```json
 {
   "analysis_report": {
@@ -533,13 +540,13 @@ python -m moai_menu_project.cli status
 
 ## Performance Benchmarks
 
-| 작업 | 소요 시간 | 메모리 사용 |
-|------|----------|------------|
-| 프로젝트 초기화 | 2-3초 | ~50MB |
-| 언어 감지 | 500ms | ~10MB |
-| SPEC → 문서 생성 | 2-5초 | ~30MB |
-| 템플릿 최적화 | 10-30초 | ~100MB |
-| 다국어 구조 생성 | 1-2초 | ~20MB |
+| 작업             | 소요 시간 | 메모리 사용 |
+| ---------------- | --------- | ----------- |
+| 프로젝트 초기화  | 2-3초     | ~50MB       |
+| 언어 감지        | 500ms     | ~10MB       |
+| SPEC → 문서 생성 | 2-5초     | ~30MB       |
+| 템플릿 최적화    | 10-30초   | ~100MB      |
+| 다국어 구조 생성 | 1-2초     | ~20MB       |
 
 ---
 

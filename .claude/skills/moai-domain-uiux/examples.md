@@ -462,62 +462,55 @@ export function AccessibleDialog() {
 
 ```vue
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import * as z from 'zod'
+import { ref, computed } from 'vue';
+import { useForm } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/zod';
+import * as z from 'zod';
 
 const schema = toTypedSchema(
- z.object({
- email: z.string().email('Invalid email address'),
- password: z.string().min(8, 'Password must be at least 8 characters'),
- })
-)
+  z.object({
+    email: z.string().email('Invalid email address'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
+  })
+);
 
 const { defineComponentBinds, handleSubmit, errors } = useForm({
- validationSchema: schema,
-})
+  validationSchema: schema,
+});
 
-const email = defineComponentBinds('email')
-const password = defineComponentBinds('password')
+const email = defineComponentBinds('email');
+const password = defineComponentBinds('password');
 
 const onSubmit = handleSubmit((values) => {
- console.log('Form submitted:', values)
-})
+  console.log('Form submitted:', values);
+});
 </script>
 
 <template>
- <form @submit="onSubmit" class="space-y-4">
- <div>
- <label for="email">Email</label>
- <input
- id="email"
- v-bind="email"
- type="email"
- class="border rounded px-3 py-2 w-full"
- />
- <span v-if="errors.email" class="text-red-500 text-sm">
- {{ errors.email }}
- </span>
- </div>
+  <form @submit="onSubmit" class="space-y-4">
+    <div>
+      <label for="email">Email</label>
+      <input id="email" v-bind="email" type="email" class="border rounded px-3 py-2 w-full" />
+      <span v-if="errors.email" class="text-red-500 text-sm">
+        {{ errors.email }}
+      </span>
+    </div>
 
- <div>
- <label for="password">Password</label>
- <input
- id="password"
- v-bind="password"
- type="password"
- class="border rounded px-3 py-2 w-full"
- />
- <span v-if="errors.password" class="text-red-500 text-sm">
- {{ errors.password }}
- </span>
- </div>
+    <div>
+      <label for="password">Password</label>
+      <input
+        id="password"
+        v-bind="password"
+        type="password"
+        class="border rounded px-3 py-2 w-full"
+      />
+      <span v-if="errors.password" class="text-red-500 text-sm">
+        {{ errors.password }}
+      </span>
+    </div>
 
- <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
- Submit
- </button>
- </form>
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+  </form>
 </template>
 ```
 

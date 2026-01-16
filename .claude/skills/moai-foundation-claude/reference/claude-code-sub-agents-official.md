@@ -33,6 +33,7 @@ Step 1: Open the agents interface by typing /agents
 Step 2: Select "Create New Agent" (project or user level)
 
 Step 3: Define the sub-agent:
+
 - Describe its purpose and when to use it
 - Select tools (or leave blank to inherit all)
 - Press `e` to edit the system prompt in your editor
@@ -56,7 +57,6 @@ description: Description of when this subagent should be invoked
 tools: tool1, tool2, tool3
 model: sonnet
 ---
-
 Your subagent's system prompt goes here. This can be multiple paragraphs
 and should clearly define the subagent's role, capabilities, and approach
 to solving problems.
@@ -94,20 +94,21 @@ tools: Read, Grep, Glob, Bash
 model: inherit
 hooks:
   PreToolUse:
-    - matcher: "Edit"
+    - matcher: 'Edit'
       hooks:
         - type: command
-          command: "./scripts/pre-edit-check.sh"
+          command: './scripts/pre-edit-check.sh'
   PostToolUse:
-    - matcher: "Edit|Write"
+    - matcher: 'Edit|Write'
       hooks:
         - type: command
-          command: "./scripts/run-linter.sh"
+          command: './scripts/run-linter.sh'
           timeout: 45
 ---
 ```
 
 Hook Fields:
+
 - matcher: Regex pattern to match tool names (e.g., "Edit", "Write|Edit", "Bash")
 - hooks: Array of hook definitions
   - type: "command" (shell) or "prompt" (LLM)

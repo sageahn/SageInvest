@@ -83,9 +83,7 @@ describe('KIS API Client', () => {
       const mockError = new Error('Network error');
       mockAxiosInstance.post.mockRejectedValue(mockError);
 
-      await expect(
-        client.issueToken('test_key', 'test_secret')
-      ).rejects.toThrow('Network error');
+      await expect(client.issueToken('test_key', 'test_secret')).rejects.toThrow('Network error');
     });
   });
 

@@ -65,6 +65,7 @@ Low-Code Solution: Use Auth0 Forms as a pre-built interface for simpler implemen
 Verification Template Setup: Configure a Verification Template (VT) specifying which credential fields to request.
 
 Available Fields:
+
 - Date of birth
 - Address
 - Family name
@@ -74,6 +75,7 @@ Available Fields:
 - Issuing authority
 
 API Configuration: Set up the Verifiable Digital Credential API through:
+
 - Auth0 Dashboard interface
 - Management API programmatic setup
 

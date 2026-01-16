@@ -54,13 +54,13 @@ public class OrderService(
     public async Task<Order> CreateOrderAsync(CreateOrderRequest request)
     {
         logger.LogInformation("Creating order for customer {CustomerId}", request.CustomerId);
-        
+
         var order = Order.Create(request.CustomerId, request.Items);
         await orderRepository.AddAsync(order);
-        
+
         await paymentService.ProcessPaymentAsync(order.Id, request.PaymentDetails);
         await notificationService.SendOrderConfirmationAsync(order);
-        
+
         return order;
     }
 }
@@ -103,7 +103,7 @@ public record OrderItem(Guid ProductId, int Quantity, decimal UnitPrice)
 public record Email
 {
     public string Value { get; }
-    
+
     public Email(string value)
     {
         if (!value.Contains('@'))
@@ -197,7 +197,7 @@ int[] result = [..first, ..(includeDefaults ? defaults : [])];
 public class CustomCollection<T> : IEnumerable<T>
 {
     private readonly List<T> _items = [];
-    
+
     public void Add(T item) => _items.Add(item);
     public IEnumerator<T> GetEnumerator() => _items.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -251,7 +251,7 @@ public class GeometryService
             (rect.TopLeft.Y + rect.BottomRight.Y) / 2
         );
     }
-    
+
     public double CalculateDistance(Point a, Point b)
     {
         var dx = b.X - a.X;
@@ -272,16 +272,16 @@ using AsyncResult<T> = System.Threading.Tasks.Task<T>;
 public class CacheManager
 {
     private readonly UserCache _cache = [];
-    
+
     public async AsyncResult<User?> GetOrFetchAsync(Guid id, Func<Guid, AsyncResult<User?>> fetch)
     {
         if (_cache.TryGetValue(id, out var user))
             return user;
-            
+
         user = await fetch(id);
         if (user is not null)
             _cache[id] = user;
-            
+
         return user;
     }
 }
@@ -313,7 +313,7 @@ public class FilterService
 {
     public List<User> Filter(List<User> users, Predicate<User> predicate)
         => users.Where(predicate).ToList();
-    
+
     public async Task<List<User>> FilterAsync(List<User> users, AsyncPredicate<User> predicate)
     {
         var result = new List<User>();
@@ -356,7 +356,7 @@ Console.WriteLine(formatDate(DateTime.Now, "yyyy-MM-dd", true));    // UTC date
 ```csharp
 // Filter function with default
 Func<User, string, bool> matchesSearch = (user, term = "") =>
-    string.IsNullOrEmpty(term) || 
+    string.IsNullOrEmpty(term) ||
     user.Name.Contains(term, StringComparison.OrdinalIgnoreCase);
 
 var users = new List<User> { /* ... */ };
@@ -425,12 +425,12 @@ public class BufferExample
     public void UseBuffer()
     {
         Buffer10<int> buffer = default;
-        
+
         // Access like a span
         Span<int> span = buffer;
         span[0] = 1;
         span[1] = 2;
-        
+
         // Iterate
         foreach (var item in span)
         {
@@ -455,7 +455,7 @@ public class VectorMath
     {
         ReadOnlySpan<float> spanA = a;
         ReadOnlySpan<float> spanB = b;
-        
+
         float sum = 0;
         for (int i = 0; i < 16; i++)
         {
@@ -503,11 +503,13 @@ static class GeneratedInterceptors
 ### When to Use Primary Constructors
 
 Good Use Cases:
+
 - Dependency injection in services
 - Simple data-holding classes
 - Classes with few dependencies
 
 Avoid When:
+
 - Complex initialization logic needed
 - Multiple constructors with different signatures
 - Parameters need validation or transformation
@@ -515,22 +517,26 @@ Avoid When:
 ### When to Use Collection Expressions
 
 Good Use Cases:
+
 - Creating small fixed collections
 - Combining existing collections
 - Method parameters expecting collections
 
 Avoid When:
+
 - Building collections dynamically in loops
 - Performance-critical large collection operations
 
 ### Type Aliases Guidelines
 
 Good Use Cases:
+
 - Complex generic types used frequently
 - Tuple types with semantic meaning
 - Improving code readability
 
 Avoid When:
+
 - Simple types that are already clear
 - Types used only once or twice
 - Would confuse rather than clarify
@@ -546,12 +552,12 @@ Avoid When:
 public class Service
 {
     private readonly IDependency _dep;
-    
+
     public Service(IDependency dep)
     {
         _dep = dep;
     }
-    
+
     public void DoWork() => _dep.Execute();
 }
 

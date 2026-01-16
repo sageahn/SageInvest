@@ -1,23 +1,13 @@
 ---
-name: "moai-lang-cpp"
-description: "Modern C++ (C++23/C++20) development specialist covering RAII, smart pointers, concepts, ranges, modules, and CMake. Use when developing high-performance applications, games, system software, or embedded systems."
+name: 'moai-lang-cpp'
+description: 'Modern C++ (C++23/C++20) development specialist covering RAII, smart pointers, concepts, ranges, modules, and CMake. Use when developing high-performance applications, games, system software, or embedded systems.'
 version: 1.1.0
-category: "language"
+category: 'language'
 modularized: true
 user-invocable: false
-tags:
-  [
-    "language",
-    "cpp",
-    "c++23",
-    "c++20",
-    "cmake",
-    "raii",
-    "smart-pointers",
-    "concepts",
-  ]
+tags: ['language', 'cpp', 'c++23', 'c++20', 'cmake', 'raii', 'smart-pointers', 'concepts']
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Grep
@@ -62,7 +52,7 @@ std::expected for Error Handling: Create an enum class ParseError with InvalidFo
 
 std::print for Type-Safe Output: Include the print header and use std::println for formatted output with curly brace placeholders. Supports format specifiers like colon followed by hash x for hexadecimal or colon followed by .2f for floating point precision.
 
-Deducing This (Explicit Object Parameter): Define a Builder class with a data_ member string. Create a template method append with template parameter Self that takes this Self and and a string_view parameter. Forward self with std::forward and return Self and and. This enables chaining on both lvalue and rvalue objects.
+Deducing This (Explicit Object Parameter): Define a Builder class with a data\_ member string. Create a template method append with template parameter Self that takes this Self and and a string_view parameter. Forward self with std::forward and return Self and and. This enables chaining on both lvalue and rvalue objects.
 
 ### C++20 Features
 

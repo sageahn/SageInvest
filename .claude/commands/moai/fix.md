@@ -1,6 +1,6 @@
 ---
-description: "Agentic auto-fix - Parallel scan with autonomous correction"
-argument-hint: "[--dry] [--sequential] [--level N] [file_path]"
+description: 'Agentic auto-fix - Parallel scan with autonomous correction'
+argument-hint: '[--dry] [--sequential] [--level N] [file_path]'
 type: utility
 allowed-tools: Task, AskUserQuestion, TodoWrite, Bash, Read, Write, Edit, Glob, Grep
 model: inherit
@@ -64,14 +64,14 @@ Target: $ARGUMENTS
 
 ## Command Options
 
-| Option | Alias | Description | Default |
-|--------|-------|-------------|---------|
-| `--dry` | --dry-run | Preview only | Apply |
-| `--sequential` | --seq | Sequential scan (for debugging) | Parallel |
-| `--level N` | - | Maximum fix level | 3 |
-| `--errors` | --errors-only | Fix errors only | All |
-| `--security` | --include-security | Include security issues | Exclude |
-| `--no-fmt` | --no-format | Skip formatting | Include |
+| Option         | Alias              | Description                     | Default  |
+| -------------- | ------------------ | ------------------------------- | -------- |
+| `--dry`        | --dry-run          | Preview only                    | Apply    |
+| `--sequential` | --seq              | Sequential scan (for debugging) | Parallel |
+| `--level N`    | -                  | Maximum fix level               | 3        |
+| `--errors`     | --errors-only      | Fix errors only                 | All      |
+| `--security`   | --include-security | Include security issues         | Exclude  |
+| `--no-fmt`     | --no-format        | Skip formatting                 | Include  |
 
 ## Parallel Scan
 
@@ -125,12 +125,12 @@ Rust: cargo clippy --message-format json for linter
 
 ## Auto-Fix Levels
 
-| Level | Description | Approval | Examples |
-|-------|-------------|----------|----------|
-| 1 | Immediate | Not required | import, whitespace |
-| 2 | Safe | Log only | rename var, add type |
-| 3 | Review | Required | logic, API |
-| 4 | Manual | Not allowed | security, architecture |
+| Level | Description | Approval     | Examples               |
+| ----- | ----------- | ------------ | ---------------------- |
+| 1     | Immediate   | Not required | import, whitespace     |
+| 2     | Safe        | Log only     | rename var, add type   |
+| 3     | Review      | Required     | logic, API             |
+| 4     | Manual      | Not allowed  | security, architecture |
 
 ## TODO-Obsessive Rule
 
@@ -151,21 +151,25 @@ WHY: Using TodoWrite tool allows users to track progress in real-time.
 ## Fix: Dry Run
 
 ### Scan (0.8s, parallel)
+
 - LSP: 12 issues
 - AST-grep: 0 security
 - Linter: 5 issues
 
 ### Level 1 (12 items)
+
 - src/auth.py: import, formatting
 - src/api/routes.py: import order
 - tests/test_auth.py: whitespace
 
 ### Level 2 (3 items)
+
 - src/auth.py:45 - 'usr' → 'user'
 - src/api/routes.py:78 - add type
 - src/models.py:23 - dataclass?
 
 ### Level 4 (2 items)
+
 - src/auth.py:67 - logic error
 - src/api/routes.py:112 - SQL injection
 
@@ -178,21 +182,25 @@ No changes (--dry).
 ## Fix: Complete
 
 ### Applied
+
 - Level 1: 12 issues
 - Level 2: 3 issues
 - Level 3: 0 issues
 
 ### Evidence
+
 **src/auth.py:5** - Removed unused `os`, `sys`
 **src/auth.py:23** - Fixed whitespace
 **src/api/routes.py:12** - Sorted imports
 
 ### Remaining (Level 4)
+
 1. src/auth.py:67 - logic error
 2. src/api/routes.py:112 - SQL injection
 
 ### Next
-/moai:loop  # Continue with loop
+
+/moai:loop # Continue with loop
 ```
 
 ## Quick Reference
@@ -230,10 +238,7 @@ No changes (--dry).
 
    ELSE (default parallel mode):
 
-   3b. Launch all three diagnostic tools in parallel using Bash with run_in_background:
-       - Task 1: LSP diagnostics for detected language
-       - Task 2: AST-grep scan with sgconfig.yml rules
-       - Task 3: Linter for detected language
+   3b. Launch all three diagnostic tools in parallel using Bash with run_in_background: - Task 1: LSP diagnostics for detected language - Task 2: AST-grep scan with sgconfig.yml rules - Task 3: Linter for detected language
 
    3c. Collect results using TaskOutput for each background task
 

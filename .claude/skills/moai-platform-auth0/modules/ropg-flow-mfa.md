@@ -44,6 +44,7 @@ Call the /oauth/token endpoint with user credentials.
 When MFA is enabled, instead of receiving tokens, you receive an MFA challenge response:
 
 Response includes:
+
 - error: mfa_required
 - error_description: Multifactor authentication required
 - mfa_token: Token for MFA operations (valid for 10 minutes)
@@ -59,6 +60,7 @@ This returns an array of factors the user has enrolled.
 If the array is empty, the user needs to enroll a factor.
 
 Response Example Structure:
+
 - id: Unique identifier for the authenticator
 - authenticator_type: Type of factor (recovery-code, oob, etc.)
 - active: Whether the factor is currently active
@@ -122,6 +124,7 @@ Call request/mfa/challenge endpoint to enforce challenges for specific factors.
 Endpoint: POST /oauth/token
 
 Parameters:
+
 - grant_type: password
 - username: User's email or username
 - password: User's password
@@ -152,6 +155,7 @@ Endpoint: POST /mfa/challenge
 Headers: Authorization Bearer with mfa_token
 
 Body:
+
 - client_id: Application client ID
 - challenge_type: Challenge type (otp, oob)
 - authenticator_id: ID of the factor to challenge
@@ -161,6 +165,7 @@ Body:
 Endpoint: POST /oauth/token
 
 Parameters:
+
 - grant_type: mfa-otp or mfa-oob depending on factor
 - mfa_token: The MFA token from initial response
 - otp: The OTP code (for OTP challenges)

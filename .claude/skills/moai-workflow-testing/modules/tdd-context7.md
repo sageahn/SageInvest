@@ -98,24 +98,28 @@ The TDD Context7 integration provides:
 ### Core Modules
 
 **RED-GREEN-REFACTOR Implementation** (`tdd-context7/red-green-refactor.md`)
+
 - TDD cycle implementation
 - Test execution and validation
 - Coverage analysis
 - Session management
 
 **Test Generation** (`tdd-context7/test-generation.md`)
+
 - AI-powered test generation
 - Specification-based generation
 - Context7-enhanced generation
 - Template-based generation
 
 **Test Patterns** (`tdd-context7/test-patterns.md`)
+
 - Testing patterns and best practices
 - Pytest fixtures and organization
 - Test discovery structure
 - Coverage configuration
 
 **Advanced Features** (`tdd-context7/advanced-features.md`)
+
 - Comprehensive test suite generation
 - Property-based testing
 - Mutation testing

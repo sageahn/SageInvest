@@ -182,7 +182,7 @@ df.createOrReplaceTempView("users")
 
 // Run SQL
 val result = spark.sql("""
-  SELECT 
+  SELECT
     u.id,
     u.name,
     COUNT(o.id) as order_count,
@@ -198,7 +198,7 @@ val result = spark.sql("""
 // Complex SQL with CTEs
 val cteResult = spark.sql("""
   WITH monthly_orders AS (
-    SELECT 
+    SELECT
       user_id,
       DATE_TRUNC('month', created_at) as month,
       SUM(amount) as monthly_total
@@ -206,14 +206,14 @@ val cteResult = spark.sql("""
     GROUP BY user_id, DATE_TRUNC('month', created_at)
   ),
   user_trends AS (
-    SELECT 
+    SELECT
       user_id,
       month,
       monthly_total,
       LAG(monthly_total) OVER (PARTITION BY user_id ORDER BY month) as prev_month
     FROM monthly_orders
   )
-  SELECT 
+  SELECT
     user_id,
     month,
     monthly_total,
@@ -473,21 +473,25 @@ df.coalesce(1).write.json("/output/single.json")
 ## Best Practices
 
 Data Reading:
+
 - Always use explicit schemas for production
 - Prefer Parquet/Delta over CSV/JSON
 - Use pushdown predicates for data sources
 
 Transformations:
+
 - Filter and project early
 - Avoid wide transformations when possible
 - Use broadcast joins for small tables
 
 Memory:
+
 - Cache only when reusing DataFrames
 - Unpersist when done
 - Monitor memory with Spark UI
 
 Streaming:
+
 - Set appropriate watermarks
 - Use trigger intervals for throughput
 - Monitor lag in checkpoints

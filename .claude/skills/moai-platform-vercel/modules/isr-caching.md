@@ -38,8 +38,8 @@ async function fetchProduct(id: string) {
 
 // Generate static params for top products at build time
 export async function generateStaticParams() {
-  const products = await fetch('https://api.example.com/products/top').then(r => r.json())
-  return products.map((p: { id: string }) => ({ id: p.id }))
+  const products = await fetch('https://api.example.com/products/top').then((r) => r.json());
+  return products.map((p: { id: string }) => ({ id: p.id }));
 }
 ```
 
@@ -51,10 +51,10 @@ export async function generateStaticParams() {
 // app/products/[id]/page.tsx
 async function fetchProduct(id: string) {
   const res = await fetch(`https://api.example.com/products/${id}`, {
-    next: { tags: [`product-${id}`, 'products'] }
-  })
-  if (!res.ok) return null
-  return res.json()
+    next: { tags: [`product-${id}`, 'products'] },
+  });
+  if (!res.ok) return null;
+  return res.json();
 }
 ```
 
@@ -62,31 +62,31 @@ async function fetchProduct(id: string) {
 
 ```typescript
 // app/api/revalidate/route.ts
-import { revalidateTag, revalidatePath } from 'next/cache'
-import { NextRequest } from 'next/server'
+import { revalidateTag, revalidatePath } from 'next/cache';
+import { NextRequest } from 'next/server';
 
 export async function POST(request: NextRequest) {
-  const { tag, path, secret } = await request.json()
+  const { tag, path, secret } = await request.json();
 
   // Validate webhook secret
   if (secret !== process.env.REVALIDATION_SECRET) {
-    return Response.json({ error: 'Invalid secret' }, { status: 401 })
+    return Response.json({ error: 'Invalid secret' }, { status: 401 });
   }
 
   try {
     if (tag) {
-      revalidateTag(tag)
-      return Response.json({ revalidated: true, tag })
+      revalidateTag(tag);
+      return Response.json({ revalidated: true, tag });
     }
 
     if (path) {
-      revalidatePath(path)
-      return Response.json({ revalidated: true, path })
+      revalidatePath(path);
+      return Response.json({ revalidated: true, path });
     }
 
-    return Response.json({ error: 'Missing tag or path' }, { status: 400 })
+    return Response.json({ error: 'Missing tag or path' }, { status: 400 });
   } catch (error) {
-    return Response.json({ error: 'Revalidation failed' }, { status: 500 })
+    return Response.json({ error: 'Revalidation failed' }, { status: 500 });
   }
 }
 ```
@@ -95,36 +95,36 @@ export async function POST(request: NextRequest) {
 
 ```typescript
 // app/api/webhooks/cms/route.ts
-import { revalidateTag } from 'next/cache'
-import { NextRequest } from 'next/server'
-import crypto from 'crypto'
+import { revalidateTag } from 'next/cache';
+import { NextRequest } from 'next/server';
+import crypto from 'crypto';
 
 export async function POST(request: NextRequest) {
-  const body = await request.text()
-  const signature = request.headers.get('x-webhook-signature')
+  const body = await request.text();
+  const signature = request.headers.get('x-webhook-signature');
 
   // Verify webhook signature
   const expectedSignature = crypto
     .createHmac('sha256', process.env.WEBHOOK_SECRET!)
     .update(body)
-    .digest('hex')
+    .digest('hex');
 
   if (signature !== expectedSignature) {
-    return Response.json({ error: 'Invalid signature' }, { status: 401 })
+    return Response.json({ error: 'Invalid signature' }, { status: 401 });
   }
 
-  const payload = JSON.parse(body)
+  const payload = JSON.parse(body);
 
   // Revalidate based on content type
   if (payload.type === 'product') {
-    revalidateTag(`product-${payload.id}`)
-    revalidateTag('products')
+    revalidateTag(`product-${payload.id}`);
+    revalidateTag('products');
   } else if (payload.type === 'blog') {
-    revalidateTag(`post-${payload.slug}`)
-    revalidateTag('blog')
+    revalidateTag(`post-${payload.slug}`);
+    revalidateTag('blog');
   }
 
-  return Response.json({ revalidated: true })
+  return Response.json({ revalidated: true });
 }
 ```
 
@@ -134,16 +134,16 @@ export async function POST(request: NextRequest) {
 
 ```typescript
 // Force cache (default for static)
-fetch(url, { cache: 'force-cache' })
+fetch(url, { cache: 'force-cache' });
 
 // No cache (always fresh)
-fetch(url, { cache: 'no-store' })
+fetch(url, { cache: 'no-store' });
 
 // Time-based revalidation
-fetch(url, { next: { revalidate: 3600 } })
+fetch(url, { next: { revalidate: 3600 } });
 
 // Tag-based revalidation
-fetch(url, { next: { tags: ['posts'] } })
+fetch(url, { next: { tags: ['posts'] } });
 ```
 
 ### Route Segment Config
@@ -152,16 +152,16 @@ fetch(url, { next: { tags: ['posts'] } })
 // app/api/data/route.ts
 
 // Force dynamic rendering
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 // Force static rendering
-export const dynamic = 'force-static'
+export const dynamic = 'force-static';
 
 // Set revalidation interval
-export const revalidate = 60
+export const revalidate = 60;
 
 // Configure runtime
-export const runtime = 'edge' // or 'nodejs'
+export const runtime = 'edge'; // or 'nodejs'
 ```
 
 ## CDN Cache Headers
@@ -171,7 +171,7 @@ export const runtime = 'edge' // or 'nodejs'
 ```typescript
 // app/api/data/route.ts
 export async function GET() {
-  const data = await fetchData()
+  const data = await fetchData();
 
   return Response.json(data, {
     headers: {
@@ -180,9 +180,9 @@ export async function GET() {
       // Serve stale while revalidating
       'Stale-While-Revalidate': '60',
       // CDN-specific cache control
-      'CDN-Cache-Control': 'public, max-age=86400'
-    }
-  })
+      'CDN-Cache-Control': 'public, max-age=86400',
+    },
+  });
 }
 ```
 
@@ -270,6 +270,7 @@ export default function Loading() {
 ### Check Cache Status
 
 Response headers indicate cache status:
+
 - `x-vercel-cache: HIT` - Served from cache
 - `x-vercel-cache: MISS` - Not in cache, fetched from origin
 - `x-vercel-cache: STALE` - Served stale while revalidating
@@ -301,6 +302,7 @@ curl -H "x-vercel-skip-cache: 1" https://your-app.vercel.app/api/data
 ## Context7 Integration
 
 For latest ISR and caching documentation, use:
+
 - Library: `/vercel/next.js`
 - Topics: ISR, caching, revalidation, streaming
 - Token allocation: 8000-12000 for comprehensive coverage

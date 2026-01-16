@@ -18,10 +18,10 @@ LABELS: authentication, api, kis, securities, external-integration, ui-component
 
 ## HISTORY
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0.0 | 2026-01-16 | Alfred | 초기 SPEC 작성 |
-| 1.1.0 | 2026-01-16 | Alfred | KIS OpenAPI API 엔드포인트 및 UI 요구사항 추가 |
+| Version | Date       | Author | Changes                                        |
+| ------- | ---------- | ------ | ---------------------------------------------- |
+| 1.0.0   | 2026-01-16 | Alfred | 초기 SPEC 작성                                 |
+| 1.1.0   | 2026-01-16 | Alfred | KIS OpenAPI API 엔드포인트 및 UI 요구사항 추가 |
 
 ## ENVIRONMENT
 
@@ -227,17 +227,14 @@ interface KISWebSocketApproval {
 **구현 패턴 (초안)**:
 
 ```typescript
-async function makeKISPostRequest<T>(
-  endpoint: string,
-  body: Record<string, unknown>
-): Promise<T> {
+async function makeKISPostRequest<T>(endpoint: string, body: Record<string, unknown>): Promise<T> {
   // 1. Hashkey 생성
   const hashResponse = await fetch(`${KIS_API_BASE}/uapi/hashkey`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'appkey': KIS_APP_KEY,
-      'appsecret': KIS_APP_SECRET,
+      appkey: KIS_APP_KEY,
+      appsecret: KIS_APP_SECRET,
     },
     body: JSON.stringify(body),
   });
@@ -249,8 +246,8 @@ async function makeKISPostRequest<T>(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
-      'hash': hash,
+      Authorization: `Bearer ${accessToken}`,
+      hash: hash,
     },
     body: JSON.stringify(body),
   });
@@ -532,16 +529,16 @@ interface KISAuthPageProps {
 
 ### 요구사항-사양 매핑
 
-| 요구사항 | 관련 사양 |
-|---------|----------|
+| 요구사항                                             | 관련 사양          |
+| ---------------------------------------------------- | ------------------ |
 | REQ-001, REQ-007, REQ-011, REQ-012, REQ-017, REQ-018 | SPEC-001, SPEC-004 |
-| REQ-001, REQ-005, REQ-012, REQ-017 | SPEC-002, SPEC-005 |
-| REQ-006, REQ-014, REQ-019, REQ-020 | SPEC-003 |
-| REQ-003, REQ-025 | SPEC-006 |
-| REQ-004, REQ-012, REQ-013 | SPEC-007 |
-| REQ-015, REQ-019, REQ-020 | SPEC-008 |
-| REQ-016, REQ-021, REQ-022, REQ-023 | SPEC-009 |
-| REQ-007, REQ-008 | SPEC-010 |
+| REQ-001, REQ-005, REQ-012, REQ-017                   | SPEC-002, SPEC-005 |
+| REQ-006, REQ-014, REQ-019, REQ-020                   | SPEC-003           |
+| REQ-003, REQ-025                                     | SPEC-006           |
+| REQ-004, REQ-012, REQ-013                            | SPEC-007           |
+| REQ-015, REQ-019, REQ-020                            | SPEC-008           |
+| REQ-016, REQ-021, REQ-022, REQ-023                   | SPEC-009           |
+| REQ-007, REQ-008                                     | SPEC-010           |
 
 ### 태그
 

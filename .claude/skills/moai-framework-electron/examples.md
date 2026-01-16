@@ -48,9 +48,9 @@ Production-ready code examples for Electron 33+ desktop application development.
 
 ```typescript
 // electron.vite.config.ts
-import { defineConfig, externalizeDepsPlugin } from "electron-vite";
-import react from "@vitejs/plugin-react";
-import { resolve } from "path";
+import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 
 export default defineConfig({
   main: {
@@ -58,7 +58,7 @@ export default defineConfig({
     build: {
       rollupOptions: {
         input: {
-          index: resolve(__dirname, "src/main/index.ts"),
+          index: resolve(__dirname, 'src/main/index.ts'),
         },
       },
     },
@@ -68,18 +68,18 @@ export default defineConfig({
     build: {
       rollupOptions: {
         input: {
-          index: resolve(__dirname, "src/preload/index.ts"),
+          index: resolve(__dirname, 'src/preload/index.ts'),
         },
       },
     },
   },
   renderer: {
-    root: resolve(__dirname, "src/renderer"),
+    root: resolve(__dirname, 'src/renderer'),
     plugins: [react()],
     build: {
       rollupOptions: {
         input: {
-          index: resolve(__dirname, "src/renderer/index.html"),
+          index: resolve(__dirname, 'src/renderer/index.html'),
         },
       },
     },
@@ -91,26 +91,26 @@ export default defineConfig({
 
 ```typescript
 // src/main/index.ts
-import { app, BrowserWindow, ipcMain, session, shell } from "electron";
-import { join } from "path";
-import { electronApp, optimizer, is } from "@electron-toolkit/utils";
-import { registerIpcHandlers } from "./ipc";
-import { UpdateService } from "./services/updater";
-import { WindowManager } from "./windows/window-manager";
+import { app, BrowserWindow, ipcMain, session, shell } from 'electron';
+import { join } from 'path';
+import { electronApp, optimizer, is } from '@electron-toolkit/utils';
+import { registerIpcHandlers } from './ipc';
+import { UpdateService } from './services/updater';
+import { WindowManager } from './windows/window-manager';
 
 const windowManager = new WindowManager();
 const updateService = new UpdateService();
 
 async function createMainWindow(): Promise<BrowserWindow> {
-  const mainWindow = windowManager.createWindow("main", {
+  const mainWindow = windowManager.createWindow('main', {
     width: 1200,
     height: 800,
     minWidth: 800,
     minHeight: 600,
-    titleBarStyle: "hiddenInset",
+    titleBarStyle: 'hiddenInset',
     trafficLightPosition: { x: 15, y: 15 },
     webPreferences: {
-      preload: join(__dirname, "../preload/index.js"),
+      preload: join(__dirname, '../preload/index.js'),
       sandbox: true,
       contextIsolation: true,
       nodeIntegration: false,
@@ -120,15 +120,15 @@ async function createMainWindow(): Promise<BrowserWindow> {
   // Open external links in default browser
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
-    return { action: "deny" };
+    return { action: 'deny' };
   });
 
   // Load app
-  if (is.dev && process.env["ELECTRON_RENDERER_URL"]) {
-    mainWindow.loadURL(process.env["ELECTRON_RENDERER_URL"]);
-    mainWindow.webContents.openDevTools({ mode: "detach" });
+  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
+    mainWindow.webContents.openDevTools({ mode: 'detach' });
   } else {
-    mainWindow.loadFile(join(__dirname, "../renderer/index.html"));
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
   }
 
   return mainWindow;
@@ -136,10 +136,10 @@ async function createMainWindow(): Promise<BrowserWindow> {
 
 app.whenReady().then(async () => {
   // Set app user model ID for Windows
-  electronApp.setAppUserModelId("com.example.myapp");
+  electronApp.setAppUserModelId('com.example.myapp');
 
   // Watch for shortcuts to optimize new windows
-  app.on("browser-window-created", (_, window) => {
+  app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window);
   });
 
@@ -158,15 +158,15 @@ app.whenReady().then(async () => {
     updateService.checkForUpdates();
   }
 
-  app.on("activate", () => {
+  app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createMainWindow();
     }
   });
 });
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });
@@ -177,7 +177,7 @@ function configureSession(): void {
     callback({
       responseHeaders: {
         ...details.responseHeaders,
-        "Content-Security-Policy": [
+        'Content-Security-Policy': [
           "default-src 'self'; " +
             "script-src 'self'; " +
             "style-src 'self' 'unsafe-inline'; " +
@@ -190,12 +190,10 @@ function configureSession(): void {
   });
 
   // Permission handler
-  session.defaultSession.setPermissionRequestHandler(
-    (webContents, permission, callback) => {
-      const allowedPermissions = ["notifications", "clipboard-read"];
-      callback(allowedPermissions.includes(permission));
-    },
-  );
+  session.defaultSession.setPermissionRequestHandler((webContents, permission, callback) => {
+    const allowedPermissions = ['notifications', 'clipboard-read'];
+    callback(allowedPermissions.includes(permission));
+  });
 
   // Block navigation to external URLs
   session.defaultSession.setPermissionCheckHandler(() => false);
@@ -206,8 +204,8 @@ const gotSingleLock = app.requestSingleInstanceLock();
 if (!gotSingleLock) {
   app.quit();
 } else {
-  app.on("second-instance", (_event, _commandLine, _workingDirectory) => {
-    const mainWindow = windowManager.getWindow("main");
+  app.on('second-instance', (_event, _commandLine, _workingDirectory) => {
+    const mainWindow = windowManager.getWindow('main');
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore();
       mainWindow.focus();
@@ -250,69 +248,69 @@ export interface StorageItem<T = unknown> {
 
 // IPC Channel Definitions
 export interface IpcMainToRenderer {
-  "app:update-available": { version: string; releaseNotes: string };
-  "app:update-progress": {
+  'app:update-available': { version: string; releaseNotes: string };
+  'app:update-progress': {
     percent: number;
     transferred: number;
     total: number;
   };
-  "app:update-downloaded": { version: string };
-  "window:maximize-change": boolean;
-  "file:external-open": { path: string };
+  'app:update-downloaded': { version: string };
+  'window:maximize-change': boolean;
+  'file:external-open': { path: string };
 }
 
 export interface IpcRendererToMain {
   // File operations
-  "file:open-dialog": DialogOptions;
-  "file:save-dialog": DialogOptions;
-  "file:read": string;
-  "file:write": { path: string; content: string };
-  "file:exists": string;
+  'file:open-dialog': DialogOptions;
+  'file:save-dialog': DialogOptions;
+  'file:read': string;
+  'file:write': { path: string; content: string };
+  'file:exists': string;
 
   // Window operations
-  "window:minimize": void;
-  "window:maximize": void;
-  "window:close": void;
-  "window:is-maximized": void;
+  'window:minimize': void;
+  'window:maximize': void;
+  'window:close': void;
+  'window:is-maximized': void;
 
   // Storage operations
-  "storage:get": string;
-  "storage:set": StorageItem;
-  "storage:delete": string;
-  "storage:clear": void;
+  'storage:get': string;
+  'storage:set': StorageItem;
+  'storage:delete': string;
+  'storage:clear': void;
 
   // App operations
-  "app:get-version": void;
-  "app:get-path": "home" | "appData" | "userData" | "temp" | "downloads";
-  "app:open-external": string;
+  'app:get-version': void;
+  'app:get-path': 'home' | 'appData' | 'userData' | 'temp' | 'downloads';
+  'app:open-external': string;
 
   // Update operations
-  "update:check": void;
-  "update:download": void;
-  "update:install": void;
+  'update:check': void;
+  'update:download': void;
+  'update:install': void;
 }
 
 // Return types for IPC handlers
 export interface IpcReturnTypes {
-  "file:open-dialog": FileInfo | null;
-  "file:save-dialog": string | null;
-  "file:read": string;
-  "file:write": SaveResult;
-  "file:exists": boolean;
-  "window:minimize": void;
-  "window:maximize": void;
-  "window:close": void;
-  "window:is-maximized": boolean;
-  "storage:get": unknown;
-  "storage:set": void;
-  "storage:delete": void;
-  "storage:clear": void;
-  "app:get-version": string;
-  "app:get-path": string;
-  "app:open-external": void;
-  "update:check": void;
-  "update:download": void;
-  "update:install": void;
+  'file:open-dialog': FileInfo | null;
+  'file:save-dialog': string | null;
+  'file:read': string;
+  'file:write': SaveResult;
+  'file:exists': boolean;
+  'window:minimize': void;
+  'window:maximize': void;
+  'window:close': void;
+  'window:is-maximized': boolean;
+  'storage:get': unknown;
+  'storage:set': void;
+  'storage:delete': void;
+  'storage:clear': void;
+  'app:get-version': string;
+  'app:get-path': string;
+  'app:open-external': void;
+  'update:check': void;
+  'update:download': void;
+  'update:install': void;
 }
 ```
 
@@ -320,17 +318,12 @@ export interface IpcReturnTypes {
 
 ```typescript
 // src/main/ipc/index.ts
-import { ipcMain, dialog, app, shell, BrowserWindow } from "electron";
-import { readFile, writeFile, access } from "fs/promises";
-import { constants } from "fs";
-import Store from "electron-store";
-import { z } from "zod";
-import type {
-  DialogOptions,
-  FileInfo,
-  SaveResult,
-  StorageItem,
-} from "../../shared/types/ipc";
+import { ipcMain, dialog, app, shell, BrowserWindow } from 'electron';
+import { readFile, writeFile, access } from 'fs/promises';
+import { constants } from 'fs';
+import Store from 'electron-store';
+import { z } from 'zod';
+import type { DialogOptions, FileInfo, SaveResult, StorageItem } from '../../shared/types/ipc';
 
 const store = new Store({
   encryptionKey: process.env.STORE_ENCRYPTION_KEY,
@@ -342,10 +335,10 @@ const FilePathSchema = z
   .min(1)
   .refine(
     (path) => {
-      const normalized = path.replace(/\\/g, "/");
-      return !normalized.includes("..") && !normalized.includes("\0");
+      const normalized = path.replace(/\\/g, '/');
+      return !normalized.includes('..') && !normalized.includes('\0');
     },
-    { message: "Invalid file path" },
+    { message: 'Invalid file path' }
   );
 
 const StorageKeySchema = z
@@ -357,12 +350,12 @@ const StorageKeySchema = z
 export function registerIpcHandlers(): void {
   // File operations
   ipcMain.handle(
-    "file:open-dialog",
+    'file:open-dialog',
     async (_event, options: DialogOptions): Promise<FileInfo | null> => {
       const result = await dialog.showOpenDialog({
-        title: options.title ?? "Open File",
-        properties: ["openFile"],
-        filters: options.filters ?? [{ name: "All Files", extensions: ["*"] }],
+        title: options.title ?? 'Open File',
+        properties: ['openFile'],
+        filters: options.filters ?? [{ name: 'All Files', extensions: ['*'] }],
         defaultPath: options.defaultPath,
       });
 
@@ -371,68 +364,62 @@ export function registerIpcHandlers(): void {
       }
 
       const path = result.filePaths[0];
-      const content = await readFile(path, "utf-8");
+      const content = await readFile(path, 'utf-8');
       return { path, content };
-    },
+    }
   );
 
   ipcMain.handle(
-    "file:save-dialog",
+    'file:save-dialog',
     async (_event, options: DialogOptions): Promise<string | null> => {
       const result = await dialog.showSaveDialog({
-        title: options.title ?? "Save File",
-        filters: options.filters ?? [{ name: "All Files", extensions: ["*"] }],
+        title: options.title ?? 'Save File',
+        filters: options.filters ?? [{ name: 'All Files', extensions: ['*'] }],
         defaultPath: options.defaultPath,
       });
 
       return result.canceled ? null : (result.filePath ?? null);
-    },
+    }
   );
 
-  ipcMain.handle("file:read", async (_event, path: string): Promise<string> => {
+  ipcMain.handle('file:read', async (_event, path: string): Promise<string> => {
     const validPath = FilePathSchema.parse(path);
-    return readFile(validPath, "utf-8");
+    return readFile(validPath, 'utf-8');
   });
 
   ipcMain.handle(
-    "file:write",
-    async (
-      _event,
-      { path, content }: { path: string; content: string },
-    ): Promise<SaveResult> => {
+    'file:write',
+    async (_event, { path, content }: { path: string; content: string }): Promise<SaveResult> => {
       try {
         const validPath = FilePathSchema.parse(path);
-        await writeFile(validPath, content, "utf-8");
+        await writeFile(validPath, content, 'utf-8');
         return { success: true, path: validPath };
       } catch (error) {
         return {
           success: false,
           path,
-          error: error instanceof Error ? error.message : "Unknown error",
+          error: error instanceof Error ? error.message : 'Unknown error',
         };
       }
-    },
+    }
   );
 
-  ipcMain.handle(
-    "file:exists",
-    async (_event, path: string): Promise<boolean> => {
-      try {
-        const validPath = FilePathSchema.parse(path);
-        await access(validPath, constants.F_OK);
-        return true;
-      } catch {
-        return false;
-      }
-    },
-  );
+  ipcMain.handle('file:exists', async (_event, path: string): Promise<boolean> => {
+    try {
+      const validPath = FilePathSchema.parse(path);
+      await access(validPath, constants.F_OK);
+      return true;
+    } catch {
+      return false;
+    }
+  });
 
   // Window operations
-  ipcMain.handle("window:minimize", (event): void => {
+  ipcMain.handle('window:minimize', (event): void => {
     BrowserWindow.fromWebContents(event.sender)?.minimize();
   });
 
-  ipcMain.handle("window:maximize", (event): void => {
+  ipcMain.handle('window:maximize', (event): void => {
     const window = BrowserWindow.fromWebContents(event.sender);
     if (window?.isMaximized()) {
       window.unmaximize();
@@ -441,59 +428,53 @@ export function registerIpcHandlers(): void {
     }
   });
 
-  ipcMain.handle("window:close", (event): void => {
+  ipcMain.handle('window:close', (event): void => {
     BrowserWindow.fromWebContents(event.sender)?.close();
   });
 
-  ipcMain.handle("window:is-maximized", (event): boolean => {
+  ipcMain.handle('window:is-maximized', (event): boolean => {
     return BrowserWindow.fromWebContents(event.sender)?.isMaximized() ?? false;
   });
 
   // Storage operations
-  ipcMain.handle("storage:get", (_event, key: string): unknown => {
+  ipcMain.handle('storage:get', (_event, key: string): unknown => {
     const validKey = StorageKeySchema.parse(key);
     return store.get(validKey);
   });
 
-  ipcMain.handle("storage:set", (_event, { key, value }: StorageItem): void => {
+  ipcMain.handle('storage:set', (_event, { key, value }: StorageItem): void => {
     const validKey = StorageKeySchema.parse(key);
     store.set(validKey, value);
   });
 
-  ipcMain.handle("storage:delete", (_event, key: string): void => {
+  ipcMain.handle('storage:delete', (_event, key: string): void => {
     const validKey = StorageKeySchema.parse(key);
     store.delete(validKey);
   });
 
-  ipcMain.handle("storage:clear", (): void => {
+  ipcMain.handle('storage:clear', (): void => {
     store.clear();
   });
 
   // App operations
-  ipcMain.handle("app:get-version", (): string => {
+  ipcMain.handle('app:get-version', (): string => {
     return app.getVersion();
   });
 
   ipcMain.handle(
-    "app:get-path",
-    (
-      _event,
-      name: "home" | "appData" | "userData" | "temp" | "downloads",
-    ): string => {
+    'app:get-path',
+    (_event, name: 'home' | 'appData' | 'userData' | 'temp' | 'downloads'): string => {
       return app.getPath(name);
-    },
+    }
   );
 
-  ipcMain.handle(
-    "app:open-external",
-    async (_event, url: string): Promise<void> => {
-      // Validate URL before opening
-      const parsedUrl = new URL(url);
-      if (parsedUrl.protocol === "https:" || parsedUrl.protocol === "http:") {
-        await shell.openExternal(url);
-      }
-    },
-  );
+  ipcMain.handle('app:open-external', async (_event, url: string): Promise<void> => {
+    // Validate URL before opening
+    const parsedUrl = new URL(url);
+    if (parsedUrl.protocol === 'https:' || parsedUrl.protocol === 'http:') {
+      await shell.openExternal(url);
+    }
+  });
 }
 ```
 
@@ -501,14 +482,14 @@ export function registerIpcHandlers(): void {
 
 ```typescript
 // src/preload/index.ts
-import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
+import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 import type {
   DialogOptions,
   FileInfo,
   SaveResult,
   StorageItem,
   IpcMainToRenderer,
-} from "../shared/types/ipc";
+} from '../shared/types/ipc';
 
 // Type-safe event listener helper
 type EventCallback<T> = (data: T) => void;
@@ -516,7 +497,7 @@ type Unsubscribe = () => void;
 
 function createEventListener<K extends keyof IpcMainToRenderer>(
   channel: K,
-  callback: EventCallback<IpcMainToRenderer[K]>,
+  callback: EventCallback<IpcMainToRenderer[K]>
 ): Unsubscribe {
   const handler = (_event: IpcRendererEvent, data: IpcMainToRenderer[K]) => {
     callback(data);
@@ -529,78 +510,67 @@ const electronAPI = {
   // File operations
   file: {
     openDialog: (options: DialogOptions = {}): Promise<FileInfo | null> =>
-      ipcRenderer.invoke("file:open-dialog", options),
+      ipcRenderer.invoke('file:open-dialog', options),
     saveDialog: (options: DialogOptions = {}): Promise<string | null> =>
-      ipcRenderer.invoke("file:save-dialog", options),
-    read: (path: string): Promise<string> =>
-      ipcRenderer.invoke("file:read", path),
+      ipcRenderer.invoke('file:save-dialog', options),
+    read: (path: string): Promise<string> => ipcRenderer.invoke('file:read', path),
     write: (path: string, content: string): Promise<SaveResult> =>
-      ipcRenderer.invoke("file:write", { path, content }),
-    exists: (path: string): Promise<boolean> =>
-      ipcRenderer.invoke("file:exists", path),
+      ipcRenderer.invoke('file:write', { path, content }),
+    exists: (path: string): Promise<boolean> => ipcRenderer.invoke('file:exists', path),
   },
 
   // Window operations
   window: {
-    minimize: (): Promise<void> => ipcRenderer.invoke("window:minimize"),
-    maximize: (): Promise<void> => ipcRenderer.invoke("window:maximize"),
-    close: (): Promise<void> => ipcRenderer.invoke("window:close"),
-    isMaximized: (): Promise<boolean> =>
-      ipcRenderer.invoke("window:is-maximized"),
+    minimize: (): Promise<void> => ipcRenderer.invoke('window:minimize'),
+    maximize: (): Promise<void> => ipcRenderer.invoke('window:maximize'),
+    close: (): Promise<void> => ipcRenderer.invoke('window:close'),
+    isMaximized: (): Promise<boolean> => ipcRenderer.invoke('window:is-maximized'),
     onMaximizeChange: (callback: (isMaximized: boolean) => void): Unsubscribe =>
-      createEventListener("window:maximize-change", callback),
+      createEventListener('window:maximize-change', callback),
   },
 
   // Storage operations
   storage: {
     get: <T = unknown>(key: string): Promise<T | undefined> =>
-      ipcRenderer.invoke("storage:get", key) as Promise<T | undefined>,
+      ipcRenderer.invoke('storage:get', key) as Promise<T | undefined>,
     set: <T = unknown>(key: string, value: T): Promise<void> =>
-      ipcRenderer.invoke("storage:set", { key, value } as StorageItem<T>),
-    delete: (key: string): Promise<void> =>
-      ipcRenderer.invoke("storage:delete", key),
-    clear: (): Promise<void> => ipcRenderer.invoke("storage:clear"),
+      ipcRenderer.invoke('storage:set', { key, value } as StorageItem<T>),
+    delete: (key: string): Promise<void> => ipcRenderer.invoke('storage:delete', key),
+    clear: (): Promise<void> => ipcRenderer.invoke('storage:clear'),
   },
 
   // App operations
   app: {
-    getVersion: (): Promise<string> => ipcRenderer.invoke("app:get-version"),
-    getPath: (
-      name: "home" | "appData" | "userData" | "temp" | "downloads",
-    ): Promise<string> => ipcRenderer.invoke("app:get-path", name),
-    openExternal: (url: string): Promise<void> =>
-      ipcRenderer.invoke("app:open-external", url),
+    getVersion: (): Promise<string> => ipcRenderer.invoke('app:get-version'),
+    getPath: (name: 'home' | 'appData' | 'userData' | 'temp' | 'downloads'): Promise<string> =>
+      ipcRenderer.invoke('app:get-path', name),
+    openExternal: (url: string): Promise<void> => ipcRenderer.invoke('app:open-external', url),
   },
 
   // Update operations
   update: {
-    check: (): Promise<void> => ipcRenderer.invoke("update:check"),
-    download: (): Promise<void> => ipcRenderer.invoke("update:download"),
-    install: (): Promise<void> => ipcRenderer.invoke("update:install"),
+    check: (): Promise<void> => ipcRenderer.invoke('update:check'),
+    download: (): Promise<void> => ipcRenderer.invoke('update:download'),
+    install: (): Promise<void> => ipcRenderer.invoke('update:install'),
     onAvailable: (
-      callback: (info: { version: string; releaseNotes: string }) => void,
-    ): Unsubscribe => createEventListener("app:update-available", callback),
+      callback: (info: { version: string; releaseNotes: string }) => void
+    ): Unsubscribe => createEventListener('app:update-available', callback),
     onProgress: (
-      callback: (progress: {
-        percent: number;
-        transferred: number;
-        total: number;
-      }) => void,
-    ): Unsubscribe => createEventListener("app:update-progress", callback),
-    onDownloaded: (
-      callback: (info: { version: string }) => void,
-    ): Unsubscribe => createEventListener("app:update-downloaded", callback),
+      callback: (progress: { percent: number; transferred: number; total: number }) => void
+    ): Unsubscribe => createEventListener('app:update-progress', callback),
+    onDownloaded: (callback: (info: { version: string }) => void): Unsubscribe =>
+      createEventListener('app:update-downloaded', callback),
   },
 
   // Platform info
   platform: {
-    isMac: process.platform === "darwin",
-    isWindows: process.platform === "win32",
-    isLinux: process.platform === "linux",
+    isMac: process.platform === 'darwin',
+    isWindows: process.platform === 'win32',
+    isLinux: process.platform === 'linux',
   },
 };
 
-contextBridge.exposeInMainWorld("electronAPI", electronAPI);
+contextBridge.exposeInMainWorld('electronAPI', electronAPI);
 
 // Type declaration for renderer
 export type ElectronAPI = typeof electronAPI;
@@ -620,14 +590,9 @@ declare global {
 
 ```typescript
 // src/main/services/updater.ts
-import {
-  autoUpdater,
-  UpdateInfo,
-  ProgressInfo,
-  UpdateDownloadedEvent,
-} from "electron-updater";
-import { BrowserWindow, dialog, Notification } from "electron";
-import log from "electron-log";
+import { autoUpdater, UpdateInfo, ProgressInfo, UpdateDownloadedEvent } from 'electron-updater';
+import { BrowserWindow, dialog, Notification } from 'electron';
+import log from 'electron-log';
 
 export interface UpdateServiceOptions {
   /** Check for updates on startup */
@@ -650,11 +615,11 @@ export class UpdateService {
       autoDownload: false,
       autoInstallOnAppQuit: true,
       checkInterval: 3600000,
-    },
+    }
   ) {
     // Configure logging
     autoUpdater.logger = log;
-    log.transports.file.level = "info";
+    log.transports.file.level = 'info';
   }
 
   initialize(window: BrowserWindow): void {
@@ -662,8 +627,7 @@ export class UpdateService {
 
     // Configure auto-updater
     autoUpdater.autoDownload = this.options.autoDownload ?? false;
-    autoUpdater.autoInstallOnAppQuit =
-      this.options.autoInstallOnAppQuit ?? true;
+    autoUpdater.autoInstallOnAppQuit = this.options.autoInstallOnAppQuit ?? true;
 
     // Set up event handlers
     this.setupEventHandlers();
@@ -676,43 +640,40 @@ export class UpdateService {
 
     // Set up periodic checking
     if (this.options.checkInterval && this.options.checkInterval > 0) {
-      this.checkIntervalId = setInterval(
-        () => this.checkForUpdates(),
-        this.options.checkInterval,
-      );
+      this.checkIntervalId = setInterval(() => this.checkForUpdates(), this.options.checkInterval);
     }
   }
 
   private setupEventHandlers(): void {
-    autoUpdater.on("checking-for-update", () => {
-      log.info("Checking for updates...");
+    autoUpdater.on('checking-for-update', () => {
+      log.info('Checking for updates...');
     });
 
-    autoUpdater.on("update-available", (info: UpdateInfo) => {
-      log.info("Update available:", info.version);
+    autoUpdater.on('update-available', (info: UpdateInfo) => {
+      log.info('Update available:', info.version);
       this.notifyUpdateAvailable(info);
     });
 
-    autoUpdater.on("update-not-available", () => {
-      log.info("No updates available");
+    autoUpdater.on('update-not-available', () => {
+      log.info('No updates available');
     });
 
-    autoUpdater.on("error", (error: Error) => {
-      log.error("Update error:", error.message);
+    autoUpdater.on('error', (error: Error) => {
+      log.error('Update error:', error.message);
       this.notifyError(error);
     });
 
-    autoUpdater.on("download-progress", (progress: ProgressInfo) => {
+    autoUpdater.on('download-progress', (progress: ProgressInfo) => {
       log.info(`Download progress: ${progress.percent.toFixed(1)}%`);
-      this.mainWindow?.webContents.send("app:update-progress", {
+      this.mainWindow?.webContents.send('app:update-progress', {
         percent: progress.percent,
         transferred: progress.transferred,
         total: progress.total,
       });
     });
 
-    autoUpdater.on("update-downloaded", (event: UpdateDownloadedEvent) => {
-      log.info("Update downloaded:", event.version);
+    autoUpdater.on('update-downloaded', (event: UpdateDownloadedEvent) => {
+      log.info('Update downloaded:', event.version);
       this.notifyUpdateDownloaded(event);
     });
   }
@@ -721,7 +682,7 @@ export class UpdateService {
     try {
       await autoUpdater.checkForUpdates();
     } catch (error) {
-      log.error("Failed to check for updates:", error);
+      log.error('Failed to check for updates:', error);
     }
   }
 
@@ -729,7 +690,7 @@ export class UpdateService {
     try {
       await autoUpdater.downloadUpdate();
     } catch (error) {
-      log.error("Failed to download update:", error);
+      log.error('Failed to download update:', error);
     }
   }
 
@@ -739,31 +700,29 @@ export class UpdateService {
 
   private async notifyUpdateAvailable(info: UpdateInfo): Promise<void> {
     // Send to renderer
-    this.mainWindow?.webContents.send("app:update-available", {
+    this.mainWindow?.webContents.send('app:update-available', {
       version: info.version,
       releaseNotes:
-        typeof info.releaseNotes === "string"
+        typeof info.releaseNotes === 'string'
           ? info.releaseNotes
-          : (info.releaseNotes
-              ?.map((n) => `${n.version}: ${n.note}`)
-              .join("\n") ?? ""),
+          : (info.releaseNotes?.map((n) => `${n.version}: ${n.note}`).join('\n') ?? ''),
     });
 
     // Show system notification if supported
     if (Notification.isSupported()) {
       new Notification({
-        title: "Update Available",
+        title: 'Update Available',
         body: `Version ${info.version} is available for download.`,
       }).show();
     }
 
     // Show dialog
     const result = await dialog.showMessageBox(this.mainWindow!, {
-      type: "info",
-      title: "Update Available",
+      type: 'info',
+      title: 'Update Available',
       message: `A new version (${info.version}) is available.`,
-      detail: "Would you like to download and install it?",
-      buttons: ["Download", "Later"],
+      detail: 'Would you like to download and install it?',
+      buttons: ['Download', 'Later'],
       defaultId: 0,
       cancelId: 1,
     });
@@ -773,21 +732,19 @@ export class UpdateService {
     }
   }
 
-  private async notifyUpdateDownloaded(
-    event: UpdateDownloadedEvent,
-  ): Promise<void> {
+  private async notifyUpdateDownloaded(event: UpdateDownloadedEvent): Promise<void> {
     // Send to renderer
-    this.mainWindow?.webContents.send("app:update-downloaded", {
+    this.mainWindow?.webContents.send('app:update-downloaded', {
       version: event.version,
     });
 
     // Show dialog
     const result = await dialog.showMessageBox(this.mainWindow!, {
-      type: "info",
-      title: "Update Ready",
+      type: 'info',
+      title: 'Update Ready',
       message: `Version ${event.version} has been downloaded.`,
-      detail: "Would you like to restart and install it now?",
-      buttons: ["Restart Now", "Later"],
+      detail: 'Would you like to restart and install it now?',
+      buttons: ['Restart Now', 'Later'],
       defaultId: 0,
       cancelId: 1,
     });
@@ -798,10 +755,7 @@ export class UpdateService {
   }
 
   private notifyError(error: Error): void {
-    dialog.showErrorBox(
-      "Update Error",
-      `An error occurred while updating: ${error.message}`,
-    );
+    dialog.showErrorBox('Update Error', `An error occurred while updating: ${error.message}`);
   }
 
   dispose(): void {
@@ -821,16 +775,9 @@ export class UpdateService {
 
 ```typescript
 // src/main/services/tray.ts
-import {
-  Tray,
-  Menu,
-  MenuItemConstructorOptions,
-  app,
-  nativeImage,
-  BrowserWindow,
-} from "electron";
-import { join } from "path";
-import { is } from "@electron-toolkit/utils";
+import { Tray, Menu, MenuItemConstructorOptions, app, nativeImage, BrowserWindow } from 'electron';
+import { join } from 'path';
+import { is } from '@electron-toolkit/utils';
 
 export class TrayService {
   private tray: Tray | null = null;
@@ -841,12 +788,12 @@ export class TrayService {
 
     // Create tray icon
     const iconPath = is.dev
-      ? join(__dirname, "../../resources/icons/tray.png")
-      : join(process.resourcesPath, "icons/tray.png");
+      ? join(__dirname, '../../resources/icons/tray.png')
+      : join(process.resourcesPath, 'icons/tray.png');
 
     // Use template icon on macOS
     const icon = nativeImage.createFromPath(iconPath);
-    if (process.platform === "darwin") {
+    if (process.platform === 'darwin') {
       icon.setTemplateImage(true);
     }
 
@@ -857,12 +804,12 @@ export class TrayService {
     this.updateContextMenu();
 
     // Click behavior
-    this.tray.on("click", () => {
+    this.tray.on('click', () => {
       this.toggleMainWindow();
     });
 
     // Double-click to show (Windows)
-    this.tray.on("double-click", () => {
+    this.tray.on('double-click', () => {
       this.showMainWindow();
     });
   }
@@ -872,26 +819,26 @@ export class TrayService {
 
     const contextMenu = Menu.buildFromTemplate([
       {
-        label: "Show App",
+        label: 'Show App',
         click: () => this.showMainWindow(),
       },
-      { type: "separator" },
+      { type: 'separator' },
       ...additionalItems,
-      { type: "separator" },
+      { type: 'separator' },
       {
-        label: "Preferences",
-        accelerator: "CmdOrCtrl+,",
+        label: 'Preferences',
+        accelerator: 'CmdOrCtrl+,',
         click: () => this.openPreferences(),
       },
-      { type: "separator" },
+      { type: 'separator' },
       {
-        label: "Check for Updates",
+        label: 'Check for Updates',
         click: () => this.checkForUpdates(),
       },
-      { type: "separator" },
+      { type: 'separator' },
       {
-        label: "Quit",
-        accelerator: "CmdOrCtrl+Q",
+        label: 'Quit',
+        accelerator: 'CmdOrCtrl+Q',
         click: () => app.quit(),
       },
     ]);
@@ -927,15 +874,15 @@ export class TrayService {
 
   private openPreferences(): void {
     // Emit event or open preferences window
-    this.mainWindow?.webContents.send("app:open-preferences");
+    this.mainWindow?.webContents.send('app:open-preferences');
   }
 
   private checkForUpdates(): void {
-    this.mainWindow?.webContents.send("app:check-updates");
+    this.mainWindow?.webContents.send('app:check-updates');
   }
 
   setBadge(text: string): void {
-    if (process.platform === "darwin") {
+    if (process.platform === 'darwin') {
       app.dock.setBadge(text);
     } else if (this.tray) {
       // Update tray title/tooltip for other platforms
@@ -954,16 +901,10 @@ export class TrayService {
 
 ```typescript
 // src/main/services/menu.ts
-import {
-  Menu,
-  app,
-  shell,
-  BrowserWindow,
-  MenuItemConstructorOptions,
-} from "electron";
+import { Menu, app, shell, BrowserWindow, MenuItemConstructorOptions } from 'electron';
 
 export function createApplicationMenu(mainWindow: BrowserWindow): void {
-  const isMac = process.platform === "darwin";
+  const isMac = process.platform === 'darwin';
 
   const template: MenuItemConstructorOptions[] = [
     // App menu (macOS only)
@@ -972,22 +913,21 @@ export function createApplicationMenu(mainWindow: BrowserWindow): void {
           {
             label: app.name,
             submenu: [
-              { role: "about" as const },
-              { type: "separator" as const },
+              { role: 'about' as const },
+              { type: 'separator' as const },
               {
-                label: "Preferences",
-                accelerator: "CmdOrCtrl+,",
-                click: () =>
-                  mainWindow.webContents.send("app:open-preferences"),
+                label: 'Preferences',
+                accelerator: 'CmdOrCtrl+,',
+                click: () => mainWindow.webContents.send('app:open-preferences'),
               },
-              { type: "separator" as const },
-              { role: "services" as const },
-              { type: "separator" as const },
-              { role: "hide" as const },
-              { role: "hideOthers" as const },
-              { role: "unhide" as const },
-              { type: "separator" as const },
-              { role: "quit" as const },
+              { type: 'separator' as const },
+              { role: 'services' as const },
+              { type: 'separator' as const },
+              { role: 'hide' as const },
+              { role: 'hideOthers' as const },
+              { role: 'unhide' as const },
+              { type: 'separator' as const },
+              { role: 'quit' as const },
             ],
           } as MenuItemConstructorOptions,
         ]
@@ -995,56 +935,53 @@ export function createApplicationMenu(mainWindow: BrowserWindow): void {
 
     // File menu
     {
-      label: "File",
+      label: 'File',
       submenu: [
         {
-          label: "New",
-          accelerator: "CmdOrCtrl+N",
-          click: () => mainWindow.webContents.send("file:new"),
+          label: 'New',
+          accelerator: 'CmdOrCtrl+N',
+          click: () => mainWindow.webContents.send('file:new'),
         },
         {
-          label: "Open...",
-          accelerator: "CmdOrCtrl+O",
-          click: () => mainWindow.webContents.send("file:open"),
+          label: 'Open...',
+          accelerator: 'CmdOrCtrl+O',
+          click: () => mainWindow.webContents.send('file:open'),
         },
-        { type: "separator" },
+        { type: 'separator' },
         {
-          label: "Save",
-          accelerator: "CmdOrCtrl+S",
-          click: () => mainWindow.webContents.send("file:save"),
+          label: 'Save',
+          accelerator: 'CmdOrCtrl+S',
+          click: () => mainWindow.webContents.send('file:save'),
         },
         {
-          label: "Save As...",
-          accelerator: "CmdOrCtrl+Shift+S",
-          click: () => mainWindow.webContents.send("file:save-as"),
+          label: 'Save As...',
+          accelerator: 'CmdOrCtrl+Shift+S',
+          click: () => mainWindow.webContents.send('file:save-as'),
         },
-        { type: "separator" },
-        isMac ? { role: "close" } : { role: "quit" },
+        { type: 'separator' },
+        isMac ? { role: 'close' } : { role: 'quit' },
       ],
     },
 
     // Edit menu
     {
-      label: "Edit",
+      label: 'Edit',
       submenu: [
-        { role: "undo" },
-        { role: "redo" },
-        { type: "separator" },
-        { role: "cut" },
-        { role: "copy" },
-        { role: "paste" },
-        { role: "delete" },
-        { type: "separator" },
-        { role: "selectAll" },
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'delete' },
+        { type: 'separator' },
+        { role: 'selectAll' },
         ...(isMac
           ? [
-              { type: "separator" as const },
+              { type: 'separator' as const },
               {
-                label: "Speech",
-                submenu: [
-                  { role: "startSpeaking" as const },
-                  { role: "stopSpeaking" as const },
-                ],
+                label: 'Speech',
+                submenu: [{ role: 'startSpeaking' as const }, { role: 'stopSpeaking' as const }],
               },
             ]
           : []),
@@ -1053,55 +990,53 @@ export function createApplicationMenu(mainWindow: BrowserWindow): void {
 
     // View menu
     {
-      label: "View",
+      label: 'View',
       submenu: [
-        { role: "reload" },
-        { role: "forceReload" },
-        { role: "toggleDevTools" },
-        { type: "separator" },
-        { role: "resetZoom" },
-        { role: "zoomIn" },
-        { role: "zoomOut" },
-        { type: "separator" },
-        { role: "togglefullscreen" },
+        { role: 'reload' },
+        { role: 'forceReload' },
+        { role: 'toggleDevTools' },
+        { type: 'separator' },
+        { role: 'resetZoom' },
+        { role: 'zoomIn' },
+        { role: 'zoomOut' },
+        { type: 'separator' },
+        { role: 'togglefullscreen' },
       ],
     },
 
     // Window menu
     {
-      label: "Window",
+      label: 'Window',
       submenu: [
-        { role: "minimize" },
-        { role: "zoom" },
+        { role: 'minimize' },
+        { role: 'zoom' },
         ...(isMac
           ? [
-              { type: "separator" as const },
-              { role: "front" as const },
-              { type: "separator" as const },
-              { role: "window" as const },
+              { type: 'separator' as const },
+              { role: 'front' as const },
+              { type: 'separator' as const },
+              { role: 'window' as const },
             ]
-          : [{ role: "close" as const }]),
+          : [{ role: 'close' as const }]),
       ],
     },
 
     // Help menu
     {
-      label: "Help",
+      label: 'Help',
       submenu: [
         {
-          label: "Documentation",
-          click: () => shell.openExternal("https://docs.example.com"),
+          label: 'Documentation',
+          click: () => shell.openExternal('https://docs.example.com'),
         },
         {
-          label: "Release Notes",
-          click: () =>
-            shell.openExternal("https://github.com/example/repo/releases"),
+          label: 'Release Notes',
+          click: () => shell.openExternal('https://github.com/example/repo/releases'),
         },
-        { type: "separator" },
+        { type: 'separator' },
         {
-          label: "Report Issue",
-          click: () =>
-            shell.openExternal("https://github.com/example/repo/issues"),
+          label: 'Report Issue',
+          click: () => shell.openExternal('https://github.com/example/repo/issues'),
         },
       ],
     },
@@ -1120,14 +1055,9 @@ export function createApplicationMenu(mainWindow: BrowserWindow): void {
 
 ```typescript
 // src/main/windows/window-manager.ts
-import {
-  BrowserWindow,
-  BrowserWindowConstructorOptions,
-  screen,
-  Rectangle,
-} from "electron";
-import Store from "electron-store";
-import { join } from "path";
+import { BrowserWindow, BrowserWindowConstructorOptions, screen, Rectangle } from 'electron';
+import Store from 'electron-store';
+import { join } from 'path';
 
 interface WindowState {
   width: number;
@@ -1147,17 +1077,14 @@ interface WindowConfig {
 }
 
 const windowStateStore = new Store<Record<string, WindowState>>({
-  name: "window-state",
+  name: 'window-state',
 });
 
 export class WindowManager {
   private windows = new Map<string, BrowserWindow>();
   private stateUpdateDebounce = new Map<string, NodeJS.Timeout>();
 
-  createWindow(
-    id: string,
-    options: BrowserWindowConstructorOptions = {},
-  ): BrowserWindow {
+  createWindow(id: string, options: BrowserWindowConstructorOptions = {}): BrowserWindow {
     // Get saved state or calculate default
     const savedState = this.getWindowState(id);
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -1178,7 +1105,7 @@ export class WindowManager {
       show: false,
       ...options,
       webPreferences: {
-        preload: join(__dirname, "../preload/index.js"),
+        preload: join(__dirname, '../preload/index.js'),
         sandbox: true,
         contextIsolation: true,
         nodeIntegration: false,
@@ -1195,7 +1122,7 @@ export class WindowManager {
     }
 
     // Show when ready
-    window.once("ready-to-show", () => {
+    window.once('ready-to-show', () => {
       window.show();
     });
 
@@ -1203,7 +1130,7 @@ export class WindowManager {
     this.trackWindowState(id, window);
 
     // Handle close
-    window.on("closed", () => {
+    window.on('closed', () => {
       this.windows.delete(id);
       const timeout = this.stateUpdateDebounce.get(id);
       if (timeout) {
@@ -1249,10 +1176,7 @@ export class WindowManager {
     windowStateStore.set(id, state);
   }
 
-  private calculateBounds(
-    savedState: WindowState | undefined,
-    config: WindowConfig,
-  ): Rectangle {
+  private calculateBounds(savedState: WindowState | undefined, config: WindowConfig): Rectangle {
     const { width, height, x, y } = screen.getPrimaryDisplay().workAreaSize;
 
     // Use saved state if available and valid
@@ -1314,19 +1238,19 @@ export class WindowManager {
             isMaximized: window.isMaximized(),
             isFullScreen: window.isFullScreen(),
           });
-        }, 500),
+        }, 500)
       );
     };
 
-    window.on("resize", saveState);
-    window.on("move", saveState);
-    window.on("maximize", saveState);
-    window.on("unmaximize", saveState);
-    window.on("enter-full-screen", saveState);
-    window.on("leave-full-screen", saveState);
+    window.on('resize', saveState);
+    window.on('move', saveState);
+    window.on('maximize', saveState);
+    window.on('unmaximize', saveState);
+    window.on('enter-full-screen', saveState);
+    window.on('leave-full-screen', saveState);
 
     // Save on close
-    window.on("close", () => {
+    window.on('close', () => {
       if (!window.isDestroyed()) {
         const bounds = window.getBounds();
         this.saveWindowState(id, {
@@ -1353,22 +1277,13 @@ export const windowManager = new WindowManager();
 
 ```typescript
 // src/main/services/file-service.ts
-import {
-  readFile,
-  writeFile,
-  access,
-  mkdir,
-  stat,
-  readdir,
-  unlink,
-  rename,
-} from "fs/promises";
-import { constants, createReadStream, createWriteStream } from "fs";
-import { join, dirname, basename, extname, normalize, resolve } from "path";
-import { app } from "electron";
-import { z } from "zod";
-import { pipeline } from "stream/promises";
-import { createHash } from "crypto";
+import { readFile, writeFile, access, mkdir, stat, readdir, unlink, rename } from 'fs/promises';
+import { constants, createReadStream, createWriteStream } from 'fs';
+import { join, dirname, basename, extname, normalize, resolve } from 'path';
+import { app } from 'electron';
+import { z } from 'zod';
+import { pipeline } from 'stream/promises';
+import { createHash } from 'crypto';
 
 // Validation schemas
 const SafePathSchema = z
@@ -1379,9 +1294,9 @@ const SafePathSchema = z
     (path) => {
       const normalized = normalize(path);
       // Prevent path traversal
-      return !normalized.includes("..") && !normalized.includes("\0");
+      return !normalized.includes('..') && !normalized.includes('\0');
     },
-    { message: "Invalid path: potential path traversal detected" },
+    { message: 'Invalid path: potential path traversal detected' }
   );
 
 const FileNameSchema = z
@@ -1389,7 +1304,7 @@ const FileNameSchema = z
   .min(1)
   .max(255)
   .regex(/^[^<>:"/\\|?*\x00-\x1f]+$/, {
-    message: "Invalid filename: contains reserved characters",
+    message: 'Invalid filename: contains reserved characters',
   });
 
 export interface FileResult<T = unknown> {
@@ -1414,17 +1329,17 @@ export class FileService {
   constructor() {
     // Define allowed directories for file operations
     this.allowedDirectories = [
-      app.getPath("documents"),
-      app.getPath("downloads"),
-      app.getPath("userData"),
-      app.getPath("temp"),
+      app.getPath('documents'),
+      app.getPath('downloads'),
+      app.getPath('userData'),
+      app.getPath('temp'),
     ];
   }
 
   async read(filePath: string): Promise<FileResult<string>> {
     try {
       const validPath = this.validatePath(filePath);
-      const content = await readFile(validPath, "utf-8");
+      const content = await readFile(validPath, 'utf-8');
       return { success: true, data: content };
     } catch (error) {
       return this.handleError(error);
@@ -1441,10 +1356,7 @@ export class FileService {
     }
   }
 
-  async write(
-    filePath: string,
-    content: string | Buffer,
-  ): Promise<FileResult<void>> {
+  async write(filePath: string, content: string | Buffer): Promise<FileResult<void>> {
     try {
       const validPath = this.validatePath(filePath);
 
@@ -1507,9 +1419,9 @@ export class FileService {
             isDirectory: entry.isDirectory(),
             created: stats.birthtime,
             modified: stats.mtime,
-            extension: entry.isDirectory() ? "" : extname(entry.name),
+            extension: entry.isDirectory() ? '' : extname(entry.name),
           };
-        }),
+        })
       );
 
       return { success: true, data: metadata };
@@ -1549,10 +1461,7 @@ export class FileService {
 
       await mkdir(dirname(validDest), { recursive: true });
 
-      await pipeline(
-        createReadStream(validSource),
-        createWriteStream(validDest),
-      );
+      await pipeline(createReadStream(validSource), createWriteStream(validDest));
 
       return { success: true };
     } catch (error) {
@@ -1562,7 +1471,7 @@ export class FileService {
 
   async getHash(
     filePath: string,
-    algorithm: "md5" | "sha256" = "sha256",
+    algorithm: 'md5' | 'sha256' = 'sha256'
   ): Promise<FileResult<string>> {
     try {
       const validPath = this.validatePath(filePath);
@@ -1570,11 +1479,11 @@ export class FileService {
       const stream = createReadStream(validPath);
 
       return new Promise((resolve) => {
-        stream.on("data", (chunk) => hash.update(chunk));
-        stream.on("end", () => {
-          resolve({ success: true, data: hash.digest("hex") });
+        stream.on('data', (chunk) => hash.update(chunk));
+        stream.on('end', () => {
+          resolve({ success: true, data: hash.digest('hex') });
         });
-        stream.on("error", (error) => {
+        stream.on('error', (error) => {
           resolve(this.handleError(error));
         });
       });
@@ -1592,7 +1501,7 @@ export class FileService {
 
     // Validate filename if applicable
     const fileName = basename(absolutePath);
-    if (fileName && !fileName.startsWith(".")) {
+    if (fileName && !fileName.startsWith('.')) {
       FileNameSchema.parse(fileName);
     }
 
@@ -1604,9 +1513,7 @@ export class FileService {
   }
 
   private validateAllowedDirectory(absolutePath: string): void {
-    const isAllowed = this.allowedDirectories.some((dir) =>
-      absolutePath.startsWith(dir),
-    );
+    const isAllowed = this.allowedDirectories.some((dir) => absolutePath.startsWith(dir));
 
     if (!isAllowed) {
       throw new Error(`Access denied: path is outside allowed directories`);
@@ -1614,8 +1521,7 @@ export class FileService {
   }
 
   private handleError<T>(error: unknown): FileResult<T> {
-    const message =
-      error instanceof Error ? error.message : "Unknown error occurred";
+    const message = error instanceof Error ? error.message : 'Unknown error occurred';
     return { success: false, error: message };
   }
 }
@@ -1631,14 +1537,14 @@ export const fileService = new FileService();
 
 ```typescript
 // src/renderer/src/hooks/useElectron.ts
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from 'react';
 
 // Type from preload
-type ElectronAPI = Window["electronAPI"];
+type ElectronAPI = Window['electronAPI'];
 
 export function useElectron(): ElectronAPI {
   if (!window.electronAPI) {
-    throw new Error("Electron API not available. Are you running in Electron?");
+    throw new Error('Electron API not available. Are you running in Electron?');
   }
   return window.electronAPI;
 }
@@ -1717,7 +1623,7 @@ export function useAutoUpdate() {
 
 export function useStorage<T>(
   key: string,
-  defaultValue: T,
+  defaultValue: T
 ): [T, (value: T) => Promise<void>, boolean] {
   const electron = useElectron();
   const [value, setValue] = useState<T>(defaultValue);
@@ -1737,7 +1643,7 @@ export function useStorage<T>(
       setValue(newValue);
       await electron.storage.set(key, newValue);
     },
-    [electron, key],
+    [electron, key]
   );
 
   return [value, updateValue, loading];
@@ -1748,14 +1654,14 @@ export function useStorage<T>(
 
 ```tsx
 // src/renderer/src/components/TitleBar.tsx
-import { useElectron, useWindowMaximized } from "../hooks/useElectron";
-import styles from "./TitleBar.module.css";
+import { useElectron, useWindowMaximized } from '../hooks/useElectron';
+import styles from './TitleBar.module.css';
 
 interface TitleBarProps {
   title?: string;
 }
 
-export function TitleBar({ title = "My App" }: TitleBarProps) {
+export function TitleBar({ title = 'My App' }: TitleBarProps) {
   const electron = useElectron();
   const isMaximized = useWindowMaximized();
 
@@ -1780,7 +1686,7 @@ export function TitleBar({ title = "My App" }: TitleBarProps) {
             <button
               className={styles.controlButton}
               onClick={() => electron.window.maximize()}
-              aria-label={isMaximized ? "Restore" : "Maximize"}
+              aria-label={isMaximized ? 'Restore' : 'Maximize'}
             >
               {isMaximized ? <RestoreIcon /> : <MaximizeIcon />}
             </button>
@@ -1851,10 +1757,7 @@ function RestoreIcon() {
 function CloseIcon() {
   return (
     <svg width="10" height="10" viewBox="0 0 10 10">
-      <path
-        fill="currentColor"
-        d="M1 0L0 1l4 4-4 4 1 1 4-4 4 4 1-1-4-4 4-4-1-1-4 4-4-4z"
-      />
+      <path fill="currentColor" d="M1 0L0 1l4 4-4 4 1 1 4-4 4 4 1-1-4-4 4-4-1-1-4 4-4-4z" />
     </svg>
   );
 }
@@ -1922,8 +1825,8 @@ function CloseIcon() {
 
 ```typescript
 // e2e/electron.spec.ts
-import { test, expect, _electron as electron } from "@playwright/test";
-import type { ElectronApplication, Page } from "@playwright/test";
+import { test, expect, _electron as electron } from '@playwright/test';
+import type { ElectronApplication, Page } from '@playwright/test';
 
 let app: ElectronApplication;
 let page: Page;
@@ -1931,10 +1834,10 @@ let page: Page;
 test.beforeAll(async () => {
   // Launch Electron app
   app = await electron.launch({
-    args: ["."],
+    args: ['.'],
     env: {
       ...process.env,
-      NODE_ENV: "test",
+      NODE_ENV: 'test',
     },
   });
 
@@ -1942,32 +1845,32 @@ test.beforeAll(async () => {
   page = await app.firstWindow();
 
   // Wait for app to be ready
-  await page.waitForLoadState("domcontentloaded");
+  await page.waitForLoadState('domcontentloaded');
 });
 
 test.afterAll(async () => {
   await app.close();
 });
 
-test.describe("Main Window", () => {
-  test("should display title", async () => {
+test.describe('Main Window', () => {
+  test('should display title', async () => {
     const title = await page.title();
-    expect(title).toBe("My App");
+    expect(title).toBe('My App');
   });
 
-  test("should have correct dimensions", async () => {
+  test('should have correct dimensions', async () => {
     const { width, height } = page.viewportSize()!;
     expect(width).toBeGreaterThanOrEqual(800);
     expect(height).toBeGreaterThanOrEqual(600);
   });
 
-  test("should show main content", async () => {
-    await expect(page.locator("#app")).toBeVisible();
+  test('should show main content', async () => {
+    await expect(page.locator('#app')).toBeVisible();
   });
 });
 
-test.describe("Window Controls", () => {
-  test("should minimize window", async () => {
+test.describe('Window Controls', () => {
+  test('should minimize window', async () => {
     // Click minimize button
     await page.click('[aria-label="Minimize"]');
 
@@ -1986,7 +1889,7 @@ test.describe("Window Controls", () => {
     });
   });
 
-  test("should maximize/restore window", async () => {
+  test('should maximize/restore window', async () => {
     // Click maximize button
     await page.click('[aria-label="Maximize"]');
 
@@ -2011,8 +1914,8 @@ test.describe("Window Controls", () => {
   });
 });
 
-test.describe("IPC Communication", () => {
-  test("should get app version", async () => {
+test.describe('IPC Communication', () => {
+  test('should get app version', async () => {
     const version = await page.evaluate(async () => {
       return window.electronAPI.app.getVersion();
     });
@@ -2020,30 +1923,30 @@ test.describe("IPC Communication", () => {
     expect(version).toMatch(/^\d+\.\d+\.\d+$/);
   });
 
-  test("should access storage", async () => {
+  test('should access storage', async () => {
     // Set value
     await page.evaluate(async () => {
-      await window.electronAPI.storage.set("test-key", { foo: "bar" });
+      await window.electronAPI.storage.set('test-key', { foo: 'bar' });
     });
 
     // Get value
     const value = await page.evaluate(async () => {
-      return window.electronAPI.storage.get("test-key");
+      return window.electronAPI.storage.get('test-key');
     });
 
-    expect(value).toEqual({ foo: "bar" });
+    expect(value).toEqual({ foo: 'bar' });
 
     // Clean up
     await page.evaluate(async () => {
-      await window.electronAPI.storage.delete("test-key");
+      await window.electronAPI.storage.delete('test-key');
     });
   });
 });
 
-test.describe("File Operations", () => {
-  test("should check if file exists", async () => {
+test.describe('File Operations', () => {
+  test('should check if file exists', async () => {
     const exists = await page.evaluate(async () => {
-      return window.electronAPI.file.exists("package.json");
+      return window.electronAPI.file.exists('package.json');
     });
 
     expect(exists).toBe(true);
@@ -2055,10 +1958,10 @@ test.describe("File Operations", () => {
 
 ```typescript
 // playwright.config.ts
-import { defineConfig } from "@playwright/test";
+import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-  testDir: "./e2e",
+  testDir: './e2e',
   timeout: 30000,
   expect: {
     timeout: 5000,
@@ -2067,10 +1970,10 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: 1,
-  reporter: "html",
+  reporter: 'html',
   use: {
-    trace: "on-first-retry",
-    screenshot: "only-on-failure",
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
   },
 });
 ```

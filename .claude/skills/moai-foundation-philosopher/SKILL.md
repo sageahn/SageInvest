@@ -1,13 +1,21 @@
 ---
-name: "moai-foundation-philosopher"
-description: "Strategic thinking framework integrating First Principles Analysis, Stanford Design Thinking, and MIT Systems Engineering for deeper problem-solving and decision-making"
+name: 'moai-foundation-philosopher'
+description: 'Strategic thinking framework integrating First Principles Analysis, Stanford Design Thinking, and MIT Systems Engineering for deeper problem-solving and decision-making'
 version: 1.1.0
-category: "foundation"
+category: 'foundation'
 modularized: true
 user-invocable: false
-tags: ['foundation', 'strategic-thinking', 'first-principles', 'trade-off-analysis', 'cognitive-bias', 'decision-making']
+tags:
+  [
+    'foundation',
+    'strategic-thinking',
+    'first-principles',
+    'trade-off-analysis',
+    'cognitive-bias',
+    'decision-making',
+  ]
 updated: 2026-01-08
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Grep
@@ -27,11 +35,13 @@ Core Philosophy: Think deeply before acting. Question assumptions. Consider alte
 What is the Philosopher Framework?
 
 A structured approach to complex decisions combining:
+
 - First Principles Analysis: Break problems to fundamental truths
 - Stanford Design Thinking: Divergent-convergent solution generation
 - MIT Systems Engineering: Systematic risk assessment and validation
 
 Five-Phase Thinking Process:
+
 1. Assumption Audit: Surface and question what we take for granted
 2. First Principles Decomposition: Break down to root causes
 3. Alternative Generation: Create multiple solution options
@@ -39,6 +49,7 @@ Five-Phase Thinking Process:
 5. Cognitive Bias Check: Verify thinking quality
 
 When to Activate:
+
 - Architecture decisions affecting 5+ files
 - Technology selection (library, framework, database)
 - Performance vs maintainability trade-offs
@@ -47,6 +58,7 @@ When to Activate:
 - Any decision with significant long-term impact
 
 Quick Access:
+
 - Assumption questioning techniques: [Assumption Matrix Module](modules/assumption-matrix.md)
 - Root cause analysis: [First Principles Module](modules/first-principles.md)
 - Option comparison: [Trade-off Analysis Module](modules/trade-off-analysis.md)
@@ -61,6 +73,7 @@ Quick Access:
 Purpose: Surface hidden assumptions before they become blind spots.
 
 Five Critical Questions:
+
 - What are we assuming to be true without evidence?
 - What if this assumption turns out to be wrong?
 - Is this a hard constraint or merely a preference?
@@ -68,12 +81,14 @@ Five Critical Questions:
 - Who else should validate this assumption?
 
 Assumption Categories:
+
 - Technical Assumptions: Technology capabilities, performance characteristics, compatibility
 - Business Assumptions: User behavior, market conditions, budget availability
 - Team Assumptions: Skill levels, availability, domain knowledge
 - Timeline Assumptions: Delivery expectations, dependency schedules
 
 Assumption Documentation Format:
+
 - Assumption statement: Clear description of what is assumed
 - Confidence level: High, Medium, or Low based on evidence
 - Evidence basis: What supports this assumption
@@ -88,6 +103,7 @@ IMPACT: Surfacing assumptions early prevents 40-60% of mid-project pivots.
 Purpose: Cut through complexity to find root causes and fundamental requirements.
 
 The Five Whys Technique:
+
 - Surface Problem: What the user or system observes
 - First Why: Immediate cause analysis
 - Second Why: Underlying cause investigation
@@ -96,12 +112,14 @@ The Five Whys Technique:
 - Fifth Why (Root Cause): Fundamental issue to address
 
 Constraint Analysis:
+
 - Hard Constraints: Non-negotiable (security, compliance, physics, budget)
 - Soft Constraints: Negotiable preferences (timeline, feature scope, tooling)
 - Self-Imposed Constraints: Assumptions disguised as requirements
 - Degrees of Freedom: Areas where creative solutions are possible
 
 Decomposition Questions:
+
 - What is the actual goal behind this request?
 - What problem are we really trying to solve?
 - What would a solution look like if we had no constraints?
@@ -116,6 +134,7 @@ IMPACT: First principles thinking reduces solution complexity by 30-50%.
 Purpose: Avoid premature convergence on suboptimal solutions.
 
 Generation Rules:
+
 - Minimum three distinct alternatives required
 - Include at least one unconventional option
 - Always include "do nothing" as baseline
@@ -123,12 +142,14 @@ Generation Rules:
 - Explore both incremental and transformative approaches
 
 Alternative Categories:
+
 - Conservative: Low risk, incremental improvement, familiar technology
 - Balanced: Moderate risk, significant improvement, some innovation
 - Aggressive: Higher risk, transformative change, cutting-edge approach
 - Radical: Challenge fundamental assumptions, completely different approach
 
 Creativity Techniques:
+
 - Inversion: What would make this problem worse? Now do the opposite.
 - Analogy: How do other domains solve similar problems?
 - Constraint Removal: What if budget, time, or technology were unlimited?
@@ -142,6 +163,7 @@ IMPACT: Considering 3+ alternatives improves decision quality by 25%.
 Purpose: Make implicit trade-offs explicit and comparable.
 
 Standard Evaluation Criteria:
+
 - Performance: Speed, throughput, latency, resource usage
 - Maintainability: Code clarity, documentation, team familiarity
 - Implementation Cost: Development time, complexity, learning curve
@@ -150,6 +172,7 @@ Standard Evaluation Criteria:
 - Security: Vulnerability surface, compliance, data protection
 
 Weighted Scoring Method:
+
 - Assign weights to criteria based on project priorities (total 100%)
 - Rate each option 1-10 on each criterion
 - Calculate weighted composite score
@@ -157,6 +180,7 @@ Weighted Scoring Method:
 - Identify score sensitivity to weight changes
 
 Trade-off Documentation:
+
 - What we gain: Primary benefits of chosen approach
 - What we sacrifice: Explicit costs and limitations accepted
 - Why acceptable: Rationale for accepting these trade-offs
@@ -170,6 +194,7 @@ IMPACT: Explicit trade-offs improve stakeholder alignment by 50%.
 Purpose: Ensure recommendation quality by checking for common thinking errors.
 
 Primary Biases to Monitor:
+
 - Anchoring Bias: Over-reliance on first information encountered
 - Confirmation Bias: Seeking evidence that supports existing beliefs
 - Sunk Cost Fallacy: Continuing due to past investment
@@ -177,6 +202,7 @@ Primary Biases to Monitor:
 - Overconfidence Bias: Excessive certainty in own judgment
 
 Bias Detection Questions:
+
 - Am I attached to this solution because I thought of it first?
 - Have I actively sought evidence against my preference?
 - Would I recommend this if starting fresh with no prior investment?
@@ -184,6 +210,7 @@ Bias Detection Questions:
 - What would change my mind about this recommendation?
 
 Mitigation Strategies:
+
 - Pre-mortem: Imagine the decision failed; what went wrong?
 - Devil's advocate: Argue against your own recommendation
 - Outside view: What do base rates suggest about success?
@@ -200,17 +227,20 @@ IMPACT: Bias checking prevents 20-30% of flawed technical decisions.
 ### Integration with MoAI Workflow
 
 SPEC Phase Integration:
+
 - Apply Assumption Audit during /moai:1-plan
 - Document assumptions in spec.md Problem Analysis section
 - Include alternative approaches considered in plan.md
 - Define validation criteria in acceptance.md
 
 TDD Phase Integration:
+
 - Use First Principles to identify core test scenarios
 - Generate test alternatives for edge cases
 - Apply Trade-off Analysis for test coverage decisions
 
 Quality Phase Integration:
+
 - Include Cognitive Bias Check in code review process
 - Verify assumptions remain valid after implementation
 - Document trade-offs accepted in final documentation
@@ -218,6 +248,7 @@ Quality Phase Integration:
 ### Time Allocation Guidelines
 
 Recommended effort distribution for complex decisions:
+
 - Assumption Audit: 15% of analysis time
 - First Principles Decomposition: 25% of analysis time
 - Alternative Generation: 20% of analysis time
@@ -225,6 +256,7 @@ Recommended effort distribution for complex decisions:
 - Cognitive Bias Check: 15% of analysis time
 
 Total Analysis vs Implementation:
+
 - Simple decisions (1-2 files): 10% analysis, 90% implementation
 - Medium decisions (3-10 files): 25% analysis, 75% implementation
 - Complex decisions (10+ files): 40% analysis, 60% implementation
@@ -239,23 +271,28 @@ Decision Title: Clear statement of what was decided
 Context: Why this decision was needed
 
 Assumptions Examined:
+
 - Assumption 1 with confidence and validation status
 - Assumption 2 with confidence and validation status
 
 Root Cause Analysis:
+
 - Surface problem identified
 - Root cause determined through Five Whys
 
 Alternatives Considered:
+
 - Option A with pros, cons, and score
 - Option B with pros, cons, and score
 - Option C with pros, cons, and score
 
 Trade-offs Accepted:
+
 - What we gain with chosen approach
 - What we sacrifice and why acceptable
 
 Bias Check Completed:
+
 - Confirmation of bias mitigation steps taken
 
 Final Decision: Selected option with primary rationale
@@ -269,6 +306,7 @@ Review Trigger: Conditions that would cause reconsideration
 ## Works Well With
 
 Agents:
+
 - manager-strategy: Primary consumer for SPEC analysis and planning
 - expert-backend: Technology selection decisions
 - expert-frontend: Architecture and framework choices
@@ -276,12 +314,14 @@ Agents:
 - manager-quality: Code review bias checking
 
 Skills:
+
 - moai-foundation-core: Integration with TRUST 5 and SPEC workflow
 - moai-workflow-spec: Assumption documentation in SPEC format
 - moai-domain-backend: Technology-specific trade-off criteria
 - moai-domain-frontend: UI/UX decision frameworks
 
 Commands:
+
 - /moai:1-plan: Apply Philosopher Framework during specification
 - /moai:2-run: Reference documented trade-offs during implementation
 
@@ -300,6 +340,7 @@ Architecture Change: All 5 phases with extended documentation
 ---
 
 Module Deep Dives:
+
 - [Assumption Matrix](modules/assumption-matrix.md)
 - [First Principles](modules/first-principles.md)
 - [Trade-off Analysis](modules/trade-off-analysis.md)

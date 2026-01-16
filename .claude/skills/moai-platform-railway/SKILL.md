@@ -1,15 +1,15 @@
 ---
-name: "moai-platform-railway"
-description: "Railway container deployment specialist covering Docker, multi-service architectures, persistent volumes, and auto-scaling. Use when deploying containerized full-stack applications, configuring multi-region deployments, or setting up persistent storage."
+name: 'moai-platform-railway'
+description: 'Railway container deployment specialist covering Docker, multi-service architectures, persistent volumes, and auto-scaling. Use when deploying containerized full-stack applications, configuring multi-region deployments, or setting up persistent storage.'
 version: 2.1.0
-category: "platform"
+category: 'platform'
 modularized: true
 user-invocable: false
 tags: ['railway', 'docker', 'containers', 'multi-service', 'auto-scaling']
 context7-libraries: ['/railwayapp/railway']
 related-skills: ['moai-platform-vercel', 'moai-domain-backend']
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Write
@@ -118,9 +118,9 @@ For GitHub Actions integration, create a workflow file named Railway Deploy with
 
 ## Context7 Documentation Access
 
-Step 1: Use mcp__context7__resolve-library-id with "railway" to get the library ID.
+Step 1: Use mcp**context7**resolve-library-id with "railway" to get the library ID.
 
-Step 2: Use mcp__context7__get-library-docs with the resolved ID and specific topic.
+Step 2: Use mcp**context7**get-library-docs with the resolved ID and specific topic.
 
 ---
 

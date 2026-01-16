@@ -1,5 +1,5 @@
 ---
-description: "Execute TDD implementation cycle"
+description: 'Execute TDD implementation cycle'
 argument-hint: 'SPEC-ID - All with SPEC ID to implement (e.g. SPEC-001) or all "SPEC Implementation"'
 type: workflow
 allowed-tools: Task, AskUserQuestion, TodoWrite, Bash, Read, Write, Edit, Glob, Grep

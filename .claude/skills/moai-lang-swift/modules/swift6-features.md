@@ -9,6 +9,7 @@ Swift 6 introduces typed throws allowing precise error type specification in fun
 ### Basic Typed Throws
 
 Error Type Specification:
+
 ```swift
 enum NetworkError: Error {
     case invalidURL
@@ -39,12 +40,13 @@ do {
 ### Domain-Specific Error Types
 
 Authentication Errors:
+
 ```swift
 enum AuthError: Error, LocalizedError {
     case invalidCredentials
     case sessionExpired
     case networkError(underlying: Error)
-    
+
     var errorDescription: String? {
         switch self {
         case .invalidCredentials: return "Invalid email or password"
@@ -67,6 +69,7 @@ Swift 6 enforces complete data-race safety by default at compile time.
 ### Sendable Requirements
 
 Value Types (Automatic Sendable):
+
 ```swift
 // Structs with only Sendable properties are automatically Sendable
 struct User: Codable, Identifiable, Sendable {
@@ -77,12 +80,13 @@ struct User: Codable, Identifiable, Sendable {
 ```
 
 Reference Types (Explicit Sendable):
+
 ```swift
 // Classes must explicitly conform and be final
 final class ImmutableConfig: Sendable {
     let apiKey: String
     let baseURL: URL
-    
+
     init(apiKey: String, baseURL: URL) {
         self.apiKey = apiKey
         self.baseURL = baseURL
@@ -93,13 +97,13 @@ final class ImmutableConfig: Sendable {
 final class ThreadSafeCache<Key: Hashable, Value>: @unchecked Sendable {
     private var cache: [Key: Value] = [:]
     private let lock = NSLock()
-    
+
     func get(_ key: Key) -> Value? {
         lock.lock()
         defer { lock.unlock() }
         return cache[key]
     }
-    
+
     func set(_ key: Key, value: Value) {
         lock.lock()
         defer { lock.unlock() }
@@ -111,14 +115,15 @@ final class ThreadSafeCache<Key: Hashable, Value>: @unchecked Sendable {
 ### Actor Isolation
 
 Protecting Mutable State:
+
 ```swift
 actor UserCache {
     private var cache: [String: User] = [:]
-    
+
     func get(_ id: String) -> User? { cache[id] }
     func set(_ id: String, user: User) { cache[id] = user }
     func clear() { cache.removeAll() }
-    
+
     var isEmpty: Bool { cache.isEmpty }
 }
 ```
@@ -126,15 +131,16 @@ actor UserCache {
 ### MainActor for UI Code
 
 ViewModel with MainActor:
+
 ```swift
 @MainActor
 @Observable
 final class ProfileViewModel {
     private(set) var user: User?
     private(set) var isLoading = false
-    
+
     private let api: UserAPIProtocol
-    
+
     func loadProfile(_ userId: String) async {
         isLoading = true
         defer { isLoading = false }
@@ -146,19 +152,20 @@ final class ProfileViewModel {
 ### Nonisolated Functions
 
 Escaping Actor Isolation:
+
 ```swift
 actor NetworkMonitor {
     private var isConnected = true
-    
+
     func updateStatus(connected: Bool) {
         isConnected = connected
     }
-    
+
     // Nonisolated - can be called synchronously
     nonisolated func describeConnection() -> String {
         "Network monitor for connectivity tracking"
     }
-    
+
     // Nonisolated with async for cross-actor reads
     nonisolated func getStatus() async -> Bool {
         await isConnected
@@ -171,10 +178,11 @@ actor NetworkMonitor {
 ### Safe Alternatives
 
 Using Actor:
+
 ```swift
 actor SafeCounter {
     private var count = 0
-    
+
     func increment() -> Int {
         count += 1
         return count
@@ -183,10 +191,11 @@ actor SafeCounter {
 ```
 
 Using AsyncStream for Events:
+
 ```swift
 actor EventEmitter<Event: Sendable> {
     private var continuations: [UUID: AsyncStream<Event>.Continuation] = [:]
-    
+
     func subscribe() -> AsyncStream<Event> {
         let id = UUID()
         return AsyncStream { continuation in
@@ -196,11 +205,11 @@ actor EventEmitter<Event: Sendable> {
             }
         }
     }
-    
+
     private func removeContinuation(_ id: UUID) {
         continuations.removeValue(forKey: id)
     }
-    
+
     func emit(_ event: Event) {
         for continuation in continuations.values {
             continuation.yield(event)
@@ -212,6 +221,7 @@ actor EventEmitter<Event: Sendable> {
 ### Global Actor Pattern
 
 Custom Global Actor:
+
 ```swift
 @globalActor
 actor DatabaseActor: GlobalActor {
@@ -221,7 +231,7 @@ actor DatabaseActor: GlobalActor {
 @DatabaseActor
 final class DatabaseManager {
     private var connection: DatabaseConnection?
-    
+
     func connect() async throws {
         connection = try await DatabaseConnection.open()
     }
@@ -233,6 +243,7 @@ final class DatabaseManager {
 ### Enabling Strict Concurrency
 
 Package.swift Settings:
+
 ```swift
 targets: [
     .target(
@@ -247,6 +258,7 @@ targets: [
 ### Common Migration Patterns
 
 Callback to Async:
+
 ```swift
 // Before: Callback-based
 func fetchUser(id: String, completion: @escaping (Result<User, Error>) -> Void)

@@ -1299,9 +1299,7 @@
   ],
   "navigation_flow": {
     "mode_specific_order": {
-      "INITIALIZATION": [
-        "tab_0_initialization"
-      ],
+      "INITIALIZATION": ["tab_0_initialization"],
       "SETTINGS": [
         "tab_1_user_language",
         "tab_2_project_info",
@@ -1387,10 +1385,7 @@
             "name": "validate_branch_naming",
             "description": "Check branch naming consistency",
             "validation": "pattern",
-            "fields": [
-              "git_strategy.personal.branch_prefix",
-              "git_strategy.team.branch_prefix"
-            ]
+            "fields": ["git_strategy.personal.branch_prefix", "git_strategy.team.branch_prefix"]
           }
         ]
       },

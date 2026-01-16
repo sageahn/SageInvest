@@ -5,6 +5,7 @@
 ### FastAPI Application Setup
 
 Complete application structure:
+
 ```python
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -42,6 +43,7 @@ app.add_middleware(
 ### Database Connection Patterns
 
 SQLAlchemy Async Engine:
+
 ```python
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
@@ -72,6 +74,7 @@ async def get_db():
 ```
 
 Motor (MongoDB) Connection:
+
 ```python
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -92,6 +95,7 @@ async def get_mongodb():
 ```
 
 Redis Connection:
+
 ```python
 import redis.asyncio as redis
 
@@ -110,6 +114,7 @@ async def get_redis():
 ### Authentication Middleware
 
 JWT Authentication:
+
 ```python
 from jose import jwt, JWTError
 from datetime import datetime, timedelta
@@ -153,48 +158,48 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
 ```yaml
 # config/settings.yaml
 app:
-  name: "Backend Service"
-  version: "2.0.0"
+  name: 'Backend Service'
+  version: '2.0.0'
   debug: false
-  environment: "production"
+  environment: 'production'
 
 server:
-  host: "0.0.0.0"
+  host: '0.0.0.0'
   port: 8000
   workers: 4
   reload: false
 
 database:
   postgresql:
-    url: "postgresql+asyncpg://user:pass@localhost/db"
+    url: 'postgresql+asyncpg://user:pass@localhost/db'
     pool_size: 20
     max_overflow: 30
     pool_pre_ping: true
   mongodb:
-    url: "mongodb://localhost:27017"
-    database: "myapp"
+    url: 'mongodb://localhost:27017'
+    database: 'myapp'
     max_pool_size: 50
   redis:
-    url: "redis://localhost:6379"
+    url: 'redis://localhost:6379'
     max_connections: 50
 
 security:
-  secret_key: "${SECRET_KEY}"
-  algorithm: "HS256"
+  secret_key: '${SECRET_KEY}'
+  algorithm: 'HS256'
   access_token_expire_minutes: 30
   refresh_token_expire_days: 7
 
 cors:
   allow_origins:
-    - "http://localhost:3000"
-    - "https://myapp.com"
+    - 'http://localhost:3000'
+    - 'https://myapp.com'
   allow_credentials: true
-  allow_methods: ["*"]
-  allow_headers: ["*"]
+  allow_methods: ['*']
+  allow_headers: ['*']
 
 logging:
-  level: "INFO"
-  format: "json"
+  level: 'INFO'
+  format: 'json'
   handlers:
     - console
     - file
@@ -366,6 +371,7 @@ class EventSubscriber:
 Issue: Connection pool exhausted
 Symptoms: Requests timeout, "too many connections" errors
 Solution:
+
 - Increase pool_size and max_overflow in database configuration
 - Check for connection leaks (ensure proper context manager usage)
 - Implement connection health checks with pool_pre_ping
@@ -373,6 +379,7 @@ Solution:
 Issue: Slow database queries
 Symptoms: High response times, database CPU spikes
 Solution:
+
 - Use EXPLAIN ANALYZE to identify slow queries
 - Add appropriate indexes based on query patterns
 - Implement query result caching with Redis
@@ -381,6 +388,7 @@ Solution:
 Issue: Memory leaks in async operations
 Symptoms: Gradual memory increase, eventual OOM
 Solution:
+
 - Use async context managers properly
 - Implement proper cleanup in lifespan handlers
 - Monitor task cancellation and cleanup
@@ -389,6 +397,7 @@ Solution:
 Issue: CORS errors in browser
 Symptoms: Cross-origin requests blocked
 Solution:
+
 - Verify allow_origins includes client domain
 - Check allow_credentials setting for cookie-based auth
 - Ensure preflight OPTIONS requests are handled
@@ -397,6 +406,7 @@ Solution:
 Issue: JWT token expiration issues
 Symptoms: Users logged out unexpectedly
 Solution:
+
 - Implement refresh token rotation
 - Use sliding window expiration for active users
 - Add token refresh middleware
@@ -405,18 +415,21 @@ Solution:
 ### Performance Optimization
 
 Query Optimization:
+
 - Use select_related/joinedload for N+1 query prevention
 - Implement pagination with cursor-based approach for large datasets
 - Use database-level aggregations instead of application-level
 - Cache frequently accessed, rarely changed data
 
 Connection Management:
+
 - Tune pool sizes based on actual workload
 - Use connection poolers (PgBouncer) for high-concurrency
 - Implement circuit breakers for external service calls
 - Monitor connection metrics and adjust accordingly
 
 Async Best Practices:
+
 - Use asyncio.gather for concurrent operations
 - Implement proper timeout handling
 - Use semaphores to limit concurrent external calls
@@ -427,33 +440,39 @@ Async Best Practices:
 ## External Resources
 
 ### Frameworks
+
 - FastAPI: https://fastapi.tiangolo.com/
 - Django: https://www.djangoproject.com/
 - Flask: https://flask.palletsprojects.com/
 - Starlette: https://www.starlette.io/
 
 ### Databases
+
 - SQLAlchemy: https://docs.sqlalchemy.org/
 - Motor (MongoDB): https://motor.readthedocs.io/
 - Redis-py: https://redis-py.readthedocs.io/
 - asyncpg: https://magicstack.github.io/asyncpg/
 
 ### Message Queues
+
 - RabbitMQ: https://www.rabbitmq.com/documentation.html
 - Apache Kafka: https://kafka.apache.org/documentation/
 - aio-pika: https://aio-pika.readthedocs.io/
 
 ### Security
+
 - OWASP API Security: https://owasp.org/www-project-api-security/
 - python-jose: https://python-jose.readthedocs.io/
 - Passlib: https://passlib.readthedocs.io/
 
 ### Monitoring
+
 - Prometheus: https://prometheus.io/docs/
 - OpenTelemetry: https://opentelemetry.io/docs/
 - Grafana: https://grafana.com/docs/
 
 ### Best Practices
+
 - 12 Factor App: https://12factor.net/
 - Microservices Patterns: https://microservices.io/patterns/
 - API Design Guidelines: https://github.com/microsoft/api-guidelines

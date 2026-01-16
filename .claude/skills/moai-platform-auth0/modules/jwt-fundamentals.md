@@ -5,6 +5,7 @@ JSON Web Tokens (JWTs) are an open standard (RFC 7519) providing a compact, self
 ## Structure
 
 JWTs consist of three parts separated by dots:
+
 - Header
 - Payload
 - Signature
@@ -14,10 +15,12 @@ Format: header.payload.signature
 ### Header
 
 Contains metadata about the token:
+
 - typ: Token type (JWT)
 - alg: Signing algorithm
 
 Common Algorithms:
+
 - HS256: HMAC with SHA-256 (symmetric)
 - RS256: RSA with SHA-256 (asymmetric)
 - ES256: ECDSA with SHA-256 (asymmetric)
@@ -27,6 +30,7 @@ Common Algorithms:
 Contains claims (statements about the entity and additional data).
 
 Registered Claims (standard):
+
 - iss (issuer): Token issuer
 - sub (subject): Subject identifier
 - aud (audience): Intended recipients
@@ -36,10 +40,12 @@ Registered Claims (standard):
 - jti (JWT ID): Unique identifier
 
 Public Claims:
+
 - Registered in IANA JWT Registry
 - Common across implementations
 
 Private Claims:
+
 - Custom claims for specific use
 - Require namespace in Auth0
 
@@ -48,6 +54,7 @@ Private Claims:
 Ensures token integrity and authenticity.
 
 Signature Creation:
+
 - Encode header and payload
 - Apply signing algorithm
 - Use secret (HS256) or private key (RS256)
@@ -57,12 +64,14 @@ Signature Creation:
 ### HS256 (Symmetric)
 
 Characteristics:
+
 - Single shared secret
 - Secret known by issuer and verifier
 - Simpler key management
 - Must protect secret carefully
 
 Use Cases:
+
 - Single application scenarios
 - Trusted environments
 - Simple implementations
@@ -70,12 +79,14 @@ Use Cases:
 ### RS256 (Asymmetric)
 
 Characteristics:
+
 - Public/private key pair
 - Private key signs, public key verifies
 - Public key can be shared freely
 - No secret sharing required
 
 Advantages:
+
 - Multiple verifiers without secret sharing
 - Key rotation without application changes
 - Better for distributed systems
@@ -85,11 +96,13 @@ Auth0 Recommendation: Use RS256 for most scenarios.
 ### Algorithm Comparison
 
 HS256:
+
 - Faster signing/verification
 - Simpler setup
 - Secret must be protected everywhere
 
 RS256:
+
 - Slower but more flexible
 - Only issuer has private key
 - Public key verification
@@ -100,6 +113,7 @@ RS256:
 ### Signature Verification
 
 Steps:
+
 1. Decode header (base64url)
 2. Identify algorithm
 3. Get verification key (secret or public key)
@@ -108,11 +122,13 @@ Steps:
 ### Claim Validation
 
 Required Checks:
+
 - exp: Token not expired
 - iss: Issuer matches expected value
 - aud: Audience includes your application
 
 Optional Checks:
+
 - nbf: Current time is after not-before
 - iat: Issued at time is reasonable
 - Custom claims as needed
@@ -120,6 +136,7 @@ Optional Checks:
 ### Key Management
 
 For RS256:
+
 - Retrieve JWKS from issuer
 - Match kid (key ID) in header
 - Cache keys with appropriate TTL
@@ -132,12 +149,14 @@ JWKS Endpoint: {your-domain}/.well-known/jwks.json
 ### Signed vs Encrypted
 
 Auth0 JWTs are Signed (JWS):
+
 - Signature verifies integrity
 - Content is NOT encrypted
 - Anyone can read payload
 - Only issuer can create valid signature
 
 JWE (Encrypted):
+
 - Content is encrypted
 - Requires decryption key
 - Used for sensitive data
@@ -146,21 +165,25 @@ JWE (Encrypted):
 ### Security Best Practices
 
 Never Trust Unverified Tokens:
+
 - Always verify signature
 - Always check claims
 - Use established libraries
 
 Sensitive Data:
+
 - Never store sensitive data in JWT payload
 - Payload is only base64 encoded, not encrypted
 - Assume payload contents are public
 
 Transmission:
+
 - Always use HTTPS
 - Never include in URL parameters
 - Use Authorization header
 
 Algorithm Attacks:
+
 - Never accept "none" algorithm
 - Specify expected algorithm in verification
 - Use library that enforces algorithm
@@ -172,6 +195,7 @@ Algorithm Attacks:
 Attack: Changing RS256 to HS256 and using public key as secret.
 
 Prevention:
+
 - Explicitly specify expected algorithm
 - Use libraries that require algorithm specification
 
@@ -180,6 +204,7 @@ Prevention:
 Attack: Modifying payload and re-signing with weak key.
 
 Prevention:
+
 - Use strong keys
 - Validate all claims
 - Check issuer strictly
@@ -189,6 +214,7 @@ Prevention:
 Attack: Reusing captured tokens.
 
 Prevention:
+
 - Short expiration times
 - Use jti claim for uniqueness
 - Implement token binding (DPoP)
@@ -198,11 +224,13 @@ Prevention:
 ### Using Libraries
 
 Recommended:
+
 - Use official Auth0 SDKs
 - Use well-maintained JWT libraries
 - Avoid custom implementations
 
 Popular Libraries:
+
 - Node.js: jsonwebtoken, jose
 - Python: PyJWT, python-jose
 - Java: java-jwt, nimbus-jose-jwt
@@ -211,12 +239,14 @@ Popular Libraries:
 ### Caching
 
 JWKS Caching:
+
 - Cache public keys
 - Set appropriate TTL
 - Invalidate on verification failure
 - Handle rotation gracefully
 
 Token Caching:
+
 - Cache validation results
 - Consider token lifetime
 - Invalidate on expiration
@@ -226,6 +256,7 @@ Token Caching:
 ### Token Signing
 
 Auth0 uses:
+
 - RS256 by default for ID tokens
 - Configurable per API for access tokens
 - Tenant-specific signing keys
@@ -235,6 +266,7 @@ Auth0 uses:
 Endpoint: https://{your-tenant}.auth0.com/.well-known/jwks.json
 
 Contains:
+
 - Public keys for verification
 - Key IDs for matching
 - Algorithm information
@@ -242,6 +274,7 @@ Contains:
 ### Key Rotation
 
 Auth0 rotates signing keys:
+
 - New key added to JWKS
 - Old key remains temporarily
 - Applications should handle multiple keys

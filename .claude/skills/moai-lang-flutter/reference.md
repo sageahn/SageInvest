@@ -3,6 +3,7 @@
 ## Platform Version Matrix
 
 ### Dart 3.5 (November 2025)
+
 - Release: November 2025
 - Key Features:
   - Pattern matching with exhaustiveness checking
@@ -13,6 +14,7 @@
   - Enhanced class modifiers (sealed, final, base, interface)
 
 ### Flutter 3.24 (November 2025)
+
 - Release: November 2025
 - Minimum OS: iOS 12.0+, Android API 21+
 - Key Features:
@@ -25,6 +27,7 @@
 ## Context7 Library Mappings
 
 ### Core Framework
+
 ```
 /flutter/flutter              - Flutter framework and engine
 /dart-lang/sdk                - Dart language SDK
@@ -32,6 +35,7 @@
 ```
 
 ### State Management
+
 ```
 /rrousselGit/riverpod         - Riverpod state management
 /felangel/bloc                - BLoC pattern library
@@ -40,18 +44,21 @@
 ```
 
 ### Navigation
+
 ```
 /flutter/packages             - go_router official package
 /theyakka/fluro               - Fluro router
 ```
 
 ### Networking
+
 ```
 /cfug/dio                     - Dio HTTP client
 /nickmeinhold/chopper         - Chopper HTTP client generator
 ```
 
 ### Storage
+
 ```
 /isar/isar                    - Isar NoSQL database
 /simonbengtsson/drift         - Drift SQL database
@@ -60,6 +67,7 @@
 ```
 
 ### UI Components
+
 ```
 /Sub6Resources/flutter_html   - HTML rendering
 /nickmeinhold/cached_network_image - Image caching
@@ -67,6 +75,7 @@
 ```
 
 ### Testing
+
 ```
 /flutter/flutter              - flutter_test (built-in)
 /dart-lang/mockito            - Mockito for Dart
@@ -78,6 +87,7 @@
 ### Clean Architecture with Riverpod
 
 Layer Organization:
+
 ```dart
 // lib/
 // ├── core/
@@ -240,6 +250,7 @@ class UserController extends _$UserController {
 ### Isolates for Heavy Computation
 
 Simple Compute:
+
 ```dart
 // Using compute for one-off operations
 Future<List<ProcessedItem>> processItems(List<RawItem> items) async {
@@ -252,6 +263,7 @@ List<ProcessedItem> _processItemsIsolate(List<RawItem> items) {
 ```
 
 Long-Running Isolate:
+
 ```dart
 class ImageProcessor {
   late final Isolate _isolate;
@@ -330,6 +342,7 @@ class _ProcessImageError {
 ### Advanced go_router Configuration
 
 Nested Navigation:
+
 ```dart
 final router = GoRouter(
   initialLocation: '/',
@@ -419,6 +432,7 @@ final router = GoRouter(
 ```
 
 Deep Linking Configuration:
+
 ```dart
 // android/app/src/main/AndroidManifest.xml
 // Add intent filters for deep linking
@@ -449,6 +463,7 @@ GoRouter(
 ### Widget Optimization
 
 Const Constructors:
+
 ```dart
 // Good - uses const
 class MyWidget extends StatelessWidget {
@@ -470,6 +485,7 @@ const MyWidget(); // const instantiation
 ```
 
 RepaintBoundary:
+
 ```dart
 class ComplexAnimatedWidget extends StatelessWidget {
   const ComplexAnimatedWidget({super.key});
@@ -495,6 +511,7 @@ class ComplexAnimatedWidget extends StatelessWidget {
 ```
 
 ListView Optimization:
+
 ```dart
 class OptimizedList extends StatelessWidget {
   final List<Item> items;
@@ -523,6 +540,7 @@ class OptimizedList extends StatelessWidget {
 ### Memory Management
 
 Image Caching:
+
 ```dart
 class ImageCacheManager {
   static final ImageCacheManager _instance = ImageCacheManager._();
@@ -544,6 +562,7 @@ class ImageCacheManager {
 ```
 
 Provider Disposal:
+
 ```dart
 @riverpod
 class ResourceController extends _$ResourceController {
@@ -581,6 +600,7 @@ class ResourceController extends _$ResourceController {
 ## Testing Frameworks
 
 ### flutter_test Configuration
+
 ```dart
 // test/widget_test.dart
 void main() {
@@ -611,6 +631,7 @@ void main() {
 ```
 
 ### Integration Testing
+
 ```dart
 // integration_test/app_test.dart
 import 'package:integration_test/integration_test.dart';
@@ -651,6 +672,7 @@ void main() {
 ```
 
 ### Golden Tests
+
 ```dart
 // test/golden_test.dart
 void main() {

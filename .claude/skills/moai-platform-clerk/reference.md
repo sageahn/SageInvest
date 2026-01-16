@@ -3,6 +3,7 @@
 ## Official Resources
 
 ### Core Documentation
+
 - **Clerk Documentation**: https://clerk.com/docs
   - Complete documentation hub
   - Getting started guides
@@ -23,6 +24,7 @@
 ### Framework-Specific Documentation
 
 #### Next.js Integration
+
 - **Next.js Documentation**: https://clerk.com/docs/quickstarts/nextjs
   - App Router setup
   - Middleware configuration
@@ -36,6 +38,7 @@
   - API updates
 
 #### React Integration
+
 - **Clerk React SDK**: https://clerk.com/docs/reference/clerk-react
   - useAuth hook
   - useUser hook
@@ -50,6 +53,7 @@
 ### Authentication Features
 
 #### WebAuthn & Passkeys
+
 - **WebAuthn Guide**: https://clerk.com/docs/reference/javascript/webauthn
   - Passkey configuration
   - Biometric authentication
@@ -61,12 +65,14 @@
   - Phone verification
 
 #### Multi-Factor Authentication
+
 - **MFA Guide**: https://clerk.com/docs/authentication/mfa
   - TOTP setup
   - Backup codes
   - MFA policies
 
 #### Organization Management
+
 - **Organizations**: https://clerk.com/docs/organizations
   - Organization creation
   - Member management
@@ -76,6 +82,7 @@
 ### API Reference
 
 #### JavaScript SDK
+
 - **Clerk JavaScript**: https://clerk.com/docs/reference/javascript
   - Client initialization
   - Authentication methods
@@ -83,6 +90,7 @@
   - User management
 
 #### React Hooks
+
 - **useAuth**: https://clerk.com/docs/reference/clerk-react/use-auth
   - Authentication state
   - Token access
@@ -99,6 +107,7 @@
   - Organization switching
 
 #### Server SDKs
+
 - **Next.js Server**: https://clerk.com/docs/reference/nextjs
   - auth() function
   - currentUser()
@@ -110,6 +119,7 @@
   - Session handling
 
 #### Backend API
+
 - **Backend API**: https://clerk.com/docs/reference/backend-api
   - User management
   - Organization management
@@ -119,6 +129,7 @@
 ### Components Reference
 
 #### Authentication Components
+
 - **SignIn**: https://clerk.com/docs/components/sign-in
   - Sign-in page configuration
   - Flow customization
@@ -142,6 +153,7 @@
 ### Configuration & Settings
 
 #### Environment Variables
+
 - **Configuration Reference**: https://clerk.com/docs/guides/configuration
   - NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
   - CLERK_SECRET_KEY
@@ -149,6 +161,7 @@
   - NEXT_PUBLIC_CLERK_SIGN_UP_URL
 
 #### Middleware
+
 - **Middleware Guide**: https://clerk.com/docs/nextjs/middleware
   - Route protection
   - createRouteMatcher
@@ -215,6 +228,7 @@ This skill contains 1 module:
 ### SDK Packages
 
 #### Current Versions (December 2025)
+
 - **@clerk/nextjs**: 6.x (Core 2)
   - Requires Next.js 13.0.4+
   - Requires React 18+
@@ -252,6 +266,7 @@ This skill contains 1 module:
   ```bash
   npx @clerk/upgrade --from=core-1
   ```
+
   - Automated code migration
   - Environment variable updates
   - Breaking change detection

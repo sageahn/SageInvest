@@ -10,8 +10,8 @@ Complete working examples for common Convex application patterns.
 
 ```typescript
 // convex/schema.ts
-import { defineSchema, defineTable } from 'convex/server'
-import { v } from 'convex/values'
+import { defineSchema, defineTable } from 'convex/server';
+import { v } from 'convex/values';
 
 export default defineSchema({
   documents: defineTable({
@@ -20,7 +20,7 @@ export default defineSchema({
     ownerId: v.string(),
     isPublic: v.boolean(),
     createdAt: v.number(),
-    updatedAt: v.number()
+    updatedAt: v.number(),
   })
     .index('by_owner', ['ownerId'])
     .index('by_public', ['isPublic', 'createdAt']),
@@ -28,19 +28,19 @@ export default defineSchema({
   collaborators: defineTable({
     documentId: v.id('documents'),
     userId: v.string(),
-    permission: v.union(v.literal('read'), v.literal('write'))
+    permission: v.union(v.literal('read'), v.literal('write')),
   })
     .index('by_document', ['documentId'])
-    .index('by_user', ['userId'])
-})
+    .index('by_user', ['userId']),
+});
 ```
 
 ### Server Functions
 
 ```typescript
 // convex/functions/documents.ts
-import { query, mutation } from '../_generated/server'
-import { v } from 'convex/values'
+import { query, mutation } from '../_generated/server';
+import { v } from 'convex/values';
 
 export const list = query({
   args: { ownerId: v.string() },
@@ -49,32 +49,32 @@ export const list = query({
       .query('documents')
       .withIndex('by_owner', (q) => q.eq('ownerId', args.ownerId))
       .order('desc')
-      .collect()
-  }
-})
+      .collect();
+  },
+});
 
 export const create = mutation({
   args: { title: v.string(), content: v.string(), isPublic: v.boolean() },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
-    if (!identity) throw new Error('Unauthorized')
-    
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error('Unauthorized');
+
     return await ctx.db.insert('documents', {
       ...args,
       ownerId: identity.subject,
       createdAt: Date.now(),
-      updatedAt: Date.now()
-    })
-  }
-})
+      updatedAt: Date.now(),
+    });
+  },
+});
 
 export const update = mutation({
   args: { id: v.id('documents'), title: v.optional(v.string()), content: v.optional(v.string()) },
   handler: async (ctx, args) => {
-    const { id, ...updates } = args
-    await ctx.db.patch(id, { ...updates, updatedAt: Date.now() })
-  }
-})
+    const { id, ...updates } = args;
+    await ctx.db.patch(id, { ...updates, updatedAt: Date.now() });
+  },
+});
 ```
 
 ### React Component
@@ -135,17 +135,16 @@ export default defineSchema({
     authorId: v.string(),
     authorName: v.string(),
     content: v.string(),
-    createdAt: v.number()
-  })
-    .index('by_channel', ['channelId', 'createdAt']),
+    createdAt: v.number(),
+  }).index('by_channel', ['channelId', 'createdAt']),
 
   channels: defineTable({
     name: v.string(),
     description: v.optional(v.string()),
     isPrivate: v.boolean(),
-    createdAt: v.number()
-  })
-})
+    createdAt: v.number(),
+  }),
+});
 ```
 
 ### Server Functions
@@ -159,25 +158,25 @@ export const list = query({
       .query('messages')
       .withIndex('by_channel', (q) => q.eq('channelId', args.channelId))
       .order('desc')
-      .take(args.limit ?? 50)
-  }
-})
+      .take(args.limit ?? 50);
+  },
+});
 
 export const send = mutation({
   args: { channelId: v.string(), content: v.string() },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
-    if (!identity) throw new Error('Unauthorized')
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error('Unauthorized');
 
     return await ctx.db.insert('messages', {
       channelId: args.channelId,
       authorId: identity.subject,
       authorName: identity.name ?? 'Anonymous',
       content: args.content,
-      createdAt: Date.now()
-    })
-  }
-})
+      createdAt: Date.now(),
+    });
+  },
+});
 ```
 
 ### React Component
@@ -242,10 +241,10 @@ files: defineTable({
   fileType: v.string(),
   fileSize: v.number(),
   uploaderId: v.string(),
-  uploadedAt: v.number()
+  uploadedAt: v.number(),
 })
   .index('by_uploader', ['uploaderId'])
-  .index('by_type', ['fileType'])
+  .index('by_type', ['fileType']);
 ```
 
 ### Server Functions
@@ -254,25 +253,30 @@ files: defineTable({
 // convex/functions/files.ts
 export const generateUploadUrl = mutation({
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity()
-    if (!identity) throw new Error('Unauthorized')
-    return await ctx.storage.generateUploadUrl()
-  }
-})
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error('Unauthorized');
+    return await ctx.storage.generateUploadUrl();
+  },
+});
 
 export const saveFile = mutation({
-  args: { storageId: v.id('_storage'), fileName: v.string(), fileType: v.string(), fileSize: v.number() },
+  args: {
+    storageId: v.id('_storage'),
+    fileName: v.string(),
+    fileType: v.string(),
+    fileSize: v.number(),
+  },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity()
-    if (!identity) throw new Error('Unauthorized')
-    
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error('Unauthorized');
+
     return await ctx.db.insert('files', {
       ...args,
       uploaderId: identity.subject,
-      uploadedAt: Date.now()
-    })
-  }
-})
+      uploadedAt: Date.now(),
+    });
+  },
+});
 
 export const listImages = query({
   args: { uploaderId: v.string() },
@@ -280,18 +284,18 @@ export const listImages = query({
     const files = await ctx.db
       .query('files')
       .withIndex('by_uploader', (q) => q.eq('uploaderId', args.uploaderId))
-      .collect()
-    
+      .collect();
+
     return Promise.all(
       files
         .filter((f) => f.fileType.startsWith('image/'))
         .map(async (f) => ({
           ...f,
-          url: await ctx.storage.getUrl(f.storageId)
+          url: await ctx.storage.getUrl(f.storageId),
         }))
-    )
-  }
-})
+    );
+  },
+});
 ```
 
 ### React Component
@@ -355,74 +359,70 @@ tasks: defineTable({
   dueDate: v.optional(v.number()),
   assigneeId: v.optional(v.string()),
   createdAt: v.number(),
-  updatedAt: v.number()
+  updatedAt: v.number(),
 })
   .index('by_status', ['status'])
   .index('by_due_date', ['dueDate'])
-  .index('by_assignee', ['assigneeId'])
+  .index('by_assignee', ['assigneeId']);
 ```
 
 ### Scheduled Cleanup
 
 ```typescript
 // convex/crons.ts
-import { cronJobs } from 'convex/server'
-import { internal } from './_generated/api'
+import { cronJobs } from 'convex/server';
+import { internal } from './_generated/api';
 
-const crons = cronJobs()
+const crons = cronJobs();
 
 crons.cron(
   'cleanup completed tasks',
-  '0 0 * * 0',  // Every Sunday at midnight
+  '0 0 * * 0', // Every Sunday at midnight
   internal.tasks.cleanupCompleted
-)
+);
 
-crons.interval(
-  'send due date reminders',
-  { hours: 1 },
-  internal.tasks.sendReminders
-)
+crons.interval('send due date reminders', { hours: 1 }, internal.tasks.sendReminders);
 
-export default crons
+export default crons;
 ```
 
 ### Internal Functions
 
 ```typescript
 // convex/functions/tasks.ts
-import { internalMutation, internalAction } from '../_generated/server'
+import { internalMutation, internalAction } from '../_generated/server';
 
 export const cleanupCompleted = internalMutation({
   handler: async (ctx) => {
-    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000
-    
+    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+
     const oldTasks = await ctx.db
       .query('tasks')
       .withIndex('by_status', (q) => q.eq('status', 'done'))
-      .collect()
-    
-    const toDelete = oldTasks.filter((t) => t.updatedAt < thirtyDaysAgo)
-    
+      .collect();
+
+    const toDelete = oldTasks.filter((t) => t.updatedAt < thirtyDaysAgo);
+
     for (const task of toDelete) {
-      await ctx.db.delete(task._id)
+      await ctx.db.delete(task._id);
     }
-    
-    return { deleted: toDelete.length }
-  }
-})
+
+    return { deleted: toDelete.length };
+  },
+});
 
 export const sendReminders = internalAction({
   handler: async (ctx) => {
-    const tomorrow = Date.now() + 24 * 60 * 60 * 1000
-    
-    const dueSoon = await ctx.runQuery(internal.tasks.getDueSoon, { before: tomorrow })
-    
+    const tomorrow = Date.now() + 24 * 60 * 60 * 1000;
+
+    const dueSoon = await ctx.runQuery(internal.tasks.getDueSoon, { before: tomorrow });
+
     for (const task of dueSoon) {
       // Send notification via external service
-      await sendNotification(task.assigneeId, `Task "${task.title}" is due soon!`)
+      await sendNotification(task.assigneeId, `Task "${task.title}" is due soon!`);
     }
-  }
-})
+  },
+});
 ```
 
 ---
@@ -433,44 +433,44 @@ export const sendReminders = internalAction({
 
 ```typescript
 // convex/http.ts
-import { httpRouter } from 'convex/server'
-import { httpAction } from './_generated/server'
-import { internal } from './_generated/api'
+import { httpRouter } from 'convex/server';
+import { httpAction } from './_generated/server';
+import { internal } from './_generated/api';
 
-const http = httpRouter()
+const http = httpRouter();
 
 http.route({
   path: '/webhook/payment',
   method: 'POST',
   handler: httpAction(async (ctx, request) => {
-    const signature = request.headers.get('x-webhook-signature')
-    const body = await request.text()
-    
+    const signature = request.headers.get('x-webhook-signature');
+    const body = await request.text();
+
     // Verify signature
     if (!verifyWebhookSignature(body, signature)) {
-      return new Response('Invalid signature', { status: 401 })
+      return new Response('Invalid signature', { status: 401 });
     }
-    
-    const payload = JSON.parse(body)
-    
+
+    const payload = JSON.parse(body);
+
     await ctx.runMutation(internal.payments.processWebhook, {
       eventType: payload.type,
-      data: payload.data
-    })
-    
-    return new Response('OK', { status: 200 })
-  })
-})
+      data: payload.data,
+    });
 
-export default http
+    return new Response('OK', { status: 200 });
+  }),
+});
+
+export default http;
 ```
 
 ### Payment Processing
 
 ```typescript
 // convex/functions/payments.ts
-import { internalMutation } from '../_generated/server'
-import { v } from 'convex/values'
+import { internalMutation } from '../_generated/server';
+import { v } from 'convex/values';
 
 export const processWebhook = internalMutation({
   args: { eventType: v.string(), data: v.any() },
@@ -481,22 +481,22 @@ export const processWebhook = internalMutation({
           externalId: args.data.id,
           amount: args.data.amount,
           status: 'completed',
-          processedAt: Date.now()
-        })
-        break
-      
+          processedAt: Date.now(),
+        });
+        break;
+
       case 'payment.failed':
         await ctx.db.insert('payments', {
           externalId: args.data.id,
           amount: args.data.amount,
           status: 'failed',
           error: args.data.error,
-          processedAt: Date.now()
-        })
-        break
+          processedAt: Date.now(),
+        });
+        break;
     }
-  }
-})
+  },
+});
 ```
 
 ---

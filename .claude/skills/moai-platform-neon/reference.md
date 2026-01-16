@@ -11,23 +11,27 @@ Authentication: Bearer token via NEON_API_KEY header
 ### Common Endpoints
 
 Project Endpoints:
+
 - GET /projects - List all projects
 - GET /projects/{project_id} - Get project details
 - PATCH /projects/{project_id} - Update project settings
 
 Branch Endpoints:
+
 - GET /projects/{project_id}/branches - List branches
 - POST /projects/{project_id}/branches - Create branch
 - DELETE /projects/{project_id}/branches/{branch_id} - Delete branch
 - GET /projects/{project_id}/branches/{branch_id}/endpoints - Get branch endpoints
 
 Endpoint Endpoints:
+
 - GET /projects/{project_id}/endpoints - List compute endpoints
 - PATCH /projects/{project_id}/endpoints/{endpoint_id} - Update endpoint settings
 
 ### API Response Formats
 
 Branch Creation Response:
+
 ```json
 {
   "branch": {
@@ -50,6 +54,7 @@ Branch Creation Response:
 ```
 
 Endpoint Configuration Response:
+
 ```json
 {
   "endpoint": {
@@ -69,11 +74,13 @@ Endpoint Configuration Response:
 ### Connection String Formats
 
 Direct Connection (for migrations and admin tasks):
+
 ```
 postgresql://user:password@ep-xxx.region.neon.tech/dbname?sslmode=require
 ```
 
 Pooled Connection (for serverless and edge):
+
 ```
 postgresql://user:password@ep-xxx-pooler.region.neon.tech/dbname?sslmode=require
 ```
@@ -81,22 +88,26 @@ postgresql://user:password@ep-xxx-pooler.region.neon.tech/dbname?sslmode=require
 ### Environment Variables
 
 Required Variables:
+
 - DATABASE_URL: Primary connection string for migrations
 - DATABASE_URL_POOLED: Pooled connection for application use
 - NEON_API_KEY: API key for branch management
 - NEON_PROJECT_ID: Project identifier for API calls
 
 Optional Variables:
+
 - NEON_BRANCH_ID: Specific branch identifier
 - NEON_ENDPOINT_ID: Specific endpoint identifier
 
 ### Connection String Parameters
 
 SSL Mode Options:
+
 - sslmode=require: Require SSL (recommended)
 - sslmode=verify-full: Verify SSL certificate
 
 Connection Pool Options:
+
 - connection_limit: Maximum connections (pooled only)
 - pool_timeout: Connection timeout in seconds
 
@@ -133,6 +144,7 @@ High-Traffic: min 1, max 8, timeout 0 (never suspend)
 ### Supported Extensions
 
 Core Extensions:
+
 - pg_stat_statements: Query performance statistics
 - pg_trgm: Trigram text similarity
 - uuid-ossp: UUID generation
@@ -140,20 +152,24 @@ Core Extensions:
 - pgcrypto: Cryptographic functions
 
 Spatial Extensions:
+
 - postgis: Spatial and geographic objects
 - postgis_topology: Topology support
 
 Full-Text Search:
+
 - pg_search: Full-text search improvements
 - unaccent: Remove accents from text
 
 JSON Processing:
+
 - jsonb_plperl: Perl JSON functions
 - jsonb_plpython3u: Python JSON functions
 
 ### Extension Installation
 
 Enable Extension:
+
 ```sql
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 CREATE EXTENSION IF NOT EXISTS uuid-ossp;
@@ -167,26 +183,31 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 ### Feature Comparison
 
 Serverless Compute:
+
 - Neon: Full auto-scaling with scale-to-zero
 - Supabase: Fixed compute tiers
 - PlanetScale: MySQL-based serverless
 
 Database Branching:
+
 - Neon: Instant copy-on-write branches
 - Supabase: Manual database cloning
 - PlanetScale: Schema-only branching
 
 Point-in-Time Recovery:
+
 - Neon: 30-day PITR with instant restore
 - Supabase: 7-day backups (Pro tier)
 - PlanetScale: Continuous backups
 
 Connection Pooling:
+
 - Neon: Built-in HTTP and WebSocket pooler
 - Supabase: PgBouncer integration
 - PlanetScale: Native connection handling
 
 Edge Compatibility:
+
 - Neon: Full edge runtime support
 - Supabase: Edge functions with pooler
 - PlanetScale: Edge-compatible driver
@@ -194,11 +215,13 @@ Edge Compatibility:
 ### Pricing Comparison
 
 Free Tier Storage:
+
 - Neon: 3 GB
 - Supabase: 500 MB
 - PlanetScale: 5 GB
 
 Free Tier Compute:
+
 - Neon: 100 compute hours
 - Supabase: Fixed 500 MB RAM
 - PlanetScale: 1 billion row reads
@@ -210,16 +233,19 @@ Free Tier Compute:
 ### Common Error Codes
 
 Connection Errors:
+
 - ECONNREFUSED: Endpoint suspended, will wake on next request
 - SSL_CERTIFICATE_REQUIRED: Missing sslmode=require parameter
 - TOO_MANY_CONNECTIONS: Pool exhausted, use pooled connection
 
 Branch Errors:
+
 - BRANCH_NOT_FOUND: Invalid branch ID
 - BRANCH_LIMIT_EXCEEDED: Project branch limit reached
 - PARENT_BRANCH_NOT_FOUND: Invalid parent for branching
 
 API Errors:
+
 - 401 Unauthorized: Invalid or expired API key
 - 403 Forbidden: Insufficient permissions
 - 429 Too Many Requests: Rate limit exceeded
@@ -227,16 +253,19 @@ API Errors:
 ### Troubleshooting Guide
 
 Slow Cold Starts:
+
 - Increase minimum compute units
 - Reduce suspend timeout
 - Use connection pooling
 
 Connection Timeouts:
+
 - Switch to pooled connection string
 - Verify network connectivity
 - Check endpoint status via API
 
 Branch Creation Failures:
+
 - Verify parent branch exists
 - Check project branch limits
 - Ensure API key has write permissions

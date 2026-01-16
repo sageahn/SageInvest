@@ -1,15 +1,15 @@
 ---
-name: "moai-platform-supabase"
-description: "Supabase specialist covering PostgreSQL 16, pgvector, RLS, real-time subscriptions, and Edge Functions. Use when building full-stack apps with Supabase backend."
+name: 'moai-platform-supabase'
+description: 'Supabase specialist covering PostgreSQL 16, pgvector, RLS, real-time subscriptions, and Edge Functions. Use when building full-stack apps with Supabase backend.'
 version: 2.1.0
-category: "platform"
+category: 'platform'
 modularized: true
 user-invocable: false
 tags: ['supabase', 'postgresql', 'pgvector', 'realtime', 'rls', 'edge-functions']
 context7-libraries: ['/supabase/supabase']
 related-skills: ['moai-platform-neon', 'moai-lang-typescript']
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Grep
@@ -48,9 +48,9 @@ Use Supabase for multi-tenant SaaS applications requiring data isolation, AI/ML 
 
 For latest Supabase API documentation, use the Context7 MCP tools:
 
-Step 1 - Resolve library ID: Use mcp__context7__resolve-library-id with query "supabase" to get the Context7-compatible library ID.
+Step 1 - Resolve library ID: Use mcp**context7**resolve-library-id with query "supabase" to get the Context7-compatible library ID.
 
-Step 2 - Fetch documentation: Use mcp__context7__get-library-docs with the resolved library ID, specifying topic and token allocation.
+Step 2 - Fetch documentation: Use mcp**context7**get-library-docs with the resolved library ID, specifying topic and token allocation.
 
 Example topics include "postgresql pgvector", "row-level-security policies", "realtime subscriptions presence", "edge-functions deno", "storage transformations", and "auth jwt".
 

@@ -29,7 +29,7 @@ provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 // Set custom parameters
 provider.setCustomParameters({
   login_hint: 'user@example.com',
-  prompt: 'select_account'
+  prompt: 'select_account',
 });
 
 // Popup flow (recommended for web)
@@ -106,16 +106,19 @@ func signInWithGoogle() {
 ### Mobile Configuration Requirements
 
 iOS Configuration:
+
 - Add reversed client ID to URL schemes in Info.plist
 - Enable Keychain Sharing capability
 - Configure GoogleService-Info.plist with correct bundle ID
 
 Android Configuration:
+
 - Add SHA-1 and SHA-256 fingerprints to Firebase project settings
 - Configure google-services.json with correct package name
 - Ensure play-services-auth dependency is included
 
 Web Configuration:
+
 - Configure authorized domains in Firebase Console
 - Set up OAuth consent screen in Google Cloud Console
 - Add authorized JavaScript origins and redirect URIs
@@ -138,7 +141,7 @@ provider.addScope('public_profile');
 
 provider.setCustomParameters({
   display: 'popup',
-  auth_type: 'rerequest'
+  auth_type: 'rerequest',
 });
 
 const result = await signInWithPopup(auth, provider);
@@ -310,7 +313,7 @@ await linkWithPopup(auth.currentUser, new GoogleAuthProvider());
 await unlink(auth.currentUser, 'google.com');
 
 // Get linked providers
-const providers = auth.currentUser?.providerData.map(p => p.providerId);
+const providers = auth.currentUser?.providerData.map((p) => p.providerId);
 ```
 
 ---
@@ -318,16 +321,19 @@ const providers = auth.currentUser?.providerData.map(p => p.providerId);
 ## Best Practices
 
 Security Considerations:
+
 - Always validate tokens server-side for sensitive operations
 - Use nonce for Apple Sign-In to prevent replay attacks
 - Implement proper error handling for all authentication flows
 
 User Experience Guidelines:
+
 - Provide multiple sign-in options for user convenience
 - Handle account linking gracefully when email already exists
 - Show loading states during authentication flows
 
 Platform-Specific Notes:
+
 - iOS requires Apple Sign-In if offering third-party sign-in
 - Android requires SHA fingerprints for Google Sign-In
 - Web popup may be blocked; implement redirect fallback

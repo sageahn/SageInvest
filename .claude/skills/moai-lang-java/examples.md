@@ -5,6 +5,7 @@
 ### Spring Boot 3.3 User Service
 
 UserController.java:
+
 ```java
 @RestController
 @RequestMapping("/api/v1/users")
@@ -69,6 +70,7 @@ public class UserController {
 ```
 
 UserService.java:
+
 ```java
 @Service
 @RequiredArgsConstructor
@@ -142,6 +144,7 @@ public class UserService {
 ```
 
 User.java (Entity):
+
 ```java
 @Entity
 @Table(name = "users", indexes = {
@@ -211,6 +214,7 @@ public enum UserStatus {
 ```
 
 UserRepository.java:
+
 ```java
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
@@ -233,6 +237,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 ```
 
 DTOs (Records):
+
 ```java
 public record UserDto(
     Long id,

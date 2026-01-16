@@ -68,16 +68,20 @@ Focus Areas: [Specific areas within the domain]
 
 Example 1: [Specific task type]
 ```
+
 Input: [Example input scenario]
 Process: [Step-by-step processing approach]
 Output: [Expected output format and content]
+
 ```
 
 Example 2: [Another task type]
 ```
+
 Input: [Example input scenario]
 Process: [Step-by-step processing approach]
 Output: [Expected output format and content]
+
 ```
 
 ## Integration Patterns
@@ -105,11 +109,13 @@ Delegation Targets: When to delegate to other sub-agents
 ### Required Fields
 
 #### `name` (String)
+
 Format: kebab-case (lowercase, numbers, hyphens only)
 Length: Maximum 64 characters
 Uniqueness: Must be unique within project
 Pattern: `[domain]-[specialization]` or `[function]-expert`
 Examples:
+
 - `code-backend` (backend domain specialization)
 - `frontend-developer` (frontend specialization)
 - `api-designer` (API design specialization)
@@ -119,13 +125,16 @@ Examples:
 - `this-name-is-way-too-long-and-exceeds-the-sixty-four-character-limit`
 
 #### `description` (String)
+
 Format: Natural language with specific components
 Required Components:
+
 1. "Use PROACTIVELY when:" clause with specific trigger scenarios
 2. "Called from" clause indicating workflow context
 3. "CRITICAL: This agent MUST be invoked via Task(subagent_type='...')" clause
 
 Examples:
+
 - `Use PROACTIVELY for backend architecture, API design, server implementation, database integration, or microservices architecture. Called from /moai:1-plan and task delegation workflows. CRITICAL: This agent MUST be invoked via Task(subagent_type='code-backend') - NEVER executed directly.`
 - `Backend development agent` (too vague, missing required clauses)
 - `Helps with backend stuff` (unprofessional, missing trigger scenarios)
@@ -133,10 +142,12 @@ Examples:
 ### Optional Fields
 
 #### `tools` (String List)
+
 Format: Comma-separated list, no brackets
 Purpose: Principle of least privilege
 Default: All available tools if omitted
 Examples:
+
 ```yaml
 # CORRECT: Minimal specific tools
 tools: Read, Write, Edit, Bash
@@ -155,15 +166,18 @@ tools: Read, Write, Edit, Bash, Grep, Glob, WebFetch, MultiEdit, TodoWrite, AskU
 ```
 
 #### `model` (String)
+
 Options: `sonnet`, `opus`, `haiku`, `inherit`
 Default: `inherit`
 Recommendations:
+
 - `sonnet`: Complex reasoning, architecture, research
 - `opus`: Maximum quality for critical tasks
 - `haiku`: Fast execution, well-defined tasks
 - `inherit`: Let context decide (default)
 
 Examples:
+
 ```yaml
 # Appropriate for complex reasoning
 model: sonnet
@@ -176,10 +190,12 @@ model: haiku
 ```
 
 #### `permissionMode` (String)
+
 Options: `default`, `acceptEdits`, `dontAsk`
 Default: `default`
 Purpose: Control tool permission prompts
 Examples:
+
 ```yaml
 # Default behavior
 permissionMode: default
@@ -192,10 +208,12 @@ permissionMode: dontAsk
 ```
 
 #### `skills` (String List)
+
 Format: Comma-separated list of skill names
 Purpose: Auto-load specific skills when agent starts
 Loading: Skills available automatically, no explicit invocation needed
 Examples:
+
 ```yaml
 # Load language and domain skills
 skills: moai-lang-python, moai-domain-backend, moai-context7-integration
@@ -211,13 +229,15 @@ skills: moai-foundation-quality, moai-docs-generation, moai-cc-claude-code
 ### 1. Agent Identity and Role
 
 Clear Role Definition:
+
 ```markdown
-# Backend Expert 
+# Backend Expert
 
 You are a specialized backend architecture expert focused on designing and implementing scalable, secure, and maintainable backend systems.
 ```
 
 Domain Expertise Statement:
+
 ```markdown
 ## Core Responsibilities
 
@@ -229,22 +249,26 @@ Focus Areas: Scalability, security, performance optimization
 ### 2. Workflow Process Definition
 
 Phase-based Structure:
+
 ```markdown
 ## Workflow Process
 
 ### Phase 1: Requirements Analysis
+
 1. Parse user requirements to extract technical specifications
 2. Identify performance and scalability requirements
 3. Assess security and compliance needs
 4. Determine technology stack constraints
 
 ### Phase 2: Architecture Design
+
 1. Design API schemas and data models
 2. Plan database architecture and relationships
 3. Define service boundaries and interfaces
 4. Establish security and authentication patterns
 
 ### Phase 3: Implementation Planning
+
 1. Create implementation roadmap with milestones
 2. Specify required dependencies and frameworks
 3. Define testing strategy and quality gates
@@ -254,6 +278,7 @@ Phase-based Structure:
 ### 3. Constraints and Boundaries
 
 Critical Constraints Section:
+
 ```markdown
 ## Critical Constraints
 
@@ -266,35 +291,43 @@ Critical Constraints Section:
 ### 4. Example Workflows
 
 Concrete Examples:
+
 ```markdown
 ## Example Workflows
 
 REST API Design:
 ```
+
 Input: "Design user management API"
 Process:
+
 1. Extract entities: User, Profile, Authentication
 2. Design endpoints: /users, /auth, /profiles
 3. Define data models and validation rules
 4. Specify authentication and authorization flows
 5. Document error handling and status codes
 6. Include rate limiting and security measures
-Output: Complete API specification with:
+   Output: Complete API specification with:
+
 - Endpoint definitions (/users, /auth, /profiles)
 - Data models and validation rules
 - Authentication and authorization flows
 - Error handling and status codes
 - Rate limiting and security measures
+
 ```
+
 ```
 
 ### 5. Integration Patterns
 
 When to Use Section:
+
 ```markdown
 ## Integration Patterns
 
 When to Use:
+
 - Designing new backend APIs and services
 - Architecting microservices systems
 - Optimizing database performance and queries
@@ -302,6 +335,7 @@ When to Use:
 - Conducting backend security audits
 
 Delegation Targets:
+
 - `data-database` for complex database schema design
 - `security-expert` for advanced security analysis
 - `performance-engineer` for performance optimization
@@ -311,6 +345,7 @@ Delegation Targets:
 ### 6. Quality Standards
 
 Specific Quality Requirements:
+
 ```markdown
 ## Quality Standards
 
@@ -340,7 +375,7 @@ model: sonnet
 skills: moai-domain-backend, moai-essentials-perf, moai-context7-integration
 ---
 
-# Backend Expert 
+# Backend Expert
 
 You are a specialized backend architecture expert focused on designing and implementing scalable, secure, and maintainable backend systems.
 
@@ -436,12 +471,14 @@ Focus Areas: Quality standards compliance, security validation, performance opti
 ### 1. Domain Analysis
 
 Identify Specialization Need:
+
 - What specific domain expertise is missing?
 - What tasks require specialized knowledge?
 - What workflows would benefit from automation?
 - What quality gaps exist in current processes?
 
 Define Domain Boundaries:
+
 - Clear scope of expertise
 - Boundaries with other domains
 - Integration points with other agents
@@ -450,12 +487,14 @@ Define Domain Boundaries:
 ### 2. Capability Definition
 
 Core Capabilities:
+
 - List 3-5 primary capabilities
 - Define measurable outcomes
 - Specify tools and resources needed
 - Identify integration patterns
 
 Workflow Design:
+
 - Phase-based process definition
 - Clear decision points
 - Quality validation steps
@@ -464,12 +503,14 @@ Workflow Design:
 ### 3. Constraint Specification
 
 Technical Constraints:
+
 - Tool permissions and limitations
 - No sub-agent nesting rule
 - Context window isolation
 - Resource usage boundaries
 
 Quality Constraints:
+
 - Domain-specific quality standards
 - Output format requirements
 - Integration compatibility
@@ -478,18 +519,21 @@ Quality Constraints:
 ### 4. Implementation Guidelines
 
 Naming Convention:
+
 - Follow kebab-case format
 - Include domain or function indicator
 - Ensure uniqueness within project
 - Keep under 64 characters
 
 Description Writing:
+
 - Include PROACTIVELY clause
 - Specify called-from contexts
 - Include Task() invocation requirement
 - Provide specific trigger scenarios
 
 System Prompt Development:
+
 - Clear role definition
 - Structured workflow process
 - Specific constraints and boundaries
@@ -593,6 +637,7 @@ elif analysis_result.type == "performance":
 ### 1. Agent-Level Error Handling
 
 Error Classification:
+
 ```python
 # Error types and handling strategies
 error_types = {
@@ -617,20 +662,24 @@ error_types = {
 ### 2. Workflow Error Recovery
 
 Recovery Strategies:
+
 ```markdown
 ## Error Handling Protocol
 
 ### Type 1: Tool Permission Errors
+
 - Detection: Tool access denied
 - Recovery: Log error, suggest permission adjustment, use alternative tools
 - Escalation: Report to system administrator if critical
 
 ### Type 2: Domain Boundary Violations
+
 - Detection: Request outside agent expertise
 - Recovery: Delegate to appropriate specialized agent
 - Documentation: Log delegation with reasoning
 
 ### Type 3: Resource Constraints
+
 - Detection: Memory, time, or resource limits exceeded
 - Recovery: Implement progressive processing, use caching
 - Optimization: Suggest workflow improvements
@@ -639,6 +688,7 @@ Recovery Strategies:
 ### 3. Quality Assurance
 
 Output Validation:
+
 ```python
 # Quality validation checkpoints
 def validate_agent_output(output, agent_type):
@@ -660,15 +710,18 @@ def validate_agent_output(output, agent_type):
 ### 1. Context Management
 
 Context Window Optimization:
+
 ```markdown
 ## Context Optimization Strategy
 
 ### Input Context Management
+
 - Load only essential information for task execution
 - Use progressive disclosure for complex scenarios
 - Implement context caching for repeated patterns
 
 ### Output Context Control
+
 - Provide concise, focused responses
 - Use structured output formats
 - Implement result summarization
@@ -677,6 +730,7 @@ Context Window Optimization:
 ### 2. Tool Usage Optimization
 
 Efficient Tool Patterns:
+
 ```python
 # Optimized tool usage patterns
 class EfficientToolUser:
@@ -702,6 +756,7 @@ class EfficientToolUser:
 ### 3. Model Selection Optimization
 
 Model Choice Guidelines:
+
 ```yaml
 # Model selection optimization guidelines
 model_selection:
@@ -743,22 +798,26 @@ model_selection:
 ### 1. Pre-Publication Validation
 
 Technical Validation:
+
 ```markdown
 ## Pre-Publication Checklist
 
 ### Frontmatter Validation
+
 - [ ] Name uses kebab-case and is unique
 - [ ] Description includes all required clauses
 - [ ] Tool permissions follow principle of least privilege
 - [ ] Model selection appropriate for task complexity
 
 ### System Prompt Validation
+
 - [ ] Clear role definition and domain focus
 - [ ] Structured workflow process defined
 - [ ] Critical constraints specified
 - [ ] Example workflows provided
 
 ### Integration Validation
+
 - [ ] Delegation patterns clearly defined
 - [ ] Error handling strategies documented
 - [ ] Quality standards specified
@@ -768,6 +827,7 @@ Technical Validation:
 ### 2. Runtime Quality Monitoring
 
 Performance Metrics:
+
 ```python
 # Performance monitoring for sub-agents
 class AgentPerformanceMonitor:
@@ -803,22 +863,26 @@ class AgentPerformanceMonitor:
 ### 3. Continuous Improvement
 
 Feedback Integration:
+
 ```markdown
 ## Continuous Improvement Process
 
 ### User Feedback Collection
+
 - Collect success rates and user satisfaction
 - Monitor common error patterns and resolutions
 - Track performance metrics and optimization opportunities
 - Analyze usage patterns for improvement insights
 
 ### Iterative Enhancement
+
 - Regular review of agent performance and accuracy
 - Update workflows based on user feedback and metrics
 - Optimize tool usage and model selection
 - Enhance error handling and recovery mechanisms
 
 ### Quality Gate Updates
+
 - Incorporate lessons learned into quality standards
 - Update validation checklists based on new requirements
 - Refine integration patterns with other agents
@@ -832,16 +896,19 @@ Feedback Integration:
 ### 1. Security Constraints
 
 Tool Permission Security:
+
 ```markdown
 ## Security Guidelines
 
 ### Tool Permission Principles
+
 - Principle of Least Privilege: Only grant tools essential for agent's domain
 - Regular Permission Reviews: Periodically audit and update tool permissions
 - Security Impact Assessment: Consider security implications of each tool
 - Secure Default Configurations: Use secure defaults for all permissions
 
 ### High-Risk Tool Management
+
 - Bash tool: Restrict to essential system operations only
 - WebFetch tool: Validate URLs and implement content sanitization
 - Write/Edit tools: Implement path validation and content restrictions
@@ -851,6 +918,7 @@ Tool Permission Security:
 ### 2. Data Protection
 
 Privacy Considerations:
+
 ```python
 # Data protection patterns
 class SecureDataHandler:
@@ -885,6 +953,7 @@ class SecureDataHandler:
 ### 1. Multi-Modal Agents
 
 Multi-capability Design:
+
 ```yaml
 ---
 name: full-stack-developer
@@ -908,10 +977,12 @@ Focus Areas: Complete application lifecycle, technology integration, performance
 ### 2. Adaptive Agents
 
 Context-Aware Behavior:
-```markdown
+
+````markdown
 ## Adaptive Behavior Patterns
 
 ### Model Selection Logic
+
 ```python
 def select_optimal_model(task_complexity, time_constraints, quality_requirements):
  """Select optimal model based on task characteristics."""
@@ -927,8 +998,10 @@ def select_optimal_model(task_complexity, time_constraints, quality_requirements
 
  return "inherit" # Let context decide
 ```
+````
 
 ### Dynamic Tool Allocation
+
 ```python
 def allocate_tools_by_task(task_type, security_level, performance_requirements):
  """Dynamically allocate tools based on task requirements."""
@@ -950,16 +1023,19 @@ def allocate_tools_by_task(task_type, security_level, performance_requirements):
 ### 3. Learning Agents
 
 Knowledge Accumulation:
-```markdown
+
+````markdown
 ## Learning and Adaptation
 
 ### Pattern Recognition
+
 - Common Task Patterns: Identify frequent user request patterns
 - Solution Templates: Develop reusable solution templates
 - Error Pattern Analysis: Learn from common errors and solutions
 - Performance Optimization: Continuously improve based on metrics
 
 ### Adaptive Workflows
+
 ```python
 class AdaptiveWorkflow:
  def __init__(self):
@@ -990,6 +1066,7 @@ class AdaptiveWorkflow:
 
  return suggestions
 ```
+````
 
 ---
 
@@ -998,22 +1075,26 @@ class AdaptiveWorkflow:
 ### 1. Regular Maintenance Schedule
 
 Monthly Reviews:
+
 ```markdown
 ## Monthly Maintenance Checklist
 
 ### Performance Review
+
 - [ ] Analyze execution metrics and performance trends
 - [ ] Identify bottlenecks and optimization opportunities
 - [ ] Update tool permissions based on usage patterns
 - [ ] Optimize model selection based on success rates
 
 ### Quality Assurance
+
 - [ ] Review error patterns and success rates
 - [ ] Update example workflows based on user feedback
 - [ ] Validate integration with other agents
 - [ ] Test compatibility with latest Claude Code version
 
 ### Documentation Updates
+
 - [ ] Update system prompt based on lessons learned
 - [ ] Refresh example workflows and use cases
 - [ ] Update integration patterns and delegation targets
@@ -1023,31 +1104,33 @@ Monthly Reviews:
 ### 2. Version Management
 
 Semantic Versioning:
+
 ```yaml
 # Version update guidelines
 version_updates:
- major_changes:
- - Breaking changes to agent interface or workflow
- - Significant changes to domain expertise
- - Removal of core capabilities
- - Changes to required tool permissions
+  major_changes:
+    - Breaking changes to agent interface or workflow
+    - Significant changes to domain expertise
+    - Removal of core capabilities
+    - Changes to required tool permissions
 
- minor_changes:
- - Addition of new capabilities within domain
- - Enhanced error handling and recovery
- - Performance optimizations
- - Integration improvements
+  minor_changes:
+    - Addition of new capabilities within domain
+    - Enhanced error handling and recovery
+    - Performance optimizations
+    - Integration improvements
 
- patch_changes:
- - Bug fixes and error corrections
- - Documentation improvements
- - Minor workflow enhancements
- - Security updates and patches
+  patch_changes:
+    - Bug fixes and error corrections
+    - Documentation improvements
+    - Minor workflow enhancements
+    - Security updates and patches
 ```
 
 ### 3. Continuous Monitoring
 
 Real-time Monitoring:
+
 ```python
 # Agent monitoring system
 class SubAgentMonitor:

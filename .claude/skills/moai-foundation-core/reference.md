@@ -9,36 +9,42 @@ Progressive Disclosure Level 2: Extended documentation for foundational principl
 ### Core Concepts
 
 TRUST 5 Framework:
+
 - Purpose: Automated quality gate system for code quality assurance
 - Components: Test-first, Readable, Unified, Secured, Trackable
 - Integration: Pre-commit hooks, CI/CD pipelines, agent workflows
 - Validation: Automated checks with configurable thresholds
 
 SPEC-First TDD:
+
 - Purpose: Specification-driven development workflow
 - Phases: SPEC (Plan), TDD (Run), Docs (Sync)
 - Format: EARS (Event-Action-Response-State) specifications
 - Token Budget: 30K (SPEC) + 180K (TDD) + 40K (Docs) = 250K total
 
 Delegation Patterns:
+
 - Purpose: Task orchestration via specialized agents
 - Core Principle: Alfred delegates all work through Task() calls
 - Patterns: Sequential, Parallel, Conditional delegation
 - Agent Selection: Complexity-based agent matching
 
 Token Optimization:
+
 - Purpose: Efficient 200K token budget management
 - Strategies: Phase separation, selective loading, context reset
 - Savings: /clear after phases, model selection optimization
 - Monitoring: /context command for budget tracking
 
 Progressive Disclosure:
+
 - Purpose: Three-tier knowledge delivery architecture
 - Levels: Quick (30s), Implementation (5min), Advanced (10+min)
 - Token Allocation: 1K, 3K, 5K tokens respectively
 - Structure: SKILL.md core with modules/ overflow
 
 Modular System:
+
 - Purpose: Scalable file organization for unlimited content
 - Structure: SKILL.md (500 lines) + modules/ (unlimited)
 - Principles: Topic-focused, self-contained modules
@@ -53,63 +59,63 @@ Modular System:
 ```yaml
 trust_5:
   test_first:
-    min_coverage: 0.85           # Minimum 85% test coverage
-    coverage_tool: "pytest-cov"  # Coverage measurement tool
-    failure_action: "block"      # block, warn, ignore
+    min_coverage: 0.85 # Minimum 85% test coverage
+    coverage_tool: 'pytest-cov' # Coverage measurement tool
+    failure_action: 'block' # block, warn, ignore
 
   readable:
-    linter: "ruff"               # Code linter tool
-    max_complexity: 10           # Maximum cyclomatic complexity
-    naming_convention: "snake_case"
-    failure_action: "warn"
+    linter: 'ruff' # Code linter tool
+    max_complexity: 10 # Maximum cyclomatic complexity
+    naming_convention: 'snake_case'
+    failure_action: 'warn'
 
   unified:
-    formatter: "black"           # Code formatter
-    import_sorter: "isort"       # Import organization
-    line_length: 88              # Maximum line length
-    failure_action: "auto_fix"
+    formatter: 'black' # Code formatter
+    import_sorter: 'isort' # Import organization
+    line_length: 88 # Maximum line length
+    failure_action: 'auto_fix'
 
   secured:
-    scanner: "bandit"            # Security scanner
-    owasp_compliance: true       # OWASP Top 10 check
-    secret_detection: true       # Credential scanning
-    failure_action: "block"
+    scanner: 'bandit' # Security scanner
+    owasp_compliance: true # OWASP Top 10 check
+    secret_detection: true # Credential scanning
+    failure_action: 'block'
 
   trackable:
-    commit_format: "conventional"  # Commit message format
-    branch_naming: "feature/*"     # Branch naming pattern
-    changelog_required: true       # Changelog requirement
-    failure_action: "warn"
+    commit_format: 'conventional' # Commit message format
+    branch_naming: 'feature/*' # Branch naming pattern
+    changelog_required: true # Changelog requirement
+    failure_action: 'warn'
 ```
 
 ### Token Budget Allocation
 
 ```yaml
 token_budget:
-  total: 250000                  # Total available tokens
+  total: 250000 # Total available tokens
 
   phases:
     spec:
-      budget: 30000              # 30K for SPEC phase
-      strategy: "minimal_context"
-      clear_after: true          # Execute /clear after phase
+      budget: 30000 # 30K for SPEC phase
+      strategy: 'minimal_context'
+      clear_after: true # Execute /clear after phase
 
     tdd:
-      budget: 180000             # 180K for TDD phase
-      strategy: "selective_loading"
-      file_priority: ["tests", "src", "config"]
+      budget: 180000 # 180K for TDD phase
+      strategy: 'selective_loading'
+      file_priority: ['tests', 'src', 'config']
 
     docs:
-      budget: 40000              # 40K for docs phase
-      strategy: "cached_results"
+      budget: 40000 # 40K for docs phase
+      strategy: 'cached_results'
       template_reuse: true
 
   optimization:
-    clear_threshold: 150000      # Suggest /clear at this level
-    message_limit: 50            # Suggest /clear after messages
+    clear_threshold: 150000 # Suggest /clear at this level
+    message_limit: 50 # Suggest /clear after messages
     model_selection:
-      quality: "sonnet"          # For quality-critical tasks
-      speed: "haiku"             # For speed/cost optimization
+      quality: 'sonnet' # For quality-critical tasks
+      speed: 'haiku' # For speed/cost optimization
 ```
 
 ### Agent Selection Matrix
@@ -117,34 +123,34 @@ token_budget:
 ```yaml
 agent_selection:
   by_complexity:
-    simple:                      # 1 file
+    simple: # 1 file
       agents: 1-2
-      pattern: "sequential"
+      pattern: 'sequential'
 
-    medium:                      # 3-5 files
+    medium: # 3-5 files
       agents: 2-3
-      pattern: "sequential"
+      pattern: 'sequential'
 
-    complex:                     # 10+ files
+    complex: # 10+ files
       agents: 5+
-      pattern: "mixed"
+      pattern: 'mixed'
 
   by_domain:
     backend:
-      primary: "backend-expert"
-      supporting: ["database-expert", "api-designer"]
+      primary: 'backend-expert'
+      supporting: ['database-expert', 'api-designer']
 
     frontend:
-      primary: "frontend-expert"
-      supporting: ["ui-specialist", "accessibility-checker"]
+      primary: 'frontend-expert'
+      supporting: ['ui-specialist', 'accessibility-checker']
 
     security:
-      primary: "security-expert"
-      supporting: ["compliance-checker", "penetration-tester"]
+      primary: 'security-expert'
+      supporting: ['compliance-checker', 'penetration-tester']
 
     infrastructure:
-      primary: "devops-expert"
-      supporting: ["cloud-architect", "monitoring-specialist"]
+      primary: 'devops-expert'
+      supporting: ['cloud-architect', 'monitoring-specialist']
 ```
 
 ---
@@ -337,26 +343,31 @@ class TokenAwareWorkflow:
 ### Common Issues
 
 Issue: TRUST 5 validation fails inconsistently:
+
 - Cause: Different tool versions between local and CI
 - Solution: Pin tool versions in requirements.txt/pyproject.toml
 - Prevention: Use locked dependency files
 
 Issue: SPEC phase consumes too many tokens:
+
 - Cause: Excessive context loading during spec generation
 - Solution: Use minimal context mode for SPEC phase
 - Prevention: Configure `spec.strategy: "minimal_context"`
 
 Issue: Agent delegation creates infinite loops:
+
 - Cause: Circular dependencies between agents
 - Solution: Implement task ID tracking and loop detection
 - Prevention: Design clear agent responsibilities with no overlap
 
 Issue: Token budget exhausted mid-workflow:
+
 - Cause: Missing /clear between phases
 - Solution: Always execute /clear after Phase 1
 - Prevention: Enable automatic phase boundary detection
 
 Issue: Progressive disclosure not loading modules:
+
 - Cause: Incorrect cross-reference paths
 - Solution: Verify paths in SKILL.md match actual file locations
 - Prevention: Use relative paths from SKILL.md location
@@ -438,24 +449,28 @@ diagnose.verify_module_structure()
 ### Best Practices
 
 TRUST 5 Implementation:
+
 - Run all validations before commits
 - Configure appropriate failure actions
 - Document exceptions and waivers
 - Track quality metrics over time
 
 SPEC-First Development:
+
 - Write clear EARS specifications
 - Execute /clear between phases
 - Maintain 85%+ test coverage
 - Generate documentation with each feature
 
 Agent Delegation:
+
 - Match complexity to agent count
 - Use parallel execution for independent tasks
 - Implement proper error handling
 - Track delegation outcomes
 
 Token Management:
+
 - Monitor usage proactively
 - Clear context at phase boundaries
 - Use selective file loading
@@ -463,13 +478,13 @@ Token Management:
 
 ### Version History
 
-| Version | Date       | Changes                                           |
-|---------|------------|---------------------------------------------------|
-| 2.3.0   | 2025-12-03 | Added agents, commands, execution rules modules   |
-| 2.2.0   | 2025-11-28 | Optimized to 500-line SKILL.md                    |
-| 2.1.0   | 2025-11-25 | Added modular architecture patterns               |
-| 2.0.0   | 2025-11-20 | Unified six foundational principles               |
-| 1.0.0   | 2025-11-15 | Initial release with TRUST 5 and SPEC-First       |
+| Version | Date       | Changes                                         |
+| ------- | ---------- | ----------------------------------------------- |
+| 2.3.0   | 2025-12-03 | Added agents, commands, execution rules modules |
+| 2.2.0   | 2025-11-28 | Optimized to 500-line SKILL.md                  |
+| 2.1.0   | 2025-11-25 | Added modular architecture patterns             |
+| 2.0.0   | 2025-11-20 | Unified six foundational principles             |
+| 1.0.0   | 2025-11-15 | Initial release with TRUST 5 and SPEC-First     |
 
 ---
 

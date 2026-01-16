@@ -819,7 +819,8 @@ const createPostSchema = z.object({
 });
 
 // Routes with validation
-app.post('/api/posts',
+app.post(
+  '/api/posts',
   jwt({ secret: Bun.env.JWT_SECRET }),
   zValidator('json', createPostSchema),
   async (c) => {

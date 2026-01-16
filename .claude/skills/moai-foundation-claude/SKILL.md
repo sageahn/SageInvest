@@ -16,21 +16,21 @@ allowed-tools:
   - mcp__context7__get-library-docs
 tags:
   [
-    "foundation",
-    "claude-code",
-    "skills",
-    "sub-agents",
-    "plugins",
-    "slash-commands",
-    "hooks",
-    "memory",
-    "settings",
-    "sandboxing",
-    "headless",
-    "agent-patterns",
+    'foundation',
+    'claude-code',
+    'skills',
+    'sub-agents',
+    'plugins',
+    'slash-commands',
+    'hooks',
+    'memory',
+    'settings',
+    'sandboxing',
+    'headless',
+    'agent-patterns',
   ]
 updated: 2026-01-11
-status: "active"
+status: 'active'
 ---
 
 # Claude Code Authoring Kit
@@ -74,7 +74,7 @@ Commands: User-invoked via /command. Parameters: $ARGUMENTS, $1, $2. File refs: 
 
 Hooks: Events in settings.json. PreToolUse, PostToolUse, SessionStart, SessionEnd, PreCompact, Notification.
 
-Memory: CLAUDE.md files + .claude/rules/*.md. Enterprise to Project to User hierarchy. @import syntax.
+Memory: CLAUDE.md files + .claude/rules/\*.md. Enterprise to Project to User hierarchy. @import syntax.
 
 Settings: 6-level hierarchy. Managed to file-managed to CLI to local to shared to user.
 

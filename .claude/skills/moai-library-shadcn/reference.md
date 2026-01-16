@@ -1,6 +1,7 @@
 ## API Reference
 
 ### Core shadcn/ui Operations
+
 - `create_component(variant_config, props)` - Create new component
 - `customize_theme(theme_config, colors)` - Customize theme
 - `install_component(component_name)` - Install new component
@@ -8,6 +9,7 @@
 - `optimize_components(performance_config)` - Optimize component performance
 
 ### Context7 Integration
+
 - `get_latest_shadcn_docs()` - shadcn/ui docs via Context7
 - `analyze_component_patterns()` - Component patterns via Context7
 - `optimize_theme_system()` - Theme optimization via Context7
@@ -15,6 +17,7 @@
 ## Best Practices (November 2025)
 
 ### DO
+
 - Use TypeScript for type safety and better developer experience
 - Implement proper accessibility with ARIA attributes
 - Customize themes using CSS variables for consistency
@@ -25,6 +28,7 @@
 - Test components across different browsers and devices
 
 ### DON'T
+
 - Skip TypeScript type definitions and validations
 - Ignore accessibility requirements and WCAG compliance
 - Override component styles without understanding the CSS structure
@@ -58,12 +62,14 @@ End of Skill | Updated 2025-11-13
 ## Design System Integration
 
 ### Enterprise Features
+
 - Comprehensive component library with enterprise-grade features
 - Advanced theming system with brand customization
 - Performance optimization for large-scale applications
 - Accessibility compliance with WCAG 2.1 AA standards
 
 ### Modern Development
+
 - TypeScript-first development with full type safety
 - Modern React patterns with hooks and server components
 - Tailwind CSS integration for consistent styling

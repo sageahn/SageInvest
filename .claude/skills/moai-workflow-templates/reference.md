@@ -9,6 +9,7 @@ Progressive Disclosure Level 2: Extended documentation for template management a
 ### Core Classes
 
 TemplateManager:
+
 - Purpose: Central template management and scaffolding
 - Key Methods:
   - `load_template(template_name)` - Load template by name
@@ -17,6 +18,7 @@ TemplateManager:
   - `validate_template(template_path)` - Validate template structure
 
 TemplateOptimizer:
+
 - Purpose: Smart merge and optimization operations
 - Key Methods:
   - `smart_merge(backup, template, current)` - Three-way intelligent merge
@@ -26,6 +28,7 @@ TemplateOptimizer:
   - `restore_from_backup(backup_id)` - Restore from specific backup
 
 FeedbackTemplateGenerator:
+
 - Purpose: GitHub issue template generation
 - Key Methods:
   - `generate_issue(type, data)` - Generate issue from template
@@ -35,6 +38,7 @@ FeedbackTemplateGenerator:
 ### Template Types
 
 Code Templates:
+
 - `backend/fastapi` - FastAPI REST API project
 - `backend/django` - Django web application
 - `frontend/react` - React SPA application
@@ -45,6 +49,7 @@ Code Templates:
 - `infra/cicd` - CI/CD pipeline configuration
 
 Feedback Templates:
+
 - `bug-report` - Bug report with reproduction steps
 - `feature-request` - Feature request with use cases
 - `improvement` - Enhancement suggestion
@@ -61,20 +66,20 @@ Feedback Templates:
 ```json
 {
   "variables": {
-    "PROJECT_NAME": "string",      // Project identifier
-    "AUTHOR": "string",            // Author name
-    "LICENSE": "string",           // License type (MIT, Apache-2.0, etc.)
-    "PYTHON_VERSION": "string",    // Python version for backend
-    "NODE_VERSION": "string",      // Node.js version for frontend
-    "DATABASE": "string",          // Database type (postgresql, mysql, mongodb)
-    "AUTH_TYPE": "string",         // Authentication type (jwt, oauth, session)
-    "DEPLOYMENT": "string"         // Deployment target (docker, k8s, serverless)
+    "PROJECT_NAME": "string", // Project identifier
+    "AUTHOR": "string", // Author name
+    "LICENSE": "string", // License type (MIT, Apache-2.0, etc.)
+    "PYTHON_VERSION": "string", // Python version for backend
+    "NODE_VERSION": "string", // Node.js version for frontend
+    "DATABASE": "string", // Database type (postgresql, mysql, mongodb)
+    "AUTH_TYPE": "string", // Authentication type (jwt, oauth, session)
+    "DEPLOYMENT": "string" // Deployment target (docker, k8s, serverless)
   },
   "files": {
-    "pattern": "action"            // substitute, copy, ignore
+    "pattern": "action" // substitute, copy, ignore
   },
   "hooks": {
-    "post_generate": ["command"]   // Post-generation commands
+    "post_generate": ["command"] // Post-generation commands
   }
 }
 ```
@@ -83,20 +88,21 @@ Feedback Templates:
 
 ```yaml
 template_optimization:
-  last_optimized: "datetime"        # Last optimization timestamp
-  backup_version: "string"          # Backup reference version
-  template_version: "string"        # Current template version
-  customizations_preserved:         # List of preserved customizations
-    - "language"
-    - "team_settings"
-    - "domains"
-  merge_strategy: "smart"           # smart, force, manual
-  conflict_resolution: "preserve_user"  # preserve_user, use_template, manual
+  last_optimized: 'datetime' # Last optimization timestamp
+  backup_version: 'string' # Backup reference version
+  template_version: 'string' # Current template version
+  customizations_preserved: # List of preserved customizations
+    - 'language'
+    - 'team_settings'
+    - 'domains'
+  merge_strategy: 'smart' # smart, force, manual
+  conflict_resolution: 'preserve_user' # preserve_user, use_template, manual
 ```
 
 ### Feedback Template Fields
 
 Bug Report Fields:
+
 - `title` (required): Brief description of the bug
 - `environment` (required): OS, browser, versions
 - `reproduction_steps` (required): Steps to reproduce
@@ -106,6 +112,7 @@ Bug Report Fields:
 - `additional_context` (optional): Extra information
 
 Feature Request Fields:
+
 - `title` (required): Feature name
 - `problem_statement` (required): Problem being solved
 - `proposed_solution` (required): How feature would work
@@ -235,26 +242,31 @@ if updates.available:
 ### Common Issues
 
 Issue: Template scaffolding fails with missing variables:
+
 - Cause: Required variables not provided in customizations
 - Solution: Check template.json for required variables and provide all values
 - Prevention: Use `template.get_required_variables()` before scaffolding
 
 Issue: Smart merge creates conflicts:
+
 - Cause: Significant changes in both template and user customizations
 - Solution: Review conflicts in `.moai/merge-conflicts/` and resolve manually
 - Prevention: Regularly update templates to minimize drift
 
 Issue: Post-generation hooks fail:
+
 - Cause: Missing dependencies or incorrect environment
 - Solution: Ensure prerequisites (npm, pip, docker) are installed
 - Prevention: Run `template.check_prerequisites()` before scaffolding
 
 Issue: Backup restoration incomplete:
+
 - Cause: Corrupted backup or partial backup creation
 - Solution: List available backups with `optimizer.list_backups()` and try older version
 - Prevention: Verify backup with `optimizer.verify_backup(backup_id)` after creation
 
 Issue: Feedback template missing fields:
+
 - Cause: Template customizations removed required fields
 - Solution: Reset to default template: `generator.reset_template(type)`
 - Prevention: Use `validate_template_structure()` after customizations
@@ -313,18 +325,21 @@ diagnose.validate_customizations()
 ### Best Practices
 
 Template Design:
+
 - Keep templates focused on single purpose
 - Use descriptive variable names
 - Include comprehensive README in each template
 - Test templates before publishing
 
 Customization Management:
+
 - Document all customizations
 - Keep customizations minimal and focused
 - Use version control for template modifications
 - Regular backup before major changes
 
 Smart Merge:
+
 - Review merge results before applying
 - Test merged templates in staging
 - Keep customization history for rollback
@@ -332,12 +347,12 @@ Smart Merge:
 
 ### Version History
 
-| Version | Date       | Changes                                           |
-|---------|------------|---------------------------------------------------|
-| 3.0.0   | 2025-11-24 | Unified code, feedback, and optimizer modules     |
-| 2.5.0   | 2025-11-20 | Added smart merge algorithm                       |
-| 2.0.0   | 2025-11-15 | Introduced template version management            |
-| 1.0.0   | 2025-11-10 | Initial release with code templates               |
+| Version | Date       | Changes                                       |
+| ------- | ---------- | --------------------------------------------- |
+| 3.0.0   | 2025-11-24 | Unified code, feedback, and optimizer modules |
+| 2.5.0   | 2025-11-20 | Added smart merge algorithm                   |
+| 2.0.0   | 2025-11-15 | Introduced template version management        |
+| 1.0.0   | 2025-11-10 | Initial release with code templates           |
 
 ---
 

@@ -117,6 +117,7 @@ vercel secrets rm <name>
 ### Regions
 
 Available regions for functions:
+
 - `iad1` - Washington, D.C. (default)
 - `sfo1` - San Francisco
 - `fra1` - Frankfurt
@@ -149,6 +150,7 @@ Available regions for functions:
 Memory options: 128, 256, 512, 1024, 2048, 3008 MB
 
 Duration limits by plan:
+
 - Hobby: 10 seconds
 - Pro: 60 seconds
 - Enterprise: 900 seconds
@@ -166,6 +168,7 @@ Duration limits by plan:
 ```
 
 Examples:
+
 - `0 0 * * *` - Every day at midnight
 - `*/15 * * * *` - Every 15 minutes
 - `0 */6 * * *` - Every 6 hours
@@ -214,71 +217,71 @@ Examples:
 
 ```typescript
 // Force dynamic rendering
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 // Force static rendering
-export const dynamic = 'force-static'
+export const dynamic = 'force-static';
 
 // Automatic (default)
-export const dynamic = 'auto'
+export const dynamic = 'auto';
 
 // Error on dynamic usage
-export const dynamic = 'error'
+export const dynamic = 'error';
 ```
 
 ### Revalidation Options
 
 ```typescript
 // Time-based revalidation (seconds)
-export const revalidate = 60
+export const revalidate = 60;
 
 // Disable revalidation (always fresh)
-export const revalidate = 0
+export const revalidate = 0;
 
 // Never revalidate (static)
-export const revalidate = false
+export const revalidate = false;
 ```
 
 ### Runtime Options
 
 ```typescript
 // Edge runtime
-export const runtime = 'edge'
+export const runtime = 'edge';
 
 // Node.js runtime (default)
-export const runtime = 'nodejs'
+export const runtime = 'nodejs';
 ```
 
 ### Preferred Region
 
 ```typescript
 // Single region
-export const preferredRegion = 'iad1'
+export const preferredRegion = 'iad1';
 
 // Multiple regions
-export const preferredRegion = ['iad1', 'sfo1', 'fra1']
+export const preferredRegion = ['iad1', 'sfo1', 'fra1'];
 
 // All regions
-export const preferredRegion = 'auto'
+export const preferredRegion = 'auto';
 
 // Home region only
-export const preferredRegion = 'home'
+export const preferredRegion = 'home';
 ```
 
 ## Fetch Cache Options
 
 ```typescript
 // Force cache (default for GET in Server Components)
-fetch(url, { cache: 'force-cache' })
+fetch(url, { cache: 'force-cache' });
 
 // No cache (always fresh)
-fetch(url, { cache: 'no-store' })
+fetch(url, { cache: 'no-store' });
 
 // Time-based revalidation
-fetch(url, { next: { revalidate: 3600 } })
+fetch(url, { next: { revalidate: 3600 } });
 
 // Tag-based revalidation
-fetch(url, { next: { tags: ['posts', 'featured'] } })
+fetch(url, { next: { tags: ['posts', 'featured'] } });
 ```
 
 ## Response Headers
@@ -301,9 +304,9 @@ return Response.json(data, {
     'Cache-Control': 'private, no-cache, no-store, must-revalidate',
 
     // Immutable assets
-    'Cache-Control': 'public, max-age=31536000, immutable'
-  }
-})
+    'Cache-Control': 'public, max-age=31536000, immutable',
+  },
+});
 ```
 
 ### CDN-Specific Headers
@@ -318,9 +321,9 @@ return Response.json(data, {
     'Surrogate-Control': 'max-age=3600',
 
     // Vary header for content negotiation
-    'Vary': 'Accept-Encoding, Accept-Language'
-  }
-})
+    Vary: 'Accept-Encoding, Accept-Language',
+  },
+});
 ```
 
 ## Edge Middleware Matchers
@@ -328,33 +331,35 @@ return Response.json(data, {
 ```typescript
 // Match all paths except specific patterns
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
-}
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+};
 
 // Match specific paths
 export const config = {
-  matcher: ['/dashboard/:path*', '/api/:path*']
-}
+  matcher: ['/dashboard/:path*', '/api/:path*'],
+};
 
 // Match with regex
 export const config = {
   matcher: [
     {
       source: '/api/:path*',
-      regexp: '^/api/(.*)'
-    }
-  ]
-}
+      regexp: '^/api/(.*)',
+    },
+  ],
+};
 ```
 
 ## GitHub Actions Secrets
 
 Required secrets for CI/CD integration:
+
 - `VERCEL_TOKEN` - Vercel API token
 - `VERCEL_ORG_ID` - Organization ID (optional for teams)
 - `VERCEL_PROJECT_ID` - Project ID
 
 Get these values:
+
 1. `VERCEL_TOKEN`: vercel.com/account/tokens
 2. `VERCEL_ORG_ID`: Run `vercel link` and check `.vercel/project.json`
 3. `VERCEL_PROJECT_ID`: Same as above

@@ -1,8 +1,8 @@
 ---
-name: "moai-formats-data"
-description: "Data format specialist covering TOON encoding, JSON/YAML optimization, serialization patterns, and data validation for modern applications. Use when optimizing data for LLM transmission, implementing high-performance serialization, validating data schemas, or converting between data formats."
+name: 'moai-formats-data'
+description: 'Data format specialist covering TOON encoding, JSON/YAML optimization, serialization patterns, and data validation for modern applications. Use when optimizing data for LLM transmission, implementing high-performance serialization, validating data schemas, or converting between data formats.'
 version: 2.0.0
-category: "library"
+category: 'library'
 modularized: true
 user-invocable: false
 tags: ['formats', 'data', 'toon', 'serialization', 'validation', 'optimization']
@@ -15,8 +15,8 @@ allowed-tools:
   - Glob
   - mcp__context7__resolve-library-id
   - mcp__context7__get-library-docs
-status: "active"
-author: "MoAI-ADK Team"
+status: 'active'
+author: 'MoAI-ADK Team'
 ---
 
 # Data Format Specialist

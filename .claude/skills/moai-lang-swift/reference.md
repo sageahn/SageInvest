@@ -3,6 +3,7 @@
 ## Platform Version Matrix
 
 ### Swift 6.0 (iOS 18+, macOS 15+)
+
 - Release: September 2025
 - Xcode: 16.0+
 - Minimum Deployment: iOS 15.0+ (recommended iOS 17.0+)
@@ -14,6 +15,7 @@
   - Improved C++ interoperability
 
 ### Swift 5.10 (iOS 17+, macOS 14+)
+
 - Release: March 2024
 - Xcode: 15.3+
 - Key Features:
@@ -25,6 +27,7 @@
 ## Context7 Library Mappings
 
 ### Core Swift Libraries
+
 ```
 /apple/swift                    - Swift language and standard library
 /apple/swift-package-manager    - SwiftPM package management
@@ -35,6 +38,7 @@
 ```
 
 ### Networking Libraries
+
 ```
 /Alamofire/Alamofire            - HTTP networking library
 /Moya/Moya                      - Network abstraction layer
@@ -43,6 +47,7 @@
 ```
 
 ### Database Libraries
+
 ```
 /realm/realm-swift              - Mobile database
 /groue/GRDB.swift               - SQLite toolkit
@@ -50,6 +55,7 @@
 ```
 
 ### Architecture Libraries
+
 ```
 /pointfreeco/swift-composable-architecture - TCA architecture
 /ReactiveX/RxSwift              - Reactive programming
@@ -57,6 +63,7 @@
 ```
 
 ### Testing Libraries
+
 ```
 /Quick/Quick                    - BDD testing framework
 /Quick/Nimble                   - Matcher framework
@@ -65,6 +72,7 @@
 ```
 
 ### UI Libraries
+
 ```
 /SnapKit/SnapKit                - Auto Layout DSL
 /airbnb/lottie-ios              - Animation library
@@ -77,6 +85,7 @@
 ### SwiftUI + TCA (The Composable Architecture)
 
 Feature Definition:
+
 ```swift
 import ComposableArchitecture
 
@@ -160,6 +169,7 @@ struct UserFeature {
 ```
 
 View Implementation:
+
 ```swift
 struct UserView: View {
     @Bindable var store: StoreOf<UserFeature>
@@ -192,6 +202,7 @@ struct UserView: View {
 ### MVVM with @Observable
 
 ViewModel Pattern:
+
 ```swift
 @Observable
 @MainActor
@@ -259,6 +270,7 @@ final class PostListViewModel {
 ```
 
 View with Pagination:
+
 ```swift
 struct PostListView: View {
     @State private var viewModel: PostListViewModel
@@ -302,6 +314,7 @@ struct PostListView: View {
 ### Custom Actor Executors
 
 Serial Executor for Background Processing:
+
 ```swift
 actor BackgroundProcessor {
     private let executor: SerialDispatchQueueExecutor
@@ -342,6 +355,7 @@ final class SerialDispatchQueueExecutor: SerialExecutor {
 ### AsyncSequence Patterns
 
 Custom AsyncSequence:
+
 ```swift
 struct AsyncTimerSequence: AsyncSequence {
     typealias Element = Date
@@ -383,6 +397,7 @@ for await tick in AsyncTimerSequence(interval: 1.0) {
 ### Structured Concurrency with TaskGroups
 
 Controlled Parallelism:
+
 ```swift
 func processImages(_ urls: [URL], maxConcurrency: Int = 4) async throws -> [ProcessedImage] {
     try await withThrowingTaskGroup(of: ProcessedImage.self) { group in
@@ -415,6 +430,7 @@ func processImages(_ urls: [URL], maxConcurrency: Int = 4) async throws -> [Proc
 ### Modern URLSession with Async/Await
 
 Type-Safe API Client:
+
 ```swift
 actor APIClient {
     private let session: URLSession
@@ -547,6 +563,7 @@ enum APIError: Error, LocalizedError {
 ### Request Interceptor Pattern
 
 Authentication Interceptor:
+
 ```swift
 protocol RequestInterceptor: Sendable {
     func intercept(_ request: inout URLRequest) async throws
@@ -575,6 +592,7 @@ actor LoggingInterceptor: RequestInterceptor {
 ## SwiftData Integration
 
 Modern Persistence (iOS 17+):
+
 ```swift
 import SwiftData
 
@@ -645,6 +663,7 @@ final class PostRepository {
 ### SwiftUI Performance Tips
 
 Minimize View Updates:
+
 - Use `@Observable` instead of `@ObservedObject` for better performance
 - Implement `Equatable` on views when appropriate
 - Use `LazyVStack`/`LazyHStack` for lists
@@ -652,6 +671,7 @@ Minimize View Updates:
 - Use `@State` for view-local state, avoid unnecessary bindings
 
 Memory Management:
+
 - Use weak references in closures
 - Implement proper cancellation in async tasks
 - Profile with Instruments: Allocations, Leaks
@@ -660,6 +680,7 @@ Memory Management:
 ### Profiling with Instruments
 
 Key Instruments:
+
 - Time Profiler: CPU usage and hot paths
 - Allocations: Memory allocation patterns
 - Leaks: Memory leak detection

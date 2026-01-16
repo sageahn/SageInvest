@@ -9,6 +9,7 @@
 **Scenario**: 사용자 인증 기능을 TDD 방식으로 개발
 
 **Input**:
+
 ```python
 from moai_workflow_testing import TDDManager, TestSpecification, TestType
 
@@ -43,6 +44,7 @@ cycle_results = await tdd_manager.run_full_tdd_cycle(
 ```
 
 **Output**:
+
 ```json
 {
   "tdd_cycle": {
@@ -161,6 +163,7 @@ class TestAuthentication:
 **Scenario**: 프로덕션 에러를 AI로 분석하고 해결책 제시
 
 **Input**:
+
 ```python
 from moai_workflow_testing import AIDebugger
 
@@ -184,7 +187,8 @@ except Exception as e:
 ```
 
 **Output**:
-```json
+
+````json
 {
   "error_analysis": {
     "exception_type": "ConnectionResetError",
@@ -246,7 +250,7 @@ except Exception as e:
     }
   ]
 }
-```
+````
 
 **Explanation**: AI 디버거는 예외를 분류하고, 근본 원인을 분석하며, Context7에서 최신 해결 패턴을 가져와 우선순위별 해결책을 제시합니다. 코드 제안과 노력/영향 평가가 포함됩니다.
 
@@ -257,6 +261,7 @@ except Exception as e:
 **Scenario**: PR 전 코드베이스에 대한 포괄적인 품질 검사
 
 **Input**:
+
 ```python
 from moai_workflow_testing import AutomatedCodeReviewer
 
@@ -281,6 +286,7 @@ review_report = await reviewer.review_codebase(
 ```
 
 **Output**:
+
 ```json
 {
   "review_summary": {
@@ -312,7 +318,7 @@ review_report = await reviewer.review_codebase(
       ]
     },
     "unified": {
-      "score": 0.90,
+      "score": 0.9,
       "status": "PASS",
       "details": "Code formatting consistent with project standards"
     },
@@ -658,13 +664,13 @@ moai-workflow ci --commit abc123 --quality-gates strict
 
 ## Quality Metrics
 
-| 메트릭 | 임계값 | 설명 |
-|--------|--------|------|
-| 테스트 커버리지 | >= 85% | 최소 코드 커버리지 |
-| TRUST 점수 | >= 0.85 | 5개 품질 기준 종합 |
-| Critical 이슈 | 0 | 치명적 보안/버그 |
-| 성능 회귀 | < 10% | 기준 대비 저하 허용 |
-| 응답 시간 | < 100ms | API 응답 시간 |
+| 메트릭          | 임계값  | 설명                |
+| --------------- | ------- | ------------------- |
+| 테스트 커버리지 | >= 85%  | 최소 코드 커버리지  |
+| TRUST 점수      | >= 0.85 | 5개 품질 기준 종합  |
+| Critical 이슈   | 0       | 치명적 보안/버그    |
+| 성능 회귀       | < 10%   | 기준 대비 저하 허용 |
+| 응답 시간       | < 100ms | API 응답 시간       |
 
 ---
 

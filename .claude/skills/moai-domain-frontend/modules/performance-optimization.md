@@ -15,22 +15,20 @@ Comprehensive patterns for frontend performance including Code Splitting, Dynami
 // app/dashboard/page.tsx
 // This is automatically lazy-loaded when navigating to /dashboard
 export default function DashboardPage() {
-  return <Dashboard />
+  return <Dashboard />;
 }
 
 // For layouts, use streaming with Suspense
 // app/dashboard/layout.tsx
-import { Suspense } from 'react'
-import { DashboardSkeleton } from '@/components/skeletons'
+import { Suspense } from 'react';
+import { DashboardSkeleton } from '@/components/skeletons';
 
 export default function DashboardLayout({ children }) {
   return (
     <div className="dashboard-layout">
-      <Suspense fallback={<DashboardSkeleton />}>
-        {children}
-      </Suspense>
+      <Suspense fallback={<DashboardSkeleton />}>{children}</Suspense>
     </div>
-  )
+  );
 }
 ```
 
@@ -38,11 +36,11 @@ export default function DashboardLayout({ children }) {
 
 ```tsx
 // React lazy loading
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react';
 
 // Lazy load heavy components
-const HeavyChart = lazy(() => import('@/components/HeavyChart'))
-const DataTable = lazy(() => import('@/components/DataTable'))
+const HeavyChart = lazy(() => import('@/components/HeavyChart'));
+const DataTable = lazy(() => import('@/components/DataTable'));
 
 function Dashboard() {
   return (
@@ -55,28 +53,25 @@ function Dashboard() {
         <DataTable rows={tableData} />
       </Suspense>
     </div>
-  )
+  );
 }
 
 // Named exports with lazy
-const { Modal } = await import('@/components/Modal')
+const { Modal } = await import('@/components/Modal');
 
 // Preloading for faster navigation
-const ChartComponent = lazy(() => import('@/components/Chart'))
+const ChartComponent = lazy(() => import('@/components/Chart'));
 
 function preloadChart() {
-  import('@/components/Chart')
+  import('@/components/Chart');
 }
 
 function Navigation() {
   return (
-    <Link
-      href="/analytics"
-      onMouseEnter={preloadChart}
-    >
+    <Link href="/analytics" onMouseEnter={preloadChart}>
       Analytics
     </Link>
-  )
+  );
 }
 ```
 
@@ -87,57 +82,46 @@ function Navigation() {
 ### Next.js Dynamic Import
 
 ```tsx
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
 
 // Basic dynamic import
 const DynamicChart = dynamic(() => import('@/components/Chart'), {
   loading: () => <ChartSkeleton />,
-})
+});
 
 // Disable SSR for client-only components
-const MapComponent = dynamic(
-  () => import('@/components/Map'),
-  {
-    ssr: false,
-    loading: () => <MapSkeleton />,
-  }
-)
+const MapComponent = dynamic(() => import('@/components/Map'), {
+  ssr: false,
+  loading: () => <MapSkeleton />,
+});
 
 // Named exports
-const Modal = dynamic(
-  () => import('@/components/Modal').then((mod) => mod.Modal),
-  {
-    loading: () => <ModalSkeleton />,
-  }
-)
+const Modal = dynamic(() => import('@/components/Modal').then((mod) => mod.Modal), {
+  loading: () => <ModalSkeleton />,
+});
 
 // With custom loading component
-const Editor = dynamic(
-  () => import('@/components/RichTextEditor'),
-  {
-    loading: () => (
-      <div className="editor-skeleton animate-pulse">
-        <div className="h-8 bg-gray-200 rounded" />
-        <div className="h-64 bg-gray-100 rounded mt-2" />
-      </div>
-    ),
-    ssr: false,
-  }
-)
+const Editor = dynamic(() => import('@/components/RichTextEditor'), {
+  loading: () => (
+    <div className="editor-skeleton animate-pulse">
+      <div className="h-8 bg-gray-200 rounded" />
+      <div className="h-64 bg-gray-100 rounded mt-2" />
+    </div>
+  ),
+  ssr: false,
+});
 
 // Usage
 function EditorPage() {
-  const [showEditor, setShowEditor] = useState(false)
+  const [showEditor, setShowEditor] = useState(false);
 
   return (
     <div>
-      <button onClick={() => setShowEditor(true)}>
-        Open Editor
-      </button>
+      <button onClick={() => setShowEditor(true)}>Open Editor</button>
 
       {showEditor && <Editor />}
     </div>
-  )
+  );
 }
 ```
 
@@ -159,37 +143,33 @@ function FeatureFlags({ features }) {
         </Suspense>
       )}
     </>
-  )
+  );
 }
 
 // Load based on viewport
 function LazySection({ children }) {
-  const [isVisible, setIsVisible] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
+          setIsVisible(true);
+          observer.disconnect();
         }
       },
       { rootMargin: '100px' }
-    )
+    );
 
     if (ref.current) {
-      observer.observe(ref.current)
+      observer.observe(ref.current);
     }
 
-    return () => observer.disconnect()
-  }, [])
+    return () => observer.disconnect();
+  }, []);
 
-  return (
-    <div ref={ref}>
-      {isVisible ? children : <Skeleton />}
-    </div>
-  )
+  return <div ref={ref}>{isVisible ? children : <Skeleton />}</div>;
 }
 ```
 
@@ -200,7 +180,7 @@ function LazySection({ children }) {
 ### Next.js Image Component
 
 ```tsx
-import Image from 'next/image'
+import Image from 'next/image';
 
 // Basic optimized image
 function Hero() {
@@ -212,7 +192,7 @@ function Hero() {
       height={600}
       priority // Load immediately for LCP
     />
-  )
+  );
 }
 
 // Responsive images
@@ -225,7 +205,7 @@ function ProductImage({ src, alt }) {
       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
       className="object-cover"
     />
-  )
+  );
 }
 
 // With placeholder blur
@@ -239,7 +219,7 @@ function ArticleImage({ src, alt, blurDataURL }) {
       placeholder="blur"
       blurDataURL={blurDataURL}
     />
-  )
+  );
 }
 
 // Remote images with loader
@@ -254,7 +234,7 @@ function CloudinaryImage({ publicId, alt }) {
       width={500}
       height={300}
     />
-  )
+  );
 }
 ```
 
@@ -263,39 +243,32 @@ function CloudinaryImage({ publicId, alt }) {
 ```tsx
 // Native lazy loading
 function GalleryImage({ src, alt }) {
-  return (
-    <img
-      src={src}
-      alt={alt}
-      loading="lazy"
-      decoding="async"
-    />
-  )
+  return <img src={src} alt={alt} loading="lazy" decoding="async" />;
 }
 
 // Intersection Observer pattern
 function LazyImage({ src, alt, className }) {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [isInView, setIsInView] = useState(false)
-  const imgRef = useRef<HTMLImageElement>(null)
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsInView(true)
-          observer.disconnect()
+          setIsInView(true);
+          observer.disconnect();
         }
       },
       { rootMargin: '200px' }
-    )
+    );
 
     if (imgRef.current) {
-      observer.observe(imgRef.current)
+      observer.observe(imgRef.current);
     }
 
-    return () => observer.disconnect()
-  }, [])
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div ref={imgRef} className={className}>
@@ -304,15 +277,12 @@ function LazyImage({ src, alt, className }) {
           src={src}
           alt={alt}
           onLoad={() => setIsLoaded(true)}
-          className={cn(
-            'transition-opacity duration-300',
-            isLoaded ? 'opacity-100' : 'opacity-0'
-          )}
+          className={cn('transition-opacity duration-300', isLoaded ? 'opacity-100' : 'opacity-0')}
         />
       )}
       {!isLoaded && <div className="skeleton" />}
     </div>
-  )
+  );
 }
 ```
 
@@ -323,97 +293,84 @@ function LazyImage({ src, alt, className }) {
 ### React Memoization Hooks
 
 ```tsx
-import { memo, useMemo, useCallback, useDeferredValue } from 'react'
+import { memo, useMemo, useCallback, useDeferredValue } from 'react';
 
 // Memoize expensive computations
 function ExpensiveComponent({ items, filter }) {
   // Only recompute when items or filter changes
   const filteredItems = useMemo(() => {
-    console.log('Computing filtered items...')
+    console.log('Computing filtered items...');
     return items
-      .filter(item => item.name.includes(filter))
-      .sort((a, b) => a.name.localeCompare(b.name))
-  }, [items, filter])
+      .filter((item) => item.name.includes(filter))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [items, filter]);
 
   return (
     <ul>
-      {filteredItems.map(item => (
+      {filteredItems.map((item) => (
         <li key={item.id}>{item.name}</li>
       ))}
     </ul>
-  )
+  );
 }
 
 // Memoize callbacks to prevent child re-renders
 function ParentComponent({ data }) {
-  const [selected, setSelected] = useState<string | null>(null)
+  const [selected, setSelected] = useState<string | null>(null);
 
   // Stable callback reference
   const handleSelect = useCallback((id: string) => {
-    setSelected(id)
-  }, [])
+    setSelected(id);
+  }, []);
 
   // Stable options reference
-  const sortOptions = useMemo(() => ({
-    key: 'name',
-    direction: 'asc'
-  }), [])
+  const sortOptions = useMemo(
+    () => ({
+      key: 'name',
+      direction: 'asc',
+    }),
+    []
+  );
 
-  return (
-    <ChildComponent
-      items={data}
-      onSelect={handleSelect}
-      sortOptions={sortOptions}
-    />
-  )
+  return <ChildComponent items={data} onSelect={handleSelect} sortOptions={sortOptions} />;
 }
 
 // Memoize child components
-const ChildComponent = memo(function ChildComponent({
-  items,
-  onSelect,
-  sortOptions
-}: ChildProps) {
+const ChildComponent = memo(function ChildComponent({ items, onSelect, sortOptions }: ChildProps) {
   return (
     <ul>
-      {items.map(item => (
+      {items.map((item) => (
         <li key={item.id} onClick={() => onSelect(item.id)}>
           {item.name}
         </li>
       ))}
     </ul>
-  )
-})
+  );
+});
 
 // Deferred values for smooth input
 function SearchList({ items }) {
-  const [query, setQuery] = useState('')
-  const deferredQuery = useDeferredValue(query)
+  const [query, setQuery] = useState('');
+  const deferredQuery = useDeferredValue(query);
 
   // Show stale results while computing
-  const isStale = query !== deferredQuery
+  const isStale = query !== deferredQuery;
 
   const filteredItems = useMemo(() => {
-    return items.filter(item =>
-      item.name.toLowerCase().includes(deferredQuery.toLowerCase())
-    )
-  }, [items, deferredQuery])
+    return items.filter((item) => item.name.toLowerCase().includes(deferredQuery.toLowerCase()));
+  }, [items, deferredQuery]);
 
   return (
     <div>
-      <input
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search..."
-      />
+      <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search..." />
 
       <ul className={isStale ? 'opacity-50' : ''}>
-        {filteredItems.map(item => (
+        {filteredItems.map((item) => (
           <li key={item.id}>{item.name}</li>
         ))}
       </ul>
     </div>
-  )
+  );
 }
 ```
 
@@ -421,31 +378,29 @@ function SearchList({ items }) {
 
 ```tsx
 // hooks/useMemoizedCallback.ts
-import { useRef, useCallback } from 'react'
+import { useRef, useCallback } from 'react';
 
-export function useMemoizedCallback<T extends (...args: any[]) => any>(
-  callback: T
-): T {
-  const ref = useRef(callback)
+export function useMemoizedCallback<T extends (...args: any[]) => any>(callback: T): T {
+  const ref = useRef(callback);
 
   // Update ref on each render
-  ref.current = callback
+  ref.current = callback;
 
   // Return stable function reference
   return useCallback((...args: Parameters<T>) => {
-    return ref.current(...args)
-  }, []) as T
+    return ref.current(...args);
+  }, []) as T;
 }
 
 // Usage - no need to specify dependencies
 function Component({ onSubmit }) {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState('');
 
   const handleSubmit = useMemoizedCallback(() => {
-    onSubmit(value) // Always has access to latest value
-  })
+    onSubmit(value); // Always has access to latest value
+  });
 
-  return <button onClick={handleSubmit}>Submit</button>
+  return <button onClick={handleSubmit}>Submit</button>;
 }
 ```
 
@@ -457,8 +412,8 @@ function Component({ onSubmit }) {
 
 ```typescript
 // vite.config.ts
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
@@ -493,7 +448,7 @@ export default defineConfig({
   optimizeDeps: {
     include: ['react', 'react-dom'],
   },
-})
+});
 ```
 
 ### Tree Shaking Best Practices
@@ -501,23 +456,23 @@ export default defineConfig({
 ```typescript
 // Prefer named imports for tree shaking
 // Good - tree shakeable
-import { Button, Input } from '@/components/ui'
+import { Button, Input } from '@/components/ui';
 
 // Avoid - imports entire module
-import * as UI from '@/components/ui'
+import * as UI from '@/components/ui';
 
 // Barrel exports that preserve tree shaking
 // components/ui/index.ts
-export { Button } from './Button'
-export { Input } from './Input'
-export { Card } from './Card'
+export { Button } from './Button';
+export { Input } from './Input';
+export { Card } from './Card';
 
 // Avoid default exports in library code
 // Bad
-export default Button
+export default Button;
 
 // Good
-export { Button }
+export { Button };
 ```
 
 ---
@@ -527,23 +482,20 @@ export { Button }
 ### Virtualization for Long Lists
 
 ```tsx
-import { useVirtualizer } from '@tanstack/react-virtual'
+import { useVirtualizer } from '@tanstack/react-virtual';
 
 function VirtualList({ items }) {
-  const parentRef = useRef<HTMLDivElement>(null)
+  const parentRef = useRef<HTMLDivElement>(null);
 
   const virtualizer = useVirtualizer({
     count: items.length,
     getScrollElement: () => parentRef.current,
     estimateSize: () => 50,
     overscan: 5,
-  })
+  });
 
   return (
-    <div
-      ref={parentRef}
-      className="h-96 overflow-auto"
-    >
+    <div ref={parentRef} className="h-96 overflow-auto">
       <div
         style={{
           height: `${virtualizer.getTotalSize()}px`,
@@ -568,7 +520,7 @@ function VirtualList({ items }) {
         ))}
       </div>
     </div>
-  )
+  );
 }
 ```
 
@@ -621,40 +573,40 @@ function SearchInput({ onSearch }) {
 
 ```tsx
 // lib/vitals.ts
-import { onCLS, onFID, onLCP, onFCP, onTTFB } from 'web-vitals'
+import { onCLS, onFID, onLCP, onFCP, onTTFB } from 'web-vitals';
 
 type Metric = {
-  name: string
-  value: number
-  rating: 'good' | 'needs-improvement' | 'poor'
-  id: string
-}
+  name: string;
+  value: number;
+  rating: 'good' | 'needs-improvement' | 'poor';
+  id: string;
+};
 
 function sendToAnalytics(metric: Metric) {
   // Send to your analytics service
   fetch('/api/analytics', {
     method: 'POST',
     body: JSON.stringify(metric),
-  })
+  });
 }
 
 export function initVitals() {
-  onCLS(sendToAnalytics)
-  onFID(sendToAnalytics)
-  onLCP(sendToAnalytics)
-  onFCP(sendToAnalytics)
-  onTTFB(sendToAnalytics)
+  onCLS(sendToAnalytics);
+  onFID(sendToAnalytics);
+  onLCP(sendToAnalytics);
+  onFCP(sendToAnalytics);
+  onTTFB(sendToAnalytics);
 }
 
 // app/layout.tsx
-import { initVitals } from '@/lib/vitals'
+import { initVitals } from '@/lib/vitals';
 
 export default function RootLayout({ children }) {
   useEffect(() => {
-    initVitals()
-  }, [])
+    initVitals();
+  }, []);
 
-  return <html>{children}</html>
+  return <html>{children}</html>;
 }
 ```
 
@@ -663,27 +615,32 @@ export default function RootLayout({ children }) {
 ## Best Practices Summary
 
 Code Splitting:
+
 - Split by route automatically (Next.js App Router)
 - Lazy load heavy components
 - Preload on hover for faster navigation
 
 Images:
+
 - Use Next.js Image component
 - Implement placeholder blur
 - Set appropriate sizes attribute
 
 Memoization:
+
 - Use useMemo for expensive computations
 - Use useCallback for stable callbacks
 - Use memo for pure components
 - Use useDeferredValue for smooth input
 
 Bundle:
+
 - Configure manual chunks
 - Prefer named imports
 - Monitor bundle size
 
 Runtime:
+
 - Virtualize long lists
 - Debounce expensive operations
 - Track Web Vitals

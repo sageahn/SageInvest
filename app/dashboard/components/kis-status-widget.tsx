@@ -25,7 +25,7 @@ export default function KISDashboardWidget() {
           return;
         }
 
-        const data = await response.json() as { configured: boolean; token?: any };
+        const data = (await response.json()) as { configured: boolean; token?: any };
 
         if (!data.token) {
           setConnectionStatus({ status: 'disconnected' });
@@ -41,7 +41,7 @@ export default function KISDashboardWidget() {
           token: data.token,
           expiresAt,
         });
-      } catch (error) {
+      } catch {
         setConnectionStatus({ status: 'disconnected' });
       }
     };
@@ -110,9 +110,7 @@ export default function KISDashboardWidget() {
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold">KIS API 상태</h3>
-        <div className={`px-3 py-1 rounded-full border ${getStatusColor()}`}>
-          {getStatusText()}
-        </div>
+        <div className={`px-3 py-1 rounded-full border ${getStatusColor()}`}>{getStatusText()}</div>
       </div>
 
       {connectionStatus.status === 'connected' && connectionStatus.token && (
@@ -129,12 +127,14 @@ export default function KISDashboardWidget() {
 
           <div className="flex justify-between items-center">
             <span className="text-sm text-gray-600">만료까지</span>
-            <span className={`font-medium ${
-              connectionStatus.expiresAt &&
-              connectionStatus.expiresAt < new Date(Date.now() + 60 * 60 * 1000)
-                ? 'text-red-600'
-                : 'text-green-600'
-            }`}>
+            <span
+              className={`font-medium ${
+                connectionStatus.expiresAt &&
+                connectionStatus.expiresAt < new Date(Date.now() + 60 * 60 * 1000)
+                  ? 'text-red-600'
+                  : 'text-green-600'
+              }`}
+            >
               {timeRemaining}
             </span>
           </div>
@@ -144,8 +144,10 @@ export default function KISDashboardWidget() {
               onClick={async () => {
                 try {
                   await fetch('/api/kis/refresh', { method: 'POST' });
-                  if (typeof window !== "undefined") { window.location.reload(); };
-                } catch (error) {
+                  if (typeof window !== 'undefined') {
+                    window.location.reload();
+                  }
+                } catch {
                   console.error('Token refresh failed:', error);
                 }
               }}
@@ -176,8 +178,10 @@ export default function KISDashboardWidget() {
             onClick={async () => {
               try {
                 await fetch('/api/kis/refresh', { method: 'POST' });
-                if (typeof window !== "undefined") { window.location.reload(); };
-              } catch (error) {
+                if (typeof window !== 'undefined') {
+                  window.location.reload();
+                }
+              } catch {
                 console.error('Token refresh failed:', error);
               }
             }}

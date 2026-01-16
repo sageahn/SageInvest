@@ -62,7 +62,7 @@ export function DataTable<TData, TValue>({
  onChange={(event) => setGlobalFilter(String(event.target.value))}
  className="max-w-sm"
  />
- 
+
  {/* Column Filters */}
  {filterableColumns.map((column) => (
  <DataTableColumnFilter
@@ -166,7 +166,7 @@ const multiStepSchema = z.object({
  email: z.string().email(),
  phone: z.string().optional(),
  }),
- 
+
  // Step 2: Address
  address: z.object({
  street: z.string().min(5),
@@ -175,7 +175,7 @@ const multiStepSchema = z.object({
  zipCode: z.string().regex(/^\d{5}(-\d{4})?$/),
  country: z.string().min(2),
  }),
- 
+
  // Step 3: Preferences
  preferences: z.object({
  newsletter: z.boolean(),
@@ -189,7 +189,7 @@ type MultiStepFormValues = z.infer<typeof multiStepSchema>;
 export function MultiStepForm() {
  const [currentStep, setCurrentStep] = useState(0);
  const [isSubmitting, setIsSubmitting] = useState(false);
- 
+
  const methods = useForm<MultiStepFormValues>({
  resolver: zodResolver(multiStepSchema),
  defaultValues: {
@@ -223,7 +223,7 @@ export function MultiStepForm() {
  const handleNext = async () => {
  const currentStepName = ["personalInfo", "address", "preferences"][currentStep];
  const isValid = await methods.trigger(currentStepName as any);
- 
+
  if (isValid && currentStep < steps.length - 1) {
  setCurrentStep(currentStep + 1);
  }
@@ -339,7 +339,7 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
  ({ className, variant, size, asChild = false, loading, loadingText, children, disabled, ...props }, ref) => {
  const Comp = asChild ? Slot : "button";
- 
+
  return (
  <Comp
  className={cn(buttonVariants({ variant, size, className }))}
@@ -352,13 +352,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
  {loading && (
  <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
  )}
- 
+
  {loading && loadingText ? (
  <span id="loading-description" className="sr-only">
  {loadingText}
  </span>
  ) : null}
- 
+
  {loading ? loadingText || children : children}
  </Comp>
  );
@@ -375,79 +375,77 @@ export { Button, buttonVariants };
 ```typescript
 // Performance optimization for shadcn/ui components
 export class ComponentPerformanceOptimizer {
- // Lazy loading components with React.lazy
- static createLazyComponent(importFn: () => Promise<{ default: React.ComponentType<any> }>) {
- return React.lazy(importFn);
- }
+  // Lazy loading components with React.lazy
+  static createLazyComponent(importFn: () => Promise<{ default: React.ComponentType<any> }>) {
+    return React.lazy(importFn);
+  }
 
- // Component memoization with React.memo
- static createMemoizedComponent<P extends object>(
- Component: React.ComponentType<P>,
- areEqual?: (prevProps: P, nextProps: P) => boolean
- ) {
- return React.memo(Component, areEqual);
- }
+  // Component memoization with React.memo
+  static createMemoizedComponent<P extends object>(
+    Component: React.ComponentType<P>,
+    areEqual?: (prevProps: P, nextProps: P) => boolean
+  ) {
+    return React.memo(Component, areEqual);
+  }
 
- // Hook for performance monitoring
- static usePerformanceMonitor(componentName: string) {
- const [renderCount, setRenderCount] = useState(0);
- const [renderTime, setRenderTime] = useState(0);
+  // Hook for performance monitoring
+  static usePerformanceMonitor(componentName: string) {
+    const [renderCount, setRenderCount] = useState(0);
+    const [renderTime, setRenderTime] = useState(0);
 
- useEffect(() => {
- const startTime = performance.now();
- 
- setRenderCount(prev => prev + 1);
- 
- return () => {
- const endTime = performance.now();
- setRenderTime(endTime - startTime);
- 
- if (process.env.NODE_ENV === 'development') {
- console.log(
- `${componentName} render #${renderCount}: ${renderTime.toFixed(2)}ms`
- );
- }
- };
- });
+    useEffect(() => {
+      const startTime = performance.now();
 
- return { renderCount, renderTime };
- }
+      setRenderCount((prev) => prev + 1);
 
- // Bundle size optimization
- static optimizeBundleSize() {
- return {
- treeShaking: {
- enabled: true,
- description: "Remove unused components and utilities",
- },
- codeSplitting: {
- enabled: true,
- description: "Split components into separate chunks",
- },
- compression: {
- enabled: true,
- description: "Compress bundle with gzip/brotli",
- },
- };
- }
+      return () => {
+        const endTime = performance.now();
+        setRenderTime(endTime - startTime);
 
- // Runtime performance optimization
- static optimizeRuntimePerformance() {
- return {
- virtualScrolling: {
- enabled: true,
- description: "Virtual scrolling for large data sets",
- },
- memoization: {
- enabled: true,
- description: "Memoize expensive computations",
- },
- debouncing: {
- enabled: true,
- description: "Debounce user interactions",
- },
- };
- }
+        if (process.env.NODE_ENV === 'development') {
+          console.log(`${componentName} render #${renderCount}: ${renderTime.toFixed(2)}ms`);
+        }
+      };
+    });
+
+    return { renderCount, renderTime };
+  }
+
+  // Bundle size optimization
+  static optimizeBundleSize() {
+    return {
+      treeShaking: {
+        enabled: true,
+        description: 'Remove unused components and utilities',
+      },
+      codeSplitting: {
+        enabled: true,
+        description: 'Split components into separate chunks',
+      },
+      compression: {
+        enabled: true,
+        description: 'Compress bundle with gzip/brotli',
+      },
+    };
+  }
+
+  // Runtime performance optimization
+  static optimizeRuntimePerformance() {
+    return {
+      virtualScrolling: {
+        enabled: true,
+        description: 'Virtual scrolling for large data sets',
+      },
+      memoization: {
+        enabled: true,
+        description: 'Memoize expensive computations',
+      },
+      debouncing: {
+        enabled: true,
+        description: 'Debounce user interactions',
+      },
+    };
+  }
 }
 ```
 

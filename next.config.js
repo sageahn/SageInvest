@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   experimental: {
     serverActions: {
-      allowedOrigins: ["localhost:3000"],
+      allowedOrigins: ['localhost:3000'],
     },
   },
 };

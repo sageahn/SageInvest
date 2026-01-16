@@ -3,6 +3,7 @@
 ## Official Documentation
 
 ### Core Documentation
+
 - **Auth0 Secure Hub**: https://auth0.com/docs/secure
   - Central security documentation
   - Best practices overview
@@ -40,6 +41,7 @@
 ### API Reference
 
 #### Management API
+
 - **Management API v2**: https://auth0.com/docs/api/management/v2
   - Endpoints for tenant configuration
   - Attack protection management
@@ -52,6 +54,7 @@
   - MFA challenge flows
 
 #### SDKs & Libraries
+
 - **Auth0 Node.js SDK**: https://github.com/auth0/node-auth0
   - Management API client
   - Authentication SDK
@@ -93,6 +96,7 @@
 ### Security Standards
 
 #### FAPI (Financial API)
+
 - **FAPI 1.0 Specification**: https://openid.net/specs/openid-financial-api-part-1-1_0.html
   - Security requirements
   - Implementation guidelines
@@ -104,6 +108,7 @@
   - mTLS authentication
 
 #### GDPR Compliance
+
 - **Auth0 GDPR Guide**: https://auth0.com/docs/secure/data-privacy-and-compliance/gdpr
   - Data processing agreements
   - User rights implementation
@@ -116,6 +121,7 @@
   - Batch operations
 
 #### HIPAA Compliance
+
 - **HIPAA Guide**: https://auth0.com/docs/secure/data-privacy-and-compliance/hipaa
   - BAA availability
   - PHI handling
@@ -135,6 +141,7 @@
 This skill contains 39 modules organized into 6 categories:
 
 #### Attack Protection (8 modules)
+
 - `modules/attack-protection-overview.md` - Complete attack protection framework
 - `modules/bot-detection.md` - CAPTCHA and bot detection
 - `modules/breached-password-detection.md` - Compromised credential screening
@@ -145,6 +152,7 @@ This skill contains 39 modules organized into 6 categories:
 - `modules/state-parameters.md` - State management
 
 #### Multi-Factor Authentication (9 modules)
+
 - `modules/mfa-overview.md` - MFA fundamentals
 - `modules/mfa-factors.md` - Available factors
 - `modules/webauthn-fido.md` - Passwordless authentication
@@ -156,6 +164,7 @@ This skill contains 39 modules organized into 6 categories:
 - `modules/ropg-flow-mfa.md` - Resource owner password grant
 
 #### Token Security (8 modules)
+
 - `modules/tokens-overview.md` - Token types and usage
 - `modules/jwt-fundamentals.md` - JWT structure and validation
 - `modules/id-tokens.md` - User identity tokens
@@ -166,10 +175,12 @@ This skill contains 39 modules organized into 6 categories:
 - `modules/token-best-practices.md` - Security guidelines
 
 #### Sender Constraining (2 modules)
+
 - `modules/dpop-implementation.md` - DPoP configuration
 - `modules/mtls-sender-constraining.md` - mTLS binding
 
 #### Compliance (8 modules)
+
 - `modules/compliance-overview.md` - Compliance framework
 - `modules/fapi-implementation.md` - Financial API security
 - `modules/highly-regulated-identity.md` - HRI features
@@ -179,6 +190,7 @@ This skill contains 39 modules organized into 6 categories:
 - `modules/customer-managed-keys.md` - Key management
 
 #### Security Operations (4 modules)
+
 - `modules/security-center.md` - Monitoring dashboard
 - `modules/application-credentials.md` - Client secrets and keys
 - `modules/continuous-session-protection.md` - Session monitoring

@@ -13,7 +13,7 @@ flowchart TD
  Calculate --> Output[Output]
  Error --> Output
  Output --> End([End])
- 
+
  style Start fill:#90EE90
  style End fill:#FFB6C6
  style Error fill:#FFB6C6
@@ -26,7 +26,7 @@ sequenceDiagram
  participant User
  participant API
  participant Database
- 
+
  User->>API: GET /users
  API->>Database: SELECT * FROM users
  Database-->>API: User records
@@ -66,7 +66,7 @@ erDiagram
  CUSTOMER ||--o{ ORDER : places
  ORDER ||--|{ ORDER-ITEM : contains
  PRODUCT ||--o{ ORDER-ITEM : "included in"
- 
+
  CUSTOMER {
  int id PK
  string email
@@ -79,7 +79,7 @@ erDiagram
 gantt
  title Project Schedule
  dateFormat YYYY-MM-DD
- 
+
  section Phase 1
  Design :des, 2025-01-01, 30d
  Implementation :impl, after:des, 45d
@@ -210,10 +210,10 @@ kanban
  section Todo
  Task 1
  Task 2
- 
+
  section Doing
  Task 3
- 
+
  section Done
  Task 4
 ```
@@ -259,7 +259,7 @@ graph TB
  API["API Server"]
  DB["Database"]
  Cache["Redis"]
- 
+
  Web --> API
  API --> DB
  API --> Cache

@@ -47,30 +47,30 @@ function Counter() {
 
 ```typescript
 // stores/userStore.ts
-import { create } from 'zustand'
-import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
-import { immer } from 'zustand/middleware/immer'
+import { create } from 'zustand';
+import { devtools, persist, subscribeWithSelector } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
 
 interface User {
-  id: string
-  name: string
-  email: string
+  id: string;
+  name: string;
+  email: string;
   preferences: {
-    theme: 'light' | 'dark'
-    notifications: boolean
-  }
+    theme: 'light' | 'dark';
+    notifications: boolean;
+  };
 }
 
 interface UserState {
-  user: User | null
-  isLoading: boolean
-  error: string | null
+  user: User | null;
+  isLoading: boolean;
+  error: string | null;
 
   // Actions
-  setUser: (user: User | null) => void
-  updatePreferences: (prefs: Partial<User['preferences']>) => void
-  login: (email: string, password: string) => Promise<void>
-  logout: () => void
+  setUser: (user: User | null) => void;
+  updatePreferences: (prefs: Partial<User['preferences']>) => void;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => void;
 }
 
 export const useUserStore = create<UserState>()(
@@ -83,7 +83,7 @@ export const useUserStore = create<UserState>()(
           error: null,
 
           setUser: (user) => {
-            set({ user })
+            set({ user });
           },
 
           updatePreferences: (prefs) => {
@@ -91,87 +91,87 @@ export const useUserStore = create<UserState>()(
               if (state.user) {
                 state.user.preferences = {
                   ...state.user.preferences,
-                  ...prefs
-                }
+                  ...prefs,
+                };
               }
-            })
+            });
           },
 
           login: async (email, password) => {
-            set({ isLoading: true, error: null })
+            set({ isLoading: true, error: null });
 
             try {
               const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
-              })
+              });
 
               if (!response.ok) {
-                throw new Error('Login failed')
+                throw new Error('Login failed');
               }
 
-              const user = await response.json()
-              set({ user, isLoading: false })
+              const user = await response.json();
+              set({ user, isLoading: false });
             } catch (error) {
               set({
                 error: error instanceof Error ? error.message : 'Unknown error',
-                isLoading: false
-              })
+                isLoading: false,
+              });
             }
           },
 
           logout: () => {
-            set({ user: null })
+            set({ user: null });
           },
         }))
       ),
       {
         name: 'user-storage',
         partialize: (state) => ({
-          user: state.user
+          user: state.user,
         }),
       }
     ),
     { name: 'UserStore' }
   )
-)
+);
 
 // Selectors for optimized re-renders
-export const selectUser = (state: UserState) => state.user
-export const selectIsLoggedIn = (state: UserState) => !!state.user
-export const selectTheme = (state: UserState) => state.user?.preferences.theme ?? 'light'
+export const selectUser = (state: UserState) => state.user;
+export const selectIsLoggedIn = (state: UserState) => !!state.user;
+export const selectTheme = (state: UserState) => state.user?.preferences.theme ?? 'light';
 
 // Subscribe to changes outside React
 useUserStore.subscribe(
   (state) => state.user,
   (user) => {
-    console.log('User changed:', user)
+    console.log('User changed:', user);
   }
-)
+);
 ```
 
 ### Slices Pattern for Large Stores
 
 ```typescript
 // stores/slices/cartSlice.ts
-import { StateCreator } from 'zustand'
+import { StateCreator } from 'zustand';
 
 interface CartItem {
-  id: string
-  name: string
-  price: number
-  quantity: number
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
 }
 
 export interface CartSlice {
-  items: CartItem[]
-  addItem: (item: Omit<CartItem, 'quantity'>) => void
-  removeItem: (id: string) => void
-  updateQuantity: (id: string, quantity: number) => void
-  clearCart: () => void
-  totalItems: () => number
-  totalPrice: () => number
+  items: CartItem[];
+  addItem: (item: Omit<CartItem, 'quantity'>) => void;
+  removeItem: (id: string) => void;
+  updateQuantity: (id: string, quantity: number) => void;
+  clearCart: () => void;
+  totalItems: () => number;
+  totalPrice: () => number;
 }
 
 export const createCartSlice: StateCreator<CartSlice> = (set, get) => ({
@@ -179,46 +179,43 @@ export const createCartSlice: StateCreator<CartSlice> = (set, get) => ({
 
   addItem: (item) => {
     set((state) => {
-      const existingItem = state.items.find((i) => i.id === item.id)
+      const existingItem = state.items.find((i) => i.id === item.id);
       if (existingItem) {
         return {
           items: state.items.map((i) =>
             i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
           ),
-        }
+        };
       }
-      return { items: [...state.items, { ...item, quantity: 1 }] }
-    })
+      return { items: [...state.items, { ...item, quantity: 1 }] };
+    });
   },
 
   removeItem: (id) => {
     set((state) => ({
       items: state.items.filter((item) => item.id !== id),
-    }))
+    }));
   },
 
   updateQuantity: (id, quantity) => {
     set((state) => ({
-      items: state.items.map((item) =>
-        item.id === id ? { ...item, quantity } : item
-      ),
-    }))
+      items: state.items.map((item) => (item.id === id ? { ...item, quantity } : item)),
+    }));
   },
 
   clearCart: () => set({ items: [] }),
 
   totalItems: () => get().items.reduce((sum, item) => sum + item.quantity, 0),
 
-  totalPrice: () =>
-    get().items.reduce((sum, item) => sum + item.price * item.quantity, 0),
-})
+  totalPrice: () => get().items.reduce((sum, item) => sum + item.price * item.quantity, 0),
+});
 
 // stores/slices/uiSlice.ts
 export interface UISlice {
-  sidebarOpen: boolean
-  modalOpen: boolean
-  toggleSidebar: () => void
-  toggleModal: () => void
+  sidebarOpen: boolean;
+  modalOpen: boolean;
+  toggleSidebar: () => void;
+  toggleModal: () => void;
 }
 
 export const createUISlice: StateCreator<UISlice> = (set) => ({
@@ -226,19 +223,19 @@ export const createUISlice: StateCreator<UISlice> = (set) => ({
   modalOpen: false,
   toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
   toggleModal: () => set((state) => ({ modalOpen: !state.modalOpen })),
-})
+});
 
 // stores/index.ts - Combine slices
-import { create } from 'zustand'
-import { createCartSlice, type CartSlice } from './slices/cartSlice'
-import { createUISlice, type UISlice } from './slices/uiSlice'
+import { create } from 'zustand';
+import { createCartSlice, type CartSlice } from './slices/cartSlice';
+import { createUISlice, type UISlice } from './slices/uiSlice';
 
-type StoreState = CartSlice & UISlice
+type StoreState = CartSlice & UISlice;
 
 export const useStore = create<StoreState>()((...args) => ({
   ...createCartSlice(...args),
   ...createUISlice(...args),
-}))
+}));
 ```
 
 ---
@@ -249,11 +246,11 @@ export const useStore = create<StoreState>()((...args) => ({
 
 ```typescript
 // store/store.ts
-import { configureStore } from '@reduxjs/toolkit'
-import { setupListeners } from '@reduxjs/toolkit/query'
-import userReducer from './slices/userSlice'
-import cartReducer from './slices/cartSlice'
-import { api } from './api'
+import { configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import userReducer from './slices/userSlice';
+import cartReducer from './slices/cartSlice';
+import { api } from './api';
 
 export const store = configureStore({
   reducer: {
@@ -261,34 +258,33 @@ export const store = configureStore({
     cart: cartReducer,
     [api.reducerPath]: api.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
   devTools: process.env.NODE_ENV !== 'production',
-})
+});
 
-setupListeners(store.dispatch)
+setupListeners(store.dispatch);
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 ```
 
 ### Slice with Async Thunks
 
 ```typescript
 // store/slices/userSlice.ts
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 
 interface User {
-  id: string
-  name: string
-  email: string
+  id: string;
+  name: string;
+  email: string;
 }
 
 interface UserState {
-  currentUser: User | null
-  users: User[]
-  status: 'idle' | 'loading' | 'succeeded' | 'failed'
-  error: string | null
+  currentUser: User | null;
+  users: User[];
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error: string | null;
 }
 
 const initialState: UserState = {
@@ -296,25 +292,20 @@ const initialState: UserState = {
   users: [],
   status: 'idle',
   error: null,
-}
+};
 
 // Async thunks
-export const fetchUsers = createAsyncThunk(
-  'users/fetchUsers',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await fetch('/api/users')
-      if (!response.ok) {
-        throw new Error('Failed to fetch users')
-      }
-      return await response.json()
-    } catch (error) {
-      return rejectWithValue(
-        error instanceof Error ? error.message : 'Unknown error'
-      )
+export const fetchUsers = createAsyncThunk('users/fetchUsers', async (_, { rejectWithValue }) => {
+  try {
+    const response = await fetch('/api/users');
+    if (!response.ok) {
+      throw new Error('Failed to fetch users');
     }
+    return await response.json();
+  } catch (error) {
+    return rejectWithValue(error instanceof Error ? error.message : 'Unknown error');
   }
-)
+});
 
 export const createUser = createAsyncThunk(
   'users/createUser',
@@ -324,85 +315,83 @@ export const createUser = createAsyncThunk(
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData),
-      })
+      });
       if (!response.ok) {
-        throw new Error('Failed to create user')
+        throw new Error('Failed to create user');
       }
-      return await response.json()
+      return await response.json();
     } catch (error) {
-      return rejectWithValue(
-        error instanceof Error ? error.message : 'Unknown error'
-      )
+      return rejectWithValue(error instanceof Error ? error.message : 'Unknown error');
     }
   }
-)
+);
 
 const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
     setCurrentUser: (state, action: PayloadAction<User | null>) => {
-      state.currentUser = action.payload
+      state.currentUser = action.payload;
     },
     updateUser: (state, action: PayloadAction<Partial<User> & { id: string }>) => {
-      const index = state.users.findIndex((u) => u.id === action.payload.id)
+      const index = state.users.findIndex((u) => u.id === action.payload.id);
       if (index !== -1) {
-        state.users[index] = { ...state.users[index], ...action.payload }
+        state.users[index] = { ...state.users[index], ...action.payload };
       }
     },
     clearError: (state) => {
-      state.error = null
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
     builder
       // Fetch users
       .addCase(fetchUsers.pending, (state) => {
-        state.status = 'loading'
-        state.error = null
+        state.status = 'loading';
+        state.error = null;
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
-        state.status = 'succeeded'
-        state.users = action.payload
+        state.status = 'succeeded';
+        state.users = action.payload;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
-        state.status = 'failed'
-        state.error = action.payload as string
+        state.status = 'failed';
+        state.error = action.payload as string;
       })
       // Create user
       .addCase(createUser.fulfilled, (state, action) => {
-        state.users.push(action.payload)
-      })
+        state.users.push(action.payload);
+      });
   },
-})
+});
 
-export const { setCurrentUser, updateUser, clearError } = userSlice.actions
-export default userSlice.reducer
+export const { setCurrentUser, updateUser, clearError } = userSlice.actions;
+export default userSlice.reducer;
 
 // Selectors
-export const selectAllUsers = (state: RootState) => state.user.users
+export const selectAllUsers = (state: RootState) => state.user.users;
 export const selectUserById = (state: RootState, userId: string) =>
-  state.user.users.find((u) => u.id === userId)
-export const selectUserStatus = (state: RootState) => state.user.status
+  state.user.users.find((u) => u.id === userId);
+export const selectUserStatus = (state: RootState) => state.user.status;
 ```
 
 ### RTK Query for API Calls
 
 ```typescript
 // store/api.ts
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 interface User {
-  id: string
-  name: string
-  email: string
+  id: string;
+  name: string;
+  email: string;
 }
 
 interface Post {
-  id: string
-  title: string
-  content: string
-  authorId: string
+  id: string;
+  title: string;
+  content: string;
+  authorId: string;
 }
 
 export const api = createApi({
@@ -410,11 +399,11 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: '/api',
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token
+      const token = (getState() as RootState).auth.token;
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set('Authorization', `Bearer ${token}`);
       }
-      return headers
+      return headers;
     },
   }),
   tagTypes: ['User', 'Post'],
@@ -476,20 +465,20 @@ export const api = createApi({
         // Optimistic update
         const patchResult = dispatch(
           api.util.updateQueryData('getPosts', undefined, (draft) => {
-            draft.push({ ...newPost, id: 'temp-id' })
+            draft.push({ ...newPost, id: 'temp-id' });
           })
-        )
+        );
 
         try {
-          await queryFulfilled
+          await queryFulfilled;
         } catch {
-          patchResult.undo()
+          patchResult.undo();
         }
       },
       invalidatesTags: [{ type: 'Post', id: 'LIST' }],
     }),
   }),
-})
+});
 
 export const {
   useGetUsersQuery,
@@ -498,7 +487,7 @@ export const {
   useUpdateUserMutation,
   useDeleteUserMutation,
   useAddPostMutation,
-} = api
+} = api;
 ```
 
 ---
@@ -634,24 +623,28 @@ export function useAuth(): AuthContextValue {
 ### When to Use Each Solution
 
 Zustand:
+
 - Small to medium applications
 - Simple global state needs
 - Minimal boilerplate preference
 - TypeScript-first approach
 
 Redux Toolkit:
+
 - Large applications with complex state
 - Team already familiar with Redux
 - Need for middleware ecosystem
 - Complex async workflows
 
 React Context:
+
 - Theme/locale preferences
 - Authentication state
 - Component-level shared state
 - Avoiding external dependencies
 
 Pinia (Vue):
+
 - Vue 3 applications
 - Composition API integration
 - DevTools support needed
@@ -660,16 +653,19 @@ Pinia (Vue):
 ### Performance Considerations
 
 Zustand Performance Tips:
+
 - Use selectors to minimize re-renders
 - Split stores by domain
 - Use shallow comparison when needed
 
 Redux Performance Tips:
+
 - Use createSelector for memoization
 - Normalize state shape
 - Split reducers appropriately
 
 Context Performance Tips:
+
 - Split contexts by update frequency
 - Memoize context values
 - Use useMemo for complex computations

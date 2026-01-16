@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  KISAuthToken,
-  KISConfig,
-  KISEnvironment,
-  KISApiLog,
-} from '@/lib/kis/types';
+import { KISAuthToken, KISConfig, KISEnvironment, KISApiLog } from '@/lib/kis/types';
 
 describe('KIS Types', () => {
   describe('KISAuthToken', () => {

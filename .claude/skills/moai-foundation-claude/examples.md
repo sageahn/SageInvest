@@ -9,6 +9,7 @@ Multishot prompting examples demonstrating practical Claude Code patterns coveri
 **Scenario**: Create a skill for Python testing best practices.
 
 **Input**:
+
 ```yaml
 # Need: A skill for Python testing that:
 # - Follows Claude Code official standards
@@ -18,7 +19,8 @@ Multishot prompting examples demonstrating practical Claude Code patterns coveri
 ```
 
 **Output**:
-```yaml
+
+````yaml
 # File: .claude/skills/python-testing/SKILL.md
 ---
 name: python-testing
@@ -62,7 +64,7 @@ def db_session():
     session = create_test_session()
     yield session
     session.rollback()
-```
+````
 
 ---
 
@@ -175,7 +177,8 @@ async def test_async_api_call():
 - moai-lang-python - Python 3.13+ patterns
 - moai-domain-backend - Backend testing strategies
 - moai-workflow-tdd - TDD workflow integration
-```
+
+````
 
 **Explanation**: This skill follows Claude Code official standards with progressive disclosure (Quick/Implementation/Advanced), stays under 500 lines, and includes practical pytest examples.
 
@@ -193,10 +196,11 @@ async def test_async_api_call():
 # - Parallel for independent tasks
 # - Proper error handling
 # - Context passing between agents
-```
+````
 
 **Output**:
-```python
+
+````python
 # SPEC Workflow with Sub-agent Delegation
 
 ## Sequential Delegation Pattern
@@ -263,7 +267,7 @@ validation = Task(
         "original_spec": analysis
     }
 )
-```
+````
 
 ## Parallel Delegation Pattern
 
@@ -348,20 +352,29 @@ async def execute_with_retry(task_config, max_retries=3):
 **Scenario**: Create a deployment command with pre/post hooks for validation.
 
 **Input**:
+
 ```markdown
 # Need: Deployment command that:
+
 # - Validates before deployment
+
 # - Runs tests before deploying
+
 # - Notifies on completion
+
 # - Supports rollback
 ```
 
 **Output**:
-```markdown
+
+````markdown
 # File: .claude/commands/deploy.md
+
 ---
+
 description: Deploy application with validation, testing, and notification
 allowed-tools: Bash, Read, Write, Glob
+
 ---
 
 # Deployment Command
@@ -392,6 +405,7 @@ if [ -n "$(git status --porcelain)" ]; then
     exit 1
 fi
 ```
+````
 
 ### Step 2: Run Tests
 
@@ -444,7 +458,8 @@ curl -X POST -H 'Content-type: application/json' \
     --data '{"text":"Deployed v'$VERSION' to '$ENVIRONMENT'"}' \
     $SLACK_WEBHOOK_URL
 ```
-```
+
+````
 
 ```json
 // File: .claude/settings.json (hooks section)
@@ -476,7 +491,7 @@ curl -X POST -H 'Content-type: application/json' \
     ]
   }
 }
-```
+````
 
 **Explanation**: This pattern combines a custom slash command with hooks for validation, testing, and notification, creating a complete deployment workflow.
 
@@ -492,16 +507,19 @@ Organize memory for efficient context loading:
 # File: .claude/CLAUDE.md (Project-level memory)
 
 ## Project Overview
+
 - Name: MyApp
 - Type: Web API
 - Stack: Python 3.13, FastAPI, PostgreSQL
 
 ## Development Guidelines
+
 - Follow TDD for all new features
 - Minimum 80% test coverage
 - Use type hints everywhere
 
 ## Active SPECs
+
 - SPEC-001: User Authentication (In Progress)
 - SPEC-002: API Rate Limiting (Planned)
 
@@ -513,6 +531,7 @@ Organize memory for efficient context loading:
 # File: .claude/architecture.md
 
 ## System Architecture
+
 - API Layer: FastAPI with automatic OpenAPI
 - Database: PostgreSQL with async SQLAlchemy
 - Cache: Redis for session management
@@ -558,23 +577,27 @@ Define permissions based on agent role:
 ## Permission Tiers
 
 ### Tier 1: Read-Only Agents
+
 - Tools: Read, Grep, Glob
 - Use for: Code analysis, documentation review
 - Example agents: code-analyzer, doc-reviewer
 
 ### Tier 2: Write-Limited Agents
+
 - Tools: Read, Write, Edit, Grep, Glob
 - Restrictions: Cannot modify production files
 - Use for: Code generation, refactoring
 - Example agents: code-generator, refactorer
 
 ### Tier 3: Full-Access Agents
+
 - Tools: All including Bash
 - Restrictions: Dangerous commands require approval
 - Use for: Deployment, system administration
 - Example agents: deployer, admin
 
 ### Tier 4: Admin Agents
+
 - Tools: All with elevated permissions
 - Use for: System configuration, security
 - Example agents: security-auditor, config-manager
@@ -590,17 +613,21 @@ Define permissions based on agent role:
 
 ```markdown
 # Incorrect: Single 1500-line SKILL.md
----
-name: everything-skill
+
 ---
 
+## name: everything-skill
+
 ## Quick Reference
+
 [200 lines...]
 
 ## Implementation
+
 [800 lines...]
 
 ## Advanced
+
 [500 lines...]
 ```
 
@@ -610,7 +637,9 @@ name: everything-skill
 # Correct: Modular skills under 500 lines each
 
 # python-testing/SKILL.md (400 lines)
+
 # python-async/SKILL.md (350 lines)
+
 # python-typing/SKILL.md (300 lines)
 
 # Each references the others in "Works Well With"
@@ -643,6 +672,7 @@ backend = Task(subagent_type="backend-expert", prompt="...", context=database)
 
 ```markdown
 # Incorrect
+
 Load configuration from /Users/john/projects/myapp/config.yaml
 ```
 
@@ -650,6 +680,7 @@ Load configuration from /Users/john/projects/myapp/config.yaml
 
 ```markdown
 # Correct
+
 Load configuration from @config.yaml or $PROJECT_ROOT/config.yaml
 ```
 
@@ -729,4 +760,4 @@ sync_result = Task(
 
 ---
 
-*For complete reference documentation, see the reference/ directory.*
+_For complete reference documentation, see the reference/ directory._

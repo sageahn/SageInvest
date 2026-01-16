@@ -60,13 +60,13 @@ object UserActor:
         case GetUser(id, replyTo) =>
           replyTo ! repository.findById(id)
           Behaviors.same
-        
+
         case CreateUser(request, replyTo) =>
           val user = repository.save(User.from(request))
           context.log.info(s"Created user: ${user.id}")
           replyTo ! user
           Behaviors.same
-        
+
         case UpdateUser(id, name, replyTo) =>
           val updated = repository.findById(id).map { user =>
             repository.save(user.copy(name = name))
@@ -99,16 +99,16 @@ object ShoppingCart:
         val newCart = cart.add(item)
         replyTo ! newCart
         active(newCart)
-      
+
       case RemoveItem(itemId, replyTo) =>
         val newCart = cart.remove(itemId)
         replyTo ! newCart
         active(newCart)
-      
+
       case GetCart(replyTo) =>
         replyTo ! cart
         Behaviors.same
-      
+
       case Checkout(replyTo) =>
         val order = Order.from(cart)
         replyTo ! order
@@ -128,7 +128,7 @@ object ShoppingCart:
 def apply(): Behavior[Command] =
   Behaviors.setup { context =>
     context.log.info("Actor starting")
-    
+
     Behaviors.receiveMessage[Command] { msg =>
       // Handle message
       Behaviors.same
@@ -186,7 +186,7 @@ object Parent:
           context.watch(child)
           children += (name -> child)
           Behaviors.same
-        
+
         case MessageChild(name, msg) =>
           children.get(name).foreach(_ ! msg)
           Behaviors.same
@@ -214,12 +214,12 @@ given system: ActorSystem[Nothing] = ???
 
 // Source, Flow, Sink
 val source: Source[Int, NotUsed] = Source(1 to 1000)
-val flow: Flow[Int, String, NotUsed] = 
+val flow: Flow[Int, String, NotUsed] =
   Flow[Int].filter(_ % 2 == 0).map(_ * 2).map(_.toString)
 val sink: Sink[String, Future[Done]] = Sink.foreach(println)
 
 // Connecting components
-val graph: RunnableGraph[Future[Done]] = 
+val graph: RunnableGraph[Future[Done]] =
   source.via(flow).toMat(sink)(Keep.right)
 
 val result: Future[Done] = graph.run()
@@ -233,13 +233,13 @@ val fromList: Source[Int, NotUsed] = Source(List(1, 2, 3))
 val fromRange: Source[Int, NotUsed] = Source(1 to 100)
 
 // Infinite sources
-val ticks: Source[Long, Cancellable] = 
+val ticks: Source[Long, Cancellable] =
   Source.tick(1.second, 1.second, 0L).map(_ => System.currentTimeMillis())
 
 val repeated: Source[String, NotUsed] = Source.repeat("hello").take(10)
 
 // From Future
-val fromFuture: Source[User, NotUsed] = 
+val fromFuture: Source[User, NotUsed] =
   Source.future(fetchUser(1L))
 
 // From actor
@@ -296,13 +296,13 @@ val fanOut: Source[Int, NotUsed] = source
 // Partition and merge
 val graph = GraphDSL.create() { implicit builder =>
   import GraphDSL.Implicits.*
-  
+
   val partition = builder.add(Partition[Int](2, n => if n % 2 == 0 then 0 else 1))
   val merge = builder.add(Merge[String](2))
-  
+
   partition.out(0) ~> evenFlow ~> merge.in(0)
   partition.out(1) ~> oddFlow ~> merge.in(1)
-  
+
   FlowShape(partition.in, merge.out)
 }
 ```
@@ -430,20 +430,20 @@ class UserActorSpec extends ScalaTestWithActorTestKit with AnyWordSpecLike:
     "return user when found" in {
       val probe = createTestProbe[Option[User]]()
       val actor = spawn(UserActor(mockRepository))
-      
+
       actor ! UserActor.GetUser(1L, probe.ref)
-      
+
       probe.expectMessage(Some(User(1L, "John", "john@example.com")))
     }
-    
+
     "handle concurrent requests" in {
       val actor = spawn(UserActor(mockRepository))
       val probes = (1 to 100).map(_ => createTestProbe[Option[User]]())
-      
+
       probes.zipWithIndex.foreach { case (probe, i) =>
         actor ! UserActor.GetUser(i.toLong, probe.ref)
       }
-      
+
       probes.foreach(_.expectMessageType[Option[User]])
     }
   }
@@ -454,21 +454,25 @@ class UserActorSpec extends ScalaTestWithActorTestKit with AnyWordSpecLike:
 ## Best Practices
 
 Actor Design:
+
 - Keep behaviors pure and stateless where possible
 - Use typed protocols for compile-time safety
 - Prefer ask pattern over storing replyTo in state
 
 Supervision:
+
 - Define explicit supervision strategies
 - Use restartWithBackoff for transient failures
 - Log failures before restarting
 
 Streams:
+
 - Use async boundaries for parallel stages
 - Prefer mapAsync over blocking operations
 - Monitor stream backpressure with metrics
 
 Persistence:
+
 - Keep events small and immutable
 - Use snapshots for large aggregates
 - Version events for schema evolution

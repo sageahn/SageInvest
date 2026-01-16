@@ -3,6 +3,7 @@
 ## Official Resources
 
 ### Core Documentation
+
 - **AST-Grep Official Site**: https://ast-grep.github.io/
   - Main documentation hub
   - Getting started guide
@@ -22,17 +23,21 @@
 ### Installation
 
 #### Package Managers
+
 - **Homebrew (macOS/Linux)**: https://ast-grep.github.io/guide/install.html#homebrew
+
   ```bash
   brew install ast-grep
   ```
 
 - **npm (Cross-platform)**: https://www.npmjs.com/package/@ast-grep/cli
+
   ```bash
   npm install -g @ast-grep/cli
   ```
 
 - **Cargo (Rust)**: https://crates.io/crates/ast-grep
+
   ```bash
   cargo install ast-grep
   ```
@@ -44,6 +49,7 @@
 ### Core Documentation
 
 #### Getting Started
+
 - **Quick Start**: https://ast-grep.github.io/guide/quick-start.html
   - Basic pattern search
   - First rule creation
@@ -52,10 +58,11 @@
 - **Pattern Syntax**: https://ast-grep.github.io/reference/pattern.html
   - Meta-variables ($VAR)
   - Variadic variables ($$$ARGS)
-  - Anonymous variables ($$_)
+  - Anonymous variables ($$\_)
   - Wildcards and quantifiers
 
 #### Rule Configuration
+
 - **YAML Rule Reference**: https://ast-grep.github.io/reference/yaml.html
   - Rule structure
   - Composite rules (all/any/not)
@@ -72,6 +79,7 @@
 ### Advanced Features
 
 #### Pattern Matching
+
 - **Advanced Patterns**: https://ast-grep.github.io/guide/pattern-syntax.html
   - String matching
   - Regular expressions in patterns
@@ -79,6 +87,7 @@
   - Field constraints
 
 #### Relational Rules
+
 - **Inside Rule**: https://ast-grep.github.io/reference/rule.html#inside
   - Scoped search within parent nodes
   - Nested context matching
@@ -92,6 +101,7 @@
   - Order-based validation
 
 #### Composite Rules
+
 - **All/Any/Not**: https://ast-grep.github.io/reference/rule.html#all-any-not
   - Logical combinations
   - Complex conditionals
@@ -100,6 +110,7 @@
 ### Language Support
 
 #### Supported Languages
+
 - **Full Language List**: https://ast-grep.github.io/languages.html
   - Python, JavaScript, TypeScript
   - Go, Rust, Java, Kotlin
@@ -109,6 +120,7 @@
   - And 30+ more
 
 #### Language-Specific Guides
+
 - **Python Patterns**: https://ast-grep.github.io/languages/python.html
 - **JavaScript Patterns**: https://ast-grep.github.io/languages/javascript.html
 - **TypeScript Patterns**: https://ast-grep.github.io/languages/typescript.html
@@ -117,6 +129,7 @@
 ### Security Scanning
 
 #### Security Rules
+
 - **Security Templates**: https://ast-grep.github.io/guide/security.html
   - SQL injection detection
   - XSS vulnerability scanning
@@ -124,6 +137,7 @@
   - Insecure dependency checks
 
 #### OWASP Integration
+
 - **OWASP Top 10**: https://ast-grep.github.io/guide/security.html#owasp-top-10
   - Injection attacks
   - Broken authentication
@@ -133,12 +147,14 @@
 ### Refactoring & Transformation
 
 #### Code Transformation
+
 - **Rewrite Rules**: https://ast-grep.github.io/reference/rule.html#fix
   - Pattern-to-pattern mapping
   - Variable substitution
   - Multi-file transformations
 
 #### Refactoring Patterns
+
 - **Common Refactorings**: https://ast-grep.github.io/guide/refactoring.html
   - API migration
   - Function renaming
@@ -148,12 +164,14 @@
 ### Testing & Validation
 
 #### Rule Testing
+
 - **Test Framework**: https://ast-grep.github.io/guide/test.html
   - Snapshot testing
   - Inline test cases
   - Test organization
 
 #### CI/CD Integration
+
 - **GitHub Actions**: https://ast-grep.github.io/guide/ci.html#github-actions
   - Workflow examples
   - Automated scanning
@@ -202,11 +220,13 @@ This skill contains 4 modules:
 ### MoAI-ADK Integration
 
 #### Tool Registry
+
 - **Registration**: `tool_registry.py` as AST_ANALYZER type
 - **Permissions**: Auto-allowed for `Bash(sg:*)` and `Bash(ast-grep:*)`
 - **Hooks**: PostToolUse hook for automatic security scanning
 
 #### Running Scans
+
 ```bash
 # Scan with MoAI-ADK rules
 sg scan --config .claude/skills/moai-tool-ast-grep/rules/sgconfig.yml
@@ -238,6 +258,7 @@ sg scan --config sgconfig.yml --json > results.json
 ### Related Tools
 
 #### Complementary Tools
+
 - **ripgrep (rg)**: https://github.com/BurntSushi/ripgrep
   - Fast text search
   - Regex-based filtering

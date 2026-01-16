@@ -246,24 +246,28 @@ class TDDManager:
 ## Phase-Specific Guidelines
 
 ### RED Phase
+
 - Write the simplest possible failing test
 - Test one specific behavior or requirement
 - Ensure test clearly expresses intent
 - Make test fail for the right reason
 
 ### GREEN Phase
+
 - Write the simplest code to make test pass
 - Don't worry about code quality yet
 - Focus on making the test green quickly
 - Avoid premature optimization
 
 ### REFACTOR Phase
+
 - Improve code design while keeping tests green
 - Remove duplication and improve readability
 - Apply design patterns appropriately
 - Ensure all tests still pass
 
 ### REVIEW Phase
+
 - Verify test coverage meets requirements
 - Review code quality and documentation
 - Check for any remaining technical debt

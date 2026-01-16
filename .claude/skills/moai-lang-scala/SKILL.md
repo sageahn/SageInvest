@@ -1,12 +1,12 @@
 ---
-name: "moai-lang-scala"
-description: "Scala 3.4+ development specialist covering Akka, Cats Effect, ZIO, and Spark patterns. Use when building distributed systems, big data pipelines, or functional programming applications."
+name: 'moai-lang-scala'
+description: 'Scala 3.4+ development specialist covering Akka, Cats Effect, ZIO, and Spark patterns. Use when building distributed systems, big data pipelines, or functional programming applications.'
 version: 2.1.0
-category: "language"
+category: 'language'
 modularized: true
 user-invocable: false
-tags: ["language", "scala", "akka", "cats-effect", "zio", "spark", "sbt"]
-status: "active"
+tags: ['language', 'scala', 'akka', 'cats-effect', 'zio', 'spark', 'sbt']
+status: 'active'
 updated: 2026-01-11
 allowed-tools:
   - Read

@@ -9,6 +9,7 @@ Comprehensive guide for implementing custom claims, role-based access control (R
 Custom claims are key-value pairs attached to Firebase ID tokens that enable role-based access control. Claims are set server-side using the Admin SDK and propagate to clients through token refresh.
 
 Key Characteristics:
+
 - Claims are embedded in ID tokens
 - Maximum 1000 bytes total claim size
 - Require token refresh to propagate changes
@@ -31,7 +32,7 @@ await getAuth().setCustomUserClaims(uid, {
   role: 'editor',
   organizationId: 'org_123',
   permissions: ['read', 'write', 'delete'],
-  tier: 'premium'
+  tier: 'premium',
 });
 
 // Add claims without overwriting
@@ -39,7 +40,7 @@ const user = await getAuth().getUser(uid);
 const currentClaims = user.customClaims || {};
 await getAuth().setCustomUserClaims(uid, {
   ...currentClaims,
-  newClaim: 'value'
+  newClaim: 'value',
 });
 
 // Clear all claims
@@ -97,7 +98,7 @@ export const onUserCreate = auth.user().onCreate(async (user) => {
   const defaultClaims = {
     role: 'member',
     tier: 'free',
-    createdAt: Date.now()
+    createdAt: Date.now(),
   };
 
   await getAuth().setCustomUserClaims(user.uid, defaultClaims);
@@ -118,7 +119,7 @@ export const validateNewUser = beforeUserCreated((event) => {
   }
 
   return {
-    customClaims: { role: 'employee', organizationId: 'company_123' }
+    customClaims: { role: 'employee', organizationId: 'company_123' },
   };
 });
 ```
@@ -275,7 +276,7 @@ const roleHierarchy: Record<string, number> = {
   member: 2,
   editor: 3,
   manager: 4,
-  admin: 5
+  admin: 5,
 };
 
 const hasMinimumRole = async (requiredRole: string): Promise<boolean> => {
@@ -308,7 +309,7 @@ export const updateUserPermissions = onCall(async (request) => {
   const user = await getAuth().getUser(targetUid);
   await getAuth().setCustomUserClaims(targetUid, {
     ...user.customClaims,
-    permissions
+    permissions,
   });
 
   return { success: true };
@@ -328,7 +329,7 @@ export const notifyClaimsUpdate = onCall(async (request) => {
 
   await getMessaging().send({
     token: await getUserFcmToken(targetUid),
-    data: { type: 'claims_updated' }
+    data: { type: 'claims_updated' },
   });
 
   return { success: true };
@@ -347,22 +348,26 @@ onMessage(getMessaging(), async (payload) => {
 ## Best Practices
 
 Claim Size Limits:
+
 - Total custom claims cannot exceed 1000 bytes
 - Use short key names to save space
 - Store detailed data in Firestore, use claims for access control
 
 Security Guidelines:
+
 - Never trust client-provided claims
 - Use Security Rules to enforce claim-based access control
 - Audit claim changes for security-sensitive roles
 - Implement proper admin verification before setting claims
 
 Performance Considerations:
+
 - Claims are included in every ID token
 - Minimize claim count and size for better performance
 - Use Firestore for complex permission queries
 
 Token Propagation:
+
 - Claims only propagate on token refresh (max 1 hour delay)
 - Force refresh after critical claim changes
 - Use FCM to notify clients of updates

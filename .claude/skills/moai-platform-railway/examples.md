@@ -28,6 +28,7 @@ project/
 ### API Service
 
 apps/api/Dockerfile:
+
 ```dockerfile
 FROM node:20-alpine AS builder
 WORKDIR /app
@@ -48,6 +49,7 @@ CMD ["node", "dist/index.js"]
 ```
 
 apps/api/railway.toml:
+
 ```toml
 [build]
 builder = "DOCKERFILE"
@@ -64,33 +66,34 @@ cpu = "0.5"
 ```
 
 apps/api/src/index.ts:
+
 ```typescript
-import express from 'express'
-import { Pool } from 'pg'
+import express from 'express';
+import { Pool } from 'pg';
 
-const app = express()
-const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+const app = express();
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-app.use(express.json())
+app.use(express.json());
 
 app.get('/health', async (req, res) => {
   try {
-    await pool.query('SELECT 1')
-    res.json({ status: 'healthy', database: 'connected' })
+    await pool.query('SELECT 1');
+    res.json({ status: 'healthy', database: 'connected' });
   } catch (error) {
-    res.status(503).json({ status: 'unhealthy', database: 'disconnected' })
+    res.status(503).json({ status: 'unhealthy', database: 'disconnected' });
   }
-})
+});
 
 app.get('/api/users', async (req, res) => {
-  const result = await pool.query('SELECT id, name, email FROM users')
-  res.json(result.rows)
-})
+  const result = await pool.query('SELECT id, name, email FROM users');
+  res.json(result.rows);
+});
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {
-  console.log(`API server running on port ${port}`)
-})
+  console.log(`API server running on port ${port}`);
+});
 ```
 
 ---
@@ -100,6 +103,7 @@ app.listen(port, '0.0.0.0', () => {
 ### API Service
 
 apps/api/Dockerfile:
+
 ```dockerfile
 FROM python:3.12-slim AS builder
 WORKDIR /app
@@ -119,6 +123,7 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
 apps/api/main.py:
+
 ```python
 from fastapi import FastAPI, BackgroundTasks
 from redis import Redis
@@ -146,6 +151,7 @@ async def create_job(data: dict):
 ### Worker Service
 
 apps/worker/main.py:
+
 ```python
 import json
 import time
@@ -172,6 +178,7 @@ if __name__ == "__main__":
 ```
 
 apps/worker/railway.toml:
+
 ```toml
 [build]
 builder = "DOCKERFILE"
@@ -193,6 +200,7 @@ cpu = "0.25"
 ### Main Application
 
 main.go:
+
 ```go
 package main
 
@@ -227,11 +235,11 @@ func (fs *FileStorage) Load(name string) ([]byte, error) {
 
 func main() {
     storage := NewFileStorage()
-    
+
     http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
         json.NewEncoder(w).Encode(map[string]string{"status": "healthy"})
     })
-    
+
     http.HandleFunc("/files", func(w http.ResponseWriter, r *http.Request) {
         if r.Method == "POST" {
             var data struct {
@@ -243,7 +251,7 @@ func main() {
             json.NewEncoder(w).Encode(map[string]string{"status": "saved"})
         }
     })
-    
+
     port := os.Getenv("PORT")
     if port == "" {
         port = "8080"
@@ -254,6 +262,7 @@ func main() {
 ```
 
 railway.toml:
+
 ```toml
 [build]
 builder = "DOCKERFILE"
@@ -281,48 +290,50 @@ cpu = "0.25"
 ### Backup Script
 
 backup.ts:
-```typescript
-import { exec } from 'child_process'
-import { promisify } from 'util'
-import { createReadStream } from 'fs'
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
 
-const execAsync = promisify(exec)
+```typescript
+import { exec } from 'child_process';
+import { promisify } from 'util';
+import { createReadStream } from 'fs';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+
+const execAsync = promisify(exec);
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION!,
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
-  }
-})
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+  },
+});
 
 async function backupDatabase(): Promise<void> {
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
-  const backupFile = `/tmp/backup-${timestamp}.sql.gz`
-  
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const backupFile = `/tmp/backup-${timestamp}.sql.gz`;
+
   // Create PostgreSQL dump
-  await execAsync(
-    `pg_dump "${process.env.DATABASE_URL}" | gzip > ${backupFile}`
-  )
-  
+  await execAsync(`pg_dump "${process.env.DATABASE_URL}" | gzip > ${backupFile}`);
+
   // Upload to S3
-  await s3.send(new PutObjectCommand({
-    Bucket: process.env.BACKUP_BUCKET!,
-    Key: `database-backups/backup-${timestamp}.sql.gz`,
-    Body: createReadStream(backupFile)
-  }))
-  
+  await s3.send(
+    new PutObjectCommand({
+      Bucket: process.env.BACKUP_BUCKET!,
+      Key: `database-backups/backup-${timestamp}.sql.gz`,
+      Body: createReadStream(backupFile),
+    })
+  );
+
   // Cleanup
-  await execAsync(`rm ${backupFile}`)
-  
-  console.log(`Backup completed: backup-${timestamp}.sql.gz`)
+  await execAsync(`rm ${backupFile}`);
+
+  console.log(`Backup completed: backup-${timestamp}.sql.gz`);
 }
 
-backupDatabase().catch(console.error)
+backupDatabase().catch(console.error);
 ```
 
 railway.toml:
+
 ```toml
 [build]
 builder = "DOCKERFILE"
@@ -345,52 +356,54 @@ cpu = "0.25"
 ### Connection Manager
 
 db.ts:
+
 ```typescript
-import { Pool } from 'pg'
+import { Pool } from 'pg';
 
 const primaryPool = new Pool({
   connectionString: process.env.DATABASE_URL,
   max: 10,
-  idleTimeoutMillis: 30000
-})
+  idleTimeoutMillis: 30000,
+});
 
 const replicaPool = new Pool({
   connectionString: process.env.DATABASE_REPLICA_URL || process.env.DATABASE_URL,
   max: 20,
-  idleTimeoutMillis: 30000
-})
+  idleTimeoutMillis: 30000,
+});
 
 export async function query(
   sql: string,
   params?: any[],
   options: { forceWrite?: boolean } = {}
 ): Promise<any> {
-  const isWrite = !sql.trim().toLowerCase().startsWith('select')
-  const pool = (isWrite || options.forceWrite) ? primaryPool : replicaPool
-  
-  const result = await pool.query(sql, params)
-  return result.rows
+  const isWrite = !sql.trim().toLowerCase().startsWith('select');
+  const pool = isWrite || options.forceWrite ? primaryPool : replicaPool;
+
+  const result = await pool.query(sql, params);
+  return result.rows;
 }
 
 export async function transaction<T>(
   callback: (query: (sql: string, params?: any[]) => Promise<any>) => Promise<T>
 ): Promise<T> {
-  const client = await primaryPool.connect()
+  const client = await primaryPool.connect();
   try {
-    await client.query('BEGIN')
-    const result = await callback((sql, params) => client.query(sql, params).then(r => r.rows))
-    await client.query('COMMIT')
-    return result
+    await client.query('BEGIN');
+    const result = await callback((sql, params) => client.query(sql, params).then((r) => r.rows));
+    await client.query('COMMIT');
+    return result;
   } catch (error) {
-    await client.query('ROLLBACK')
-    throw error
+    await client.query('ROLLBACK');
+    throw error;
   } finally {
-    client.release()
+    client.release();
   }
 }
 ```
 
 railway.toml:
+
 ```toml
 [build]
 builder = "DOCKERFILE"
@@ -425,54 +438,56 @@ cpu = "1"
 ### WebSocket Server
 
 websocket.ts:
+
 ```typescript
-import { WebSocketServer } from 'ws'
-import { createServer } from 'http'
-import express from 'express'
+import { WebSocketServer } from 'ws';
+import { createServer } from 'http';
+import express from 'express';
 
-const app = express()
-const server = createServer(app)
-const wss = new WebSocketServer({ server })
+const app = express();
+const server = createServer(app);
+const wss = new WebSocketServer({ server });
 
-const clients = new Set<WebSocket>()
+const clients = new Set<WebSocket>();
 
 app.get('/health', (req, res) => {
   res.json({
     status: 'healthy',
     clients: clients.size,
-    replica: process.env.RAILWAY_REPLICA_ID
-  })
-})
+    replica: process.env.RAILWAY_REPLICA_ID,
+  });
+});
 
 wss.on('connection', (ws, req) => {
-  clients.add(ws)
-  console.log(`Client connected. Total: ${clients.size}`)
-  
+  clients.add(ws);
+  console.log(`Client connected. Total: ${clients.size}`);
+
   ws.on('message', (message) => {
     // Broadcast to all clients
-    const data = message.toString()
-    clients.forEach(client => {
+    const data = message.toString();
+    clients.forEach((client) => {
       if (client !== ws && client.readyState === 1) {
-        client.send(data)
+        client.send(data);
       }
-    })
-  })
-  
-  ws.on('close', () => {
-    clients.delete(ws)
-    console.log(`Client disconnected. Total: ${clients.size}`)
-  })
-  
-  ws.on('error', console.error)
-})
+    });
+  });
 
-const port = process.env.PORT || 3000
+  ws.on('close', () => {
+    clients.delete(ws);
+    console.log(`Client disconnected. Total: ${clients.size}`);
+  });
+
+  ws.on('error', console.error);
+});
+
+const port = process.env.PORT || 3000;
 server.listen(port, '0.0.0.0', () => {
-  console.log(`WebSocket server running on port ${port}`)
-})
+  console.log(`WebSocket server running on port ${port}`);
+});
 ```
 
 railway.toml:
+
 ```toml
 [build]
 builder = "DOCKERFILE"

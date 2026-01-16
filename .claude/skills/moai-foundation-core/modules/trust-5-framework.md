@@ -18,12 +18,14 @@ TRUST 5 is MoAI-ADK's comprehensive quality assurance framework enforcing five p
 5. Trackable(T) - Clear commits, requirement traceability
 
 Integration Points:
+
 - Pre-commit hooks - Automated validation
 - CI/CD pipelines - Quality gate enforcement
 - quality-gate agent - TRUST 5 validation
 - /moai:2-run - Enforces ≥85% coverage
 
 Quick Validation:
+
 ```python
 validations = [
     test_coverage >= 85,    # T
@@ -35,6 +37,7 @@ validations = [
 ```
 
 Extended Documentation:
+
 - [Implementation Details](trust-5-implementation.md) - Detailed patterns and code examples
 - [Validation Framework](trust-5-validation.md) - CI/CD integration and metrics
 
@@ -71,6 +74,7 @@ Test Coverage Requirements:
 - Failing (<70%): Block merge, generate tests
 
 Validation Commands:
+
 ```bash
 # Run tests with coverage
 pytest --cov=src --cov-report=html --cov-fail-under=85
@@ -102,6 +106,7 @@ Readability Checklist:
 - SOLID principles followed
 
 Validation Commands:
+
 ```bash
 # Pylint complexity check
 pylint src/ --fail-under=8.0
@@ -120,24 +125,28 @@ mypy src/ --strict
 Consistency Requirements:
 
 Architecture Consistency:
+
 - Same pattern across all modules
 - Same error handling approach
 - Same logging strategy
 - Same naming conventions
 
 Testing Consistency:
+
 - Same test structure (Arrange-Act-Assert)
 - Same fixtures/factories
 - Same assertion patterns
 - Same mock strategies
 
 Documentation Consistency:
+
 - Same docstring format (Google style)
 - Same README structure
 - Same API documentation
 - Same changelog format (conventional commits)
 
 Validation Tools:
+
 ```bash
 # Check architecture compliance
 python .moai/scripts/validate_architecture.py
@@ -164,6 +173,7 @@ OWASP Top 10 (2024) Compliance:
 10. SSRF - URL validation
 
 Security Validation:
+
 ```bash
 # Bandit security scan
 bandit -r src/ -ll
@@ -183,18 +193,21 @@ detect-secrets scan
 Traceability Requirements:
 
 Commit Traceability:
+
 - Conventional commit format
 - Link to SPEC or issue
 - Clear description of changes
 - Test evidence included
 
 Requirement Traceability:
+
 - SPEC-XXX-REQ-YY mapping
 - Implementation - Test linkage
 - Test - Acceptance criteria
 - Acceptance - User story
 
 Conventional Commit Format:
+
 ```bash
 # Format: <type>(<scope>): <subject>
 feat(auth): Add OAuth2 integration
@@ -219,16 +232,19 @@ For comprehensive implementation patterns including CI/CD integration, validatio
 ## Works Well With
 
 Agents:
+
 - quality-gate - Automated TRUST 5 validation
 - tdd-implementer - RED-GREEN-REFACTOR enforcement
 - security-expert - OWASP compliance checking
 - test-engineer - Test generation and coverage
 
 Skills:
+
 - moai-workflow-testing - Test framework setup
 - moai-domain-security - Security patterns
 
 Commands:
+
 - /moai:2-run - Enforces ≥85% coverage requirement
 - /moai:9-feedback - Quality improvement suggestions
 

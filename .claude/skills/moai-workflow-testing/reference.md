@@ -9,6 +9,7 @@ Progressive Disclosure Level 2: Extended documentation for testing, debugging, a
 ### Core Classes
 
 DevelopmentWorkflow:
+
 - Purpose: Unified development lifecycle management
 - Initialization: `DevelopmentWorkflow(project_path, config)`
 - Primary Methods:
@@ -20,6 +21,7 @@ DevelopmentWorkflow:
   - `run_security_analysis()` - Execute security analysis
 
 AIDebugger:
+
 - Purpose: AI-powered intelligent debugging
 - Initialization: `AIDebugger(context7_client)`
 - Key Methods:
@@ -29,6 +31,7 @@ AIDebugger:
   - `apply_fix(solution)` - Apply recommended fix
 
 AIRefactorer:
+
 - Purpose: Intelligent code refactoring
 - Initialization: `AIRefactorer(context7_client)`
 - Key Methods:
@@ -38,6 +41,7 @@ AIRefactorer:
   - `apply_safe_refactor(plan)` - Apply safe refactoring operations
 
 PerformanceProfiler:
+
 - Purpose: Real-time performance analysis
 - Initialization: `PerformanceProfiler(context7_client)`
 - Key Methods:
@@ -47,6 +51,7 @@ PerformanceProfiler:
   - `suggest_optimizations(bottlenecks)` - Generate optimization suggestions
 
 TDDManager:
+
 - Purpose: Test-driven development cycle management
 - Initialization: `TDDManager(project_path, context7_client)`
 - Key Methods:
@@ -56,6 +61,7 @@ TDDManager:
   - `calculate_coverage()` - Get test coverage metrics
 
 AutomatedCodeReviewer:
+
 - Purpose: AI-powered code review with TRUST 5
 - Initialization: `AutomatedCodeReviewer(context7_client)`
 - Key Methods:
@@ -121,27 +127,27 @@ class TestSpecification:
 ```yaml
 quality_gates:
   code_review:
-    min_trust_score: 0.85          # Minimum TRUST 5 score
-    max_critical_issues: 0         # Maximum critical issues
-    max_high_issues: 5             # Maximum high-severity issues
+    min_trust_score: 0.85 # Minimum TRUST 5 score
+    max_critical_issues: 0 # Maximum critical issues
+    max_high_issues: 5 # Maximum high-severity issues
     required_sections:
       - security
       - performance
       - maintainability
 
   testing:
-    required_coverage: 0.80        # Minimum test coverage
-    max_test_failures: 0           # Maximum allowed failures
-    timeout_multiplier: 2.0        # CI timeout multiplier
+    required_coverage: 0.80 # Minimum test coverage
+    max_test_failures: 0 # Maximum allowed failures
+    timeout_multiplier: 2.0 # CI timeout multiplier
 
   performance:
-    response_time_p99_ms: 200      # 99th percentile response time
-    memory_growth_threshold: 0.1   # Max memory growth percentage
-    cpu_threshold: 0.8             # Max CPU utilization
+    response_time_p99_ms: 200 # 99th percentile response time
+    memory_growth_threshold: 0.1 # Max memory growth percentage
+    cpu_threshold: 0.8 # Max CPU utilization
 
   security:
-    max_vulnerabilities: 0         # Maximum security vulnerabilities
-    allowed_severity: ["low"]      # Allowed vulnerability severities
+    max_vulnerabilities: 0 # Maximum security vulnerabilities
+    allowed_severity: ['low'] # Allowed vulnerability severities
 ```
 
 ---
@@ -310,26 +316,31 @@ async def optimize_critical_path(function_name: str, context7_client):
 ### Common Issues
 
 Issue: Context7 connection timeout:
+
 - Cause: MCP server not responding or network issues
 - Solution: Check Context7 server status and restart if needed
 - Prevention: Implement retry logic with exponential backoff
 
 Issue: Test coverage below threshold:
+
 - Cause: Insufficient test cases or uncovered code paths
 - Solution: Use `tdd.identify_uncovered_paths()` to find gaps
 - Prevention: Run coverage check before commits
 
 Issue: Performance profiler high overhead:
+
 - Cause: Line profiler active on large files
 - Solution: Use targeted profiling on specific functions
 - Prevention: Configure `max_line_profile_lines` threshold
 
 Issue: Code review false positives:
+
 - Cause: Overly strict rule configuration
 - Solution: Adjust rule severity in `quality_gates` config
 - Prevention: Tune rules based on project context
 
 Issue: TDD cycle stuck in RED phase:
+
 - Cause: Specification too complex or ambiguous
 - Solution: Break down specification into smaller units
 - Prevention: Follow EARS format for clear specifications
@@ -397,6 +408,7 @@ print(f"Reviewer: {report.reviewer_status}")
 ### Best Practices
 
 Testing:
+
 - Write tests before implementation (TDD)
 - Maintain 85%+ coverage
 - Use meaningful test names
@@ -404,6 +416,7 @@ Testing:
 - Run tests in isolation
 
 Debugging:
+
 - Capture full stack traces
 - Include reproduction steps
 - Document environment details
@@ -411,6 +424,7 @@ Debugging:
 - Apply fixes incrementally
 
 Performance:
+
 - Profile before optimizing
 - Focus on bottlenecks
 - Measure improvement
@@ -418,6 +432,7 @@ Performance:
 - Test under realistic load
 
 Code Review:
+
 - Follow TRUST 5 guidelines
 - Address critical issues first
 - Document review decisions
@@ -426,12 +441,12 @@ Code Review:
 
 ### Version History
 
-| Version | Date       | Changes                                           |
-|---------|------------|---------------------------------------------------|
-| 1.0.0   | 2025-11-30 | Initial unified workflow release                  |
-| 0.9.0   | 2025-11-25 | Added Context7 integration                        |
-| 0.8.0   | 2025-11-20 | Added performance optimization module             |
-| 0.7.0   | 2025-11-15 | Added automated code review                       |
+| Version | Date       | Changes                               |
+| ------- | ---------- | ------------------------------------- |
+| 1.0.0   | 2025-11-30 | Initial unified workflow release      |
+| 0.9.0   | 2025-11-25 | Added Context7 integration            |
+| 0.8.0   | 2025-11-20 | Added performance optimization module |
+| 0.7.0   | 2025-11-15 | Added automated code review           |
 
 ---
 

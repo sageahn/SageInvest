@@ -43,7 +43,7 @@ settings = batch_manager.get_config()
 ### Supported Modules
 
 - Batch Questions: Batch processing configuration
-- Documentation: Documentation generation settings 
+- Documentation: Documentation generation settings
 - Language Config: Internationalization and localization
 - Template Optimizer: Template processing optimization
 - Project Initializer: Project setup and initialization
@@ -158,16 +158,19 @@ Features for secure configuration management:
 Common issues and solutions:
 
 ### Schema Validation Errors
+
 - Check JSON structure against schema
 - Verify required fields are present
 - Ensure data types match schema definitions
 
 ### Migration Issues
+
 - Review legacy file detection patterns
 - Check transformation rules for specific versions
 - Verify file permissions and access rights
 
 ### Performance Problems
+
 - Enable caching for frequently accessed configurations
 - Use lazy loading for large configuration files
 - Monitor resource usage and optimize file access patterns

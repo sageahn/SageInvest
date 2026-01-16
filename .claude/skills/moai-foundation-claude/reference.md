@@ -5,6 +5,7 @@
 ### Skill Definition API
 
 Frontmatter Fields:
+
 - `name` (required): Skill identifier in kebab-case, max 64 characters
 - `description` (required): One-line description, max 1024 characters
 - `version`: Semantic version (e.g., "2.0.0")
@@ -17,11 +18,13 @@ Frontmatter Fields:
 ### Sub-agent Delegation API
 
 Task Invocation:
+
 - `Task(subagent_type, prompt)`: Invoke specialized sub-agent
 - `Task(subagent_type, prompt, context)`: Invoke with context from previous task
 - Returns structured result object for chaining
 
 Available Sub-agent Types:
+
 - `spec-builder`: EARS format specification generation
 - `tdd-implementer`: RED-GREEN-REFACTOR TDD execution
 - `backend-expert`: Backend architecture and API development
@@ -35,11 +38,13 @@ Available Sub-agent Types:
 ### Command Parameter API
 
 Parameter Types:
+
 - `$1`, `$2`, `$3`: Positional arguments
 - `$ARGUMENTS`: All arguments as single string
 - `@filename`: File content injection
 
 Command Location:
+
 - Personal: `~/.claude/commands/`
 - Project: `.claude/commands/`
 
@@ -50,6 +55,7 @@ Command Location:
 ### Settings Hierarchy
 
 Priority Order (highest to lowest):
+
 1. Enterprise settings (`/etc/claude/settings.json`)
 2. User settings (`~/.claude/settings.json`)
 3. Project settings (`.claude/settings.json`)
@@ -58,6 +64,7 @@ Priority Order (highest to lowest):
 ### Tool Permissions
 
 Permission Levels:
+
 - `Read, Grep, Glob`: Read-only access for analysis
 - `Read, Write, Edit, Grep, Glob`: Full file manipulation
 - `Bash`: System command execution (requires explicit grant)
@@ -66,11 +73,13 @@ Permission Levels:
 ### Memory Configuration
 
 Memory File Locations:
+
 - Enterprise: `/etc/claude/CLAUDE.md`
 - User: `~/.claude/CLAUDE.md`
 - Project: `./CLAUDE.md` or `.claude/CLAUDE.md`
 
 Memory Import Syntax:
+
 ```markdown
 @import path/to/file.md
 ```
@@ -82,6 +91,7 @@ Memory Import Syntax:
 ### Command-Agent-Skill Orchestration
 
 Sequential Pattern:
+
 1. Command receives user input with `$ARGUMENTS`
 2. Command loads relevant Skills via `Skill("skill-name")`
 3. Command delegates to sub-agent via `Task(subagent_type, prompt)`
@@ -89,6 +99,7 @@ Sequential Pattern:
 5. Result returned to command for presentation
 
 Parallel Pattern:
+
 - Multiple independent `Task()` calls execute concurrently
 - Results aggregated after all complete
 - Use when tasks have no dependencies
@@ -96,23 +107,26 @@ Parallel Pattern:
 ### Hook Integration
 
 PreToolUse Hooks:
+
 - Execute before any tool invocation
 - Can block or modify tool execution
 - Use for validation, logging, security checks
 
 PostToolUse Hooks:
+
 - Execute after tool completion
 - Can process or modify results
 - Use for backup, audit, notification
 
 Hook Configuration (settings.json):
+
 ```json
 {
   "hooks": {
     "PreToolUse": [
       {
         "matcher": "ToolName",
-        "hooks": [{"type": "command", "command": "hook-script"}]
+        "hooks": [{ "type": "command", "command": "hook-script" }]
       }
     ]
   }
@@ -122,11 +136,13 @@ Hook Configuration (settings.json):
 ### MCP Server Integration
 
 Context7 Integration:
+
 - Use for real-time documentation lookup
 - Two-step pattern: resolve library ID, then fetch docs
 - Supports token-limited responses
 
 MCP Tool Invocation:
+
 - Tools prefixed with `mcp__` for MCP-provided capabilities
 - Server configuration in settings.json
 
@@ -139,6 +155,7 @@ MCP Tool Invocation:
 Symptoms: Skill not recognized, missing context
 
 Solutions:
+
 1. Verify file location (`~/.claude/skills/` or `.claude/skills/`)
 2. Check SKILL.md frontmatter syntax (valid YAML)
 3. Confirm name follows kebab-case, max 64 chars
@@ -149,6 +166,7 @@ Solutions:
 Symptoms: Task() returns error, incomplete results
 
 Solutions:
+
 1. Verify subagent_type is valid
 2. Check prompt clarity and specificity
 3. Ensure required context is provided
@@ -159,6 +177,7 @@ Solutions:
 Symptoms: PreToolUse/PostToolUse not triggering
 
 Solutions:
+
 1. Check matcher pattern matches tool name exactly
 2. Verify hook script exists and is executable
 3. Review settings.json syntax
@@ -169,6 +188,7 @@ Solutions:
 Symptoms: CLAUDE.md content not applied
 
 Solutions:
+
 1. Verify file location in correct hierarchy
 2. Check file encoding (UTF-8 required)
 3. Review @import paths (relative to file)

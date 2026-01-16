@@ -12,8 +12,8 @@ Queries are reactive functions that automatically re-execute when underlying dat
 
 ```typescript
 // convex/functions/documents.ts
-import { query } from '../_generated/server'
-import { v } from 'convex/values'
+import { query } from '../_generated/server';
+import { v } from 'convex/values';
 
 export const list = query({
   args: { ownerId: v.string() },
@@ -22,9 +22,9 @@ export const list = query({
       .query('documents')
       .withIndex('by_owner', (q) => q.eq('ownerId', args.ownerId))
       .order('desc')
-      .collect()
-  }
-})
+      .collect();
+  },
+});
 ```
 
 ### Query with Single Document
@@ -33,11 +33,11 @@ export const list = query({
 export const getById = query({
   args: { id: v.id('documents') },
   handler: async (ctx, args) => {
-    const doc = await ctx.db.get(args.id)
-    if (!doc) throw new Error('Document not found')
-    return doc
-  }
-})
+    const doc = await ctx.db.get(args.id);
+    if (!doc) throw new Error('Document not found');
+    return doc;
+  },
+});
 ```
 
 ---
@@ -51,8 +51,8 @@ export const getById = query({
 documents: defineTable({
   title: v.string(),
   ownerId: v.string(),
-  createdAt: v.number()
-}).index('by_owner', ['ownerId'])
+  createdAt: v.number(),
+}).index('by_owner', ['ownerId']);
 
 // Query using index
 export const byOwner = query({
@@ -61,9 +61,9 @@ export const byOwner = query({
     return await ctx.db
       .query('documents')
       .withIndex('by_owner', (q) => q.eq('ownerId', args.ownerId))
-      .collect()
-  }
-})
+      .collect();
+  },
+});
 ```
 
 ### Compound Index
@@ -73,8 +73,8 @@ export const byOwner = query({
 documents: defineTable({
   ownerId: v.string(),
   status: v.string(),
-  createdAt: v.number()
-}).index('by_owner_status', ['ownerId', 'status'])
+  createdAt: v.number(),
+}).index('by_owner_status', ['ownerId', 'status']);
 
 // Query with compound conditions
 export const byOwnerAndStatus = query({
@@ -82,12 +82,10 @@ export const byOwnerAndStatus = query({
   handler: async (ctx, args) => {
     return await ctx.db
       .query('documents')
-      .withIndex('by_owner_status', (q) =>
-        q.eq('ownerId', args.ownerId).eq('status', args.status)
-      )
-      .collect()
-  }
-})
+      .withIndex('by_owner_status', (q) => q.eq('ownerId', args.ownerId).eq('status', args.status))
+      .collect();
+  },
+});
 ```
 
 ### Range Queries
@@ -102,9 +100,9 @@ export const recentByOwner = query({
         q.eq('ownerId', args.ownerId).gte('createdAt', args.since)
       )
       .order('desc')
-      .collect()
-  }
-})
+      .collect();
+  },
+});
 ```
 
 ---
@@ -119,11 +117,11 @@ documents: defineTable({
   title: v.string(),
   content: v.string(),
   ownerId: v.string(),
-  isPublic: v.boolean()
+  isPublic: v.boolean(),
 }).searchIndex('search_content', {
   searchField: 'content',
-  filterFields: ['ownerId', 'isPublic']
-})
+  filterFields: ['ownerId', 'isPublic'],
+});
 
 // Search query
 export const searchContent = query({
@@ -134,9 +132,9 @@ export const searchContent = query({
       .withSearchIndex('search_content', (q) =>
         q.search('content', args.searchQuery).eq('isPublic', true)
       )
-      .take(args.limit ?? 10)
-  }
-})
+      .take(args.limit ?? 10);
+  },
+});
 ```
 
 ---
@@ -150,16 +148,13 @@ export const paginated = query({
   args: {
     paginationOpts: v.object({
       numItems: v.number(),
-      cursor: v.union(v.string(), v.null())
-    })
+      cursor: v.union(v.string(), v.null()),
+    }),
   },
   handler: async (ctx, args) => {
-    return await ctx.db
-      .query('documents')
-      .order('desc')
-      .paginate(args.paginationOpts)
-  }
-})
+    return await ctx.db.query('documents').order('desc').paginate(args.paginationOpts);
+  },
+});
 ```
 
 ### React Hook for Pagination
@@ -233,22 +228,25 @@ export function ConditionalDocument({ documentId }: { documentId: string | null 
 ### Basic Optimistic Update
 
 ```typescript
-import { useMutation } from 'convex/react'
-import { api } from '../../convex/_generated/api'
+import { useMutation } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 
 export function useOptimisticUpdate() {
-  return useMutation(api.functions.documents.update)
-    .withOptimisticUpdate((localStore, args) => {
-      const { id, ...updates } = args
-      const existing = localStore.getQuery(api.functions.documents.getById, { id })
-      if (existing) {
-        localStore.setQuery(api.functions.documents.getById, { id }, {
+  return useMutation(api.functions.documents.update).withOptimisticUpdate((localStore, args) => {
+    const { id, ...updates } = args;
+    const existing = localStore.getQuery(api.functions.documents.getById, { id });
+    if (existing) {
+      localStore.setQuery(
+        api.functions.documents.getById,
+        { id },
+        {
           ...existing,
           ...updates,
-          updatedAt: Date.now()
-        })
-      }
-    })
+          updatedAt: Date.now(),
+        }
+      );
+    }
+  });
 }
 ```
 
@@ -256,27 +254,24 @@ export function useOptimisticUpdate() {
 
 ```typescript
 export function useOptimisticCreate() {
-  return useMutation(api.functions.documents.create)
-    .withOptimisticUpdate((localStore, args) => {
-      const currentList = localStore.getQuery(
-        api.functions.documents.list,
-        { ownerId: args.ownerId }
-      )
-      if (currentList) {
-        const optimisticDoc = {
-          _id: `optimistic_${Date.now()}` as any,
-          _creationTime: Date.now(),
-          ...args,
-          createdAt: Date.now(),
-          updatedAt: Date.now()
-        }
-        localStore.setQuery(
-          api.functions.documents.list,
-          { ownerId: args.ownerId },
-          [optimisticDoc, ...currentList]
-        )
-      }
-    })
+  return useMutation(api.functions.documents.create).withOptimisticUpdate((localStore, args) => {
+    const currentList = localStore.getQuery(api.functions.documents.list, {
+      ownerId: args.ownerId,
+    });
+    if (currentList) {
+      const optimisticDoc = {
+        _id: `optimistic_${Date.now()}` as any,
+        _creationTime: Date.now(),
+        ...args,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      };
+      localStore.setQuery(api.functions.documents.list, { ownerId: args.ownerId }, [
+        optimisticDoc,
+        ...currentList,
+      ]);
+    }
+  });
 }
 ```
 
@@ -285,12 +280,14 @@ export function useOptimisticCreate() {
 ## Query Best Practices
 
 Performance Optimization:
+
 - Always use indexes for filtered queries
 - Prefer specific indexes over table scans
 - Use pagination for large result sets
 - Limit search results with take()
 
 Reactivity Considerations:
+
 - Queries automatically re-run when data changes
 - Use skip parameter to conditionally disable queries
 - Combine multiple queries in single components when related

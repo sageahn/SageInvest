@@ -136,9 +136,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ```typescript
 // app/components/WebVitals.tsx
-'use client'
+'use client';
 
-import { useReportWebVitals } from 'next/web-vitals'
+import { useReportWebVitals } from 'next/web-vitals';
 
 export function WebVitals() {
   useReportWebVitals((metric) => {
@@ -148,18 +148,18 @@ export function WebVitals() {
       rating: metric.rating,
       delta: metric.delta,
       id: metric.id,
-      navigationType: metric.navigationType
-    })
+      navigationType: metric.navigationType,
+    });
 
     // Send to custom analytics endpoint
     if (navigator.sendBeacon) {
-      navigator.sendBeacon('/api/vitals', body)
+      navigator.sendBeacon('/api/vitals', body);
     } else {
-      fetch('/api/vitals', { body, method: 'POST', keepalive: true })
+      fetch('/api/vitals', { body, method: 'POST', keepalive: true });
     }
-  })
+  });
 
-  return null
+  return null;
 }
 ```
 
@@ -167,14 +167,14 @@ export function WebVitals() {
 
 ```typescript
 // app/api/vitals/route.ts
-import { NextRequest } from 'next/server'
+import { NextRequest } from 'next/server';
 
 export async function POST(request: NextRequest) {
-  const metric = await request.json()
+  const metric = await request.json();
 
   // Log to console in development
   if (process.env.NODE_ENV === 'development') {
-    console.log('Web Vital:', metric)
+    console.log('Web Vital:', metric);
   }
 
   // Send to external analytics service
@@ -185,11 +185,11 @@ export async function POST(request: NextRequest) {
       ...metric,
       page: request.headers.get('referer'),
       userAgent: request.headers.get('user-agent'),
-      timestamp: new Date().toISOString()
-    })
-  })
+      timestamp: new Date().toISOString(),
+    }),
+  });
 
-  return Response.json({ received: true })
+  return Response.json({ received: true });
 }
 ```
 
@@ -198,30 +198,35 @@ export async function POST(request: NextRequest) {
 ### Metrics Tracked
 
 LCP (Largest Contentful Paint):
+
 - Measures loading performance
 - Good: under 2.5 seconds
 - Needs improvement: 2.5-4 seconds
 - Poor: over 4 seconds
 
 FID (First Input Delay):
+
 - Measures interactivity
 - Good: under 100ms
 - Needs improvement: 100-300ms
 - Poor: over 300ms
 
 CLS (Cumulative Layout Shift):
+
 - Measures visual stability
 - Good: under 0.1
 - Needs improvement: 0.1-0.25
 - Poor: over 0.25
 
 INP (Interaction to Next Paint):
+
 - Measures responsiveness
 - Good: under 200ms
 - Needs improvement: 200-500ms
 - Poor: over 500ms
 
 TTFB (Time to First Byte):
+
 - Measures server response time
 - Good: under 800ms
 - Needs improvement: 800-1800ms
@@ -269,6 +274,7 @@ export function ProductCard({ product }) {
 ### Aggregate Metrics Dashboard
 
 Access via Vercel Dashboard:
+
 1. Navigate to your project
 2. Click on "Analytics" tab
 3. View page views, unique visitors, and top pages
@@ -280,9 +286,9 @@ Access via Vercel Dashboard:
 // next.config.js
 module.exports = {
   experimental: {
-    webVitalsAttribution: ['CLS', 'LCP', 'FID', 'INP', 'TTFB']
-  }
-}
+    webVitalsAttribution: ['CLS', 'LCP', 'FID', 'INP', 'TTFB'],
+  },
+};
 ```
 
 ## Third-Party Analytics Integration
@@ -343,6 +349,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 ## Context7 Integration
 
 For latest analytics and Speed Insights documentation, use:
+
 - Library: `/vercel/vercel`
 - Topics: analytics, speed-insights, web-vitals
 - Token allocation: 5000-8000 for comprehensive coverage

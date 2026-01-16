@@ -1,14 +1,13 @@
 ---
-name: "moai-lang-php"
-description: "PHP 8.3+ development specialist covering Laravel 11, Symfony 7, Eloquent ORM, and modern PHP patterns. Use when developing PHP APIs, web applications, or Laravel/Symfony projects."
+name: 'moai-lang-php'
+description: 'PHP 8.3+ development specialist covering Laravel 11, Symfony 7, Eloquent ORM, and modern PHP patterns. Use when developing PHP APIs, web applications, or Laravel/Symfony projects.'
 version: 1.1.0
-category: "language"
+category: 'language'
 modularized: true
 user-invocable: false
-tags:
-  ["language", "php", "laravel", "symfony", "eloquent", "doctrine", "phpunit"]
+tags: ['language', 'php', 'laravel', 'symfony', 'eloquent', 'doctrine', 'phpunit']
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Grep

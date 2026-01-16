@@ -74,52 +74,52 @@ CREATE INDEX idx_projects_org ON projects(organization_id);
 
 ```typescript
 // services/organization-service.ts
-import { supabase } from '@/lib/supabase/client'
-import type { Database } from '@/types/database'
+import { supabase } from '@/lib/supabase/client';
+import type { Database } from '@/types/database';
 
-type Organization = Database['public']['Tables']['organizations']['Row']
-type OrganizationMember = Database['public']['Tables']['organization_members']['Row']
+type Organization = Database['public']['Tables']['organizations']['Row'];
+type OrganizationMember = Database['public']['Tables']['organization_members']['Row'];
 
 export class OrganizationService {
   async create(name: string, slug: string): Promise<Organization> {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) throw new Error('Not authenticated')
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) throw new Error('Not authenticated');
 
     // Create organization
     const { data: org, error: orgError } = await supabase
       .from('organizations')
       .insert({ name, slug })
       .select()
-      .single()
+      .single();
 
-    if (orgError) throw orgError
+    if (orgError) throw orgError;
 
     // Add creator as owner
-    const { error: memberError } = await supabase
-      .from('organization_members')
-      .insert({
-        organization_id: org.id,
-        user_id: user.id,
-        role: 'owner'
-      })
+    const { error: memberError } = await supabase.from('organization_members').insert({
+      organization_id: org.id,
+      user_id: user.id,
+      role: 'owner',
+    });
 
     if (memberError) {
       // Rollback org creation
-      await supabase.from('organizations').delete().eq('id', org.id)
-      throw memberError
+      await supabase.from('organizations').delete().eq('id', org.id);
+      throw memberError;
     }
 
-    return org
+    return org;
   }
 
   async getMyOrganizations(): Promise<Organization[]> {
     const { data, error } = await supabase
       .from('organizations')
       .select('*, organization_members!inner(role)')
-      .order('name')
+      .order('name');
 
-    if (error) throw error
-    return data
+    if (error) throw error;
+    return data;
   }
 
   async getMembers(orgId: string): Promise<OrganizationMember[]> {
@@ -127,22 +127,22 @@ export class OrganizationService {
       .from('organization_members')
       .select('*, user:profiles(*)')
       .eq('organization_id', orgId)
-      .order('joined_at')
+      .order('joined_at');
 
-    if (error) throw error
-    return data
+    if (error) throw error;
+    return data;
   }
 
   async inviteMember(orgId: string, email: string, role: string): Promise<void> {
     const { error } = await supabase.functions.invoke('invite-member', {
-      body: { organizationId: orgId, email, role }
-    })
+      body: { organizationId: orgId, email, role },
+    });
 
-    if (error) throw error
+    if (error) throw error;
   }
 }
 
-export const organizationService = new OrganizationService()
+export const organizationService = new OrganizationService();
 ```
 
 ## AI Document Search Application
@@ -213,62 +213,58 @@ END; $$;
 
 ```typescript
 // supabase/functions/generate-embedding/index.ts
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts'
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type'
-}
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+};
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders })
+    return new Response('ok', { headers: corsHeaders });
   }
 
   try {
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-    )
+    );
 
-    const { documentId, content } = await req.json()
+    const { documentId, content } = await req.json();
 
     // Generate embedding using OpenAI
     const embeddingResponse = await fetch('https://api.openai.com/v1/embeddings', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${Deno.env.get('OPENAI_API_KEY')}`,
-        'Content-Type': 'application/json'
+        Authorization: `Bearer ${Deno.env.get('OPENAI_API_KEY')}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         model: 'text-embedding-ada-002',
-        input: content.slice(0, 8000)
-      })
-    })
+        input: content.slice(0, 8000),
+      }),
+    });
 
-    const embeddingData = await embeddingResponse.json()
-    const embedding = embeddingData.data[0].embedding
+    const embeddingData = await embeddingResponse.json();
+    const embedding = embeddingData.data[0].embedding;
 
     // Update document with embedding
-    const { error } = await supabase
-      .from('documents')
-      .update({ embedding })
-      .eq('id', documentId)
+    const { error } = await supabase.from('documents').update({ embedding }).eq('id', documentId);
 
-    if (error) throw error
+    if (error) throw error;
 
-    return new Response(
-      JSON.stringify({ success: true }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    )
+    return new Response(JSON.stringify({ success: true }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
   } catch (error) {
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    )
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
   }
-})
+});
 ```
 
 ### React Search Component

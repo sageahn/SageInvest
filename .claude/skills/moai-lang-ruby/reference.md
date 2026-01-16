@@ -435,17 +435,17 @@ Stimulus Controllers:
 
 ```javascript
 // app/javascript/controllers/dropdown_controller.js
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-  static targets = ["menu"];
-  static classes = ["open"];
+  static targets = ['menu'];
+  static classes = ['open'];
   static values = {
     openDuration: { type: Number, default: 100 },
   };
 
   connect() {
-    this.element.classList.add("dropdown");
+    this.element.classList.add('dropdown');
   }
 
   toggle() {
@@ -659,11 +659,11 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 3.3
   Exclude:
-    - "db/schema.rb"
-    - "db/migrate/**/*"
-    - "node_modules/**/*"
-    - "vendor/**/*"
-    - "bin/**/*"
+    - 'db/schema.rb'
+    - 'db/migrate/**/*'
+    - 'node_modules/**/*'
+    - 'vendor/**/*'
+    - 'bin/**/*'
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
@@ -674,17 +674,17 @@ Style/Documentation:
 Metrics/MethodLength:
   Max: 20
   Exclude:
-    - "spec/**/*"
+    - 'spec/**/*'
 
 Metrics/BlockLength:
   Exclude:
-    - "spec/**/*"
-    - "config/**/*"
+    - 'spec/**/*'
+    - 'config/**/*'
 
 Layout/LineLength:
   Max: 120
   Exclude:
-    - "config/**/*"
+    - 'config/**/*'
 
 Rails/HasManyOrHasOneDependent:
   Enabled: true

@@ -3,6 +3,7 @@
 ## RSpec Model Specs
 
 Complete Model Testing:
+
 ```ruby
 # spec/models/user_spec.rb
 RSpec.describe User, type: :model do
@@ -53,6 +54,7 @@ end
 ## RSpec Request Specs
 
 API Testing:
+
 ```ruby
 # spec/requests/posts_spec.rb
 RSpec.describe "Posts", type: :request do
@@ -112,6 +114,7 @@ end
 ## Factory Bot Patterns
 
 Advanced Factories:
+
 ```ruby
 # spec/factories/users.rb
 FactoryBot.define do
@@ -172,6 +175,7 @@ end
 ## System Specs with Capybara
 
 End-to-End Testing:
+
 ```ruby
 # spec/system/user_registration_spec.rb
 RSpec.describe "User Registration", type: :system do
@@ -205,6 +209,7 @@ end
 ## Service Object Testing
 
 Testing Service Layer:
+
 ```ruby
 # spec/services/user_registration_service_spec.rb
 RSpec.describe UserRegistrationService do
@@ -261,6 +266,7 @@ end
 ## Shared Examples
 
 Reusable Test Patterns:
+
 ```ruby
 # spec/support/shared_examples/api_resource.rb
 RSpec.shared_examples "an API resource" do
@@ -286,6 +292,7 @@ end
 ## Mocking and Stubbing
 
 External Service Mocking:
+
 ```ruby
 RSpec.describe PaymentService do
   describe "#charge" do

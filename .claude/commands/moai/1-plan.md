@@ -1,5 +1,5 @@
 ---
-description: "Define specifications and create development branch or worktree"
+description: 'Define specifications and create development branch or worktree'
 argument-hint: Title 1 Title 2 ... | SPEC-ID modifications [--worktree | --branch]
 type: workflow
 allowed-tools: Task, AskUserQuestion, TodoWrite, Bash, Read, Write, Edit, Glob, Grep
@@ -1210,18 +1210,21 @@ IMPACT: Using XML for user output degrades user experience
 Progress reports must use Markdown with clear sections:
 
 **Analysis Output**:
+
 - **Context**: Current project state and relevant files discovered
 - **Findings**: SPEC candidates identified with rationale
 - **Assessment**: Technical constraints and implementation feasibility
 - **Recommendations**: Next steps and decision options
 
 **Plan Output**:
+
 - **Requirements**: Approved SPEC title, ID, priority, and scope
 - **Architecture**: Technical stack, dependencies, and integration points
 - **Decomposition**: Task breakdown and implementation sequence
 - **Validation**: Quality criteria and acceptance conditions
 
 **Implementation Output**:
+
 - **Status**: Phase completion status and artifacts created
 - **Artifacts**: Location and format of created SPEC files
 - **Validation**: Quality gate results and compliance verification
@@ -1247,16 +1250,19 @@ IMPACT: Unstructured output prevents downstream automation and creates manual ov
 Before you consider this command complete, verify:
 
 ### AskUserQuestion Compliance (HARD Rules)
+
 - [ ] SPEC Creation Approval: AskUserQuestion used before creating SPEC files
 - [ ] Development Environment Selection: AskUserQuestion used for worktree/branch/current choice
 - [ ] Next Action Selection: AskUserQuestion used after SPEC creation completes
 
 ### PHASE 1 Checklist
+
 - [ ] PHASE 1 executed: manager-spec analyzed project and proposed SPEC candidates
 - [ ] Progress report displayed: User shown detailed progress report with analysis results
 - [ ] User approval obtained: User explicitly approved SPEC creation (via AskUserQuestion)
 
 ### PHASE 2 Checklist
+
 - [ ] PHASE 2 executed: manager-spec created all 3 SPEC files (spec.md, plan.md, acceptance.md)
 - [ ] Directory naming correct: `.moai/specs/SPEC-{ID}/` format followed
 - [ ] YAML frontmatter valid: All 7 required fields present
@@ -1264,6 +1270,7 @@ Before you consider this command complete, verify:
 - [ ] EARS structure complete: All 5 requirement types included
 
 ### PHASE 3 Checklist
+
 - [ ] PHASE 3 executed: Appropriate action taken based on flags/user choice:
   - [ ] If --worktree: SPEC committed BEFORE worktree creation (HARD rule)
   - [ ] If --worktree: WorktreeManager created isolated worktree environment

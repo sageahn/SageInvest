@@ -4,13 +4,13 @@
 
 ### New Features Overview
 
-| Feature | Description | Use Case |
-|---------|-------------|----------|
-| Deferred Module Evaluation | Lazy-load modules on first access | Performance optimization |
-| Decorators (Stage 3) | Native decorator support | Logging, validation, DI |
-| Satisfies Operator | Type check without widening | Precise type inference |
-| Const Type Parameters | Infer literal types in generics | Configuration objects |
-| NoInfer Utility Type | Control inference in generic positions | API design |
+| Feature                    | Description                            | Use Case                 |
+| -------------------------- | -------------------------------------- | ------------------------ |
+| Deferred Module Evaluation | Lazy-load modules on first access      | Performance optimization |
+| Decorators (Stage 3)       | Native decorator support               | Logging, validation, DI  |
+| Satisfies Operator         | Type check without widening            | Precise type inference   |
+| Const Type Parameters      | Infer literal types in generics        | Configuration objects    |
+| NoInfer Utility Type       | Control inference in generic positions | API design               |
 
 ### Advanced Type Patterns
 
@@ -58,18 +58,18 @@ type UserGetters = Getters<User>;
 
 ```typescript
 // Event handler types
-type EventName = "click" | "focus" | "blur";
+type EventName = 'click' | 'focus' | 'blur';
 type EventHandler = `on${Capitalize<EventName>}`;
 // "onClick" | "onFocus" | "onBlur"
 
 // API route types
-type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
+type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 type APIRoute<M extends HTTPMethod, P extends string> = `${M} ${P}`;
-type UserRoutes = APIRoute<"GET" | "POST", "/users">;
+type UserRoutes = APIRoute<'GET' | 'POST', '/users'>;
 
 // CSS utility types
-type CSSProperty = "margin" | "padding";
-type CSSDirection = "top" | "right" | "bottom" | "left";
+type CSSProperty = 'margin' | 'padding';
+type CSSDirection = 'top' | 'right' | 'bottom' | 'left';
 type CSSUtility = `${CSSProperty}-${CSSDirection}`;
 ```
 
@@ -103,11 +103,11 @@ declare function pipe<A, B, C, D>(
 ```typescript
 // Record - Create object type with specific keys and values
 type PageInfo = { title: string };
-type PageRecord = Record<"home" | "about" | "contact", PageInfo>;
+type PageRecord = Record<'home' | 'about' | 'contact', PageInfo>;
 
 // Exclude/Extract - Filter union types
-type T1 = Exclude<"a" | "b" | "c", "a">; // "b" | "c"
-type T2 = Extract<"a" | "b" | "c", "a" | "f">; // "a"
+type T1 = Exclude<'a' | 'b' | 'c', 'a'>; // "b" | "c"
+type T2 = Extract<'a' | 'b' | 'c', 'a' | 'f'>; // "a"
 
 // Parameters/ReturnType - Function type utilities
 function greet(name: string, age: number): string {
@@ -242,21 +242,21 @@ export function MessageList({ messages }: { messages: Message[] }) {
 
 ### Hooks Reference
 
-| Hook | Purpose | Server/Client |
-|------|---------|---------------|
-| use() | Unwrap Promise/Context | Both |
-| useState | Component state | Client |
-| useEffect | Side effects | Client |
-| useContext | Access context | Client |
-| useRef | Mutable reference | Client |
-| useMemo | Memoize computation | Client |
-| useCallback | Memoize callback | Client |
-| useTransition | Non-blocking updates | Client |
-| useOptimistic | Optimistic UI | Client |
-| useActionState | Form action state | Client |
-| useFormStatus | Form submission status | Client |
-| useDeferredValue | Defer expensive updates | Client |
-| useId | Generate unique IDs | Both |
+| Hook             | Purpose                 | Server/Client |
+| ---------------- | ----------------------- | ------------- |
+| use()            | Unwrap Promise/Context  | Both          |
+| useState         | Component state         | Client        |
+| useEffect        | Side effects            | Client        |
+| useContext       | Access context          | Client        |
+| useRef           | Mutable reference       | Client        |
+| useMemo          | Memoize computation     | Client        |
+| useCallback      | Memoize callback        | Client        |
+| useTransition    | Non-blocking updates    | Client        |
+| useOptimistic    | Optimistic UI           | Client        |
+| useActionState   | Form action state       | Client        |
+| useFormStatus    | Form submission status  | Client        |
+| useDeferredValue | Defer expensive updates | Client        |
+| useId            | Generate unique IDs     | Both          |
 
 ---
 
@@ -264,22 +264,22 @@ export function MessageList({ messages }: { messages: Message[] }) {
 
 ### Rendering Strategies
 
-| Strategy | Description | Use Case |
-|----------|-------------|----------|
-| SSR | Server-Side Rendering | Dynamic, personalized content |
-| SSG | Static Site Generation | Blog posts, documentation |
-| ISR | Incremental Static Regeneration | E-commerce, frequently updated |
-| CSR | Client-Side Rendering | Interactive dashboards |
-| PPR | Partial Prerendering | Mixed static/dynamic |
+| Strategy | Description                     | Use Case                       |
+| -------- | ------------------------------- | ------------------------------ |
+| SSR      | Server-Side Rendering           | Dynamic, personalized content  |
+| SSG      | Static Site Generation          | Blog posts, documentation      |
+| ISR      | Incremental Static Regeneration | E-commerce, frequently updated |
+| CSR      | Client-Side Rendering           | Interactive dashboards         |
+| PPR      | Partial Prerendering            | Mixed static/dynamic           |
 
 ### Route Configuration
 
 ```typescript
 // Static generation
-export const dynamic = "force-static";
+export const dynamic = 'force-static';
 
 // Dynamic on every request
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 // Revalidate every 60 seconds
 export const revalidate = 60;
@@ -288,10 +288,10 @@ export const revalidate = 60;
 export const revalidate = false;
 
 // Runtime selection
-export const runtime = "edge"; // or "nodejs"
+export const runtime = 'edge'; // or "nodejs"
 
 // Preferred region for edge functions
-export const preferredRegion = ["iad1", "sfo1"];
+export const preferredRegion = ['iad1', 'sfo1'];
 
 // Maximum duration for serverless functions
 export const maxDuration = 30;
@@ -342,34 +342,32 @@ export async function updateUser(id: string, data: UserData) {
 
 ```typescript
 // middleware.ts
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   // Authentication check
-  const token = request.cookies.get("auth-token");
-  if (!token && request.nextUrl.pathname.startsWith("/dashboard")) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  const token = request.cookies.get('auth-token');
+  if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/login', request.url));
   }
 
   // Rate limiting headers
   const response = NextResponse.next();
-  response.headers.set("X-RateLimit-Limit", "100");
-  response.headers.set("X-RateLimit-Remaining", "99");
+  response.headers.set('X-RateLimit-Limit', '100');
+  response.headers.set('X-RateLimit-Remaining', '99');
 
   // Geolocation-based routing
-  const country = request.geo?.country || "US";
-  if (request.nextUrl.pathname === "/" && country === "DE") {
-    return NextResponse.rewrite(new URL("/de", request.url));
+  const country = request.geo?.country || 'US';
+  if (request.nextUrl.pathname === '/' && country === 'DE') {
+    return NextResponse.rewrite(new URL('/de', request.url));
   }
 
   return response;
 }
 
 export const config = {
-  matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
 };
 ```
 
@@ -405,8 +403,8 @@ export const config = {
 
 ```typescript
 // server/context.ts
-import { getServerSession } from "next-auth";
-import { db } from "@/lib/db";
+import { getServerSession } from 'next-auth';
+import { db } from '@/lib/db';
 
 export async function createContext({ req, res }: { req: Request; res: Response }) {
   const session = await getServerSession();
@@ -416,9 +414,9 @@ export async function createContext({ req, res }: { req: Request; res: Response 
 export type Context = Awaited<ReturnType<typeof createContext>>;
 
 // server/trpc.ts
-import { initTRPC, TRPCError } from "@trpc/server";
-import { Context } from "./context";
-import superjson from "superjson";
+import { initTRPC, TRPCError } from '@trpc/server';
+import { Context } from './context';
+import superjson from 'superjson';
 
 const t = initTRPC.context<Context>().create({
   transformer: superjson,
@@ -437,7 +435,7 @@ export const router = t.router;
 export const publicProcedure = t.procedure;
 export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
   if (!ctx.session?.user) {
-    throw new TRPCError({ code: "UNAUTHORIZED" });
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
   return next({ ctx: { ...ctx, user: ctx.session.user } });
 });
@@ -457,8 +455,8 @@ export const loggedProcedure = publicProcedure.use(loggerMiddleware);
 
 ```typescript
 // server/routers/notifications.ts
-import { observable } from "@trpc/server/observable";
-import { EventEmitter } from "events";
+import { observable } from '@trpc/server/observable';
+import { EventEmitter } from 'events';
 
 const ee = new EventEmitter();
 
@@ -471,8 +469,8 @@ export const notificationRouter = router({
         }
       };
 
-      ee.on("message", handler);
-      return () => ee.off("message", handler);
+      ee.on('message', handler);
+      return () => ee.off('message', handler);
     });
   }),
 
@@ -482,7 +480,7 @@ export const notificationRouter = router({
       const message = await db.message.create({
         data: { text: input.text, userId: ctx.user.id },
       });
-      ee.emit("message", message);
+      ee.emit('message', message);
       return message;
     }),
 });
@@ -494,37 +492,37 @@ export const notificationRouter = router({
 
 ### Schema Types
 
-| Type | Example | Description |
-|------|---------|-------------|
-| string | z.string() | String validation |
-| number | z.number() | Number validation |
-| boolean | z.boolean() | Boolean validation |
-| date | z.date() | Date object validation |
-| enum | z.enum(["a", "b"]) | Literal union |
-| nativeEnum | z.nativeEnum(MyEnum) | TS enum validation |
-| array | z.array(z.string()) | Array validation |
-| object | z.object({...}) | Object validation |
-| union | z.union([...]) | Type union |
-| discriminatedUnion | z.discriminatedUnion(...) | Tagged union |
-| tuple | z.tuple([...]) | Fixed-length array |
-| record | z.record(z.string()) | Record type |
-| map | z.map(z.string(), z.number()) | Map validation |
-| set | z.set(z.string()) | Set validation |
-| literal | z.literal("hello") | Exact value |
-| null | z.null() | Null type |
-| undefined | z.undefined() | Undefined type |
-| any | z.any() | Any type |
-| unknown | z.unknown() | Unknown type |
-| never | z.never() | Never type |
+| Type               | Example                       | Description            |
+| ------------------ | ----------------------------- | ---------------------- |
+| string             | z.string()                    | String validation      |
+| number             | z.number()                    | Number validation      |
+| boolean            | z.boolean()                   | Boolean validation     |
+| date               | z.date()                      | Date object validation |
+| enum               | z.enum(["a", "b"])            | Literal union          |
+| nativeEnum         | z.nativeEnum(MyEnum)          | TS enum validation     |
+| array              | z.array(z.string())           | Array validation       |
+| object             | z.object({...})               | Object validation      |
+| union              | z.union([...])                | Type union             |
+| discriminatedUnion | z.discriminatedUnion(...)     | Tagged union           |
+| tuple              | z.tuple([...])                | Fixed-length array     |
+| record             | z.record(z.string())          | Record type            |
+| map                | z.map(z.string(), z.number()) | Map validation         |
+| set                | z.set(z.string())             | Set validation         |
+| literal            | z.literal("hello")            | Exact value            |
+| null               | z.null()                      | Null type              |
+| undefined          | z.undefined()                 | Undefined type         |
+| any                | z.any()                       | Any type               |
+| unknown            | z.unknown()                   | Unknown type           |
+| never              | z.never()                     | Never type             |
 
 ### Advanced Patterns
 
 ```typescript
 // Discriminated unions for type-safe variants
-const EventSchema = z.discriminatedUnion("type", [
-  z.object({ type: z.literal("click"), x: z.number(), y: z.number() }),
-  z.object({ type: z.literal("keypress"), key: z.string() }),
-  z.object({ type: z.literal("scroll"), delta: z.number() }),
+const EventSchema = z.discriminatedUnion('type', [
+  z.object({ type: z.literal('click'), x: z.number(), y: z.number() }),
+  z.object({ type: z.literal('keypress'), key: z.string() }),
+  z.object({ type: z.literal('scroll'), delta: z.number() }),
 ]);
 
 // Recursive types
@@ -541,21 +539,21 @@ const CategorySchema: z.ZodType<Category> = z.lazy(() =>
 );
 
 // Branded types for type safety
-const UserId = z.string().uuid().brand<"UserId">();
+const UserId = z.string().uuid().brand<'UserId'>();
 type UserId = z.infer<typeof UserId>;
 
 // Error customization
-const EmailSchema = z.string().email({
-  message: "Please enter a valid email address",
-}).refine((email) => !email.includes("+"), {
-  message: "Email aliases are not allowed",
-});
+const EmailSchema = z
+  .string()
+  .email({
+    message: 'Please enter a valid email address',
+  })
+  .refine((email) => !email.includes('+'), {
+    message: 'Email aliases are not allowed',
+  });
 
 // Preprocessing
-const DateSchema = z.preprocess(
-  (val) => (typeof val === "string" ? new Date(val) : val),
-  z.date()
-);
+const DateSchema = z.preprocess((val) => (typeof val === 'string' ? new Date(val) : val), z.date());
 
 // Coercion
 const CoercedNumber = z.coerce.number(); // "42" -> 42
@@ -678,12 +676,12 @@ const handleClick = useCallback((id: string) => {
 // Always validate on server
 export async function createUser(formData: FormData) {
   const result = UserSchema.safeParse({
-    name: formData.get("name"),
-    email: formData.get("email"),
+    name: formData.get('name'),
+    email: formData.get('email'),
   });
 
   if (!result.success) {
-    return { error: "Invalid input" }; // Don't expose details
+    return { error: 'Invalid input' }; // Don't expose details
   }
 
   // Proceed with validated data
@@ -694,13 +692,13 @@ export async function createUser(formData: FormData) {
 
 ```typescript
 // env.ts
-import { z } from "zod";
+import { z } from 'zod';
 
 const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   NEXTAUTH_SECRET: z.string().min(32),
   NEXTAUTH_URL: z.string().url(),
-  NODE_ENV: z.enum(["development", "production", "test"]),
+  NODE_ENV: z.enum(['development', 'production', 'test']),
 });
 
 export const env = envSchema.parse(process.env);
@@ -710,15 +708,15 @@ export const env = envSchema.parse(process.env);
 
 ```typescript
 // Protect server actions
-"use server";
+'use server';
 
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
 export async function protectedAction() {
   const session = await getServerSession();
   if (!session) {
-    redirect("/login");
+    redirect('/login');
   }
 
   // Proceed with authenticated action

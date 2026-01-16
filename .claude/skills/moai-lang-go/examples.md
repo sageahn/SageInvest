@@ -777,7 +777,7 @@ ENTRYPOINT ["/main"]
 ### Docker Compose
 
 ```yaml
-version: "3.9"
+version: '3.9'
 
 services:
   api:
@@ -785,7 +785,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - DATABASE_URL=postgres://postgres:password@db:5432/myapp
     depends_on:
@@ -795,7 +795,7 @@ services:
       replicas: 2
       resources:
         limits:
-          cpus: "0.5"
+          cpus: '0.5'
           memory: 256M
 
   db:
@@ -807,7 +807,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 5s
       retries: 5

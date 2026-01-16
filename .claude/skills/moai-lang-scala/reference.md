@@ -5,6 +5,7 @@
 ### Scala 3.4 (November 2025)
 
 Version Information:
+
 - Latest: 3.4.2
 - Dotty: New compiler with improved type system
 - TASTy: Portable intermediate representation
@@ -284,11 +285,13 @@ class UserValidationSpec extends AnyFlatSpec with Matchers with ScalaCheckProper
 ### Recommended Plugins
 
 IntelliJ IDEA:
+
 - Scala (by JetBrains)
 - ZIO for IntelliJ
 - Cats Support
 
 VS Code:
+
 - Scala (Metals)
 - Scala Syntax (official)
 
@@ -299,6 +302,7 @@ VS Code:
 - WartRemover: Code quality checks
 
 Example .scalafmt.conf:
+
 ```hocon
 version = 3.7.17
 runner.dialect = scala3
@@ -338,11 +342,11 @@ containers:
     image: myapp:latest
     resources:
       requests:
-        memory: "512Mi"
-        cpu: "500m"
+        memory: '512Mi'
+        cpu: '500m'
       limits:
-        memory: "1Gi"
-        cpu: "1000m"
+        memory: '1Gi'
+        cpu: '1000m'
     env:
       - name: JAVA_OPTS
         value: >-
@@ -370,6 +374,7 @@ Key Changes:
 Example Migration:
 
 Scala 2.13:
+
 ```scala
 implicit class StringOps(s: String) {
   def words: List[String] = s.split("\\s+").toList
@@ -379,6 +384,7 @@ implicit def jsonEncoder: JsonEncoder[String] = ???
 ```
 
 Scala 3.4:
+
 ```scala
 extension (s: String)
   def words: List[String] = s.split("\\s+").toList
@@ -393,12 +399,14 @@ given JsonEncoder[String] = ???
 ### Cats Effect vs ZIO
 
 Cats Effect:
+
 - Pure FP approach, minimal runtime
 - Better interop with Typelevel ecosystem
 - Smaller learning curve from cats-core
 - Resource safety via Resource type
 
 ZIO:
+
 - Rich built-in functionality (layers, config, logging)
 - Better error handling with typed errors
 - Comprehensive testing utilities
@@ -407,11 +415,13 @@ ZIO:
 ### When to Use Which
 
 Use Cats Effect When:
+
 - Already using Typelevel libraries (http4s, doobie, fs2)
 - Prefer minimal runtime overhead
 - Team familiar with tagless final pattern
 
 Use ZIO When:
+
 - Building complex applications with many dependencies
 - Need comprehensive error handling
 - Prefer opinionated framework with batteries included

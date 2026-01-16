@@ -5,6 +5,7 @@
 ### PostgreSQL Operations
 
 Connection and Pool Management:
+
 ```python
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.pool import QueuePool
@@ -28,6 +29,7 @@ engine = create_async_engine(
 ```
 
 Query Optimization:
+
 ```python
 from sqlalchemy import text, select, func
 from sqlalchemy.dialects.postgresql import insert
@@ -70,6 +72,7 @@ async def get_ranked_users(session: AsyncSession):
 ### MongoDB Operations
 
 Aggregation Pipelines:
+
 ```python
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -116,6 +119,7 @@ async def bulk_update_users(updates: list):
 ```
 
 Index Management:
+
 ```python
 # Create compound indexes
 async def setup_indexes():
@@ -141,6 +145,7 @@ async def get_index_stats():
 ### Redis Operations
 
 Caching Patterns:
+
 ```python
 import redis.asyncio as redis
 import json
@@ -194,6 +199,7 @@ async def invalidate_user_cache(user_id: int):
 ```
 
 Advanced Redis Data Structures:
+
 ```python
 # Rate limiting with sliding window
 async def check_rate_limit(user_id: str, limit: int = 100, window: int = 60):
@@ -449,23 +455,26 @@ class UserEventHandler:
 Issue: Connection pool exhausted
 Symptoms: "too many connections" errors, request timeouts
 Solution:
+
 - Increase max_pool_size gradually
-- Monitor active connections: SELECT count(*) FROM pg_stat_activity
+- Monitor active connections: SELECT count(\*) FROM pg_stat_activity
 - Check for connection leaks in application code
 - Consider using PgBouncer for connection pooling
 
 Issue: Slow queries
 Symptoms: High response times, CPU spikes
 Solution:
+
 - Run EXPLAIN ANALYZE on slow queries
-- Check for missing indexes: SELECT * FROM pg_stat_user_indexes WHERE idx_scan = 0
+- Check for missing indexes: SELECT \* FROM pg_stat_user_indexes WHERE idx_scan = 0
 - Update table statistics: ANALYZE table_name
 - Consider query rewrites or denormalization
 
 Issue: Lock contention
 Symptoms: Queries waiting, deadlocks
 Solution:
-- Monitor locks: SELECT * FROM pg_locks WHERE NOT granted
+
+- Monitor locks: SELECT \* FROM pg_locks WHERE NOT granted
 - Use shorter transactions
 - Add proper row-level locking hints
 - Consider optimistic locking patterns
@@ -475,6 +484,7 @@ Solution:
 Issue: Slow aggregation pipelines
 Symptoms: Long query times, high memory usage
 Solution:
+
 - Add indexes for $match stages
 - Use $project early to reduce document size
 - Enable allowDiskUse for large result sets
@@ -483,6 +493,7 @@ Solution:
 Issue: Write performance degradation
 Symptoms: Slow inserts, high disk I/O
 Solution:
+
 - Check index count and optimize
 - Use bulk writes instead of individual operations
 - Consider write concern adjustment
@@ -493,6 +504,7 @@ Solution:
 Issue: Memory pressure
 Symptoms: OOM errors, evictions
 Solution:
+
 - Set maxmemory and maxmemory-policy
 - Implement TTL for all keys
 - Use more efficient data structures
@@ -501,6 +513,7 @@ Solution:
 Issue: Connection timeouts
 Symptoms: Connection refused, timeout errors
 Solution:
+
 - Increase tcp-backlog value
 - Check network latency
 - Use connection pooling
@@ -511,30 +524,35 @@ Solution:
 ## External Resources
 
 ### PostgreSQL
+
 - Official Documentation: https://www.postgresql.org/docs/
 - Performance Tuning: https://wiki.postgresql.org/wiki/Performance_Optimization
 - pg_stat_statements: https://www.postgresql.org/docs/current/pgstatstatements.html
 - PgBouncer: https://www.pgbouncer.org/
 
 ### MongoDB
+
 - Official Documentation: https://www.mongodb.com/docs/
 - Aggregation Reference: https://www.mongodb.com/docs/manual/aggregation/
 - Performance Best Practices: https://www.mongodb.com/docs/manual/administration/analyzing-mongodb-performance/
 - MongoDB University: https://university.mongodb.com/
 
 ### Redis
+
 - Official Documentation: https://redis.io/docs/
 - Redis Best Practices: https://redis.io/docs/management/optimization/
 - Redis Cluster: https://redis.io/docs/management/scaling/
 - Redis Insight: https://redis.com/redis-enterprise/redis-insight/
 
 ### Tools
+
 - pgAdmin: https://www.pgadmin.org/
 - MongoDB Compass: https://www.mongodb.com/products/compass
 - RedisInsight: https://redis.com/redis-enterprise/redis-insight/
 - DBeaver: https://dbeaver.io/
 
 ### Books and Courses
+
 - High Performance MySQL: https://www.oreilly.com/library/view/high-performance-mysql/
 - MongoDB: The Definitive Guide: https://www.oreilly.com/library/view/mongodb-the-definitive/
 - Redis in Action: https://www.manning.com/books/redis-in-action

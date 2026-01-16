@@ -104,17 +104,17 @@ project = template.scaffold(
 
 ```json
 {
- "variables": {
- "PROJECT_NAME": "my-project",
- "AUTHOR": "John Doe",
- "LICENSE": "MIT",
- "PYTHON_VERSION": "3.13"
- },
- "files": {
- "pyproject.toml": "substitute",
- "README.md": "substitute",
- "src//*.py": "copy"
- }
+  "variables": {
+    "PROJECT_NAME": "my-project",
+    "AUTHOR": "John Doe",
+    "LICENSE": "MIT",
+    "PYTHON_VERSION": "3.13"
+  },
+  "files": {
+    "pyproject.toml": "substitute",
+    "README.md": "substitute",
+    "src//*.py": "copy"
+  }
 }
 ```
 

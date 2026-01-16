@@ -29,13 +29,13 @@ Root layout with ClerkProvider:
 
 ```tsx
 // app/layout.tsx
-import type { Metadata } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { ClerkProvider } from '@clerk/nextjs';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "My App",
-  description: "Application with Clerk authentication",
+  title: 'My App',
+  description: 'Application with Clerk authentication',
 };
 
 export default function RootLayout({
@@ -61,7 +61,7 @@ export default function RootLayout({
 
 ```tsx
 // app/sign-up/[[...sign-up]]/page.tsx
-import { SignUp } from "@clerk/nextjs";
+import { SignUp } from '@clerk/nextjs';
 
 export default function SignUpPage() {
   return (
@@ -70,8 +70,8 @@ export default function SignUpPage() {
         <SignUp
           appearance={{
             elements: {
-              rootBox: "mx-auto",
-              card: "shadow-lg",
+              rootBox: 'mx-auto',
+              card: 'shadow-lg',
             },
           }}
         />
@@ -85,7 +85,7 @@ export default function SignUpPage() {
 
 ```tsx
 // app/sign-in/[[...sign-in]]/page.tsx
-import { SignIn } from "@clerk/nextjs";
+import { SignIn } from '@clerk/nextjs';
 
 export default function SignInPage() {
   return (
@@ -94,8 +94,8 @@ export default function SignInPage() {
         <SignIn
           appearance={{
             elements: {
-              rootBox: "mx-auto",
-              card: "shadow-lg",
+              rootBox: 'mx-auto',
+              card: 'shadow-lg',
             },
           }}
           routing="path"
@@ -111,14 +111,8 @@ export default function SignInPage() {
 
 ```tsx
 // components/nav-header.tsx
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
-import Link from "next/link";
+import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
 
 export function NavHeader() {
   return (
@@ -149,7 +143,7 @@ export function NavHeader() {
             <UserButton
               appearance={{
                 elements: {
-                  avatarBox: "w-10 h-10",
+                  avatarBox: 'w-10 h-10',
                 },
               }}
             />
@@ -165,10 +159,10 @@ export function NavHeader() {
 
 ```tsx
 // components/sign-out-button.tsx
-"use client";
+'use client';
 
-import { useClerk } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
+import { useClerk } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 export function SignOutButton() {
   const { signOut } = useClerk();
@@ -176,7 +170,7 @@ export function SignOutButton() {
 
   const handleSignOut = async () => {
     await signOut();
-    router.push("/");
+    router.push('/');
   };
 
   return (
@@ -206,10 +200,10 @@ Enable passkeys in Clerk Dashboard:
 
 ```tsx
 // components/passkey-setup.tsx
-"use client";
+'use client';
 
-import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
+import { useUser } from '@clerk/nextjs';
+import { useState } from 'react';
 
 export function PasskeySetup() {
   const { user } = useUser();
@@ -224,9 +218,9 @@ export function PasskeySetup() {
 
     try {
       await user.createPasskey();
-      alert("Passkey created successfully!");
+      alert('Passkey created successfully!');
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create passkey");
+      setError(err instanceof Error ? err.message : 'Failed to create passkey');
     } finally {
       setIsCreating(false);
     }
@@ -241,14 +235,9 @@ export function PasskeySetup() {
       {passkeys.length > 0 ? (
         <div className="mb-4 space-y-2">
           {passkeys.map((passkey) => (
-            <div
-              key={passkey.id}
-              className="flex items-center justify-between rounded border p-3"
-            >
+            <div key={passkey.id} className="flex items-center justify-between rounded border p-3">
               <div>
-                <p className="font-medium">
-                  {passkey.name || "Unnamed Passkey"}
-                </p>
+                <p className="font-medium">{passkey.name || 'Unnamed Passkey'}</p>
                 <p className="text-sm text-gray-600">
                   Created: {new Date(passkey.createdAt).toLocaleDateString()}
                 </p>
@@ -260,16 +249,14 @@ export function PasskeySetup() {
         <p className="mb-4 text-gray-600">No passkeys configured</p>
       )}
 
-      {error && (
-        <div className="mb-4 rounded bg-red-50 p-3 text-red-700">{error}</div>
-      )}
+      {error && <div className="mb-4 rounded bg-red-50 p-3 text-red-700">{error}</div>}
 
       <button
         onClick={createPasskey}
         disabled={isCreating}
         className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:bg-gray-400"
       >
-        {isCreating ? "Creating..." : "Add Passkey"}
+        {isCreating ? 'Creating...' : 'Add Passkey'}
       </button>
     </div>
   );
@@ -280,11 +267,11 @@ export function PasskeySetup() {
 
 ```tsx
 // components/passkey-signin.tsx
-"use client";
+'use client';
 
-import { useSignIn } from "@clerk/nextjs";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useSignIn } from '@clerk/nextjs';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export function PasskeySignIn() {
   const { signIn, setActive } = useSignIn();
@@ -299,12 +286,12 @@ export function PasskeySignIn() {
     try {
       const signInAttempt = await signIn.authenticateWithPasskey();
 
-      if (signInAttempt.status === "complete") {
+      if (signInAttempt.status === 'complete') {
         await setActive({ session: signInAttempt.createdSessionId });
-        router.push("/dashboard");
+        router.push('/dashboard');
       }
     } catch (err) {
-      console.error("Passkey authentication failed:", err);
+      console.error('Passkey authentication failed:', err);
     } finally {
       setIsLoading(false);
     }
@@ -316,7 +303,7 @@ export function PasskeySignIn() {
       disabled={isLoading}
       className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:bg-gray-400"
     >
-      {isLoading ? "Authenticating..." : "Sign In with Passkey"}
+      {isLoading ? 'Authenticating...' : 'Sign In with Passkey'}
     </button>
   );
 }
@@ -330,9 +317,9 @@ export function PasskeySignIn() {
 
 ```tsx
 // components/session-info.tsx
-"use client";
+'use client';
 
-import { useAuth, useSession } from "@clerk/nextjs";
+import { useAuth, useSession } from '@clerk/nextjs';
 
 export function SessionInfo() {
   const { userId, sessionId, isLoaded, isSignedIn } = useAuth();
@@ -364,18 +351,14 @@ export function SessionInfo() {
         <div>
           <dt className="font-medium">Last Active:</dt>
           <dd className="text-sm text-gray-600">
-            {session?.lastActiveAt
-              ? new Date(session.lastActiveAt).toLocaleString()
-              : "N/A"}
+            {session?.lastActiveAt ? new Date(session.lastActiveAt).toLocaleString() : 'N/A'}
           </dd>
         </div>
 
         <div>
           <dt className="font-medium">Expires At:</dt>
           <dd className="text-sm text-gray-600">
-            {session?.expireAt
-              ? new Date(session.expireAt).toLocaleString()
-              : "N/A"}
+            {session?.expireAt ? new Date(session.expireAt).toLocaleString() : 'N/A'}
           </dd>
         </div>
       </dl>
@@ -388,14 +371,14 @@ export function SessionInfo() {
 
 ```tsx
 // app/dashboard/session/page.tsx
-import { auth, clerkClient } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+import { auth, clerkClient } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
 export default async function SessionPage() {
   const { userId, sessionId } = await auth();
 
   if (!userId || !sessionId) {
-    redirect("/sign-in");
+    redirect('/sign-in');
   }
 
   const session = await clerkClient().sessions.getSession(sessionId);
@@ -415,9 +398,7 @@ export default async function SessionPage() {
 
           <div>
             <dt className="font-medium">User ID:</dt>
-            <dd className="font-mono text-sm text-gray-600">
-              {session.userId}
-            </dd>
+            <dd className="font-mono text-sm text-gray-600">{session.userId}</dd>
           </div>
 
           <div>
@@ -425,9 +406,9 @@ export default async function SessionPage() {
             <dd className="text-sm">
               <span
                 className={`rounded px-2 py-1 ${
-                  session.status === "active"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-gray-100 text-gray-800"
+                  session.status === 'active'
+                    ? 'bg-green-100 text-green-800'
+                    : 'bg-gray-100 text-gray-800'
                 }`}
               >
                 {session.status}
@@ -463,19 +444,19 @@ export default async function SessionPage() {
 
 ```typescript
 // middleware.ts
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
 // Define public routes (no authentication required)
 const isPublicRoute = createRouteMatcher([
-  "/",
-  "/sign-in(.*)",
-  "/sign-up(.*)",
-  "/about",
-  "/api/public(.*)",
+  '/',
+  '/sign-in(.*)',
+  '/sign-up(.*)',
+  '/about',
+  '/api/public(.*)',
 ]);
 
 // Define admin routes (require specific role)
-const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
+const isAdminRoute = createRouteMatcher(['/admin(.*)']);
 
 export default clerkMiddleware(async (auth, req) => {
   // Allow public routes
@@ -486,7 +467,7 @@ export default clerkMiddleware(async (auth, req) => {
   // Protect admin routes with role check
   if (isAdminRoute(req)) {
     await auth.protect((has) => {
-      return has({ role: "admin" });
+      return has({ role: 'admin' });
     });
     return;
   }
@@ -498,9 +479,9 @@ export default clerkMiddleware(async (auth, req) => {
 export const config = {
   matcher: [
     // Skip Next.js internals and static files
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
     // Always run for API routes
-    "/(api|trpc)(.*)",
+    '/(api|trpc)(.*)',
   ],
 };
 ```
@@ -509,23 +490,21 @@ export const config = {
 
 ```tsx
 // app/dashboard/page.tsx
-import { auth, currentUser } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+import { auth, currentUser } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
 export default async function DashboardPage() {
   const { userId } = await auth();
 
   if (!userId) {
-    redirect("/sign-in");
+    redirect('/sign-in');
   }
 
   const user = await currentUser();
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="mb-6 text-3xl font-bold">
-        Welcome, {user?.firstName || "User"}!
-      </h1>
+      <h1 className="mb-6 text-3xl font-bold">Welcome, {user?.firstName || 'User'}!</h1>
 
       <div className="grid gap-6 md:grid-cols-2">
         <div className="rounded-lg border p-6">
@@ -547,20 +526,20 @@ export default async function DashboardPage() {
 
 ```typescript
 // app/api/protected/route.ts
-import { auth } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
 export async function GET() {
   const { userId } = await auth();
 
   if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   // Fetch user-specific data
   const data = {
     userId,
-    message: "This is protected data",
+    message: 'This is protected data',
     timestamp: new Date().toISOString(),
   };
 
@@ -571,7 +550,7 @@ export async function POST(req: Request) {
   const { userId, sessionClaims } = await auth();
 
   if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const body = await req.json();
@@ -593,10 +572,10 @@ export async function POST(req: Request) {
 
 ```tsx
 // components/user-profile-display.tsx
-"use client";
+'use client';
 
-import { useUser } from "@clerk/nextjs";
-import Image from "next/image";
+import { useUser } from '@clerk/nextjs';
+import Image from 'next/image';
 
 export function UserProfileDisplay() {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -615,7 +594,7 @@ export function UserProfileDisplay() {
         {user.imageUrl && (
           <Image
             src={user.imageUrl}
-            alt={`${user.firstName || "User"} profile`}
+            alt={`${user.firstName || 'User'} profile`}
             width={80}
             height={80}
             className="rounded-full"
@@ -633,25 +612,19 @@ export function UserProfileDisplay() {
       <dl className="space-y-2">
         <div>
           <dt className="font-medium">Email:</dt>
-          <dd className="text-gray-600">
-            {user.primaryEmailAddress?.emailAddress}
-          </dd>
+          <dd className="text-gray-600">{user.primaryEmailAddress?.emailAddress}</dd>
         </div>
 
         {user.primaryPhoneNumber && (
           <div>
             <dt className="font-medium">Phone:</dt>
-            <dd className="text-gray-600">
-              {user.primaryPhoneNumber.phoneNumber}
-            </dd>
+            <dd className="text-gray-600">{user.primaryPhoneNumber.phoneNumber}</dd>
           </div>
         )}
 
         <div>
           <dt className="font-medium">Member Since:</dt>
-          <dd className="text-gray-600">
-            {new Date(user.createdAt).toLocaleDateString()}
-          </dd>
+          <dd className="text-gray-600">{new Date(user.createdAt).toLocaleDateString()}</dd>
         </div>
       </dl>
     </div>
@@ -663,18 +636,18 @@ export function UserProfileDisplay() {
 
 ```tsx
 // components/update-profile-form.tsx
-"use client";
+'use client';
 
-import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
+import { useUser } from '@clerk/nextjs';
+import { useState } from 'react';
 
 export function UpdateProfileForm() {
   const { user } = useUser();
-  const [firstName, setFirstName] = useState(user?.firstName || "");
-  const [lastName, setLastName] = useState(user?.lastName || "");
+  const [firstName, setFirstName] = useState(user?.firstName || '');
+  const [lastName, setLastName] = useState(user?.lastName || '');
   const [isUpdating, setIsUpdating] = useState(false);
   const [message, setMessage] = useState<{
-    type: "success" | "error";
+    type: 'success' | 'error';
     text: string;
   } | null>(null);
 
@@ -692,11 +665,11 @@ export function UpdateProfileForm() {
         lastName,
       });
 
-      setMessage({ type: "success", text: "Profile updated successfully!" });
+      setMessage({ type: 'success', text: 'Profile updated successfully!' });
     } catch (err) {
       setMessage({
-        type: "error",
-        text: err instanceof Error ? err.message : "Failed to update profile",
+        type: 'error',
+        text: err instanceof Error ? err.message : 'Failed to update profile',
       });
     } finally {
       setIsUpdating(false);
@@ -736,9 +709,7 @@ export function UpdateProfileForm() {
       {message && (
         <div
           className={`rounded p-3 ${
-            message.type === "success"
-              ? "bg-green-50 text-green-700"
-              : "bg-red-50 text-red-700"
+            message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
           }`}
         >
           {message.text}
@@ -750,7 +721,7 @@ export function UpdateProfileForm() {
         disabled={isUpdating}
         className="w-full rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:bg-gray-400"
       >
-        {isUpdating ? "Updating..." : "Update Profile"}
+        {isUpdating ? 'Updating...' : 'Update Profile'}
       </button>
     </form>
   );
@@ -761,11 +732,11 @@ export function UpdateProfileForm() {
 
 ```tsx
 // components/profile-image-upload.tsx
-"use client";
+'use client';
 
-import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
-import Image from "next/image";
+import { useUser } from '@clerk/nextjs';
+import { useState } from 'react';
+import Image from 'next/image';
 
 export function ProfileImageUpload() {
   const { user } = useUser();
@@ -782,7 +753,7 @@ export function ProfileImageUpload() {
     try {
       await user.setProfileImage({ file });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to upload image");
+      setError(err instanceof Error ? err.message : 'Failed to upload image');
     } finally {
       setIsUploading(false);
     }
@@ -807,7 +778,7 @@ export function ProfileImageUpload() {
           htmlFor="profile-image"
           className="cursor-pointer rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
         >
-          {isUploading ? "Uploading..." : "Upload Image"}
+          {isUploading ? 'Uploading...' : 'Upload Image'}
         </label>
         <input
           id="profile-image"
@@ -833,13 +804,9 @@ export function ProfileImageUpload() {
 
 ```tsx
 // app/dashboard/layout.tsx
-import { OrganizationSwitcher } from "@clerk/nextjs";
+import { OrganizationSwitcher } from '@clerk/nextjs';
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <nav className="border-b">
@@ -849,8 +816,8 @@ export default function DashboardLayout({
           <OrganizationSwitcher
             appearance={{
               elements: {
-                rootBox: "flex items-center",
-                organizationSwitcherTrigger: "rounded-md border px-3 py-2",
+                rootBox: 'flex items-center',
+                organizationSwitcherTrigger: 'rounded-md border px-3 py-2',
               },
             }}
             hidePersonal={false}
@@ -870,10 +837,10 @@ export default function DashboardLayout({
 
 ```tsx
 // components/organization-list.tsx
-"use client";
+'use client';
 
-import { useOrganizationList } from "@clerk/nextjs";
-import Image from "next/image";
+import { useOrganizationList } from '@clerk/nextjs';
+import Image from 'next/image';
 
 export function OrganizationList() {
   const { isLoaded, setActive, userMemberships } = useOrganizationList({
@@ -910,16 +877,12 @@ export function OrganizationList() {
 
                 <div>
                   <p className="font-medium">{membership.organization.name}</p>
-                  <p className="text-sm text-gray-600">
-                    Role: {membership.role}
-                  </p>
+                  <p className="text-sm text-gray-600">Role: {membership.role}</p>
                 </div>
               </div>
 
               <button
-                onClick={() =>
-                  setActive({ organization: membership.organization.id })
-                }
+                onClick={() => setActive({ organization: membership.organization.id })}
                 className="rounded-md bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
               >
                 Switch
@@ -928,9 +891,7 @@ export function OrganizationList() {
           ))}
         </ul>
       ) : (
-        <p className="text-gray-600">
-          You are not a member of any organizations
-        </p>
+        <p className="text-gray-600">You are not a member of any organizations</p>
       )}
 
       {userMemberships.hasNextPage && (
@@ -950,10 +911,10 @@ export function OrganizationList() {
 
 ```tsx
 // components/organization-members.tsx
-"use client";
+'use client';
 
-import { useOrganization } from "@clerk/nextjs";
-import Image from "next/image";
+import { useOrganization } from '@clerk/nextjs';
+import Image from 'next/image';
 
 export function OrganizationMembers() {
   const { organization, memberships, isLoaded } = useOrganization({
@@ -974,9 +935,7 @@ export function OrganizationMembers() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">{organization.name} Members</h2>
-        <span className="text-sm text-gray-600">
-          {organization.membersCount} total members
-        </span>
+        <span className="text-sm text-gray-600">{organization.membersCount} total members</span>
       </div>
 
       {memberships.data && memberships.data.length > 0 ? (
@@ -990,7 +949,7 @@ export function OrganizationMembers() {
                 {membership.publicUserData.imageUrl && (
                   <Image
                     src={membership.publicUserData.imageUrl}
-                    alt={membership.publicUserData.firstName || "Member"}
+                    alt={membership.publicUserData.firstName || 'Member'}
                     width={40}
                     height={40}
                     className="rounded-full"
@@ -999,12 +958,9 @@ export function OrganizationMembers() {
 
                 <div>
                   <p className="font-medium">
-                    {membership.publicUserData.firstName}{" "}
-                    {membership.publicUserData.lastName}
+                    {membership.publicUserData.firstName} {membership.publicUserData.lastName}
                   </p>
-                  <p className="text-sm text-gray-600">
-                    {membership.publicUserData.identifier}
-                  </p>
+                  <p className="text-sm text-gray-600">{membership.publicUserData.identifier}</p>
                 </div>
               </div>
 
@@ -1044,26 +1000,26 @@ npm install svix
 
 ```typescript
 // app/api/webhooks/clerk/route.ts
-import { Webhook } from "svix";
-import { headers } from "next/headers";
-import { WebhookEvent } from "@clerk/nextjs/server";
+import { Webhook } from 'svix';
+import { headers } from 'next/headers';
+import { WebhookEvent } from '@clerk/nextjs/server';
 
 export async function POST(req: Request) {
   // Get webhook secret from environment
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
-    throw new Error("CLERK_WEBHOOK_SECRET is not defined");
+    throw new Error('CLERK_WEBHOOK_SECRET is not defined');
   }
 
   // Get headers
   const headerPayload = await headers();
-  const svix_id = headerPayload.get("svix-id");
-  const svix_timestamp = headerPayload.get("svix-timestamp");
-  const svix_signature = headerPayload.get("svix-signature");
+  const svix_id = headerPayload.get('svix-id');
+  const svix_timestamp = headerPayload.get('svix-timestamp');
+  const svix_signature = headerPayload.get('svix-signature');
 
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response("Missing svix headers", { status: 400 });
+    return new Response('Missing svix headers', { status: 400 });
   }
 
   // Get body
@@ -1078,22 +1034,22 @@ export async function POST(req: Request) {
   // Verify webhook
   try {
     evt = wh.verify(body, {
-      "svix-id": svix_id,
-      "svix-timestamp": svix_timestamp,
-      "svix-signature": svix_signature,
+      'svix-id': svix_id,
+      'svix-timestamp': svix_timestamp,
+      'svix-signature': svix_signature,
     }) as WebhookEvent;
   } catch (err) {
-    console.error("Webhook verification failed:", err);
-    return new Response("Invalid signature", { status: 400 });
+    console.error('Webhook verification failed:', err);
+    return new Response('Invalid signature', { status: 400 });
   }
 
   // Handle events
   const eventType = evt.type;
 
   switch (eventType) {
-    case "user.created":
+    case 'user.created':
       const { id, email_addresses, first_name, last_name } = evt.data;
-      console.log("User created:", {
+      console.log('User created:', {
         id,
         email_addresses,
         first_name,
@@ -1102,28 +1058,28 @@ export async function POST(req: Request) {
       // Add user to database
       break;
 
-    case "user.updated":
-      console.log("User updated:", evt.data.id);
+    case 'user.updated':
+      console.log('User updated:', evt.data.id);
       // Update user in database
       break;
 
-    case "user.deleted":
-      console.log("User deleted:", evt.data.id);
+    case 'user.deleted':
+      console.log('User deleted:', evt.data.id);
       // Delete user from database
       break;
 
-    case "organization.created":
-      console.log("Organization created:", evt.data.id);
+    case 'organization.created':
+      console.log('Organization created:', evt.data.id);
       // Create organization in database
       break;
 
-    case "organization.updated":
-      console.log("Organization updated:", evt.data.id);
+    case 'organization.updated':
+      console.log('Organization updated:', evt.data.id);
       // Update organization in database
       break;
 
-    case "organizationMembership.created":
-      console.log("Organization membership created:", evt.data);
+    case 'organizationMembership.created':
+      console.log('Organization membership created:', evt.data);
       // Add organization member to database
       break;
 
@@ -1131,7 +1087,7 @@ export async function POST(req: Request) {
       console.log(`Unhandled event type: ${eventType}`);
   }
 
-  return new Response("Webhook processed", { status: 200 });
+  return new Response('Webhook processed', { status: 200 });
 }
 ```
 
@@ -1139,7 +1095,7 @@ export async function POST(req: Request) {
 
 ```typescript
 // lib/user-sync.ts
-import { clerkClient } from "@clerk/nextjs/server";
+import { clerkClient } from '@clerk/nextjs/server';
 
 export async function syncUserToDatabase(userId: string) {
   const user = await clerkClient().users.getUser(userId);
@@ -1155,7 +1111,7 @@ export async function syncUserToDatabase(userId: string) {
     updatedAt: new Date(user.updatedAt),
   };
 
-  console.log("Syncing user to database:", userData);
+  console.log('Syncing user to database:', userData);
 
   // Example: await db.users.upsert(userData)
 
@@ -1163,7 +1119,7 @@ export async function syncUserToDatabase(userId: string) {
 }
 
 export async function deleteUserFromDatabase(userId: string) {
-  console.log("Deleting user from database:", userId);
+  console.log('Deleting user from database:', userId);
 
   // Example: await db.users.delete({ where: { id: userId } })
 }
@@ -1182,20 +1138,20 @@ npm install -D @clerk/testing vitest @testing-library/react @testing-library/jes
 
 ```tsx
 // __tests__/components/protected-component.test.tsx
-import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 
 // Mock Clerk hooks
-vi.mock("@clerk/nextjs", () => ({
+vi.mock('@clerk/nextjs', () => ({
   useAuth: vi.fn(),
   useUser: vi.fn(),
 }));
 
-import { useAuth, useUser } from "@clerk/nextjs";
-import { ProtectedComponent } from "@/components/protected-component";
+import { useAuth, useUser } from '@clerk/nextjs';
+import { ProtectedComponent } from '@/components/protected-component';
 
-describe("ProtectedComponent", () => {
-  it("shows loading state when not loaded", () => {
+describe('ProtectedComponent', () => {
+  it('shows loading state when not loaded', () => {
     vi.mocked(useAuth).mockReturnValue({
       isLoaded: false,
       isSignedIn: false,
@@ -1205,10 +1161,10 @@ describe("ProtectedComponent", () => {
     } as any);
 
     render(<ProtectedComponent />);
-    expect(screen.getByText("Loading...")).toBeInTheDocument();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
-  it("shows sign-in prompt when not authenticated", () => {
+  it('shows sign-in prompt when not authenticated', () => {
     vi.mocked(useAuth).mockReturnValue({
       isLoaded: true,
       isSignedIn: false,
@@ -1218,15 +1174,15 @@ describe("ProtectedComponent", () => {
     } as any);
 
     render(<ProtectedComponent />);
-    expect(screen.getByText("Please sign in")).toBeInTheDocument();
+    expect(screen.getByText('Please sign in')).toBeInTheDocument();
   });
 
-  it("shows content when authenticated", () => {
+  it('shows content when authenticated', () => {
     vi.mocked(useAuth).mockReturnValue({
       isLoaded: true,
       isSignedIn: true,
-      userId: "user_123",
-      sessionId: "sess_456",
+      userId: 'user_123',
+      sessionId: 'sess_456',
       getToken: vi.fn(),
     } as any);
 
@@ -1234,15 +1190,15 @@ describe("ProtectedComponent", () => {
       isLoaded: true,
       isSignedIn: true,
       user: {
-        id: "user_123",
-        firstName: "John",
-        lastName: "Doe",
-        emailAddresses: [{ emailAddress: "john@example.com" }],
+        id: 'user_123',
+        firstName: 'John',
+        lastName: 'Doe',
+        emailAddresses: [{ emailAddress: 'john@example.com' }],
       },
     } as any);
 
     render(<ProtectedComponent />);
-    expect(screen.getByText("Welcome, John!")).toBeInTheDocument();
+    expect(screen.getByText('Welcome, John!')).toBeInTheDocument();
   });
 });
 ```
@@ -1251,8 +1207,8 @@ describe("ProtectedComponent", () => {
 
 ```typescript
 // __tests__/setup.ts
-import { beforeAll, afterAll, afterEach } from "vitest";
-import { setupClerkTestingToken } from "@clerk/testing/vitest";
+import { beforeAll, afterAll, afterEach } from 'vitest';
+import { setupClerkTestingToken } from '@clerk/testing/vitest';
 
 beforeAll(() => {
   // Setup Clerk testing environment
@@ -1273,40 +1229,40 @@ afterAll(() => {
 
 ```typescript
 // e2e/auth.spec.ts
-import { test, expect } from "@playwright/test";
+import { test, expect } from '@playwright/test';
 
-test.describe("Authentication Flow", () => {
-  test("should sign in successfully", async ({ page }) => {
-    await page.goto("http://localhost:3000");
+test.describe('Authentication Flow', () => {
+  test('should sign in successfully', async ({ page }) => {
+    await page.goto('http://localhost:3000');
 
     // Click sign-in button
-    await page.click("text=Sign In");
+    await page.click('text=Sign In');
 
     // Fill in credentials
-    await page.fill('input[name="identifier"]', "test@example.com");
+    await page.fill('input[name="identifier"]', 'test@example.com');
     await page.click('button[type="submit"]');
 
-    await page.fill('input[name="password"]', "testpassword123");
+    await page.fill('input[name="password"]', 'testpassword123');
     await page.click('button[type="submit"]');
 
     // Wait for redirect to dashboard
-    await page.waitForURL("**/dashboard");
+    await page.waitForURL('**/dashboard');
 
     // Verify user is signed in
-    await expect(page.locator("text=Welcome")).toBeVisible();
+    await expect(page.locator('text=Welcome')).toBeVisible();
   });
 
-  test("should sign out successfully", async ({ page }) => {
+  test('should sign out successfully', async ({ page }) => {
     // Assume already signed in
-    await page.goto("http://localhost:3000/dashboard");
+    await page.goto('http://localhost:3000/dashboard');
 
     // Click user button and sign out
     await page.click('[data-testid="user-button"]');
-    await page.click("text=Sign Out");
+    await page.click('text=Sign Out');
 
     // Verify redirect to home
-    await page.waitForURL("http://localhost:3000");
-    await expect(page.locator("text=Sign In")).toBeVisible();
+    await page.waitForURL('http://localhost:3000');
+    await expect(page.locator('text=Sign In')).toBeVisible();
   });
 });
 ```
@@ -1319,21 +1275,21 @@ test.describe("Authentication Flow", () => {
 
 ```typescript
 // app/api/external/route.ts
-import { auth } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
 export async function GET() {
   const { userId, getToken } = await auth();
 
   if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   // Get token with custom template
-  const token = await getToken({ template: "supabase" });
+  const token = await getToken({ template: 'supabase' });
 
   // Call external API with token
-  const response = await fetch("https://api.external.com/data", {
+  const response = await fetch('https://api.external.com/data', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -1348,10 +1304,10 @@ export async function GET() {
 
 ```tsx
 // components/mfa-setup.tsx
-"use client";
+'use client';
 
-import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
+import { useUser } from '@clerk/nextjs';
+import { useState } from 'react';
 
 export function MFASetup() {
   const { user } = useUser();
@@ -1372,7 +1328,7 @@ export function MFASetup() {
       const codes = await user.createBackupCode();
       setBackupCodes(codes.codes);
     } catch (err) {
-      console.error("Failed to enable TOTP:", err);
+      console.error('Failed to enable TOTP:', err);
     } finally {
       setIsEnabling(false);
     }
@@ -1388,14 +1344,12 @@ export function MFASetup() {
           disabled={isEnabling}
           className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
         >
-          {isEnabling ? "Setting up..." : "Enable 2FA"}
+          {isEnabling ? 'Setting up...' : 'Enable 2FA'}
         </button>
       ) : (
         <div className="space-y-4">
           <div>
-            <p className="mb-2">
-              Scan this QR code with your authenticator app:
-            </p>
+            <p className="mb-2">Scan this QR code with your authenticator app:</p>
             <img src={qrCode} alt="QR Code" className="rounded border" />
           </div>
 
@@ -1409,9 +1363,7 @@ export function MFASetup() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-2 text-sm text-gray-600">
-                Save these codes in a secure location
-              </p>
+              <p className="mt-2 text-sm text-gray-600">Save these codes in a secure location</p>
             </div>
           )}
         </div>

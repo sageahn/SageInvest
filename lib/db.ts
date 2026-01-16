@@ -5,7 +5,8 @@ let poolInstance: Pool;
 
 export function getPool(): Pool {
   if (!poolInstance) {
-    const databaseUrl = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/sageinvest';
+    const databaseUrl =
+      process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/sageinvest';
     poolInstance = new Pool({
       connectionString: databaseUrl,
       max: 20,
@@ -52,9 +53,7 @@ export async function getClient(): Promise<PoolClient> {
   return client;
 }
 
-export async function transaction<T>(
-  callback: (client: PoolClient) => Promise<T>
-): Promise<T> {
+export async function transaction<T>(callback: (client: PoolClient) => Promise<T>): Promise<T> {
   const client = await getClient();
   try {
     await client.query('BEGIN');

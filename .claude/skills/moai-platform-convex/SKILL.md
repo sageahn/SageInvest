@@ -1,15 +1,15 @@
 ---
-name: "moai-platform-convex"
-description: "Convex real-time backend specialist covering TypeScript-first reactive patterns, optimistic updates, server functions, and file storage. Use when building real-time collaborative apps, implementing reactive queries, or integrating with Clerk/Auth0."
+name: 'moai-platform-convex'
+description: 'Convex real-time backend specialist covering TypeScript-first reactive patterns, optimistic updates, server functions, and file storage. Use when building real-time collaborative apps, implementing reactive queries, or integrating with Clerk/Auth0.'
 version: 2.1.0
-category: "platform"
+category: 'platform'
 modularized: true
 user-invocable: false
 tags: ['convex', 'realtime', 'reactive', 'typescript', 'optimistic-updates']
-context7-libraries: "/get-convex/convex"
-related-skills: "moai-platform-supabase, moai-lang-typescript, moai-domain-frontend"
+context7-libraries: '/get-convex/convex'
+related-skills: 'moai-platform-supabase, moai-lang-typescript, moai-domain-frontend'
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Write
@@ -48,7 +48,7 @@ Initialize a new Convex project using npm create convex@latest. Start the develo
 
 ### Context7 Library
 
-Use mcp__context7__resolve-library-id with "convex" to get the library ID, then use mcp__context7__get-library-docs for latest documentation.
+Use mcp**context7**resolve-library-id with "convex" to get the library ID, then use mcp**context7**get-library-docs for latest documentation.
 
 ---
 
@@ -86,7 +86,7 @@ Covers file upload workflows, storage URL generation, client-side upload with pr
 
 ### Project Structure
 
-A Convex project contains a convex directory with _generated subdirectory for auto-generated types and API, schema.ts for database schema definition, a functions subdirectory for server functions organized by domain, optional http.ts for HTTP endpoints, and optional crons.ts for scheduled jobs. The src directory contains ConvexProvider.tsx for client setup.
+A Convex project contains a convex directory with \_generated subdirectory for auto-generated types and API, schema.ts for database schema definition, a functions subdirectory for server functions organized by domain, optional http.ts for HTTP endpoints, and optional crons.ts for scheduled jobs. The src directory contains ConvexProvider.tsx for client setup.
 
 ### Schema Definition
 

@@ -1003,9 +1003,7 @@ php artisan inspire                  # Display inspiring quote
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
       "@php artisan package:discover --ansi"
     ],
-    "post-update-cmd": [
-      "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-    ],
+    "post-update-cmd": ["@php artisan vendor:publish --tag=laravel-assets --ansi --force"],
     "post-root-package-install": [
       "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
     ],

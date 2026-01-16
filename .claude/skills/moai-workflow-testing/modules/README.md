@@ -13,6 +13,7 @@ This modules directory contains detailed implementation modules for the moai-wor
 ### Root Level Modules
 
 #### [AI-Powered Debugging](./ai-debugging.md)
+
 Complexity: Advanced | Time: 20+ minutes | Dependencies: Python 3.8+, Context7 MCP
 
 - Intelligent error classification with Context7 patterns
@@ -21,12 +22,14 @@ Complexity: Advanced | Time: 20+ minutes | Dependencies: Python 3.8+, Context7 M
 - Real-time error pattern recognition and prevention strategies
 
 Key Features:
+
 - Context7 integration for latest debugging patterns
 - Error frequency tracking and analysis
 - Automated solution generation with multiple approaches
 - Performance-aware debugging with minimal overhead
 
 ### [Smart Refactoring](./smart-refactoring.md)
+
 Complexity: Advanced | Time: 25+ minutes | Dependencies: Python 3.8+, Rope, AST, Context7 MCP
 
 - Technical debt analysis with comprehensive code scanning
@@ -35,12 +38,14 @@ Complexity: Advanced | Time: 25+ minutes | Dependencies: Python 3.8+, Rope, AST,
 - Dependency-aware refactoring with impact analysis
 
 Key Features:
+
 - Context7 refactoring patterns integration
 - Safe transformation planning with rollback strategies
 - Technical debt prioritization and quantification
 - Project-aware refactoring with convention detection
 
 ### [Performance Optimization](./performance-optimization.md)
+
 Complexity: Advanced | Time: 30+ minutes | Dependencies: Python 3.8+, cProfile, memory_profiler, psutil
 
 - Real-time performance monitoring with configurable sampling
@@ -49,12 +54,14 @@ Complexity: Advanced | Time: 30+ minutes | Dependencies: Python 3.8+, cProfile, 
 - Memory leak detection and optimization strategies
 
 Key Features:
+
 - Multi-dimensional performance analysis
 - Intelligent optimization suggestions with Context7 patterns
 - Continuous monitoring with alerting capabilities
 - Performance regression detection and prevention
 
 ### [TDD with Context7](./tdd-context7.md)
+
 Complexity: Advanced | Time: 25+ minutes | Dependencies: Python 3.8+, pytest, Context7 MCP
 
 - RED-GREEN-REFACTOR cycle automation with AI assistance
@@ -63,12 +70,14 @@ Complexity: Advanced | Time: 25+ minutes | Dependencies: Python 3.8+, pytest, Co
 - Automated test suite optimization and maintenance
 
 Key Features:
+
 - Context7 testing patterns and best practices
 - AI-powered test case generation with coverage optimization
 - Comprehensive test specification management
 - Automated test execution with quality validation
 
 ### [Automated Code Review](./automated-code-review.md)
+
 Complexity: Advanced | Time: 35+ minutes | Dependencies: Python 3.8+, pylint, flake8, bandit, mypy
 
 - TRUST 5 framework validation with AI analysis
@@ -77,6 +86,7 @@ Complexity: Advanced | Time: 35+ minutes | Dependencies: Python 3.8+, pylint, fl
 - Automated fix suggestions with diff generation
 
 Key Features:
+
 - Comprehensive TRUST 5 category scoring
 - Context7 security and quality pattern integration
 - Automated issue detection with prioritization
@@ -85,7 +95,9 @@ Key Features:
 ### Thematic Subdirectories
 
 #### [Automated Code Review](./automated-code-review/)
+
 Comprehensive code review workflows with TRUST 5 framework integration.
+
 - `context7-integration.md` - Context7 integration for code review
 - `review-workflows.md` - Code review workflow patterns
 - `trust5-framework.md` - TRUST 5 framework overview
@@ -98,35 +110,47 @@ Comprehensive code review workflows with TRUST 5 framework integration.
   - `usability-analysis.md` - Usability dimension analysis
 
 #### [Code Review Patterns](./code-review/)
+
 Code review patterns and methodologies.
+
 - `analysis-patterns.md` - Code analysis patterns
 - `core-classes.md` - Core code review classes
 - `tool-integration.md` - Tool integration patterns
 
 #### [Debugging Workflows](./debugging/)
+
 AI-powered debugging workflows.
+
 - `debugging-workflows.md` - Debugging workflow processes
 - `error-analysis.md` - Error analysis techniques
 
 #### [Performance Optimization](./performance/)
+
 Performance optimization strategies.
+
 - `optimization-patterns.md` - Performance optimization patterns
 - `profiling-techniques.md` - Profiling and measurement techniques
 
 #### [Refactoring Patterns](./refactoring/)
+
 AI-powered refactoring workflows.
+
 - `ai-workflows.md` - AI refactoring workflows
 - `patterns.md` - Refactoring patterns
 
 #### [TDD with Context7](./tdd-context7/)
+
 Test-driven development with Context7 integration.
+
 - `advanced-features.md` - Advanced TDD features
 - `red-green-refactor.md` - RED-GREEN-REFACTOR cycle
 - `test-generation.md` - Automated test generation
 - `test-patterns.md` - TDD testing patterns
 
 #### [Core TDD](./tdd/)
+
 Core TDD documentation.
+
 - `core-classes.md` - Core TDD classes and patterns
 
 ## Module Integration
@@ -165,11 +189,13 @@ results = await workflow.execute_complete_workflow()
 ## Module Dependencies
 
 ### Core Dependencies
+
 - Python 3.8+: Base runtime environment
 - Context7 MCP: For pattern integration and AI assistance
 - asyncio: Asynchronous execution support
 
 ### Module-Specific Dependencies
+
 - Performance Optimization: cProfile, memory_profiler, psutil, line_profiler
 - Smart Refactoring: Rope, AST, Context7 patterns
 - Automated Code Review: pylint, flake8, bandit, mypy
@@ -178,16 +204,19 @@ results = await workflow.execute_complete_workflow()
 ## Best Practices
 
 ### Module Selection
+
 1. Start with main SKILL.md: Use the overview to understand capabilities
 2. Progress to modules: Dive into specific modules as needed
 3. Combine selectively: Use only the modules relevant to your workflow
 
 ### Integration Guidelines
+
 1. Context7 Integration: Enable Context7 for enhanced AI capabilities
 2. Performance Considerations: Monitor overhead of analysis tools
 3. Quality Gates: Configure appropriate thresholds for your project
 
 ### Maintenance
+
 1. Regular Updates: Keep Context7 patterns current
 2. Tool Versions: Maintain compatible static analysis tool versions
 3. Pattern Evolution: Update patterns as best practices evolve
@@ -234,6 +263,7 @@ Related: [Other Module](./other-module.md) | [Related Module](./related-module.m
 ## Quality Assurance
 
 ### Module Standards
+
 - Comprehensive documentation with examples
 - Error handling and edge case coverage
 - Performance considerations and optimizations
@@ -241,6 +271,7 @@ Related: [Other Module](./other-module.md) | [Related Module](./related-module.m
 - Cross-module compatibility testing
 
 ### Validation Checklist
+
 - [ ] Module compiles and runs without errors
 - [ ] Examples are functional and tested
 - [ ] Documentation is complete and accurate
@@ -250,11 +281,13 @@ Related: [Other Module](./other-module.md) | [Related Module](./related-module.m
 ## Support and Contributing
 
 ### Module Support
+
 - Documentation: Each module includes comprehensive usage examples
 - Integration: See main SKILL.md for integration patterns
 - Dependencies: Check individual modules for specific requirements
 
 ### Contributing
+
 When contributing to modules:
 
 1. Follow Templates: Use established module structure

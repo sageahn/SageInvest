@@ -9,20 +9,21 @@ The @Observable macro (iOS 17+) replaces @ObservableObject with simpler, more pe
 ### Basic Usage
 
 Simple ViewModel:
+
 ```swift
 import Observation
 
 @Observable
 class CounterViewModel {
     var count = 0
-    
+
     func increment() { count += 1 }
     func decrement() { count -= 1 }
 }
 
 struct CounterView: View {
     @State private var viewModel = CounterViewModel()
-    
+
     var body: some View {
         VStack {
             Text("Count: \(viewModel.count)")
@@ -38,6 +39,7 @@ struct CounterView: View {
 ### Complex State Management
 
 Full-Featured ViewModel:
+
 ```swift
 @Observable
 @MainActor
@@ -46,7 +48,7 @@ final class ProductListViewModel {
     private(set) var isLoading = false
     var searchQuery = ""
     var selectedCategory: Category?
-    
+
     var filteredProducts: [Product] {
         var result = products
         if !searchQuery.isEmpty {
@@ -57,11 +59,11 @@ final class ProductListViewModel {
         }
         return result
     }
-    
+
     private let api: ProductAPIProtocol
-    
+
     init(api: ProductAPIProtocol) { self.api = api }
-    
+
     func loadProducts() async {
         isLoading = true
         defer { isLoading = false }
@@ -73,6 +75,7 @@ final class ProductListViewModel {
 ### Environment Integration
 
 Dependency Injection:
+
 ```swift
 @Observable
 class AuthService {
@@ -83,7 +86,7 @@ class AuthService {
 @main
 struct MyApp: App {
     @State private var authService = AuthService()
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -94,7 +97,7 @@ struct MyApp: App {
 
 struct ProfileView: View {
     @Environment(AuthService.self) private var authService
-    
+
     var body: some View {
         if let user = authService.currentUser {
             UserProfileContent(user: user)
@@ -108,11 +111,12 @@ struct ProfileView: View {
 ### Programmatic Navigation
 
 Navigation Router Pattern:
+
 ```swift
 @Observable
 class NavigationRouter {
     var path = NavigationPath()
-    
+
     func push<D: Hashable>(_ destination: D) { path.append(destination) }
     func pop() { guard !path.isEmpty else { return }; path.removeLast() }
     func popToRoot() { path.removeLast(path.count) }
@@ -126,7 +130,7 @@ enum AppDestination: Hashable {
 
 struct RootView: View {
     @State private var router = NavigationRouter()
-    
+
     var body: some View {
         NavigationStack(path: $router.path) {
             HomeView()
@@ -144,7 +148,7 @@ struct RootView: View {
 
 struct HomeView: View {
     @Environment(NavigationRouter.self) private var router
-    
+
     var body: some View {
         Button("View Settings") { router.push(AppDestination.settings) }
     }
@@ -156,10 +160,11 @@ struct HomeView: View {
 ### @State vs @Binding
 
 Local State:
+
 ```swift
 struct ToggleCard: View {
     @State private var isExpanded = false
-    
+
     var body: some View {
         VStack {
             Button { withAnimation { isExpanded.toggle() } } label: {
@@ -175,10 +180,11 @@ struct ToggleCard: View {
 ```
 
 Binding for Two-Way Communication:
+
 ```swift
 struct FilterSheet: View {
     @Binding var selectedCategory: Category?
-    
+
     var body: some View {
         Picker("Category", selection: $selectedCategory) {
             Text("All").tag(nil as Category?)
@@ -193,6 +199,7 @@ struct FilterSheet: View {
 ### @Bindable for Observable
 
 Using @Bindable:
+
 ```swift
 @Observable
 class FormViewModel {
@@ -203,7 +210,7 @@ class FormViewModel {
 
 struct RegistrationForm: View {
     @Bindable var viewModel: FormViewModel
-    
+
     var body: some View {
         Form {
             TextField("Name", text: $viewModel.name)
@@ -219,11 +226,12 @@ struct RegistrationForm: View {
 ### Task Modifier
 
 Async Operations:
+
 ```swift
 struct UserProfileView: View {
     let userId: String
     @State private var user: User?
-    
+
     var body: some View {
         Group {
             if let user { UserContent(user: user) }
@@ -235,11 +243,12 @@ struct UserProfileView: View {
 ```
 
 Task with ID for Refresh:
+
 ```swift
 struct SearchResultsView: View {
     let query: String
     @State private var results: [SearchResult] = []
-    
+
     var body: some View {
         List(results) { SearchResultRow(result: $0) }
             .task(id: query) {
@@ -252,11 +261,12 @@ struct SearchResultsView: View {
 ### onChange Modifier
 
 Responding to State Changes:
+
 ```swift
 struct SearchView: View {
     @State private var searchText = ""
     @State private var debouncedText = ""
-    
+
     var body: some View {
         TextField("Search", text: $searchText)
             .onChange(of: searchText) { _, newValue in
@@ -274,6 +284,7 @@ struct SearchView: View {
 ### Preference Key
 
 Size Preference:
+
 ```swift
 struct SizePreferenceKey: PreferenceKey {
     static var defaultValue: CGSize = .zero
@@ -291,6 +302,7 @@ extension View {
 ### Custom View Modifiers
 
 Reusable Card Style:
+
 ```swift
 struct CardModifier: ViewModifier {
     func body(content: Content) -> some View {

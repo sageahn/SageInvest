@@ -52,6 +52,7 @@ Token Cost: Effectively unlimited since they are accessed on-demand
 ### Directory Organization
 
 skill-name/
+
 - SKILL.md (required, main file, 500 lines or less)
 - reference.md (optional, extended documentation)
 - examples.md (optional, code examples)
@@ -118,20 +119,21 @@ name: secure-operations
 description: Perform operations with additional security checks.
 hooks:
   PreToolUse:
-    - matcher: "Bash"
+    - matcher: 'Bash'
       hooks:
         - type: command
-          command: "./scripts/security-check.sh $TOOL_INPUT"
+          command: './scripts/security-check.sh $TOOL_INPUT'
           once: true
   PostToolUse:
-    - matcher: "Write|Edit"
+    - matcher: 'Write|Edit'
       hooks:
         - type: command
-          command: "./scripts/verify-write.sh"
+          command: './scripts/verify-write.sh'
 ---
 ```
 
 Hook Configuration Fields:
+
 - type: "command" (bash) or "prompt" (LLM evaluation)
 - command: Bash command to execute (for type: command)
 - prompt: LLM prompt for evaluation (for type: prompt)
@@ -299,9 +301,11 @@ Keep SKILL.md as overview pointing Claude to detailed materials:
 # PDF Processing
 
 ## Quick start
+
 Extract text with pdfplumber (brief example)
 
 ## Advanced features
+
 **Form filling**: See [FORMS.md](FORMS.md) for complete guide
 **API reference**: See [REFERENCE.md](REFERENCE.md) for all methods
 **Examples**: See [EXAMPLES.md](EXAMPLES.md) for common patterns
@@ -330,9 +334,11 @@ Show basic content, link to advanced content:
 
 ```markdown
 ## Creating documents
+
 Use docx-js for new documents. See [DOCX-JS.md](DOCX-JS.md).
 
 ## Editing documents
+
 For simple edits, modify the XML directly.
 **For tracked changes**: See [REDLINING.md](REDLINING.md)
 ```
@@ -413,8 +419,8 @@ Check YAML syntax validity:
 
 Check correct file location:
 
-- Personal: ~/.claude/skills/*/SKILL.md
-- Project: .claude/skills/*/SKILL.md
+- Personal: ~/.claude/skills/\*/SKILL.md
+- Project: .claude/skills/\*/SKILL.md
 
 ### Multiple Skills Conflicting
 

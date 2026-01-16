@@ -383,32 +383,38 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 ### 기능적 완료 기준
 
 #### KIS API 엔드포인트
+
 - [ ] **접근토큰발급**: /oauth2/tokenP API가 정상적으로 작동함
 - [ ] **접속토큰폐기**: /oauth2/revokeP API가 정상적으로 작동함
 - [ ] **Hashkey**: /uapi/hashkey API가 정상적으로 작동함
 - [ ] **웹소켓 접속키**: /oauth2/Approval API가 정상적으로 작동함
 
 #### 환경 관리
+
 - [ ] **환경 전환**: Mock/Production 환경 전환이 작동함
 - [ ] **API 도메인**: 선택된 환경에 맞는 API 도메인을 사용함
 - [ ] **연결 테스트**: Settings Page에서 연결 테스트가 작동함
 
 #### 토큰 관리
+
 - [ ] **토큰 발급**: 액세스 토큰 발급이 정상적으로 작동함
 - [ ] **토큰 갱신**: 만료 1시간 전에 자동 갱신이 수행됨
 - [ ] **토큰 저장**: 토큰이 암호화되어 PostgreSQL에 저장됨
 
 #### API 요청
+
 - [ ] **인증 헤더**: 모든 API 요청에 Authorization 헤더가 추가됨
 - [ ] **Hashkey**: POST 요청에 hash 헤더가 포함됨
 - [ ] **재시도**: 실패 요청이 지수 백오프로 재시도됨
 
 #### 로깅
+
 - [ ] **요청 로깅**: 모든 KIS API 요청이 로그에 기록됨
 - [ ] **마스킹**: 민감 정보가 로그에서 마스킹됨
 - [ ] **환경별**: 환경별 로그가 구분됨
 
 #### UI 컴포넌트
+
 - [ ] **Settings Page**: AppKey/AppSecret 입력, 환경 선택, 연결 테스트가 작동함
 - [ ] **Dashboard Widget**: 연결 상태, 카운트다운이 정확하게 표시됨
 - [ ] **Authentication Page**: OAuth 인증 흐름, 연결 관리가 작동함
@@ -416,27 +422,32 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 ### 품질 기준 (TRUST 5)
 
 #### Test-first (테스트 우선)
+
 - [ ] 모든 시나리오가 Given-When-Then 형식의 테스트로 작성됨
 - [ ] 테스트 커버리지가 85% 이상임
 - [ ] 모든 테스트가 통과함
 
 #### Readable (가독성)
+
 - [ ] 코드가 ESLint 규칙을 통과함
 - [ ] 함수와 변수명이 명확함
 - [ ] 복잡한 로직에 주석이 포함됨
 
 #### Unified (통일성)
+
 - [ ] 코드가 Prettier로 포맷팅됨
 - [ ] TypeScript 타입이 명확히 정의됨
 - [ ] 일관된 에러 처리 패턴 사용
 
 #### Secured (보안)
+
 - [ ] 모든 토큰이 AES-256으로 암호화됨
 - [ ] 로그에 민감 정보가 포함되지 않음
 - [ ] OWASP Top 10 보안 취약점이 없음
 - [ ] 환경 변수로 암호화 키를 관리함
 
 #### Trackable (추적 가능성)
+
 - [ ] 모든 API 요청에 고유 요청 ID가 있음
 - [ ] 로그를 통해 요청 추적이 가능함
 - [ ] Git 커밋 메시지가 명확함

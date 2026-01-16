@@ -27,6 +27,7 @@ When sandboxing is enabled:
 ### Default Write Restrictions
 
 By default, sandboxed commands can only write to:
+
 - Current working directory
 - Subdirectories of current working directory
 
@@ -39,14 +40,8 @@ Additional write paths can be configured in settings.json:
 ```json
 {
   "sandbox": {
-    "allowedPaths": [
-      "/tmp/build-output",
-      "~/project-cache"
-    ],
-    "deniedPaths": [
-      "~/.ssh",
-      "~/.aws"
-    ]
+    "allowedPaths": ["/tmp/build-output", "~/project-cache"],
+    "deniedPaths": ["~/.ssh", "~/.aws"]
   }
 }
 ```
@@ -60,13 +55,8 @@ Network access is filtered by domain. Configure allowed domains:
 ```json
 {
   "sandbox": {
-    "allowedDomains": [
-      "api.example.com",
-      "registry.npmjs.org"
-    ],
-    "deniedDomains": [
-      "*.internal.corp"
-    ]
+    "allowedDomains": ["api.example.com", "registry.npmjs.org"],
+    "deniedDomains": ["*.internal.corp"]
   }
 }
 ```
@@ -74,6 +64,7 @@ Network access is filtered by domain. Configure allowed domains:
 ### Default Allowed Domains
 
 Common development services are typically allowed:
+
 - npm registry (registry.npmjs.org)
 - GitHub (github.com, api.github.com)
 - Claude API (api.anthropic.com)
@@ -99,6 +90,7 @@ When sandbox is enabled, bash commands that operate within sandbox restrictions 
 ### How Auto-Allow Works
 
 If a command only:
+
 - Reads from allowed paths
 - Writes to allowed paths
 - Accesses allowed network domains
@@ -112,10 +104,7 @@ Some commands bypass sandbox restrictions:
 ```json
 {
   "sandbox": {
-    "excludedCommands": [
-      "docker",
-      "kubectl"
-    ]
+    "excludedCommands": ["docker", "kubectl"]
   }
 }
 ```
@@ -127,6 +116,7 @@ Excluded commands require explicit user permission.
 ### Domain-Only Filtering
 
 Network filtering operates at the domain level only:
+
 - Cannot inspect traffic content
 - Cannot filter by URL path
 - Cannot decrypt HTTPS traffic
@@ -134,6 +124,7 @@ Network filtering operates at the domain level only:
 ### Unix Socket Access
 
 Unix sockets can grant system access:
+
 - Docker socket provides host system access
 - Some sockets bypass network restrictions
 - Configure socket permissions carefully
@@ -141,6 +132,7 @@ Unix sockets can grant system access:
 ### Permission Implications
 
 Certain permissions grant broader access:
+
 - Docker socket access equals root-equivalent access
 - Some build tools require expanded permissions
 - Evaluate security tradeoffs carefully
@@ -170,16 +162,8 @@ For typical development workflows:
 {
   "sandbox": {
     "enabled": true,
-    "allowedPaths": [
-      "/tmp",
-      "~/.npm",
-      "~/.cache"
-    ],
-    "allowedDomains": [
-      "registry.npmjs.org",
-      "github.com",
-      "api.github.com"
-    ]
+    "allowedPaths": ["/tmp", "~/.npm", "~/.cache"],
+    "allowedDomains": ["registry.npmjs.org", "github.com", "api.github.com"]
   }
 }
 ```
@@ -192,17 +176,9 @@ For automated pipelines:
 {
   "sandbox": {
     "enabled": true,
-    "allowedPaths": [
-      "/workspace",
-      "/build-cache"
-    ],
-    "allowedDomains": [
-      "registry.npmjs.org",
-      "docker.io"
-    ],
-    "excludedCommands": [
-      "docker"
-    ]
+    "allowedPaths": ["/workspace", "/build-cache"],
+    "allowedDomains": ["registry.npmjs.org", "docker.io"],
+    "excludedCommands": ["docker"]
   }
 }
 ```
@@ -212,6 +188,7 @@ For automated pipelines:
 ### Identifying Blocked Operations
 
 When sandbox blocks an operation:
+
 1. Permission dialog appears (if not in auto-allow mode)
 2. Operation is logged
 3. User can choose to allow or deny
@@ -219,6 +196,7 @@ When sandbox blocks an operation:
 ### Reviewing Sandbox Logs
 
 Check sandbox violation patterns:
+
 - Repeated blocks may indicate configuration gaps
 - Unexpected blocks may indicate security issues
 - Review and adjust configuration as needed
@@ -228,6 +206,7 @@ Check sandbox violation patterns:
 ### Start Restrictive
 
 Begin with minimal permissions:
+
 1. Enable sandbox with default restrictions
 2. Monitor for violations
 3. Add specific allowances as needed
@@ -235,6 +214,7 @@ Begin with minimal permissions:
 ### Document Exceptions
 
 When adding exclusions:
+
 - Document why each exception is needed
 - Review exceptions periodically
 - Remove unnecessary exceptions
@@ -242,6 +222,7 @@ When adding exclusions:
 ### Combine with IAM
 
 Use sandbox as one layer of defense:
+
 - Sandbox provides OS-level isolation
 - IAM provides Claude-level permissions
 - Together they create defense-in-depth
@@ -249,6 +230,7 @@ Use sandbox as one layer of defense:
 ### Test Configuration
 
 Before deploying:
+
 - Test common workflows with sandbox enabled
 - Verify necessary operations succeed
 - Confirm sensitive operations are blocked
@@ -258,6 +240,7 @@ Before deploying:
 ### Command Fails in Sandbox
 
 If a legitimate command is blocked:
+
 1. Check if command needs excluded commands list
 2. Verify path is in allowed paths
 3. Check domain is in allowed domains
@@ -265,6 +248,7 @@ If a legitimate command is blocked:
 ### Network Request Blocked
 
 If network request fails:
+
 1. Verify domain spelling
 2. Check for subdomain requirements
 3. Review port restrictions
@@ -272,11 +256,13 @@ If network request fails:
 ### Performance Impact
 
 Sandbox adds minimal overhead:
+
 - Namespace creation is fast
 - File checks are cached
 - Network filtering is lightweight
 
 If experiencing slowdowns, check:
+
 - Large allowed paths lists
 - Complex domain patterns
 - Excessive sandbox violations

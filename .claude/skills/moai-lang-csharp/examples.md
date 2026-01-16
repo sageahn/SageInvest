@@ -107,7 +107,7 @@ public static class UserEndpoints
         {
             if (id != command.Id)
                 return Results.BadRequest("ID mismatch");
-            
+
             var result = await mediator.Send(command);
             return result ? Results.NoContent() : Results.NotFound();
         })
@@ -379,7 +379,7 @@ public class EfRepository<T>(AppDbContext context) : IRepository<T> where T : cl
         => await DbSet.FindAsync([id], ct) is not null;
 }
 
-public class EfUserRepository(AppDbContext context) 
+public class EfUserRepository(AppDbContext context)
     : EfRepository<User>(context), IUserRepository
 {
     public async Task<User?> GetByEmailAsync(string email, CancellationToken ct = default)
@@ -418,7 +418,7 @@ public class CreateUserCommandHandlerTests
         _contextMock = new Mock<AppDbContext>(new DbContextOptions<AppDbContext>());
         _hasherMock = new Mock<IPasswordHasher>();
         _validatorMock = new Mock<IValidator<CreateUserCommand>>();
-        
+
         _handler = new CreateUserCommandHandler(
             _contextMock.Object,
             _hasherMock.Object,
@@ -430,10 +430,10 @@ public class CreateUserCommandHandlerTests
     {
         // Arrange
         var command = new CreateUserCommand("John Doe", "john@example.com", "Password123");
-        
+
         _validatorMock.Setup(v => v.ValidateAsync(command, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
-        
+
         _hasherMock.Setup(h => h.Hash(command.Password))
             .Returns("hashed_password");
 
@@ -447,7 +447,7 @@ public class CreateUserCommandHandlerTests
         result.Should().NotBeNull();
         result.Name.Should().Be("John Doe");
         result.Email.Should().Be("john@example.com");
-        
+
         mockSet.Verify(m => m.Add(It.IsAny<User>()), Times.Once);
         _contextMock.Verify(c => c.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
@@ -462,7 +462,7 @@ public class CreateUserCommandHandlerTests
             new("Name", "Name is required"),
             new("Email", "Invalid email format")
         };
-        
+
         _validatorMock.Setup(v => v.ValidateAsync(command, It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult(failures));
 
@@ -497,7 +497,7 @@ public class UsersEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
                     options.UseInMemoryDatabase("TestDb"));
             });
         });
-        
+
         _client = _factory.CreateClient();
     }
 
@@ -517,7 +517,7 @@ public class UsersEndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         response.Headers.Location.Should().NotBeNull();
-        
+
         var user = await response.Content.ReadFromJsonAsync<UserDto>();
         user.Should().NotBeNull();
         user!.Name.Should().Be("Test User");

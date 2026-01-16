@@ -19,30 +19,37 @@ Priority: Medium
 Assigned: manager-tdd
 
 ## Description
+
 [Brief description of the feature]
 
 ## Requirements
 
 ### Ubiquitous
+
 - 시스템은 항상 입력을 검증해야 한다
 - 시스템은 항상 에러를 로깅해야 한다
 
 ### Event-Driven
+
 - WHEN [event] THEN [action]
 
 ### State-Driven
+
 - IF [condition] THEN [action]
 
 ### Unwanted
+
 - 시스템은 [prohibited action]하지 않아야 한다
 
 ## Constraints
 
 Technical:
+
 - Framework: [technology stack]
 - Database: [database system]
 
 Business:
+
 - [Business rule 1]
 - [Business rule 2]
 
@@ -54,8 +61,8 @@ Business:
 
 ## Test Scenarios
 
-| ID | Scenario | Input | Expected | Status |
-|---|---|---|---|---|
+| ID   | Scenario    | Input   | Expected | Status  |
+| ---- | ----------- | ------- | -------- | ------- |
 | TC-1 | Normal case | [input] | [output] | Pending |
 ```
 
@@ -71,70 +78,83 @@ Assigned: manager-tdd
 Related SPECs: SPEC-YYY, SPEC-ZZZ
 
 ## Description
+
 [Detailed description with business context]
 
 ### Preconditions
+
 1. [Precondition 1]
 2. [Precondition 2]
 
 ### Side Effects
+
 1. [Side effect 1]
 2. [Side effect 2]
 
 ## Requirements
 
 ### Ubiquitous
+
 - [System-wide requirements]
 
 ### Event-Driven
+
 - WHEN [trigger event] THEN [immediate action]
 - WHEN [completion event] THEN [notification action]
 
 ### State-Driven
+
 - IF [state condition] THEN [allowed action]
 - IF [state condition] THEN [blocked action]
 
 ### Unwanted
+
 - 시스템은 [security vulnerability]하지 않아야 한다
 - 시스템은 [data integrity issue]하지 않아야 한다
 
 ### Optional
+
 - 가능하면 [enhancement feature]을 제공한다
 
 ## Constraints
 
 Technical:
+
 - Architecture: [microservices/monolith]
 - Transaction: [ACID requirements]
 - Performance: [latency targets]
 
 Business:
+
 - Compliance: [regulatory requirements]
 - SLA: [service level agreement]
 
 ## Success Criteria
 
 Functional:
+
 - All preconditions validated
 - All side effects executed in order
 - Rollback mechanism for failures
 
 Performance:
+
 - P50 < [Xms]
 - P95 < [Yms]
 - P99 < [Zms]
 
 Security:
+
 - [Security requirement 1]
 - [Security requirement 2]
 
 ## Test Scenarios
 
-| ID | Category | Scenario | Input | Expected | Status |
-|---|---|---|---|---|---|
-| TC-1 | Normal | [happy path] | [input] | [output] | Pending |
-| TC-2 | Error | [failure case] | [input] | [error] | Pending |
-| TC-3 | Edge | [boundary case] | [input] | [output] | Pending |
+| ID   | Category | Scenario        | Input   | Expected  | Status  |
+| ---- | -------- | --------------- | ------- | --------- | ------- |
+| TC-1 | Normal   | [happy path]    | [input] | [output]  | Pending |
+| TC-2 | Error    | [failure case]  | [input] | [error]   | Pending |
+| TC-3 | Edge     | [boundary case] | [input] | [output]  | Pending |
 | TC-4 | Security | [attack vector] | [input] | [blocked] | Pending |
 ```
 
@@ -149,27 +169,28 @@ Priority: Medium
 Assigned: expert-backend
 
 ## API Definition
-
 ```
+
 METHOD /api/v1/resource/{id}
 
 Headers:
-  Authorization: Bearer {token}
-  Content-Type: application/json
+Authorization: Bearer {token}
+Content-Type: application/json
 
 Path Parameters:
-  id: integer (1-999999)
+id: integer (1-999999)
 
 Query Parameters:
-  filter: string (optional)
-  sort: string (optional)
+filter: string (optional)
+sort: string (optional)
 
 Request Body:
 {
-  "field1": "value",
-  "field2": 123
+"field1": "value",
+"field2": 123
 }
-```
+
+````
 
 ## Requirements
 
@@ -202,22 +223,22 @@ Success (200 OK):
     "timestamp": "2025-12-07T10:00:00Z"
   }
 }
-```
+````
 
 Error (400 Bad Request):
+
 ```json
 {
   "error": "VALIDATION_ERROR",
   "message": "Field 'field1' is required",
-  "details": [
-    {"field": "field1", "issue": "required"}
-  ]
+  "details": [{ "field": "field1", "issue": "required" }]
 }
 ```
 
 ## Constraints
 
 Technical:
+
 - Rate Limit: 100 requests/minute per user
 - Timeout: 30 seconds
 - Max Payload: 1MB
@@ -230,12 +251,13 @@ Technical:
 
 ## Test Scenarios
 
-| ID | Scenario | Request | Expected | Status |
-|---|---|---|---|---|
-| TC-1 | Valid request | [full request] | 200 with data | Pending |
-| TC-2 | Missing auth | no header | 401 error | Pending |
-| TC-3 | Invalid schema | wrong type | 400 error | Pending |
-| TC-4 | Rate limit | 101 requests | 429 error | Pending |
+| ID   | Scenario       | Request        | Expected      | Status  |
+| ---- | -------------- | -------------- | ------------- | ------- |
+| TC-1 | Valid request  | [full request] | 200 with data | Pending |
+| TC-2 | Missing auth   | no header      | 401 error     | Pending |
+| TC-3 | Invalid schema | wrong type     | 400 error     | Pending |
+| TC-4 | Rate limit     | 101 requests   | 429 error     | Pending |
+
 ```
 
 ---
@@ -520,81 +542,87 @@ Technical:
 ### Sequential Integration (Single Feature)
 
 ```
+
 User Request
-    ↓
+↓
 /moai:1-plan "feature description"
-    ↓
+↓
 manager-spec creates SPEC-001
-    ↓
+↓
 /clear (token optimization)
-    ↓
+↓
 /moai:2-run SPEC-001
-    ↓
+↓
 manager-tdd implements with RED-GREEN-REFACTOR
-    ↓
+↓
 /moai:3-sync SPEC-001
-    ↓
+↓
 manager-docs updates documentation
-    ↓
+↓
 Feature Complete
+
 ```
 
 ### Parallel Integration (Multiple Features)
 
 ```
+
 User Request
-    ↓
+↓
 /moai:1-plan "feature1" "feature2" "feature3" --worktree
-    ↓
+↓
 manager-spec creates SPEC-001, SPEC-002, SPEC-003
-    ↓
+↓
 Git Worktree setup for parallel development
-    ↓
+↓
 /clear (token optimization)
-    ↓
+↓
 ┌─────────────┬─────────────┬─────────────┐
-│ Session 1   │ Session 2   │ Session 3   │
-│ SPEC-001    │ SPEC-002    │ SPEC-003    │
+│ Session 1 │ Session 2 │ Session 3 │
+│ SPEC-001 │ SPEC-002 │ SPEC-003 │
 │ /moai:2-run │ /moai:2-run │ /moai:2-run │
 └─────────────┴─────────────┴─────────────┘
-    ↓
+↓
 Worktree merge to main branch
-    ↓
+↓
 /moai:3-sync SPEC-001 SPEC-002 SPEC-003
-    ↓
+↓
 All Features Complete
+
 ```
 
 ### Dependency Chain Integration
 
 ```
+
 /moai:1-plan "database schema" --branch
-    ↓
+↓
 SPEC-001 created (foundation)
-    ↓
+↓
 /moai:2-run SPEC-001
-    ↓
+↓
 Database schema implemented
-    ↓
+↓
 /moai:1-plan "backend API" --branch
-    ↓
+↓
 SPEC-002 created (depends on SPEC-001)
-    ↓
+↓
 /moai:2-run SPEC-002
-    ↓
+↓
 Backend API implemented
-    ↓
+↓
 /moai:1-plan "frontend UI" --branch
-    ↓
+↓
 SPEC-003 created (depends on SPEC-002)
-    ↓
+↓
 /moai:2-run SPEC-003
-    ↓
+↓
 Frontend UI implemented
-    ↓
+↓
 /moai:3-sync SPEC-001 SPEC-002 SPEC-003
-    ↓
+↓
 Full Stack Feature Complete
+
 ```
 
 ---
@@ -702,3 +730,4 @@ Full Stack Feature Complete
 
 Version: 1.0.0
 Last Updated: 2025-12-07
+```

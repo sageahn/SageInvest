@@ -5,22 +5,23 @@
 ### Java 21 LTS (Long-Term Support)
 
 Version Information:
+
 - Latest: 21.0.5 (LTS, support until September 2031)
 - Key JEPs: 444 (Virtual Threads), 441 (Pattern Matching), 440 (Record Patterns)
 - JVM: HotSpot, GraalVM Native Image support
 
 Core Features Summary:
 
-| Feature | Status | JEP | Description |
-|---------|--------|-----|-------------|
-| Virtual Threads | Final | 444 | Lightweight threads for high-concurrency |
-| Pattern Matching for switch | Final | 441 | Type patterns with guards |
-| Record Patterns | Final | 440 | Destructuring in pattern matching |
-| Sealed Classes | Final | 409 | Restrict class hierarchies |
-| Sequenced Collections | Final | 431 | Ordered collection interfaces |
-| String Templates | Preview | 430 | Embedded expressions in strings |
-| Structured Concurrency | Preview | 453 | Scope-based concurrency |
-| Scoped Values | Preview | 446 | Immutable inherited values |
+| Feature                     | Status  | JEP | Description                              |
+| --------------------------- | ------- | --- | ---------------------------------------- |
+| Virtual Threads             | Final   | 444 | Lightweight threads for high-concurrency |
+| Pattern Matching for switch | Final   | 441 | Type patterns with guards                |
+| Record Patterns             | Final   | 440 | Destructuring in pattern matching        |
+| Sealed Classes              | Final   | 409 | Restrict class hierarchies               |
+| Sequenced Collections       | Final   | 431 | Ordered collection interfaces            |
+| String Templates            | Preview | 430 | Embedded expressions in strings          |
+| Structured Concurrency      | Preview | 453 | Scope-based concurrency                  |
+| Scoped Values               | Preview | 446 | Immutable inherited values               |
 
 ---
 
@@ -29,6 +30,7 @@ Core Features Summary:
 ### Spring Boot 3.3
 
 Key Features:
+
 - Native GraalVM compilation support
 - Virtual Threads integration
 - Observability with Micrometer
@@ -36,6 +38,7 @@ Key Features:
 - SSL Bundle support
 
 Configuration:
+
 ```properties
 # application.properties
 spring.threads.virtual.enabled=true
@@ -48,6 +51,7 @@ spring.jpa.show-sql=false
 ### Spring Security 6
 
 Key Features:
+
 - Lambda DSL configuration
 - OAuth2 Resource Server
 - JWT token validation
@@ -56,6 +60,7 @@ Key Features:
 ### Hibernate 7 / Jakarta Persistence
 
 Key Features:
+
 - Java 21 record support
 - Improved batch processing
 - StatelessSession for bulk operations
@@ -66,6 +71,7 @@ Key Features:
 ## Context7 Library Mappings
 
 ### Spring Ecosystem
+
 ```
 /spring-projects/spring-boot - Spring Boot framework
 /spring-projects/spring-framework - Spring Core framework
@@ -75,6 +81,7 @@ Key Features:
 ```
 
 ### Persistence
+
 ```
 /hibernate/hibernate-orm - Hibernate ORM
 /querydsl/querydsl - Type-safe queries
@@ -83,6 +90,7 @@ Key Features:
 ```
 
 ### Testing
+
 ```
 /junit-team/junit5 - JUnit 5 testing
 /mockito/mockito - Mocking framework
@@ -91,12 +99,14 @@ Key Features:
 ```
 
 ### Build Tools
+
 ```
 /gradle/gradle - Build automation
 /apache/maven - Project management
 ```
 
 ### Utilities
+
 ```
 /resilience4j/resilience4j - Fault tolerance
 /open-telemetry/opentelemetry-java - Observability
@@ -110,25 +120,25 @@ Key Features:
 
 ### JVM Startup and Memory
 
-| Runtime | Cold Start | Warm Start | Base Memory | With GraalVM Native |
-|---------|------------|------------|-------------|---------------------|
-| Java 21 (HotSpot) | 2-5s | <100ms | 256MB+ | 50-100ms, 64MB |
-| Spring Boot 3.3 | 3-6s | <100ms | 512MB+ | 100-200ms, 128MB |
+| Runtime           | Cold Start | Warm Start | Base Memory | With GraalVM Native |
+| ----------------- | ---------- | ---------- | ----------- | ------------------- |
+| Java 21 (HotSpot) | 2-5s       | <100ms     | 256MB+      | 50-100ms, 64MB      |
+| Spring Boot 3.3   | 3-6s       | <100ms     | 512MB+      | 100-200ms, 128MB    |
 
 ### Throughput Benchmarks
 
-| Framework | Requests/sec | Latency P99 | Memory Usage |
-|-----------|-------------|-------------|--------------|
-| Spring Boot 3.3 (Virtual Threads) | 150K | 2ms | 512MB |
-| Spring WebFlux | 180K | 1.5ms | 384MB |
-| Spring MVC (Thread Pool) | 80K | 5ms | 768MB |
+| Framework                         | Requests/sec | Latency P99 | Memory Usage |
+| --------------------------------- | ------------ | ----------- | ------------ |
+| Spring Boot 3.3 (Virtual Threads) | 150K         | 2ms         | 512MB        |
+| Spring WebFlux                    | 180K         | 1.5ms       | 384MB        |
+| Spring MVC (Thread Pool)          | 80K          | 5ms         | 768MB        |
 
 ### Compilation Times
 
 | Build Tool | Clean Build | Incremental | With Cache |
-|------------|------------|-------------|------------|
-| Maven 3.9 | 30-60s | 5-10s | 15-30s |
-| Gradle 8.5 | 20-40s | 3-8s | 10-20s |
+| ---------- | ----------- | ----------- | ---------- |
+| Maven 3.9  | 30-60s      | 5-10s       | 15-30s     |
+| Gradle 8.5 | 20-40s      | 3-8s        | 10-20s     |
 
 ---
 
@@ -136,13 +146,14 @@ Key Features:
 
 ### IDE Support
 
-| IDE | Java Support | Spring Support | Best For |
-|-----|--------------|----------------|----------|
-| IntelliJ IDEA | Excellent | Excellent | Enterprise development |
-| VS Code | Good | Good | Lightweight editing |
-| Eclipse | Good | Good | Legacy projects |
+| IDE           | Java Support | Spring Support | Best For               |
+| ------------- | ------------ | -------------- | ---------------------- |
+| IntelliJ IDEA | Excellent    | Excellent      | Enterprise development |
+| VS Code       | Good         | Good           | Lightweight editing    |
+| Eclipse       | Good         | Good           | Legacy projects        |
 
 ### Recommended IntelliJ Plugins
+
 - Spring Boot Assistant
 - JPA Buddy
 - TestContainers
@@ -151,12 +162,12 @@ Key Features:
 
 ### Linters and Formatters
 
-| Tool | Purpose | Config File |
-|------|---------|-------------|
-| Checkstyle | Code style | checkstyle.xml |
-| SpotBugs | Bug detection | spotbugs-exclude.xml |
-| PMD | Code analysis | ruleset.xml |
-| google-java-format | Formatting | N/A (convention) |
+| Tool               | Purpose       | Config File          |
+| ------------------ | ------------- | -------------------- |
+| Checkstyle         | Code style    | checkstyle.xml       |
+| SpotBugs           | Bug detection | spotbugs-exclude.xml |
+| PMD                | Code analysis | ruleset.xml          |
+| google-java-format | Formatting    | N/A (convention)     |
 
 ---
 
@@ -201,11 +212,11 @@ containers:
     image: myapp:latest
     resources:
       requests:
-        memory: "512Mi"
-        cpu: "500m"
+        memory: '512Mi'
+        cpu: '500m'
       limits:
-        memory: "1Gi"
-        cpu: "1000m"
+        memory: '1Gi'
+        cpu: '1000m'
     env:
       - name: JAVA_OPTS
         value: >-
@@ -262,24 +273,28 @@ java { toolchain { languageVersion = JavaLanguageVersion.of(21) } }
 ## Best Practices
 
 ### Code Style
+
 - Use records for DTOs and value objects
 - Prefer sealed interfaces for type hierarchies
 - Use pattern matching in switch expressions
 - Apply virtual threads for I/O-bound operations
 
 ### Spring Boot
+
 - Use constructor injection (no @Autowired on constructors)
 - Apply @Transactional at service layer
 - Use records for request/response DTOs
 - Configure proper connection pooling
 
 ### Testing
+
 - Use JUnit 5 nested tests for organization
 - Apply @DisplayName for readable test names
 - Use TestContainers for integration tests
 - Mock external dependencies with Mockito
 
 ### Security
+
 - Never store passwords in plain text
 - Use BCrypt for password hashing
 - Validate all input data

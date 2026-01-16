@@ -462,30 +462,37 @@ impl IntoResponse for AppError {
 ## Context7 Library Mappings
 
 Core Language:
+
 - `/rust-lang/rust` - Rust language and stdlib
 - `/rust-lang/cargo` - Package manager
 
 Async Runtime:
+
 - `/tokio-rs/tokio` - Tokio async runtime
 - `/async-rs/async-std` - async-std runtime
 
 Web Frameworks:
+
 - `/tokio-rs/axum` - Axum web framework
 - `/actix/actix-web` - Actix-web framework
 
 Serialization:
+
 - `/serde-rs/serde` - Serialization framework
 - `/serde-rs/json` - JSON serialization
 
 Database:
+
 - `/launchbadge/sqlx` - SQLx async SQL
 - `/diesel-rs/diesel` - Diesel ORM
 
 Error Handling:
+
 - `/dtolnay/thiserror` - Error derive
 - `/dtolnay/anyhow` - Error handling
 
 CLI:
+
 - `/clap-rs/clap` - CLI parser
 
 ---

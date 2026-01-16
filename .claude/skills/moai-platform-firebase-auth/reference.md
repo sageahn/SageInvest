@@ -23,6 +23,7 @@ This provides access to the most current API documentation, breaking changes, an
 Navigate to Firebase Console at console.firebase.google.com, select your project, then go to Authentication section.
 
 Sign-in Method Configuration:
+
 - Enable desired providers under Sign-in method tab
 - Configure OAuth credentials for social providers
 - Set up authorized domains for web applications
@@ -31,30 +32,36 @@ Sign-in Method Configuration:
 ### OAuth Provider Configuration
 
 Google Sign-In:
+
 - Automatically configured with Firebase project
 - Configure OAuth consent screen in Google Cloud Console
 - Add authorized domains and redirect URIs
 
 Facebook Login:
+
 - Create Facebook App at developers.facebook.com
 - Copy App ID and App Secret to Firebase Console
 - Configure OAuth redirect URI from Firebase Console
 
 Apple Sign-In:
+
 - Enable Sign In with Apple in Apple Developer Console
 - Configure Service ID for web authentication
 - Generate private key for server-to-server communication
 - Add team ID, key ID, and private key to Firebase Console
 
 Twitter/X:
+
 - Create Twitter App at developer.twitter.com
 - Copy API Key and API Secret to Firebase Console
 
 GitHub:
+
 - Create GitHub OAuth App at github.com/settings/developers
 - Copy Client ID and Client Secret to Firebase Console
 
 Microsoft:
+
 - Register application in Azure Portal
 - Configure as multi-tenant or single-tenant
 - Copy Application ID and Client Secret to Firebase Console
@@ -71,7 +78,7 @@ import { getAuth } from 'firebase-admin/auth';
 
 // Initialize with service account
 initializeApp({
-  credential: cert('./service-account-key.json')
+  credential: cert('./service-account-key.json'),
 });
 
 // Or use default credentials (Cloud Functions, Cloud Run)
@@ -178,13 +185,16 @@ import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 
 // On user creation
 export const onUserCreate = auth.user().onCreate(async (user) => {
-  await getFirestore().collection('users').doc(user.uid).set({
-    email: user.email,
-    displayName: user.displayName,
-    photoURL: user.photoURL,
-    createdAt: FieldValue.serverTimestamp(),
-    providers: user.providerData.map(p => p.providerId)
-  });
+  await getFirestore()
+    .collection('users')
+    .doc(user.uid)
+    .set({
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      createdAt: FieldValue.serverTimestamp(),
+      providers: user.providerData.map((p) => p.providerId),
+    });
 });
 
 // On user deletion
@@ -199,7 +209,7 @@ export const onUserDelete = auth.user().onDelete(async (user) => {
     .where('userId', '==', user.uid)
     .get();
 
-  userDocs.forEach(doc => batch.delete(doc.ref));
+  userDocs.forEach((doc) => batch.delete(doc.ref));
 
   await batch.commit();
 });
@@ -221,7 +231,7 @@ export const validateUserCreate = beforeUserCreated((event) => {
 
   // Set initial claims
   return {
-    customClaims: { role: 'member' }
+    customClaims: { role: 'member' },
   };
 });
 
@@ -247,7 +257,7 @@ import {
   setPersistence,
   browserLocalPersistence,
   browserSessionPersistence,
-  inMemoryPersistence
+  inMemoryPersistence,
 } from 'firebase/auth';
 
 // Persist across browser sessions (default)
@@ -272,7 +282,7 @@ res.cookie('session', sessionCookie, {
   maxAge: expiresIn,
   httpOnly: true,
   secure: true,
-  sameSite: 'strict'
+  sameSite: 'strict',
 });
 
 // Verify session cookie
@@ -296,16 +306,19 @@ if (process.env.NODE_ENV === 'development') {
 ### Emulator Features
 
 Test Phone Numbers:
+
 - Configure test phone numbers in Firebase Console
 - Use any 6-digit code for verification
 - No actual SMS sent
 
 Emulator UI:
+
 - Access at localhost:4000 when running emulator suite
 - View and manage test users
 - Inspect authentication state
 
 Programmatic User Creation:
+
 - Create users via Emulator REST API
 - Useful for test setup
 
@@ -314,21 +327,25 @@ Programmatic User Creation:
 ## Security Best Practices
 
 Token Validation:
+
 - Always verify ID tokens server-side for sensitive operations
 - Check token expiration and issuer claims
 - Use Admin SDK verifyIdToken method
 
 Rate Limiting:
+
 - Firebase automatically rate limits authentication requests
 - Implement additional rate limiting for sensitive operations
 - Monitor failed authentication attempts
 
 Secure Configuration:
+
 - Never expose service account keys in client code
 - Use environment variables for sensitive configuration
 - Rotate API keys periodically
 
 Custom Claims Security:
+
 - Never trust client-provided claims
 - Validate claims server-side before granting access
 - Use Security Rules for claim-based access control
@@ -338,6 +355,7 @@ Custom Claims Security:
 ## Error Codes Reference
 
 Common Authentication Errors:
+
 - auth/user-not-found: No user with provided identifier
 - auth/wrong-password: Invalid password
 - auth/email-already-in-use: Email already registered
@@ -348,12 +366,14 @@ Common Authentication Errors:
 - auth/network-request-failed: Network connectivity issue
 
 Social Provider Errors:
+
 - auth/popup-closed-by-user: User closed popup before completion
 - auth/popup-blocked: Browser blocked popup window
 - auth/account-exists-with-different-credential: Email linked to different provider
 - auth/cancelled-popup-request: Multiple popup requests
 
 Phone Auth Errors:
+
 - auth/invalid-phone-number: Malformed phone number
 - auth/invalid-verification-code: Wrong SMS code
 - auth/code-expired: Verification code expired
@@ -364,14 +384,17 @@ Phone Auth Errors:
 ## Platform SDK Versions
 
 Web SDK:
+
 - Firebase JS SDK v9+ (modular)
 - Legacy v8 (compat mode available)
 
 Mobile SDKs:
+
 - iOS: FirebaseAuth via Swift Package Manager or CocoaPods
 - Android: firebase-auth via Gradle
 
 Cross-Platform:
+
 - Flutter: firebase_auth package
 - React Native: @react-native-firebase/auth
 

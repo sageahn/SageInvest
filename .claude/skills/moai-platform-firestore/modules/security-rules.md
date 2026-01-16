@@ -24,6 +24,7 @@ Always use `rules_version = '2'` for access to all current features including re
 ### Match Statements
 
 Single Document Match:
+
 ```javascript
 match /users/{userId} {
   allow read, write: if request.auth.uid == userId;
@@ -31,6 +32,7 @@ match /users/{userId} {
 ```
 
 Subcollection Match:
+
 ```javascript
 match /organizations/{orgId}/projects/{projectId} {
   allow read: if isOrgMember(orgId);
@@ -38,6 +40,7 @@ match /organizations/{orgId}/projects/{projectId} {
 ```
 
 Recursive Wildcard (match all subcollections):
+
 ```javascript
 match /organizations/{orgId}/{document=**} {
   allow read: if isOrgMember(orgId);
@@ -80,13 +83,13 @@ match /internal/{document=**} {
 ### Setting Custom Claims (Admin SDK)
 
 ```typescript
-import { getAuth } from 'firebase-admin/auth'
+import { getAuth } from 'firebase-admin/auth';
 
 await getAuth().setCustomUserClaims(userId, {
   admin: true,
   organizationId: 'org-123',
-  role: 'editor'
-})
+  role: 'editor',
+});
 ```
 
 ### Reading Custom Claims in Rules
@@ -278,40 +281,44 @@ match /organizations/{orgId} {
 ### Firebase Emulator Testing
 
 ```typescript
-import { initializeTestEnvironment, assertSucceeds, assertFails } from '@firebase/rules-unit-testing'
-import { doc, getDoc, setDoc } from 'firebase/firestore'
+import {
+  initializeTestEnvironment,
+  assertSucceeds,
+  assertFails,
+} from '@firebase/rules-unit-testing';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 describe('Firestore Security Rules', () => {
-  let testEnv
+  let testEnv;
 
   beforeAll(async () => {
     testEnv = await initializeTestEnvironment({
       projectId: 'test-project',
       firestore: {
-        rules: fs.readFileSync('firestore.rules', 'utf8')
-      }
-    })
-  })
+        rules: fs.readFileSync('firestore.rules', 'utf8'),
+      },
+    });
+  });
 
   test('users can read their own document', async () => {
-    const userId = 'user-123'
-    const context = testEnv.authenticatedContext(userId)
-    const db = context.firestore()
+    const userId = 'user-123';
+    const context = testEnv.authenticatedContext(userId);
+    const db = context.firestore();
 
     await testEnv.withSecurityRulesDisabled(async (adminContext) => {
-      await setDoc(doc(adminContext.firestore(), 'users', userId), { name: 'Test' })
-    })
+      await setDoc(doc(adminContext.firestore(), 'users', userId), { name: 'Test' });
+    });
 
-    await assertSucceeds(getDoc(doc(db, 'users', userId)))
-  })
+    await assertSucceeds(getDoc(doc(db, 'users', userId)));
+  });
 
   test('users cannot read other user documents', async () => {
-    const context = testEnv.authenticatedContext('user-123')
-    const db = context.firestore()
+    const context = testEnv.authenticatedContext('user-123');
+    const db = context.firestore();
 
-    await assertFails(getDoc(doc(db, 'users', 'other-user')))
-  })
-})
+    await assertFails(getDoc(doc(db, 'users', 'other-user')));
+  });
+});
 ```
 
 ---

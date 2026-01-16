@@ -9,10 +9,7 @@ export async function POST() {
     const config = await configRepository.getConfig();
 
     if (!config) {
-      return NextResponse.json(
-        { error: 'Configuration not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Configuration not found' }, { status: 404 });
     }
 
     // Issue new token
@@ -25,9 +22,6 @@ export async function POST() {
     return NextResponse.json({ success: true, token });
   } catch (error) {
     console.error('Token refresh failed:', error);
-    return NextResponse.json(
-      { error: 'Failed to refresh token' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to refresh token' }, { status: 500 });
   }
 }

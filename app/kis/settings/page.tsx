@@ -51,7 +51,7 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
 
       setMessage({ type: 'success', text: 'KIS 설정이 저장되었습니다.' });
       setAppSecret('');
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: '설정 저장 중 오류가 발생했습니다.' });
     } finally {
       setLoading(false);
@@ -59,7 +59,7 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
   };
 
   const handleDelete = async () => {
-    if (typeof window !== "undefined" && !window.confirm('정말로 설정을 삭제하시겠습니까?')) {
+    if (typeof window !== 'undefined' && !window.confirm('정말로 설정을 삭제하시겠습니까?')) {
       return;
     }
 
@@ -77,7 +77,7 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
       setAppKey('');
       setAppSecret('');
       setMessage({ type: 'success', text: '설정이 삭제되었습니다.' });
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: '설정 삭제 중 오류가 발생했습니다.' });
     } finally {
       setLoading(false);
@@ -97,9 +97,12 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
         throw new Error('연결 테스트 실패');
       }
 
-      const data = await response.json() as { success: boolean; expires_at: string };
-      setMessage({ type: 'success', text: `연결 성공! 토큰 만료: ${new Date(data.expires_at).toLocaleString()}` });
-    } catch (error) {
+      const data = (await response.json()) as { success: boolean; expires_at: string };
+      setMessage({
+        type: 'success',
+        text: `연결 성공! 토큰 만료: ${new Date(data.expires_at).toLocaleString()}`,
+      });
+    } catch {
       setMessage({ type: 'error', text: '연결 테스트 실패' });
     } finally {
       setLoading(false);
@@ -114,9 +117,7 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
         <div className="space-y-6">
           {/* App Key Input */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              App Key
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">App Key</label>
             <input
               type="text"
               value={appKey}
@@ -125,16 +126,12 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               maxLength={36}
             />
-            <p className="text-sm text-gray-500 mt-1">
-              {appKey.length}/36 자
-            </p>
+            <p className="text-sm text-gray-500 mt-1">{appKey.length}/36 자</p>
           </div>
 
           {/* App Secret Input */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              App Secret
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">App Secret</label>
             <input
               type="password"
               value={appSecret}
@@ -143,19 +140,17 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               maxLength={180}
             />
-            <p className="text-sm text-gray-500 mt-1">
-              {appSecret.length}/180 자
-            </p>
+            <p className="text-sm text-gray-500 mt-1">{appSecret.length}/180 자</p>
           </div>
 
           {/* Environment Selection */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              환경
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">환경</label>
             <select
               value={environment}
-              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setEnvironment(e.target.value as 'production' | 'mock')}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                setEnvironment(e.target.value as 'production' | 'mock')
+              }
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="production">Production (실전)</option>

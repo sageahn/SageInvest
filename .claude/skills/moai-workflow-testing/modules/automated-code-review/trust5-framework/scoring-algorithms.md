@@ -86,6 +86,7 @@ def _get_severity_weight(self, severity: str) -> float:
 ### Confidence Factor
 
 Confidence factor (0.0-1.0) from detection algorithm:
+
 - High confidence (0.8+): Certain detections
 - Medium confidence (0.5-0.8): Probable issues
 - Low confidence (<0.5): Possible issues
@@ -176,6 +177,7 @@ def _calculate_trend_factor(
 ### Category Score Analysis
 
 Individual category scores identify specific improvement areas:
+
 - **Truthfulness < 0.7**: Logic correctness issues
 - **Relevance < 0.7**: Requirements alignment problems
 - **Usability < 0.7**: Maintainability concerns

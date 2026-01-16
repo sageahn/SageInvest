@@ -5,6 +5,7 @@ Auth0 Security Center provides real-time observability and threat response capab
 ## Overview
 
 Security Center is a centralized dashboard for:
+
 - Real-time threat monitoring
 - Attack protection configuration
 - Security metrics visualization
@@ -17,17 +18,20 @@ Access: Dashboard > Security > Security Center
 ### Real-Time Visibility
 
 Total Traffic Monitoring:
+
 - Authentication attempts
 - Signup requests
 - Password reset requests
 - Overall request volume
 
 Threat Counting:
+
 - Detected threats by category
 - Threat trends over time
 - Comparative analysis
 
 Application-Specific:
+
 - Per-application metrics
 - Identify targeted applications
 - Focus security efforts
@@ -35,17 +39,20 @@ Application-Specific:
 ### Filtering and Aggregation
 
 Time Period Selection:
+
 - Up to 14 days of data
 - Custom date ranges
 - Trend analysis
 
 Filter Options:
+
 - By application
 - By connection
 - By threat type
 - Combined filters
 
 Auto-Aggregation:
+
 - Per minute (short periods)
 - Per hour (medium periods)
 - Per day (longer periods)
@@ -57,12 +64,14 @@ Auto-Aggregation:
 Detection: Behavioral patterns indicating machine-driven credential submission attempts.
 
 Characteristics:
+
 - Automated login attempts
 - Multiple credentials tested
 - Bot-like behavior patterns
 - Account compromise attempts
 
 Metrics Shown:
+
 - Detection count
 - Trend over time
 - Affected applications
@@ -73,12 +82,14 @@ Metrics Shown:
 Detection: Patterns indicating automated account creation attempts.
 
 Characteristics:
+
 - High-velocity signups
 - Bot-driven registration
 - Fake account creation
 - Spam account patterns
 
 Metrics Shown:
+
 - Attack frequency
 - Volume trends
 - Target applications
@@ -89,12 +100,14 @@ Metrics Shown:
 Detection: Patterns indicating attempts to circumvent multi-factor authentication.
 
 Characteristics:
+
 - Repeated MFA failures
 - Unusual MFA patterns
 - Potential social engineering
 - Session manipulation attempts
 
 Metrics Shown:
+
 - Bypass attempt count
 - Challenge/response patterns
 - Affected users
@@ -105,12 +118,14 @@ Metrics Shown:
 ### Bot Detection
 
 Monitoring:
+
 - Detection counts
 - 7-day rolling view
 - Trigger frequency
 - Response effectiveness
 
 Configuration Access:
+
 - Quick settings access
 - Enable/disable
 - Sensitivity adjustment
@@ -118,12 +133,14 @@ Configuration Access:
 ### Suspicious IP Throttling
 
 Monitoring:
+
 - Throttling events
 - Blocked IP count
 - Rate limit triggers
 - Geographic distribution
 
 Configuration Access:
+
 - Threshold adjustment
 - AllowList management
 - Response settings
@@ -131,12 +148,14 @@ Configuration Access:
 ### Brute Force Protection
 
 Monitoring:
+
 - Account protection triggers
 - Blocked login attempts
 - Notification frequency
 - Unblock events
 
 Configuration Access:
+
 - Threshold settings
 - Notification options
 - AllowList management
@@ -144,12 +163,14 @@ Configuration Access:
 ### Breached Password Detection
 
 Monitoring:
+
 - Detection alerts
 - Blocked credential usage
 - User notifications sent
 - Admin alert frequency
 
 Configuration Access:
+
 - Detection settings
 - Response configuration
 - Notification settings
@@ -157,12 +178,14 @@ Configuration Access:
 ### Multi-Factor Authentication
 
 Monitoring:
+
 - MFA challenge count
 - Success rates
 - Failure rates
 - Factor usage distribution
 
 Configuration Access:
+
 - Factor management
 - Policy settings
 - Enrollment status
@@ -172,12 +195,14 @@ Configuration Access:
 ### Login Metrics
 
 Over Past 7 Days:
+
 - Total login attempts
 - Successful logins
 - Failed logins
 - Success rate percentage
 
 Breakdown Available:
+
 - By application
 - By connection
 - By time period
@@ -185,12 +210,14 @@ Breakdown Available:
 ### Signup Metrics
 
 Tracking:
+
 - Total signup attempts
 - Successful signups
 - Failed signups
 - Conversion rates
 
 Analysis:
+
 - Growth trends
 - Failure patterns
 - Spam detection
@@ -200,12 +227,14 @@ Analysis:
 ### Daily Monitoring
 
 Recommended Checks:
+
 - Review threat counts
 - Check for unusual patterns
 - Verify protection triggers
 - Monitor success rates
 
 Quick Actions:
+
 - Adjust thresholds
 - Enable/disable features
 - Investigate anomalies
@@ -213,6 +242,7 @@ Quick Actions:
 ### Threat Investigation
 
 When Threat Detected:
+
 1. Review threat category
 2. Analyze affected scope
 3. Check source patterns
@@ -222,6 +252,7 @@ When Threat Detected:
 ### Configuration Workflow
 
 From Security Center:
+
 1. Identify protection needs
 2. Click through to settings
 3. Configure appropriate protection
@@ -232,11 +263,13 @@ From Security Center:
 ### Understanding Counts
 
 Threat Counts:
+
 - Number of detected threats
 - Not necessarily attacks stopped
 - Indicates protection activity
 
 Traffic Counts:
+
 - Total authentication requests
 - Context for threat ratio
 - Baseline for comparison
@@ -244,16 +277,19 @@ Traffic Counts:
 ### Trend Analysis
 
 Increasing Trends:
+
 - May indicate attack increase
 - Could be traffic growth
 - Compare with baseline
 
 Decreasing Trends:
+
 - Protection effectiveness
 - Attack subsiding
 - Configuration changes
 
 Spikes:
+
 - Sudden attack activity
 - System issues
 - Investigate promptly
@@ -263,16 +299,19 @@ Spikes:
 ### Regular Review
 
 Daily:
+
 - Quick overview of threats
 - Check for spikes
 - Verify normal patterns
 
 Weekly:
+
 - Trend analysis
 - Configuration review
 - Threshold assessment
 
 Monthly:
+
 - Comprehensive review
 - Policy adjustments
 - Documentation update
@@ -280,6 +319,7 @@ Monthly:
 ### Alert Response
 
 When Threats Spike:
+
 1. Assess threat type
 2. Check protection status
 3. Verify blocking active
@@ -289,12 +329,14 @@ When Threats Spike:
 ### Threshold Optimization
 
 Balance:
+
 - Security vs. user experience
 - False positive rate
 - Attack prevention
 - Business requirements
 
 Process:
+
 1. Monitor current performance
 2. Identify issues
 3. Adjust incrementally
@@ -305,6 +347,7 @@ Process:
 ### Log Export
 
 For Advanced Analysis:
+
 - Export to SIEM
 - Custom dashboards
 - Long-term storage
@@ -312,6 +355,7 @@ For Advanced Analysis:
 ### Alerting
 
 Configure Notifications:
+
 - Threshold-based alerts
 - Email notifications
 - Integration with monitoring
@@ -319,6 +363,7 @@ Configure Notifications:
 ### Reporting
 
 Generate Reports:
+
 - Security posture
 - Threat trends
 - Protection effectiveness

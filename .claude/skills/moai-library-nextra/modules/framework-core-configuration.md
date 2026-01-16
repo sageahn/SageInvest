@@ -83,48 +83,42 @@ export default config
 
 ```javascript
 const withNextra = require('nextra')({
- theme: 'nextra-theme-docs',
- themeConfig: './theme.config.tsx',
- // Performance optimizations
- staticImage: true,
- flexibleSearch: true,
- defaultShowCopyCode: true,
- readingTime: true,
- // MDX configuration
- mdxOptions: {
- remarkPlugins: [
- require('remark-gfm'),
- require('remark-footnotes'),
- ],
- rehypePlugins: [
- require('rehype-slug'),
- require('rehype-autolink-headings'),
- ],
- },
-})
+  theme: 'nextra-theme-docs',
+  themeConfig: './theme.config.tsx',
+  // Performance optimizations
+  staticImage: true,
+  flexibleSearch: true,
+  defaultShowCopyCode: true,
+  readingTime: true,
+  // MDX configuration
+  mdxOptions: {
+    remarkPlugins: [require('remark-gfm'), require('remark-footnotes')],
+    rehypePlugins: [require('rehype-slug'), require('rehype-autolink-headings')],
+  },
+});
 
 module.exports = withNextra({
- // Next.js optimizations
- experimental: {
- appDir: true,
- serverComponentsExternalPackages: ['nextra'],
- },
- images: {
- domains: ['example.com'],
- formats: ['image/webp', 'image/avif'],
- },
- // Build performance
- swcMinify: true,
- compiler: {
- removeConsole: process.env.NODE_ENV === 'production',
- },
- // Static export configuration
- output: 'export',
- trailingSlash: true,
- images: {
- unoptimized: true,
- },
-})
+  // Next.js optimizations
+  experimental: {
+    appDir: true,
+    serverComponentsExternalPackages: ['nextra'],
+  },
+  images: {
+    domains: ['example.com'],
+    formats: ['image/webp', 'image/avif'],
+  },
+  // Build performance
+  swcMinify: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  // Static export configuration
+  output: 'export',
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
+});
 ```
 
 ## Custom Theme Development
@@ -139,13 +133,13 @@ export const customTheme: DocsThemeConfig = {
  h1: (props) => <h1 className="custom-heading" {...props} />,
  pre: (props) => <CodeBlock {...props} />,
  },
- 
+
  // Custom CSS
  primaryHue: {
  dark: 210,
  light: 210
  },
- 
+
  // Custom navigation
  navbar: {
  extraContent: () => <CustomNavButtons />
@@ -157,27 +151,27 @@ export const customTheme: DocsThemeConfig = {
 
 ```typescript
 // scripts/optimize-build.js
-const { execSync } = require('child_process')
+const { execSync } = require('child_process');
 
 function optimizeBuild() {
- // Clear Next.js cache
- execSync('rm -rf .next', { stdio: 'inherit' })
+  // Clear Next.js cache
+  execSync('rm -rf .next', { stdio: 'inherit' });
 
- // Generate search index incrementally
- execSync('node scripts/build-search-index.js --incremental', {
- stdio: 'inherit'
- })
+  // Generate search index incrementally
+  execSync('node scripts/build-search-index.js --incremental', {
+    stdio: 'inherit',
+  });
 
- // Optimize images
- execSync('node scripts/optimize-images.js', { stdio: 'inherit' })
+  // Optimize images
+  execSync('node scripts/optimize-images.js', { stdio: 'inherit' });
 }
 
 function optimizeOutput() {
- // Generate sitemap
- execSync('node scripts/generate-sitemap.js', { stdio: 'inherit' })
+  // Generate sitemap
+  execSync('node scripts/generate-sitemap.js', { stdio: 'inherit' });
 
- // Compress static assets
- execSync('gzip -k -r out/', { stdio: 'inherit' })
+  // Compress static assets
+  execSync('gzip -k -r out/', { stdio: 'inherit' });
 }
 ```
 

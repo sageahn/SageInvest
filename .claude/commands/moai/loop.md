@@ -1,6 +1,6 @@
 ---
-description: "Agentic autonomous loop - Auto-fix until completion marker"
-argument-hint: "[--max N] [--auto] [--seq] | --resume snapshot"
+description: 'Agentic autonomous loop - Auto-fix until completion marker'
+argument-hint: '[--max N] [--auto] [--seq] | --resume snapshot'
 type: utility
 allowed-tools: Task, AskUserQuestion, TodoWrite, Bash, Read, Write, Edit, Glob, Grep
 model: inherit
@@ -63,14 +63,14 @@ Arguments: $ARGUMENTS
 
 ## Command Options
 
-| Option | Alias | Description | Default |
-|--------|-------|-------------|---------|
-| `--max N` | --max-iterations | Maximum iteration count | 100 |
-| `--auto` | --auto-fix | Enable auto-fix | Level 1 |
-| `--sequential` | --seq | Sequential diagnostics (for debugging) | Parallel |
-| `--errors` | --errors-only | Fix errors only | All |
-| `--coverage` | --include-coverage | Include coverage | 85% |
-| `--resume ID` | --resume-from | Restore from snapshot | - |
+| Option         | Alias              | Description                            | Default  |
+| -------------- | ------------------ | -------------------------------------- | -------- |
+| `--max N`      | --max-iterations   | Maximum iteration count                | 100      |
+| `--auto`       | --auto-fix         | Enable auto-fix                        | Level 1  |
+| `--sequential` | --seq              | Sequential diagnostics (for debugging) | Parallel |
+| `--errors`     | --errors-only      | Fix errors only                        | All      |
+| `--coverage`   | --include-coverage | Include coverage                       | 85%      |
+| `--resume ID`  | --resume-from      | Restore from snapshot                  | -        |
 
 ## Completion Promise
 
@@ -83,6 +83,7 @@ Resolved 5 errors, 3 warnings in 7 iterations. <moai>DONE</moai>
 ```
 
 **Marker Types**:
+
 - `<moai>DONE</moai>` - Task complete
 - `<moai>COMPLETE</moai>` - Full completion
 - `<moai:done />` - XML format
@@ -190,12 +191,12 @@ WHY: Using TodoWrite tool allows users to track progress in real-time.
 
 ## Auto-Fix Levels
 
-| Level | Description | Approval | Examples |
-|-------|-------------|----------|----------|
-| 1 | Immediate fix | Not required | import sort, whitespace |
-| 2 | Safe fix | Log only | rename var, add type |
-| 3 | Approval needed | Required | logic change, API modify |
-| 4 | Manual required | Not allowed | security, architecture |
+| Level | Description     | Approval     | Examples                 |
+| ----- | --------------- | ------------ | ------------------------ |
+| 1     | Immediate fix   | Not required | import sort, whitespace  |
+| 2     | Safe fix        | Log only     | rename var, add type     |
+| 3     | Approval needed | Required     | logic change, API modify |
+| 4     | Manual required | Not allowed  | security, architecture   |
 
 ## Output Format
 
@@ -205,12 +206,14 @@ WHY: Using TodoWrite tool allows users to track progress in real-time.
 ## Loop: 3/100 (parallel)
 
 ### Diagnostics (0.8s)
+
 - LSP: 2 errors, 5 warnings
 - AST-grep: 0 security issues
 - Tests: 23/25 passing
 - Coverage: 82%
 
 ### TODO
+
 1. [x] src/auth.py:45 - undefined 'jwt_token'
 2. [in_progress] src/auth.py:67 - missing return
 3. [ ] tests/test_auth.py:12 - unused 'result'
@@ -224,6 +227,7 @@ Fixing...
 ## Loop: COMPLETE
 
 ### Summary
+
 - Iterations: 7
 - Errors fixed: 5
 - Warnings fixed: 3
@@ -231,6 +235,7 @@ Fixing...
 - Coverage: 87%
 
 ### Files Modified
+
 - src/auth.py (7 fixes)
 - tests/test_auth.py (3 fixes)
 - src/api/routes.py (2 fixes)
@@ -244,12 +249,14 @@ Fixing...
 ## Loop: MAX REACHED (100/100)
 
 ### Remaining
+
 - Errors: 1
 - Warnings: 2
 
 ### Options
-1. /moai:loop --max 200  # Continue
-2. /moai:fix             # Single run
+
+1. /moai:loop --max 200 # Continue
+2. /moai:fix # Single run
 3. Manual fix
 ```
 
@@ -303,58 +310,55 @@ Fixing...
 
 ## EXECUTION DIRECTIVE
 
-1. Parse $ARGUMENTS (extract --max, --auto, --sequential, --errors, --coverage, --resume flags)
+1.  Parse $ARGUMENTS (extract --max, --auto, --sequential, --errors, --coverage, --resume flags)
 
-2. IF --resume flag: Load state from specified snapshot and continue from saved iteration
+2.  IF --resume flag: Load state from specified snapshot and continue from saved iteration
 
-3. Detect project language from indicator files (pyproject.toml, package.json, go.mod, Cargo.toml)
+3.  Detect project language from indicator files (pyproject.toml, package.json, go.mod, Cargo.toml)
 
-4. Initialize iteration counter to 0
+4.  Initialize iteration counter to 0
 
-5. LOOP START (while iteration less than max):
+5.  LOOP START (while iteration less than max):
 
-   5a. Check for completion marker in previous response:
-       - If DONE, COMPLETE, or done marker found: Exit loop with success
+    5a. Check for completion marker in previous response: - If DONE, COMPLETE, or done marker found: Exit loop with success
 
-   5b. Execute diagnostic scan:
+    5b. Execute diagnostic scan:
 
-       IF --sequential flag is specified:
+        IF --sequential flag is specified:
 
-       - Run LSP, then AST-grep, then Tests, then Coverage sequentially
+        - Run LSP, then AST-grep, then Tests, then Coverage sequentially
 
-       ELSE (default parallel mode):
+        ELSE (default parallel mode):
 
-       - Launch all four diagnostic tools in parallel using Bash with run_in_background:
-         - Task 1: LSP diagnostics for detected language
-         - Task 2: AST-grep scan with sgconfig.yml rules
-         - Task 3: Test runner for detected language
-         - Task 4: Coverage measurement for detected language
+        - Launch all four diagnostic tools in parallel using Bash with run_in_background:
+          - Task 1: LSP diagnostics for detected language
+          - Task 2: AST-grep scan with sgconfig.yml rules
+          - Task 3: Test runner for detected language
+          - Task 4: Coverage measurement for detected language
 
-       - Collect results using TaskOutput for each background task
+        - Collect results using TaskOutput for each background task
 
-       - Aggregate results into unified diagnostic report
+        - Aggregate results into unified diagnostic report
 
-   5c. Check completion conditions:
-       - Zero errors AND all tests passing AND coverage meets threshold
-       - If all conditions met: Prompt user to add completion marker or continue
+    5c. Check completion conditions: - Zero errors AND all tests passing AND coverage meets threshold - If all conditions met: Prompt user to add completion marker or continue
 
-   5d. [HARD] Call TodoWrite tool to add newly discovered issues with pending status
+    5d. [HARD] Call TodoWrite tool to add newly discovered issues with pending status
 
-   5e. [HARD] Before each fix, call TodoWrite to change item to in_progress
+    5e. [HARD] Before each fix, call TodoWrite to change item to in_progress
 
-   5f. Execute fixes based on --auto level (Level 1-3)
+    5f. Execute fixes based on --auto level (Level 1-3)
 
-   5g. [HARD] After each fix completion, call TodoWrite to change item to completed
+    5g. [HARD] After each fix completion, call TodoWrite to change item to completed
 
-   5h. Save iteration snapshot to .moai/cache/ralph-snapshots/
+    5h. Save iteration snapshot to .moai/cache/ralph-snapshots/
 
-   5i. Increment iteration counter
+    5i. Increment iteration counter
 
-6. LOOP END
+6.  LOOP END
 
-7. IF max iterations reached without completion: Display remaining issues and options
+7.  IF max iterations reached without completion: Display remaining issues and options
 
-8. Report final summary with evidence
+8.  Report final summary with evidence
 
 ---
 

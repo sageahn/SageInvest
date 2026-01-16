@@ -1,16 +1,22 @@
 ---
-name: "moai-tool-ast-grep"
-description: "AST-based structural code search, security scanning, and refactoring using ast-grep (sg CLI). Supports 40+ languages with pattern matching and code transformation."
+name: 'moai-tool-ast-grep'
+description: 'AST-based structural code search, security scanning, and refactoring using ast-grep (sg CLI). Supports 40+ languages with pattern matching and code transformation.'
 version: 1.2.0
-category: "tool"
+category: 'tool'
 modularized: true
 user-invocable: false
 context: fork
 agent: Explore
 tags: ['ast', 'refactoring', 'code-search', 'lint', 'structural-search', 'security', 'codemod']
-related-skills: ['moai-workflow-testing', 'moai-foundation-quality', 'moai-domain-backend', 'moai-domain-frontend']
+related-skills:
+  [
+    'moai-workflow-testing',
+    'moai-foundation-quality',
+    'moai-domain-backend',
+    'moai-domain-frontend',
+  ]
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Grep
@@ -90,7 +96,7 @@ Single node capture uses $NAME syntax. For example, pattern const $NAME = requir
 
 Variadic capture uses $$$ARGS syntax. For example, pattern function $NAME($$$ARGS) captures function name and all arguments.
 
-Anonymous single capture uses $$_ syntax when you need to match but not reference the value.
+Anonymous single capture uses $$\_ syntax when you need to match but not reference the value.
 
 ### Code Transformation
 
@@ -152,13 +158,13 @@ Language-specific patterns are detailed in modules/language-specific.md.
 
 For latest AST-Grep documentation, follow this two-step process.
 
-Step 1: Use mcp__context7__resolve-library-id with query ast-grep to resolve the library identifier.
+Step 1: Use mcp**context7**resolve-library-id with query ast-grep to resolve the library identifier.
 
-Step 2: Use mcp__context7__get-library-docs with the resolved library ID to fetch current documentation.
+Step 2: Use mcp**context7**get-library-docs with the resolved library ID to fetch current documentation.
 
 ### MoAI-ADK Integration
 
-AST-Grep is integrated into MoAI-ADK through the Tool Registry as AST_ANALYZER type in tool_registry.py, PostToolUse Hook for automatic security scanning after Write/Edit operations, and Permissions with Bash(sg:*) and Bash(ast-grep:*) auto-allowed.
+AST-Grep is integrated into MoAI-ADK through the Tool Registry as AST_ANALYZER type in tool_registry.py, PostToolUse Hook for automatic security scanning after Write/Edit operations, and Permissions with Bash(sg:_) and Bash(ast-grep:_) auto-allowed.
 
 ### Running Scans
 

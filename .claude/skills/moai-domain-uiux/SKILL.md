@@ -1,22 +1,13 @@
 ---
-name: "moai-domain-uiux"
-description: "Domain UI/UX Expert - Enterprise design systems, component architecture, accessibility, icons, and theming integration"
+name: 'moai-domain-uiux'
+description: 'Domain UI/UX Expert - Enterprise design systems, component architecture, accessibility, icons, and theming integration'
 version: 2.0.0
-category: "domain"
+category: 'domain'
 modularized: true
 user-invocable: false
-tags:
-  [
-    "domain",
-    "uiux",
-    "design-systems",
-    "accessibility",
-    "components",
-    "icons",
-    "theming",
-  ]
+tags: ['domain', 'uiux', 'design-systems', 'accessibility', 'components', 'icons', 'theming']
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Grep

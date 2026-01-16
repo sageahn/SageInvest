@@ -20,7 +20,7 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   User,
-  UserCredential
+  UserCredential,
 } from 'firebase/auth';
 
 class AuthService {
@@ -284,16 +284,16 @@ export const listUsers = onCall(async (request) => {
   const listResult = await getAuth().listUsers(pageSize, pageToken);
 
   return {
-    users: listResult.users.map(user => ({
+    users: listResult.users.map((user) => ({
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
       disabled: user.disabled,
       emailVerified: user.emailVerified,
       customClaims: user.customClaims,
-      createdAt: user.metadata.creationTime
+      createdAt: user.metadata.creationTime,
     })),
-    pageToken: listResult.pageToken
+    pageToken: listResult.pageToken,
   };
 });
 
@@ -316,7 +316,7 @@ export const setUserRole = onCall(async (request) => {
 
   await getAuth().setCustomUserClaims(uid, {
     ...currentClaims,
-    role
+    role,
   });
 
   // Log the change
@@ -325,7 +325,7 @@ export const setUserRole = onCall(async (request) => {
     targetUid: uid,
     newRole: role,
     performedBy: request.auth.uid,
-    timestamp: FieldValue.serverTimestamp()
+    timestamp: FieldValue.serverTimestamp(),
   });
 
   return { success: true };
@@ -341,12 +341,14 @@ export const disableUser = onCall(async (request) => {
 
   await getAuth().updateUser(uid, { disabled });
 
-  await getFirestore().collection('auditLogs').add({
-    action: disabled ? 'DISABLE_USER' : 'ENABLE_USER',
-    targetUid: uid,
-    performedBy: request.auth.uid,
-    timestamp: FieldValue.serverTimestamp()
-  });
+  await getFirestore()
+    .collection('auditLogs')
+    .add({
+      action: disabled ? 'DISABLE_USER' : 'ENABLE_USER',
+      targetUid: uid,
+      performedBy: request.auth.uid,
+      timestamp: FieldValue.serverTimestamp(),
+    });
 
   return { success: true };
 });
@@ -438,11 +440,7 @@ async function verifyToken(
 }
 
 // Middleware to require admin
-function requireAdmin(
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) {
+function requireAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
   if (!req.user?.admin) {
     return res.status(403).json({ error: 'Admin required' });
   }
@@ -470,7 +468,7 @@ import {
   linkWithCredential,
   EmailAuthProvider,
   GoogleAuthProvider,
-  linkWithPopup
+  linkWithPopup,
 } from 'firebase/auth';
 
 // Start as anonymous

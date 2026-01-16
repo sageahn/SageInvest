@@ -9,6 +9,7 @@ Progressive Disclosure Level 2: Extended documentation for advanced users and in
 ### Core Classes
 
 MoaiMenuProject:
+
 - Purpose: Unified interface for all project management operations
 - Initialization: `MoaiMenuProject(project_path: str)`
 - Primary Methods:
@@ -19,6 +20,7 @@ MoaiMenuProject:
   - `update_language_settings(settings)` - Language configuration update
 
 DocumentationManager:
+
 - Purpose: Template-based documentation generation
 - Key Methods:
   - `generate_docs(project_type, language)` - Generate documentation set
@@ -27,6 +29,7 @@ DocumentationManager:
   - `detect_project_type()` - Auto-detect project type
 
 LanguageInitializer:
+
 - Purpose: Language detection and configuration
 - Key Methods:
   - `detect_project_language()` - Analyze project for language
@@ -35,6 +38,7 @@ LanguageInitializer:
   - `calculate_token_cost_impact(language)` - Token cost analysis
 
 TemplateOptimizer:
+
 - Purpose: Template analysis and optimization
 - Key Methods:
   - `analyze_project_templates()` - Comprehensive template analysis
@@ -50,47 +54,47 @@ TemplateOptimizer:
 
 ```yaml
 project:
-  name: "string"              # Project display name
-  type: "string"              # web_application, mobile_app, cli_tool, library, ml_project
-  initialized_at: "datetime"  # ISO 8601 timestamp
-  version: "string"           # Semantic version
+  name: 'string' # Project display name
+  type: 'string' # web_application, mobile_app, cli_tool, library, ml_project
+  initialized_at: 'datetime' # ISO 8601 timestamp
+  version: 'string' # Semantic version
 
 language:
-  conversation_language: "string"   # en, ko, ja, zh, es, fr, de
-  agent_prompt_language: "string"   # english (cost-optimized) or localized
-  documentation_language: "string"  # Primary documentation language
-  code_comments: "string"           # Code comment language
+  conversation_language: 'string' # en, ko, ja, zh, es, fr, de
+  agent_prompt_language: 'string' # english (cost-optimized) or localized
+  documentation_language: 'string' # Primary documentation language
+  code_comments: 'string' # Code comment language
 
 menu_system:
-  version: "string"           # Menu system version
-  fully_initialized: boolean  # Complete initialization status
-  modules_enabled: []         # List of enabled modules
+  version: 'string' # Menu system version
+  fully_initialized: boolean # Complete initialization status
+  modules_enabled: [] # List of enabled modules
 ```
 
 ### Optimization Options Schema
 
 ```yaml
-backup_first: boolean                    # Create backup before optimization
-apply_size_optimizations: boolean        # Reduce template file sizes
+backup_first: boolean # Create backup before optimization
+apply_size_optimizations: boolean # Reduce template file sizes
 apply_performance_optimizations: boolean # Improve template performance
-apply_complexity_optimizations: boolean  # Reduce template complexity
-preserve_functionality: boolean          # Maintain all existing features
-max_complexity_score: number             # Maximum allowed complexity (1-10)
+apply_complexity_optimizations: boolean # Reduce template complexity
+preserve_functionality: boolean # Maintain all existing features
+max_complexity_score: number # Maximum allowed complexity (1-10)
 ```
 
 ### Language Configuration Presets
 
 Supported Languages with Token Impact:
 
-| Language | Code | Locale       | Token Cost Impact |
-|----------|------|--------------|-------------------|
-| English  | en   | en_US.UTF-8  | 0% (baseline)     |
-| Korean   | ko   | ko_KR.UTF-8  | +20%              |
-| Japanese | ja   | ja_JP.UTF-8  | +25%              |
-| Chinese  | zh   | zh_CN.UTF-8  | +15%              |
-| Spanish  | es   | es_ES.UTF-8  | +5%               |
-| French   | fr   | fr_FR.UTF-8  | +5%               |
-| German   | de   | de_DE.UTF-8  | +5%               |
+| Language | Code | Locale      | Token Cost Impact |
+| -------- | ---- | ----------- | ----------------- |
+| English  | en   | en_US.UTF-8 | 0% (baseline)     |
+| Korean   | ko   | ko_KR.UTF-8 | +20%              |
+| Japanese | ja   | ja_JP.UTF-8 | +25%              |
+| Chinese  | zh   | zh_CN.UTF-8 | +15%              |
+| Spanish  | es   | es_ES.UTF-8 | +5%               |
+| French   | fr   | fr_FR.UTF-8 | +5%               |
+| German   | de   | de_DE.UTF-8 | +5%               |
 
 ---
 
@@ -192,26 +196,31 @@ def delegate_with_language_context(task: str, language: str):
 ### Common Issues
 
 Issue: Documentation generation fails with template not found:
+
 - Cause: Template directory missing or corrupted
 - Solution: Run `project.template_optimizer.restore_from_backup()` or reinstall templates
 - Prevention: Always enable `backup_first` option before optimization
 
 Issue: Language detection returns incorrect language:
+
 - Cause: Insufficient language indicators in project files
 - Solution: Manually set language in configuration: `project.update_language_settings({"language.conversation_language": "ko"})`
 - Prevention: Include language comments in main source files
 
 Issue: Template optimization causes functionality loss:
+
 - Cause: Aggressive optimization removed necessary content
 - Solution: Restore from backup: `project.template_optimizer.restore_from_backup(backup_id)`
 - Prevention: Set `preserve_functionality: True` in optimization options
 
 Issue: Multilingual documentation structure incomplete:
+
 - Cause: Partial initialization or interrupted process
 - Solution: Re-run `project.language_initializer.create_multilingual_documentation_structure(language)`
 - Prevention: Ensure stable connection during initialization
 
 Issue: High token cost for non-English languages:
+
 - Cause: Localized agent prompts increase token usage
 - Solution: Use `agent_prompt_language: "english"` with `conversation_language: "ko"` for cost optimization
 - Prevention: Configure language settings before heavy usage
@@ -262,11 +271,11 @@ print(f"Warnings: {status.warnings}")
 
 ### Version History
 
-| Version | Date       | Changes                                           |
-|---------|------------|---------------------------------------------------|
-| 2.0.0   | 2025-11-27 | Integrated modular architecture                   |
-| 1.5.0   | 2025-11-20 | Added template optimization module                |
-| 1.0.0   | 2025-11-15 | Initial release with documentation management     |
+| Version | Date       | Changes                                       |
+| ------- | ---------- | --------------------------------------------- |
+| 2.0.0   | 2025-11-27 | Integrated modular architecture               |
+| 1.5.0   | 2025-11-20 | Added template optimization module            |
+| 1.0.0   | 2025-11-15 | Initial release with documentation management |
 
 ---
 

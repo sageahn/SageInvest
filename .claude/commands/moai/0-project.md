@@ -1,6 +1,6 @@
 ---
-description: "Generate project documentation from codebase analysis"
-argument-hint: ""
+description: 'Generate project documentation from codebase analysis'
+argument-hint: ''
 type: workflow
 allowed-tools: Task, AskUserQuestion, TodoWrite, Bash, Read, Write, Edit, Glob, Grep
 model: inherit

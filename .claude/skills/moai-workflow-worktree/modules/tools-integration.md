@@ -10,6 +10,7 @@ Last Updated: 2026-01-06
 ## Quick Reference (30 seconds)
 
 Tool Integration Points:
+
 - IDE: VS Code multi-root workspaces, worktree-specific settings
 - Terminal: Shell prompt, completion, navigation aliases
 - Git Hooks: Post-checkout, pre-push validation
@@ -25,24 +26,28 @@ Tool Integration Points:
 Generate a VS Code workspace that includes all active worktrees as folders.
 
 Workspace Structure:
+
 - Main Repository as primary folder
 - Each active worktree as additional folder
 - Shared extensions recommendations
 - Worktree-specific launch configurations
 
 Dynamic Workspace Generation:
+
 - Detects all active worktrees from registry
 - Creates folder entries for each worktree
 - Generates tasks for common worktree operations
 - Updates automatically when worktrees change
 
 Worktree-Specific Settings:
+
 - Python interpreter path for virtual environments
 - Linting and formatting configurations
 - File exclusion patterns for build artifacts
 - Test runner configurations
 
 Task Generation Per Worktree:
+
 - Run Tests: Execute /moai:2-run for the SPEC
 - Sync Worktree: Run moai-worktree sync command
 - Switch to Worktree: Change active directory
@@ -50,6 +55,7 @@ Task Generation Per Worktree:
 ### JetBrains IDE Integration
 
 For IntelliJ, PyCharm, and WebStorm:
+
 - Configure separate project modules for each worktree
 - Share run configurations across worktrees
 - Set worktree-specific interpreter paths
@@ -63,15 +69,18 @@ For IntelliJ, PyCharm, and WebStorm:
 Add to .bashrc or .zshrc for improved worktree experience.
 
 Completion Support:
+
 - Tab completion for worktree IDs using registry data
 - Command option completion for all moai-worktree subcommands
 
 Prompt Customization:
+
 - Detect if current directory is within a worktree
 - Display SPEC ID in prompt when in worktree context
 - Color coding for worktree status
 
 Navigation Aliases:
+
 - mw: Short alias for moai-worktree
 - mwl: List worktrees
 - mws: Switch to worktree
@@ -80,6 +89,7 @@ Navigation Aliases:
 - mwclean: Clean merged worktrees
 
 Quick Functions:
+
 - mwnew: Create and switch to new worktree in one command
 - mwdev: Switch to worktree and start development with /moai:2-run
 - mwpush: Sync worktree and push to remote branch
@@ -93,6 +103,7 @@ Quick Functions:
 Triggered when switching branches or worktrees.
 
 Hook Actions:
+
 1. Detect if running in worktree environment
 2. Update last access time in registry
 3. Check if sync is needed with base branch
@@ -104,6 +115,7 @@ Hook Actions:
 Validate worktree state before pushing to remote.
 
 Hook Actions:
+
 1. Detect if pushing from a worktree
 2. Check for uncommitted changes
 3. Verify sync status with base branch
@@ -119,28 +131,33 @@ Hook Actions:
 SPEC-aware CI/CD workflow for worktree-based development.
 
 Workflow Triggers:
-- Push to feature/SPEC-* branches
+
+- Push to feature/SPEC-\* branches
 - Pull requests targeting main or develop
 
 Job Configuration:
 
 Detect SPEC Job:
+
 - Extract SPEC ID from branch name
 - Determine worktree type from branch suffix
 - Set outputs for downstream jobs
 
 Test Worktree Job:
+
 - Create simulated worktree environment
 - Install dependencies based on worktree type
 - Run worktree-specific test suites
 - Upload test results as artifacts
 
 Sync Worktrees Job:
+
 - Runs after all tests pass
 - Triggers worktree sync in development environment
 - Prepares for PR creation
 
 Matrix Strategy:
+
 - Parallel testing for different worktree types
 - Authentication, payment, dashboard tested independently
 - Results aggregated for final status
@@ -148,11 +165,13 @@ Matrix Strategy:
 ### Artifact Management
 
 Test Results:
+
 - Store in worktree-specific artifact paths
 - Include coverage reports
 - Preserve for historical analysis
 
 Build Artifacts:
+
 - Per-worktree build directories
 - Independent deployment artifacts
 - Version tracking per SPEC
@@ -166,6 +185,7 @@ Build Artifacts:
 Track worktree usage patterns for optimization.
 
 Collected Metrics:
+
 - total_worktrees: Current count of all worktrees
 - active_worktrees: Currently active worktrees
 - disk_usage: Storage consumed by each worktree
@@ -178,6 +198,7 @@ Collected Metrics:
 Generate comprehensive usage reports.
 
 Report Contents:
+
 - Worktrees created in reporting period
 - Average sync frequency per worktree
 - Most active worktrees by developer
@@ -185,6 +206,7 @@ Report Contents:
 - Storage growth trends
 
 Recommendations:
+
 - Identify worktrees needing cleanup
 - Suggest sync frequency improvements
 - Highlight potential disk space issues
@@ -192,6 +214,7 @@ Recommendations:
 ### Export Formats
 
 Metrics can be exported in multiple formats:
+
 - JSON: For programmatic consumption
 - CSV: For spreadsheet analysis
 - Prometheus: For monitoring system integration
@@ -199,6 +222,7 @@ Metrics can be exported in multiple formats:
 ### Monitoring System Integration
 
 Push metrics to external monitoring:
+
 - Prometheus Pushgateway support
 - Custom webhook integration
 - Scheduled metric updates
@@ -212,16 +236,19 @@ Push metrics to external monitoring:
 Manage resources when operating on multiple worktrees.
 
 Resource Awareness:
+
 - CPU count detection for parallel operations
 - Memory availability monitoring
 - Maximum concurrent worktrees limit
 
 Operation Grouping:
+
 - Prioritize worktrees by activity level
 - Group operations for efficient execution
 - Sequential fallback for resource constraints
 
 Execution Strategy:
+
 - ThreadPoolExecutor for parallel sync
 - Configurable worker count
 - Result aggregation with error handling
@@ -231,19 +258,22 @@ Execution Strategy:
 Monitor and optimize disk usage across worktrees.
 
 Usage Analysis:
+
 - Calculate size per worktree
 - Identify large worktrees exceeding thresholds
 - Generate optimization suggestions
 
 Optimization Actions:
+
 - Remove build artifacts and caches
 - Git garbage collection per worktree
 - Compress old/inactive worktrees
 - Archive and remove stale worktrees
 
 Cleanup Patterns:
-- Log file removal (*.log)
-- Python cache cleanup (__pycache__, .pytest_cache)
+
+- Log file removal (\*.log)
+- Python cache cleanup (**pycache**, .pytest_cache)
 - Node modules pruning
 - Build directory cleanup
 
@@ -254,21 +284,25 @@ Cleanup Patterns:
 ### Tool Integration Errors
 
 IDE Configuration Errors:
+
 - Invalid workspace file format
 - Missing worktree paths
 - Resolution: Regenerate workspace configuration
 
 Hook Execution Errors:
+
 - Permission denied on hook scripts
 - Missing dependencies for hook execution
 - Resolution: Check file permissions and dependencies
 
 CI/CD Pipeline Errors:
+
 - Branch detection failures
 - Artifact upload failures
 - Resolution: Verify branch naming conventions and artifact paths
 
 Monitoring Integration Errors:
+
 - Pushgateway connection failures
 - Metric format errors
 - Resolution: Verify endpoint configuration and data format

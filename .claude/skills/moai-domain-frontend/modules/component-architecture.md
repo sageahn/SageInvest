@@ -71,7 +71,7 @@ export const tokens = {
     md: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
     lg: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
   },
-} as const
+} as const;
 
 // CSS Variables setup
 export const cssVariables = `
@@ -91,7 +91,7 @@ export const cssVariables = `
     --muted-foreground: 215 20.2% 65.1%;
     --border: 217.2 32.6% 17.5%;
   }
-`
+`;
 ```
 
 ---
@@ -102,10 +102,10 @@ export const cssVariables = `
 
 ```tsx
 // components/ui/Button/Button.tsx
-import { forwardRef } from 'react'
-import { Slot } from '@radix-ui/react-slot'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
+import { forwardRef } from 'react';
+import { Slot } from '@radix-ui/react-slot';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
   // Base styles
@@ -139,18 +139,17 @@ const buttonVariants = cva(
       size: 'default',
     },
   }
-)
+);
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  asChild?: boolean
-  loading?: boolean
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+  asChild?: boolean;
+  loading?: boolean;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, loading, children, disabled, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'button'
+    const Comp = asChild ? Slot : 'button';
 
     return (
       <Comp
@@ -168,21 +167,21 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           children
         )}
       </Comp>
-    )
+    );
   }
-)
-Button.displayName = 'Button'
+);
+Button.displayName = 'Button';
 
-export { Button, buttonVariants }
+export { Button, buttonVariants };
 ```
 
 ### Input Component with Variants
 
 ```tsx
 // components/ui/Input/Input.tsx
-import { forwardRef } from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
+import { forwardRef } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
 const inputVariants = cva(
   [
@@ -212,12 +211,13 @@ const inputVariants = cva(
       inputSize: 'default',
     },
   }
-)
+);
 
 export interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
+  extends
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>,
     VariantProps<typeof inputVariants> {
-  error?: string
+  error?: string;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -229,7 +229,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             inputVariants({
               variant: error ? 'error' : variant,
               inputSize,
-              className
+              className,
             })
           )}
           ref={ref}
@@ -243,12 +243,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           </p>
         )}
       </div>
-    )
+    );
   }
-)
-Input.displayName = 'Input'
+);
+Input.displayName = 'Input';
 
-export { Input, inputVariants }
+export { Input, inputVariants };
 ```
 
 ---
@@ -259,19 +259,19 @@ export { Input, inputVariants }
 
 ```tsx
 // components/ui/Card/Card.tsx
-import { createContext, useContext, forwardRef } from 'react'
-import { cn } from '@/lib/utils'
+import { createContext, useContext, forwardRef } from 'react';
+import { cn } from '@/lib/utils';
 
 // Context for sharing state between compound components
 interface CardContextValue {
-  variant: 'default' | 'elevated' | 'outlined'
+  variant: 'default' | 'elevated' | 'outlined';
 }
 
-const CardContext = createContext<CardContextValue>({ variant: 'default' })
+const CardContext = createContext<CardContextValue>({ variant: 'default' });
 
 // Root component
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'default' | 'elevated' | 'outlined'
+  variant?: 'default' | 'elevated' | 'outlined';
 }
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
@@ -280,34 +280,26 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       default: 'border bg-card text-card-foreground shadow-sm',
       elevated: 'bg-card text-card-foreground shadow-md',
       outlined: 'border-2 bg-transparent',
-    }
+    };
 
     return (
       <CardContext.Provider value={{ variant }}>
-        <div
-          ref={ref}
-          className={cn('rounded-lg', variantStyles[variant], className)}
-          {...props}
-        >
+        <div ref={ref} className={cn('rounded-lg', variantStyles[variant], className)} {...props}>
           {children}
         </div>
       </CardContext.Provider>
-    )
+    );
   }
-)
-Card.displayName = 'Card'
+);
+Card.displayName = 'Card';
 
 // Header component
 const CardHeader = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn('flex flex-col space-y-1.5 p-6', className)}
-      {...props}
-    />
+    <div ref={ref} className={cn('flex flex-col space-y-1.5 p-6', className)} {...props} />
   )
-)
-CardHeader.displayName = 'CardHeader'
+);
+CardHeader.displayName = 'CardHeader';
 
 // Title component
 const CardTitle = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
@@ -318,33 +310,30 @@ const CardTitle = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHead
       {...props}
     />
   )
-)
-CardTitle.displayName = 'CardTitle'
+);
+CardTitle.displayName = 'CardTitle';
 
 // Description component
-const CardDescription = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
-  ({ className, ...props }, ref) => (
-    <p
-      ref={ref}
-      className={cn('text-sm text-muted-foreground', className)}
-      {...props}
-    />
-  )
-)
-CardDescription.displayName = 'CardDescription'
+const CardDescription = forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLParagraphElement>
+>(({ className, ...props }, ref) => (
+  <p ref={ref} className={cn('text-sm text-muted-foreground', className)} {...props} />
+));
+CardDescription.displayName = 'CardDescription';
 
 // Content component
 const CardContent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
   )
-)
-CardContent.displayName = 'CardContent'
+);
+CardContent.displayName = 'CardContent';
 
 // Footer component
 const CardFooter = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
-    const { variant } = useContext(CardContext)
+    const { variant } = useContext(CardContext);
 
     return (
       <div
@@ -356,49 +345,49 @@ const CardFooter = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
         )}
         {...props}
       />
-    )
+    );
   }
-)
-CardFooter.displayName = 'CardFooter'
+);
+CardFooter.displayName = 'CardFooter';
 
-export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
+export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter };
 ```
 
 ### Tabs Compound Component
 
 ```tsx
 // components/ui/Tabs/Tabs.tsx
-import { createContext, useContext, useState, forwardRef } from 'react'
-import { cn } from '@/lib/utils'
+import { createContext, useContext, useState, forwardRef } from 'react';
+import { cn } from '@/lib/utils';
 
 interface TabsContextValue {
-  value: string
-  onValueChange: (value: string) => void
+  value: string;
+  onValueChange: (value: string) => void;
 }
 
-const TabsContext = createContext<TabsContextValue | null>(null)
+const TabsContext = createContext<TabsContextValue | null>(null);
 
 function useTabs() {
-  const context = useContext(TabsContext)
+  const context = useContext(TabsContext);
   if (!context) {
-    throw new Error('Tabs components must be used within a Tabs provider')
+    throw new Error('Tabs components must be used within a Tabs provider');
   }
-  return context
+  return context;
 }
 
 // Root
 interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
-  defaultValue?: string
-  value?: string
-  onValueChange?: (value: string) => void
+  defaultValue?: string;
+  value?: string;
+  onValueChange?: (value: string) => void;
 }
 
 const Tabs = forwardRef<HTMLDivElement, TabsProps>(
   ({ defaultValue, value: controlledValue, onValueChange, children, ...props }, ref) => {
-    const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue || '')
+    const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue || '');
 
-    const value = controlledValue ?? uncontrolledValue
-    const handleValueChange = onValueChange ?? setUncontrolledValue
+    const value = controlledValue ?? uncontrolledValue;
+    const handleValueChange = onValueChange ?? setUncontrolledValue;
 
     return (
       <TabsContext.Provider value={{ value, onValueChange: handleValueChange }}>
@@ -406,10 +395,10 @@ const Tabs = forwardRef<HTMLDivElement, TabsProps>(
           {children}
         </div>
       </TabsContext.Provider>
-    )
+    );
   }
-)
-Tabs.displayName = 'Tabs'
+);
+Tabs.displayName = 'Tabs';
 
 // TabsList
 const TabsList = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
@@ -424,18 +413,18 @@ const TabsList = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>
       {...props}
     />
   )
-)
-TabsList.displayName = 'TabsList'
+);
+TabsList.displayName = 'TabsList';
 
 // TabsTrigger
 interface TabsTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  value: string
+  value: string;
 }
 
 const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
   ({ className, value, ...props }, ref) => {
-    const { value: selectedValue, onValueChange } = useTabs()
-    const isSelected = selectedValue === value
+    const { value: selectedValue, onValueChange } = useTabs();
+    const isSelected = selectedValue === value;
 
     return (
       <button
@@ -455,22 +444,22 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
         )}
         {...props}
       />
-    )
+    );
   }
-)
-TabsTrigger.displayName = 'TabsTrigger'
+);
+TabsTrigger.displayName = 'TabsTrigger';
 
 // TabsContent
 interface TabsContentProps extends React.HTMLAttributes<HTMLDivElement> {
-  value: string
+  value: string;
 }
 
 const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
   ({ className, value, ...props }, ref) => {
-    const { value: selectedValue } = useTabs()
-    const isSelected = selectedValue === value
+    const { value: selectedValue } = useTabs();
+    const isSelected = selectedValue === value;
 
-    if (!isSelected) return null
+    if (!isSelected) return null;
 
     return (
       <div
@@ -481,12 +470,12 @@ const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
         className={cn('mt-2 focus-visible:outline-none', className)}
         {...props}
       />
-    )
+    );
   }
-)
-TabsContent.displayName = 'TabsContent'
+);
+TabsContent.displayName = 'TabsContent';
 
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+export { Tabs, TabsList, TabsTrigger, TabsContent };
 ```
 
 ---
@@ -497,34 +486,34 @@ export { Tabs, TabsList, TabsTrigger, TabsContent }
 
 ```tsx
 // components/ui/Dialog/Dialog.tsx
-import { forwardRef, useEffect, useRef, useCallback } from 'react'
-import { createPortal } from 'react-dom'
-import { cn } from '@/lib/utils'
+import { forwardRef, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import { cn } from '@/lib/utils';
 
 interface DialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  children: React.ReactNode
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  children: React.ReactNode;
 }
 
 export function Dialog({ open, onOpenChange, children }: DialogProps) {
-  const previousActiveElement = useRef<HTMLElement | null>(null)
+  const previousActiveElement = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (open) {
-      previousActiveElement.current = document.activeElement as HTMLElement
-      document.body.style.overflow = 'hidden'
+      previousActiveElement.current = document.activeElement as HTMLElement;
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = ''
-      previousActiveElement.current?.focus()
+      document.body.style.overflow = '';
+      previousActiveElement.current?.focus();
     }
 
     return () => {
-      document.body.style.overflow = ''
-    }
-  }, [open])
+      document.body.style.overflow = '';
+    };
+  }, [open]);
 
-  if (!open) return null
+  if (!open) return null;
 
   return createPortal(
     <div className="fixed inset-0 z-50">
@@ -539,52 +528,55 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
       {children}
     </div>,
     document.body
-  )
+  );
 }
 
 interface DialogContentProps extends React.HTMLAttributes<HTMLDivElement> {
-  onClose: () => void
+  onClose: () => void;
 }
 
 export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
   ({ className, children, onClose, ...props }, ref) => {
-    const contentRef = useRef<HTMLDivElement>(null)
+    const contentRef = useRef<HTMLDivElement>(null);
 
     // Focus trap
-    const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose()
-        return
-      }
+    const handleKeyDown = useCallback(
+      (e: React.KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          onClose();
+          return;
+        }
 
-      if (e.key !== 'Tab') return
+        if (e.key !== 'Tab') return;
 
-      const focusableElements = contentRef.current?.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      )
+        const focusableElements = contentRef.current?.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
 
-      if (!focusableElements || focusableElements.length === 0) return
+        if (!focusableElements || focusableElements.length === 0) return;
 
-      const firstElement = focusableElements[0] as HTMLElement
-      const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement
+        const firstElement = focusableElements[0] as HTMLElement;
+        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
 
-      if (e.shiftKey && document.activeElement === firstElement) {
-        e.preventDefault()
-        lastElement.focus()
-      } else if (!e.shiftKey && document.activeElement === lastElement) {
-        e.preventDefault()
-        firstElement.focus()
-      }
-    }, [onClose])
+        if (e.shiftKey && document.activeElement === firstElement) {
+          e.preventDefault();
+          lastElement.focus();
+        } else if (!e.shiftKey && document.activeElement === lastElement) {
+          e.preventDefault();
+          firstElement.focus();
+        }
+      },
+      [onClose]
+    );
 
     // Auto-focus on mount
     useEffect(() => {
       const firstFocusable = contentRef.current?.querySelector(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      ) as HTMLElement
+      ) as HTMLElement;
 
-      firstFocusable?.focus()
-    }, [])
+      firstFocusable?.focus();
+    }, []);
 
     return (
       <div
@@ -602,33 +594,40 @@ export const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
       >
         {children}
       </div>
-    )
+    );
   }
-)
-DialogContent.displayName = 'DialogContent'
+);
+DialogContent.displayName = 'DialogContent';
 
 export function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)} {...props} />
-  )
+    <div
+      className={cn('flex flex-col space-y-1.5 text-center sm:text-left', className)}
+      {...props}
+    />
+  );
 }
 
 export function DialogTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h2 className={cn('text-lg font-semibold leading-none tracking-tight', className)} {...props} />
-  )
+  );
 }
 
-export function DialogDescription({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
-  return (
-    <p className={cn('text-sm text-muted-foreground', className)} {...props} />
-  )
+export function DialogDescription({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement>) {
+  return <p className={cn('text-sm text-muted-foreground', className)} {...props} />;
 }
 
 export function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)} {...props} />
-  )
+    <div
+      className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', className)}
+      {...props}
+    />
+  );
 }
 ```
 
@@ -690,28 +689,33 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 ### Component API Design
 
 Consistent Prop Naming:
+
 - variant for visual style
 - size for dimensions
 - disabled for disabled state
 - className for additional styles
 
 Forward Refs:
+
 - Always forward refs for DOM access
 - Use forwardRef with proper typing
 
 Composition over Configuration:
+
 - Prefer compound components
 - Keep individual components focused
 
 ### Accessibility Checklist
 
 Required Attributes:
+
 - role for semantic meaning
 - aria-label for icon buttons
 - aria-describedby for form errors
 - aria-expanded for expandable content
 
 Keyboard Navigation:
+
 - Tab for focus navigation
 - Enter/Space for activation
 - Escape for dismissal

@@ -13,16 +13,16 @@ permissionMode: default
 skills: moai-foundation-claude, moai-lang-python, moai-lang-typescript, moai-lang-javascript, moai-domain-backend, moai-domain-database, moai-platform-supabase, moai-platform-neon, moai-tool-ast-grep
 hooks:
   PreToolUse:
-    - matcher: "Write|Edit"
+    - matcher: 'Write|Edit'
       hooks:
         - type: command
-          command: "uv run \"{{PROJECT_DIR}}\"/.claude/hooks/moai/pre_tool__security_guard.py"
+          command: 'uv run "{{PROJECT_DIR}}"/.claude/hooks/moai/pre_tool__security_guard.py'
           timeout: 30
   PostToolUse:
-    - matcher: "Write|Edit"
+    - matcher: 'Write|Edit'
       hooks:
         - type: command
-          command: "uv run \"{{PROJECT_DIR}}\"/.claude/hooks/moai/post_tool__ast_grep_scan.py"
+          command: 'uv run "{{PROJECT_DIR}}"/.claude/hooks/moai/post_tool__ast_grep_scan.py'
           timeout: 60
 ---
 

@@ -4,17 +4,18 @@
 
 ### Python 3.13 Feature Matrix
 
-| Feature | Status | PEP | Production Ready |
-|---------|--------|-----|------------------|
-| JIT Compiler | Experimental | PEP 744 | No |
-| Free Threading (GIL-free) | Experimental | PEP 703 | No |
-| Pattern Matching | Stable | PEP 634-636 | Yes |
-| Type Parameter Syntax | Stable | PEP 695 | Yes |
-| Exception Groups | Stable | PEP 654 | Yes |
+| Feature                   | Status       | PEP         | Production Ready |
+| ------------------------- | ------------ | ----------- | ---------------- |
+| JIT Compiler              | Experimental | PEP 744     | No               |
+| Free Threading (GIL-free) | Experimental | PEP 703     | No               |
+| Pattern Matching          | Stable       | PEP 634-636 | Yes              |
+| Type Parameter Syntax     | Stable       | PEP 695     | Yes              |
+| Exception Groups          | Stable       | PEP 654     | Yes              |
 
 ### JIT Compiler Details (PEP 744)
 
 Build Configuration:
+
 ```bash
 # Build Python with JIT support
 ./configure --enable-experimental-jit
@@ -26,6 +27,7 @@ make
 ```
 
 Runtime Activation:
+
 ```bash
 # Enable JIT at runtime
 PYTHON_JIT=1 python my_script.py
@@ -35,6 +37,7 @@ PYTHON_JIT=1 PYTHON_JIT_DEBUG=1 python my_script.py
 ```
 
 Expected Benefits:
+
 - 5-10% performance improvement for CPU-bound code
 - Better optimization for hot loops
 - Future foundation for more aggressive optimizations
@@ -42,6 +45,7 @@ Expected Benefits:
 ### Free Threading (PEP 703)
 
 Installation:
+
 ```bash
 # macOS/Windows: Use official installers with free-threaded option
 # Linux: Build from source
@@ -53,6 +57,7 @@ python3.13t -c "import sys; print(sys._is_gil_enabled())"
 ```
 
 Thread-Safe Patterns:
+
 ```python
 import threading
 from queue import Queue
@@ -83,6 +88,7 @@ def parallel_processing(items: list[str], workers: int = 4) -> list[str]:
 ### Pattern Matching Complete Guide
 
 Literal Patterns:
+
 ```python
 def http_status(status: int) -> str:
     match status:
@@ -101,6 +107,7 @@ def http_status(status: int) -> str:
 ```
 
 Structural Patterns:
+
 ```python
 def process_event(event: dict) -> None:
     match event:
@@ -113,6 +120,7 @@ def process_event(event: dict) -> None:
 ```
 
 Class Patterns:
+
 ```python
 from dataclasses import dataclass
 
@@ -143,6 +151,7 @@ def area(shape) -> float:
 ```
 
 Guard Clauses:
+
 ```python
 def validate_user(user: dict) -> str:
     match user:
@@ -165,6 +174,7 @@ def validate_user(user: dict) -> str:
 ### FastAPI 0.115+ Complete Reference
 
 Application Structure:
+
 ```
 project/
 ├── app/
@@ -203,6 +213,7 @@ project/
 ```
 
 Configuration with Pydantic Settings:
+
 ```python
 # app/config.py
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -239,6 +250,7 @@ def get_settings() -> Settings:
 ```
 
 Advanced Dependency Injection:
+
 ```python
 # app/dependencies.py
 from fastapi import Depends, HTTPException, status
@@ -300,6 +312,7 @@ def require_role(required_role: str):
 ```
 
 Background Tasks:
+
 ```python
 from fastapi import BackgroundTasks
 
@@ -326,6 +339,7 @@ async def create_user(
 ### Django 5.2 LTS Reference
 
 Composite Primary Keys:
+
 ```python
 # models.py
 from django.db import models
@@ -346,6 +360,7 @@ enrollment = Enrollment.objects.get(pk=(student_id, course_id))
 ```
 
 Async Views and ORM:
+
 ```python
 # views.py
 from django.http import JsonResponse
@@ -362,6 +377,7 @@ async def async_user_detail(request, user_id):
 ```
 
 Custom Form Rendering:
+
 ```python
 # forms.py
 from django import forms
@@ -389,6 +405,7 @@ class UserForm(CustomFormMixin, forms.ModelForm):
 ### Pydantic v2.9 Complete Patterns
 
 Discriminated Unions:
+
 ```python
 from typing import Literal, Union
 from pydantic import BaseModel, Field
@@ -417,6 +434,7 @@ class NotificationRequest(BaseModel):
 ```
 
 Computed Fields:
+
 ```python
 from pydantic import BaseModel, computed_field
 
@@ -443,6 +461,7 @@ class Product(BaseModel):
 ```
 
 Custom JSON Serialization:
+
 ```python
 from pydantic import BaseModel, field_serializer
 from datetime import datetime
@@ -463,6 +482,7 @@ class Transaction(BaseModel):
 ```
 
 TypeAdapter for Dynamic Validation:
+
 ```python
 from pydantic import TypeAdapter
 from typing import Any
@@ -487,6 +507,7 @@ users = UserListAdapter.validate_python(raw_data)
 ### SQLAlchemy 2.0 Complete Patterns
 
 Declarative Models with Type Hints:
+
 ```python
 from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import (
@@ -523,6 +544,7 @@ class Post(Base):
 ```
 
 Advanced Queries:
+
 ```python
 from sqlalchemy import select, func, and_, or_
 from sqlalchemy.orm import selectinload, joinedload
@@ -574,6 +596,7 @@ async def search_posts(
 ```
 
 Upsert (Insert or Update):
+
 ```python
 from sqlalchemy.dialects.postgresql import insert
 
@@ -601,6 +624,7 @@ async def upsert_user(db: AsyncSession, user_data: dict) -> User:
 ### pytest Complete Patterns
 
 Conftest Configuration:
+
 ```python
 # conftest.py
 import pytest
@@ -658,6 +682,7 @@ async def async_client(db_session) -> AsyncGenerator[AsyncClient, None]:
 ```
 
 Advanced Fixtures:
+
 ```python
 @pytest.fixture
 def user_factory(db_session):
@@ -687,6 +712,7 @@ def mock_external_api(mocker):
 ```
 
 Hypothesis Property-Based Testing:
+
 ```python
 from hypothesis import given, strategies as st
 from hypothesis.extra.pydantic import from_model
@@ -711,6 +737,7 @@ def test_calculate_average(numbers: list[int]):
 ### Modern Type Patterns
 
 Generic Classes:
+
 ```python
 from typing import Generic, TypeVar
 
@@ -736,6 +763,7 @@ user_cache: Cache[int, User] = Cache(max_size=1000)
 ```
 
 TypeVar with Bounds:
+
 ```python
 from typing import TypeVar
 from pydantic import BaseModel
@@ -747,6 +775,7 @@ def validate_and_create(model_class: type[ModelT], data: dict) -> ModelT:
 ```
 
 Self Type:
+
 ```python
 from typing import Self
 
@@ -773,6 +802,7 @@ class AdvancedBuilder(Builder):
 ## Context7 Integration
 
 Library ID Resolution:
+
 ```python
 # Step 1: Resolve library ID
 library_id = await mcp__context7__resolve_library_id("fastapi")

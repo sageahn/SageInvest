@@ -10,6 +10,7 @@ Last Updated: 2026-01-06
 ## Quick Reference (30 seconds)
 
 Parallel Development Benefits:
+
 - Context Isolation: Each SPEC has independent Git state, files, and environment
 - Zero Switching Cost: Instant switching between worktrees without loading/unloading
 - Concurrent Development: Multiple SPECs developed simultaneously by single developer
@@ -27,12 +28,14 @@ To set up parallel development, create worktrees for each SPEC using moai-worktr
 This parallel development module is organized into focused sub-modules:
 
 Parallel Workflows: Refer to parallel-workflows.md
+
 - Independent SPEC development patterns
 - Sequential feature development with overlap
 - Experiment-production parallel patterns
 - Multi-developer coordination
 
 Advanced Use Cases: Refer to parallel-advanced.md
+
 - Feature flag development patterns
 - Microservices parallel development
 - Performance optimization strategies
@@ -47,26 +50,31 @@ Advanced Use Cases: Refer to parallel-advanced.md
 Each worktree provides complete isolation across multiple layers:
 
 Git State Isolation:
+
 - Independent branch with separate commit history
 - No interference with other worktree branches
 - Changes remain isolated until explicit merge
 
 File System Isolation:
+
 - Complete project copy in dedicated directory
 - Independent modifications without affecting others
 - Separate working directory state
 
 Dependency Isolation:
+
 - Independent node_modules per worktree
 - Separate Python virtual environments
 - Independent build artifacts and caches
 
 Configuration Isolation:
+
 - Worktree-specific .env files
 - Independent IDE settings per worktree
 - Separate tool configurations
 
 Process Isolation:
+
 - Independent development servers
 - Separate test runners
 - Non-conflicting ports
@@ -76,16 +84,19 @@ Process Isolation:
 Parallel development creates this structure:
 
 Main Repository (project_root/):
+
 - Standard Git repository with .git directory
 - Source code, docs, and configuration files
 - Central worktree registry file
 
 Worktree Root (~/workflows/project-name/):
+
 - Contains all worktrees for the project
 - Each SPEC has dedicated subdirectory
 - Independent environment per worktree
 
 Individual Worktree (SPEC-001/):
+
 - .git file linking to main repository
 - Complete project file copy
 - Worktree-specific configuration files
@@ -100,11 +111,13 @@ Individual Worktree (SPEC-001/):
 Multiple unrelated features developed simultaneously without interference.
 
 Pattern Characteristics:
+
 - Features have no code dependencies
 - Each developer works in isolation
 - Integration happens at completion
 
 Best Practices:
+
 - Create worktrees at planning phase
 - Sync periodically to stay current with main
 - Clean up immediately after merge
@@ -116,11 +129,13 @@ Detailed Reference: Refer to parallel-workflows.md for implementation details
 Features with dependencies developed in sequence with preparation overlap.
 
 Pattern Characteristics:
+
 - Later features depend on earlier ones
 - Preparation work begins before dependencies complete
 - Integration follows dependency chain
 
 Best Practices:
+
 - Create dependent worktrees early for setup
 - Sync after dependency completion
 - Maintain clear dependency chain
@@ -132,11 +147,13 @@ Detailed Reference: Refer to parallel-workflows.md for implementation details
 Experimental features alongside stable production work.
 
 Pattern Characteristics:
+
 - Production fixes in stable worktree
 - Experiments in separate worktree
 - No risk to production stability
 
 Best Practices:
+
 - Clear naming convention for experiment vs production
 - Regular backup of experimental work
 - Careful merge strategy for experiments
@@ -152,11 +169,13 @@ Detailed Reference: Refer to parallel-workflows.md for implementation details
 Coordinate parallel development across team members.
 
 Shared Registry:
+
 - Central registry accessible to all developers
 - Developer-specific worktree prefixes
 - Team visibility into all active work
 
 Coordination Strategies:
+
 - Define integration points early
 - Maintain shared contracts between related SPECs
 - Regular sync to shared branches
@@ -182,6 +201,7 @@ For advanced patterns including feature flags, microservices, and performance op
 ## Sub-Module References
 
 Parallel Workflows (parallel-workflows.md):
+
 - Independent SPEC development pattern implementation
 - Sequential feature development with overlap
 - Experiment-production parallel patterns
@@ -189,6 +209,7 @@ Parallel Workflows (parallel-workflows.md):
 - CI/CD pipeline integration for parallel work
 
 Advanced Use Cases (parallel-advanced.md):
+
 - Feature flag development patterns
 - Microservices architecture with parallel worktrees
 - Performance and resource optimization

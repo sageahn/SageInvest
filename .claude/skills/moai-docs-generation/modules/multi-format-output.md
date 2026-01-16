@@ -11,6 +11,7 @@ Generate documentation in multiple formats using established tools: static site 
 Reference Skill("moai-library-nextra") for comprehensive patterns.
 
 Key features:
+
 - MDX support for React components in Markdown
 - File-system based routing
 - Built-in search with FlexSearch
@@ -18,6 +19,7 @@ Key features:
 - Internationalization support
 
 Deployment options:
+
 - Vercel (recommended for Next.js)
 - Netlify
 - GitHub Pages with static export
@@ -27,12 +29,14 @@ Deployment options:
 Initialize with npx create-docusaurus command.
 
 Configure docusaurus.config.js:
+
 - Set site metadata (title, tagline, url)
 - Configure presets for docs and blog
 - Add theme configuration for navbar, footer
 - Enable plugins for search, analytics
 
 Organize content:
+
 - Place docs in docs directory
 - Use category.json for sidebar configuration
 - Add versioning for multiple doc versions
@@ -43,12 +47,14 @@ Organize content:
 Initialize with npm init vitepress.
 
 Configure in .vitepress/config.js:
+
 - Set site title and description
 - Define navigation and sidebar
 - Configure search (built-in or Algolia)
 - Add social links
 
 Features:
+
 - Vue components in Markdown
 - Automatic code syntax highlighting
 - Dark mode support
@@ -59,6 +65,7 @@ Features:
 Install mkdocs-material theme.
 
 Configure mkdocs.yml:
+
 - Set theme to material
 - Configure color palette and fonts
 - Enable navigation features (tabs, sections)
@@ -71,11 +78,13 @@ Deploy with mkdocs gh-deploy for GitHub Pages.
 ### Sphinx PDF Output
 
 Use sphinx-build with latex builder:
+
 - Requires LaTeX installation (texlive)
 - Configure latex_documents in conf.py
 - Customize styling with latex_elements
 
 Alternative with rinohtype:
+
 - Pure Python PDF generation
 - No LaTeX dependency
 - Configure with rinoh.ini
@@ -85,11 +94,13 @@ Alternative with rinohtype:
 Install mkdocs-pdf-export-plugin.
 
 Configure in mkdocs.yml:
+
 - Set combined output option
 - Configure styling
 - Exclude specific pages if needed
 
 Alternative with mkdocs-with-pdf plugin:
+
 - Better styling options
 - Cover page support
 - Table of contents generation
@@ -97,11 +108,13 @@ Alternative with mkdocs-with-pdf plugin:
 ### Pandoc Conversion
 
 Convert Markdown to PDF with Pandoc:
+
 - Requires Pandoc and LaTeX installation
 - Use templates for consistent styling
 - Configure with YAML metadata
 
 Supports multiple input formats:
+
 - Markdown, reStructuredText
 - HTML, EPUB
 - Word documents
@@ -109,11 +122,13 @@ Supports multiple input formats:
 ### WeasyPrint for HTML to PDF
 
 Convert HTML documentation to PDF:
+
 - Renders CSS for print media
 - Supports modern CSS features
 - Generates bookmarks from headings
 
 Configuration options:
+
 - Custom stylesheets
 - Page size and margins
 - Headers and footers
@@ -123,12 +138,14 @@ Configuration options:
 ### GitHub Flavored Markdown
 
 Standard for repository documentation:
+
 - README.md for project overview
 - CONTRIBUTING.md for contribution guidelines
 - CHANGELOG.md for version history
 - docs/ directory for extended documentation
 
 Features:
+
 - Tables, task lists, strikethrough
 - Syntax highlighted code blocks
 - Automatic linking for URLs
@@ -137,11 +154,13 @@ Features:
 ### MDX for Component Documentation
 
 Combine Markdown with JSX:
+
 - Import and use React components
 - Interactive examples
 - Code playgrounds
 
 Supported by:
+
 - Nextra, Docusaurus
 - Storybook for component docs
 - Custom MDX processors
@@ -151,6 +170,7 @@ Supported by:
 ### GitHub Pages
 
 Deploy static sites:
+
 - Configure in repository settings
 - Use GitHub Actions for automation
 - Support custom domains
@@ -158,6 +178,7 @@ Deploy static sites:
 ### Netlify
 
 Features:
+
 - Automatic builds from Git
 - Preview deployments for PRs
 - Form handling, serverless functions
@@ -166,6 +187,7 @@ Features:
 ### Vercel
 
 Optimized for Next.js (Nextra):
+
 - Zero configuration deployment
 - Edge functions
 - Analytics
@@ -174,6 +196,7 @@ Optimized for Next.js (Nextra):
 ### Read the Docs
 
 Specialized for Sphinx:
+
 - Automatic versioning
 - PDF generation
 - Search integration

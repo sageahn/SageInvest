@@ -21,6 +21,7 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 **목표**: 4개의 KIS OpenAPI 엔드포인트 구현 및 환경 관리
 
 **작업 항목**:
+
 1. KIS API 클라이언트 클래스 구현
 2. 접근토큰발급(P) API 구현 (POST /oauth2/tokenP)
 3. 접속토큰폐기(P) API 구현 (POST /oauth2/revokeP)
@@ -29,11 +30,13 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 6. 환경 관리 기능 구현 (Production/Mock 전환)
 
 **기술적 의존성**:
+
 - HTTP 클라이언트 (fetch 또는 axios)
 - TypeScript 5+
 - 환경 변수 설정
 
 **완료 기준**:
+
 - 4개의 API 엔드포인트가 정상적으로 호출됨
 - Production/Mock 환경 전환이 작동함
 - Hashkey가 POST 요청에 포함됨
@@ -43,6 +46,7 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 **목표**: 토큰 암호화 저장 및 데이터베이스 스키마 구현
 
 **작업 항목**:
+
 1. PostgreSQL 스키마 설계 및 구현
    - kis_tokens 테이블 (환경 필드 포함)
    - kis_configs 테이블 (AppKey, AppSecret, 환경)
@@ -51,11 +55,13 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 4. 환경 설정 저장소 구현
 
 **기술적 의존성**:
+
 - PostgreSQL 데이터베이스 설정
 - 암호화 라이브러리 (crypto 또는 node-forge)
 - 마일스톤 1 완료
 
 **완료 기준**:
+
 - 토큰이 암호화되어 PostgreSQL에 저장됨
 - 환경 설정이 저장됨
 - 복호화가 정상적으로 작동함
@@ -65,6 +71,7 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 **목표**: 토큰 만료 감지 및 자동 갱신 메커니즘 구현
 
 **작업 항목**:
+
 1. 토큰 만료 시간 모니터링 로직 구현
    - 24시간 유효, 6시간 주기 갱신 권장
    - 만료 1시간 전 자동 갱신
@@ -73,10 +80,12 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 4. 토큰 갱신 실패 시 알림 메커니즘
 
 **기술적 의존성**:
+
 - 마일스톤 1, 2 완료
 - 백그라운드 작업 큐 (node-cron 또는 Bull)
 
 **완료 기준**:
+
 - 토큰 만료 1시간 전에 자동 갱신이 수행됨
 - 401 응답 시 자동으로 토큰이 갱신되고 요청이 재시도됨
 - 갱신 실패 시 로그에 기록되고 적절한 에러가 반환됨
@@ -86,6 +95,7 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 **목표**: 모든 KIS API 요청에 자동으로 인증 헤더 추가
 
 **작업 항목**:
+
 1. Next.js Middleware 또는 API Route Handler 구현
 2. KIS API 도메인 감지 및 인터셉트
 3. Authorization 헤더 자동 추가
@@ -93,10 +103,12 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 5. TypeScript 타입 안전한 API 클라이언트 래퍼
 
 **기술적 의존성**:
+
 - 마일스톤 1 완료
 - Next.js App Router 또는 Pages Router
 
 **완료 기준**:
+
 - KIS API 요청 시 자동으로 Authorization 헤더가 추가됨
 - POST 요청에 hash 헤더가 포함됨
 - TypeScript 타입 검증이 통과함
@@ -106,6 +118,7 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 **목표**: 모든 API 요청/응답의 구조화된 로깅 및 모니터링
 
 **작업 항목**:
+
 1. API 로그 데이터베이스 스키마 설계
 2. 요청/응답 로깅 미들웨어 구현
 3. 민감 정보 마스킹 로직 구현
@@ -114,10 +127,12 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 6. 모니터링 메트릭 수집 (응답 시간, 에러율)
 
 **기술적 의존성**:
+
 - PostgreSQL 데이터베이스
 - 마일스톤 4 완료
 
 **완료 기준**:
+
 - 모든 KIS API 요청이 로그에 기록됨
 - 민감 정보(AppSecret, 액세스 토큰)가 마스킹됨
 - 환경별 로그가 구분됨
@@ -128,6 +143,7 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 **목표**: 실패 요청에 대한 지능적인 재시도 및 장애 처리
 
 **작업 항목**:
+
 1. 지수 백오프(exponential backoff) 재시도 로직 구현
 2. 재시도 조건 정의 (네트워크 오류, 5xx, 429, 401)
 3. 최대 재시도 횟수 설정 및 중단 로직
@@ -135,9 +151,11 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 5. 속도 제한(Rate Limit) 준수 로직
 
 **기술적 의존성**:
+
 - 마일스톤 5 완료
 
 **완료 기준**:
+
 - 실패 요청이 지수 백오프로 재시도됨
 - 5회 연속 실패 시 재시도가 중단되고 알림이 발송됨
 - 속도 제한이 준수되어 429 응답이 최소화됨
@@ -147,6 +165,7 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 **목표**: KIS OpenAPI 설정 UI 구현
 
 **작업 항목**:
+
 1. Settings Page UI 컴포넌트 구현
 2. AppKey/AppSecret 입력 필드 구현
    - AppKey: 36자
@@ -157,11 +176,13 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 6. API 호출 및 상태 관리
 
 **기술적 의존성**:
+
 - 마일스톤 1, 2 완료
 - Next.js App Router
 - React Hook Form (선택)
 
 **완료 기준**:
+
 - AppKey, AppSecret, 환경을 입력하고 저장할 수 있음
 - 저장된 정보가 암호화되어 DB에 저장됨
 - 연결 테스트가 정상 작동함
@@ -172,6 +193,7 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 **목표**: 대시보드 연결 상태 위젯 구현
 
 **작업 항목**:
+
 1. Dashboard Widget UI 컴포넌트 구현
 2. 연결 상태 표시 기능
    - Connected (녹색)
@@ -184,10 +206,12 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
    - 시:분:초 형식
 
 **기술적 의존성**:
+
 - 마일스톤 3 완료
 - React hooks (useState, useEffect)
 
 **완료 기준**:
+
 - 연결 상태가 시각적으로 표시됨
 - 토큰 만료 카운트다운이 실시간으로 표시됨
 - 버튼 클릭으로 적절한 페이지로 이동함
@@ -197,6 +221,7 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 **목표**: 전용 KIS 인증 페이지 구현
 
 **작업 항목**:
+
 1. Authentication Page UI 구현
 2. OAuth 인증 흐름 UI 구현
    - AppKey/AppSecret 입력
@@ -212,10 +237,12 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
    - 연결된 환경
 
 **기술적 의존성**:
+
 - 마일스톤 7, 8 완료
 - Next.js App Router
 
 **완료 기준**:
+
 - OAuth 인증 흐름이 완전히 작동함
 - 연결 관리 기능이 작동함
 - 토큰 정보가 정확하게 표시됨
@@ -225,16 +252,19 @@ DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 **목표**: 하나의 사용자가 여러 KIS 계정을 연동
 
 **작업 항목**:
+
 1. 사용자별 다중 토큰 저장 지원
 2. 계정 선택 UI (프론트엔드)
 3. 계정별 API 요청 라우팅
 4. 계정 연동 해제 기능
 
 **기술적 의존성**:
+
 - 마일스톤 9 완료
 - 사용자 인증 시스템 (NextAuth.js 또는 커스텀)
 
 **완료 기준**:
+
 - 사용자가 여러 KIS 계정을 등록하고 전환할 수 있음
 - 각 계정의 토큰이 독립적으로 관리됨
 
@@ -257,18 +287,15 @@ export class KISAPIClient {
 
   // 접근토큰발급
   async issueAccessToken(): Promise<KISAuthToken> {
-    const response = await fetch(
-      `${this.getBaseURL()}/oauth2/tokenP`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          grant_type: 'client_credentials',
-          appkey: this.config.appKey,
-          appsecret: this.config.appSecret,
-        }),
-      }
-    );
+    const response = await fetch(`${this.getBaseURL()}/oauth2/tokenP`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        grant_type: 'client_credentials',
+        appkey: this.config.appKey,
+        appsecret: this.config.appSecret,
+      }),
+    });
     return response.json();
   }
 
@@ -277,40 +304,34 @@ export class KISAPIClient {
     await fetch(`${this.getBaseURL()}/oauth2/revokeP`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${await this.tokenManager.getAccessToken()}`,
+        Authorization: `Bearer ${await this.tokenManager.getAccessToken()}`,
       },
     });
   }
 
   // Hashkey 생성
   async generateHashkey(body: Record<string, unknown>): Promise<string> {
-    const response = await fetch(
-      `${this.getBaseURL()}/uapi/hashkey`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'appkey': this.config.appKey,
-          'appsecret': this.config.appSecret,
-        },
-        body: JSON.stringify(body),
-      }
-    );
+    const response = await fetch(`${this.getBaseURL()}/uapi/hashkey`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        appkey: this.config.appKey,
+        appsecret: this.config.appSecret,
+      },
+      body: JSON.stringify(body),
+    });
     const { hash } = await response.json();
     return hash;
   }
 
   // 웹소켓 접속키 발급
   async approveWebSocket(): Promise<string> {
-    const response = await fetch(
-      `${this.getBaseURL()}/oauth2/Approval`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${await this.tokenManager.getAccessToken()}`,
-        },
-      }
-    );
+    const response = await fetch(`${this.getBaseURL()}/oauth2/Approval`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${await this.tokenManager.getAccessToken()}`,
+      },
+    });
     const { approval_key } = await response.json();
     return approval_key;
   }
@@ -642,6 +663,7 @@ KIS_RETRY_DELAY_BASE=1000
 **영향**: 높음
 
 **대응 계획**:
+
 - KIS OpenAPI 공식 문서 정기 확인 (월 1회)
 - 예제 코드 리포지토리 모니터링
 - 인증 로직을 모듈화하여 유연한 수정 가능
@@ -652,6 +674,7 @@ KIS_RETRY_DELAY_BASE=1000
 **영향**: 높음
 
 **대응 계획**:
+
 - 사전 갱신 정책(만료 1시간 전)
 - 24시간 유효, 6시간 주기 갱신 권장 사항 준수
 - 토큰 갱신 실패 시 알림 시스템
@@ -662,6 +685,7 @@ KIS_RETRY_DELAY_BASE=1000
 **영향**: 중간
 
 **대응 계획**:
+
 - 요청 속도 제한 구현
 - 지수 백오프 재시도
 - 속도 제한 모니터링 및 경고
@@ -672,6 +696,7 @@ KIS_RETRY_DELAY_BASE=1000
 **영향**: 매우 높음
 
 **대응 계획**:
+
 - 모든 인증 정보 AES-256 암호화
 - 주기적인 보안 감사
 - 취약점 스캔 (OWASP ZAP)
@@ -683,6 +708,7 @@ KIS_RETRY_DELAY_BASE=1000
 **영향**: 중간
 
 **대응 계획**:
+
 - 환경 전환 전 확인 UI 제공
 - Mock/Production 명확한 표시
 - 연결 테스트 기능 제공
@@ -699,13 +725,16 @@ KIS_RETRY_DELAY_BASE=1000
 ### 전문가 상담 권장사항
 
 **Backend 전문가 상담** (필수):
+
 - 이유: OAuth 2.0 인증 구현, Hashkey 생성, 보안 암호화, API 클라이언트 설계는 백엔드 전문 영역
 - 예상 혜택: 보안 강화, 성능 최적화, 확장 가능한 아키텍처
 
 **Frontend 전문가 상담** (필수):
+
 - 이유: Settings Page, Dashboard Widget, Authentication Page는 프론트엔드 전문 영역
 - 예상 혜택: 사용자 경험 개선, 상태 관리 최적화, 반응형 UI
 
 **Security 전문가 상담** (권장):
+
 - 이유: 인증 정보 암호화, OWASP 준수, 민감 정보 처리는 보안 전문 영역
 - 예상 혜택: 보안 취약점 조기 발견, 컴플라이언스 준수

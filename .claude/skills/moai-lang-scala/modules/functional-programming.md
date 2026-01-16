@@ -99,8 +99,8 @@ given [A](using encoder: JsonEncoder[A]): JsonEncoder[Option[A]] with
   def encode(value: Option[A]): String =
     value.fold("null")(encoder.encode)
 
-given [K, V](using 
-  keyEnc: JsonEncoder[K], 
+given [K, V](using
+  keyEnc: JsonEncoder[K],
   valEnc: JsonEncoder[V]
 ): JsonEncoder[Map[K, V]] with
   def encode(value: Map[K, V]): String =
@@ -144,7 +144,7 @@ given lowPriority: JsonEncoder[Any] = ???
 given highPriority: JsonEncoder[String] = ???
 
 // Using clauses for multiple contexts
-def process[A](value: A)(using 
+def process[A](value: A)(using
   enc: JsonEncoder[A],
   ord: Ordering[A],
   show: Show[A]
@@ -165,7 +165,7 @@ enum Color:
 
 enum DayOfWeek:
   case Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday
-  
+
   def isWeekend: Boolean = this match
     case Saturday | Sunday => true
     case _ => false
@@ -231,10 +231,10 @@ Zero-cost type abstractions:
 ```scala
 object UserId:
   opaque type UserId = Long
-  
+
   def apply(id: Long): UserId = id
   def fromString(s: String): Option[UserId] = s.toLongOption
-  
+
   extension (id: UserId)
     def value: Long = id
     def asString: String = id.toString
@@ -247,15 +247,15 @@ export UserId.UserId
 ```scala
 object Email:
   opaque type Email = String
-  
+
   private val emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$".r
-  
+
   def apply(email: String): Either[String, Email] =
     if emailRegex.matches(email) then Right(email)
     else Left(s"Invalid email format: $email")
-  
+
   def unsafeApply(email: String): Email = email
-  
+
   extension (email: Email)
     def value: String = email
     def domain: String = email.split("@").last
@@ -263,14 +263,14 @@ object Email:
 
 object NonEmptyString:
   opaque type NonEmptyString = String
-  
+
   def apply(s: String): Option[NonEmptyString] =
     Option.when(s.nonEmpty)(s)
-  
+
   def unsafeApply(s: String): NonEmptyString =
     require(s.nonEmpty, "String must not be empty")
     s
-  
+
   extension (nes: NonEmptyString)
     def value: String = nes
     def length: Int = nes.length
@@ -281,11 +281,11 @@ object NonEmptyString:
 ```scala
 object PositiveInt:
   opaque type PositiveInt = Int
-  
+
   def apply(n: Int): Either[String, PositiveInt] =
     if n > 0 then Right(n)
     else Left(s"$n is not positive")
-  
+
   extension (n: PositiveInt)
     def value: Int = n
     def +(other: PositiveInt): PositiveInt = n + other
@@ -293,11 +293,11 @@ object PositiveInt:
 
 object Percentage:
   opaque type Percentage = Double
-  
+
   def apply(value: Double): Either[String, Percentage] =
     if value >= 0 && value <= 100 then Right(value)
     else Left(s"$value is not a valid percentage (0-100)")
-  
+
   extension (p: Percentage)
     def value: Double = p
     def asFraction: Double = p / 100.0
@@ -355,7 +355,7 @@ def sendEmail(contact: Contact): Unit =
   println(s"Sending to ${contact.email}")
 
 // Implementation
-case class User(name: String, age: Int, email: String) 
+case class User(name: String, age: Int, email: String)
   extends HasName, HasAge, HasEmail
 
 val user = User("John", 30, "john@example.com")
@@ -435,21 +435,25 @@ inline def platformCode(): Unit =
 ## Best Practices
 
 Extension Methods:
+
 - Group related extensions in a single extension block
 - Use descriptive names that read naturally with the type
 - Consider providing both safe (Option-returning) and unsafe variants
 
 Given/Using:
+
 - Prefer given instances in companion objects for automatic discovery
 - Use explicit type annotations for complex derived instances
 - Import givens selectively to avoid ambiguity
 
 Enums:
+
 - Use simple enums for finite sets of values
 - Use parameterized enums when values carry data
 - Prefer pattern matching over isInstanceOf checks
 
 Opaque Types:
+
 - Always provide a smart constructor that validates input
 - Export the type alias from the companion object
 - Use extensions for all instance methods

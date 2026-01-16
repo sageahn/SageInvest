@@ -1,16 +1,16 @@
 ---
-name: "moai-workflow-testing"
-description: "Comprehensive development workflow specialist combining TDD, debugging, performance optimization, code review, PR review, and quality assurance into unified development workflows"
+name: 'moai-workflow-testing'
+description: 'Comprehensive development workflow specialist combining TDD, debugging, performance optimization, code review, PR review, and quality assurance into unified development workflows'
 version: 2.3.0
-category: "workflow"
+category: 'workflow'
 modularized: true
 user-invocable: false
 context: fork
 agent: expert-testing
 tags: ['workflow', 'testing', 'debugging', 'performance', 'quality', 'tdd', 'review', 'pr-review']
 updated: 2026-01-11
-status: "active"
-author: "MoAI-ADK Team"
+status: 'active'
+author: 'MoAI-ADK Team'
 allowed-tools:
   - Read
   - Write

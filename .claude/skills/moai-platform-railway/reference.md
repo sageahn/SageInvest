@@ -11,6 +11,7 @@ Extended documentation for Railway container deployment configurations and advan
 Railway automatically injects these environment variables into every deployment:
 
 Service Information:
+
 - RAILWAY_SERVICE_NAME: Name of the current service
 - RAILWAY_REPLICA_ID: Unique identifier for this replica
 - RAILWAY_ENVIRONMENT: Environment name (production, staging)
@@ -18,6 +19,7 @@ Service Information:
 - RAILWAY_DEPLOYMENT_ID: Current deployment identifier
 
 Git Information:
+
 - RAILWAY_GIT_COMMIT_SHA: Full commit SHA
 - RAILWAY_GIT_AUTHOR: Commit author
 - RAILWAY_GIT_BRANCH: Branch name
@@ -25,22 +27,26 @@ Git Information:
 - RAILWAY_GIT_REPO_NAME: Repository name
 
 Networking:
+
 - RAILWAY_PRIVATE_DOMAIN: Internal hostname for private networking
 - RAILWAY_PUBLIC_DOMAIN: Public hostname (if configured)
 - PORT: Port to bind to (Railway expects this)
 
 Volume:
+
 - RAILWAY_VOLUME_NAME: Name of attached volume
 - RAILWAY_VOLUME_MOUNT_PATH: Mount path for volume
 
 ### Variable Best Practices
 
 Environment-Specific Configuration:
+
 - Use Railway environments (production, staging, development)
 - Override variables per environment in dashboard
 - Never commit secrets to repository
 
 Secret Management:
+
 - Store secrets in Railway dashboard only
 - Use variable references for shared secrets between services
 - Rotate secrets through environment variable updates
@@ -215,11 +221,13 @@ railway run COMMAND        # Run command with Railway env
 ### PostgreSQL
 
 Configuration:
+
 - Automatic connection pooling via PgBouncer
 - Point-in-time recovery
 - Automatic backups
 
 Connection URL Format:
+
 ```
 postgresql://user:password@host:port/database?sslmode=require
 ```
@@ -227,11 +235,13 @@ postgresql://user:password@host:port/database?sslmode=require
 ### Redis
 
 Configuration:
+
 - Persistence enabled by default
 - Memory limits based on plan
 - Cluster mode available on higher plans
 
 Connection URL Format:
+
 ```
 redis://default:password@host:port
 ```
@@ -239,11 +249,13 @@ redis://default:password@host:port
 ### MySQL
 
 Configuration:
+
 - InnoDB storage engine
 - Automatic backups
 - Binary logging enabled
 
 Connection URL Format:
+
 ```
 mysql://user:password@host:port/database
 ```
@@ -257,10 +269,10 @@ mysql://user:password@host:port/database
 Railway expects applications to bind to the PORT environment variable:
 
 ```typescript
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {
-  console.log(`Server running on port ${port}`)
-})
+  console.log(`Server running on port ${port}`);
+});
 ```
 
 Common Pitfall: Binding to localhost (127.0.0.1) instead of 0.0.0.0 will prevent Railway from routing traffic.
@@ -268,22 +280,26 @@ Common Pitfall: Binding to localhost (127.0.0.1) instead of 0.0.0.0 will prevent
 ### Private Networking Internals
 
 Private domains use Railway's internal DNS:
+
 - Format: {service-name}.railway.internal
 - Resolution only works within Railway network
 - No additional configuration needed
 
 Service-to-Service Latency:
+
 - Same region: < 1ms
 - Cross-region: 50-150ms depending on distance
 
 ### SSL/TLS
 
 Public Domains:
+
 - Automatic Let's Encrypt certificates
 - Wildcard certificates for custom domains
 - HTTP to HTTPS redirect automatic
 
 Private Networking:
+
 - No TLS by default (internal network is encrypted)
 - Can add TLS if compliance requires end-to-end encryption
 
@@ -309,6 +325,7 @@ Private Networking:
 ### Resource Limits
 
 Maximum Values:
+
 - Memory: 32 Gi
 - CPU: 8 cores
 - Volume size: 100 Gi
@@ -321,21 +338,25 @@ Maximum Values:
 ### Common Issues
 
 Build Failures:
+
 - Check Dockerfile syntax
 - Verify base image availability
 - Review build logs for errors
 
 Deployment Crashes:
+
 - Check health check path returns 200
 - Verify PORT binding
 - Review application logs
 
 Networking Issues:
+
 - Confirm private domain format
 - Check service is running
 - Verify variable references
 
 Volume Issues:
+
 - Volumes require numReplicas = 1
 - Check mount path permissions
 - Verify volume size sufficient
@@ -354,17 +375,20 @@ railway run sh              # Shell access (if available)
 ## Version History
 
 Version 2.0.0 (2025-12-30):
+
 - Modular documentation structure
 - Context7 MCP integration
 - Railpack migration guidance
 - Enhanced auto-scaling patterns
 
 Version 1.1.0 (2025-11-15):
+
 - Multi-region deployment
 - Volume configuration
 - CI/CD integration
 
 Version 1.0.0 (2025-10-01):
+
 - Initial release
 - Docker deployment patterns
 - Multi-service architecture

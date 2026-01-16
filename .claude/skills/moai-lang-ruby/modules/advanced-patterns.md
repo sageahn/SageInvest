@@ -3,6 +3,7 @@
 ## Sidekiq Background Jobs
 
 Job Definition:
+
 ```ruby
 # app/jobs/process_order_job.rb
 class ProcessOrderJob < ApplicationJob
@@ -35,6 +36,7 @@ end
 ## ActiveRecord Advanced Patterns
 
 Scopes and Query Objects:
+
 ```ruby
 class Post < ApplicationRecord
   scope :published, -> { where(published: true) }
@@ -94,6 +96,7 @@ end
 ## Production Deployment Patterns
 
 Docker Configuration:
+
 ```dockerfile
 # Dockerfile
 FROM ruby:3.3-slim
@@ -125,6 +128,7 @@ CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
 ```
 
 Puma Configuration:
+
 ```ruby
 # config/puma.rb
 workers ENV.fetch("WEB_CONCURRENCY") { 2 }
@@ -146,6 +150,7 @@ end
 ## Advanced ActiveRecord Patterns
 
 Polymorphic Associations:
+
 ```ruby
 class Comment < ApplicationRecord
   belongs_to :commentable, polymorphic: true
@@ -162,6 +167,7 @@ end
 ```
 
 Single Table Inheritance (STI):
+
 ```ruby
 class Vehicle < ApplicationRecord
   validates :brand, presence: true
@@ -179,6 +185,7 @@ end
 ## Action Cable Real-Time Features
 
 Channel Implementation:
+
 ```ruby
 # app/channels/notification_channel.rb
 class NotificationChannel < ApplicationCable::Channel
@@ -205,6 +212,7 @@ end
 ## Performance Optimization
 
 N+1 Query Prevention:
+
 ```ruby
 # Bad: N+1 queries
 User.all.each do |user|
@@ -226,6 +234,7 @@ add_column :users, :posts_count, :integer, default: 0
 ```
 
 Database Indexing:
+
 ```ruby
 # migration
 class AddIndexesToPosts < ActiveRecord::Migration[7.2]
@@ -241,6 +250,7 @@ end
 ## Security Best Practices
 
 Strong Parameters:
+
 ```ruby
 class UsersController < ApplicationController
   private
@@ -252,6 +262,7 @@ end
 ```
 
 CSRF Protection:
+
 ```ruby
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
@@ -259,6 +270,7 @@ end
 ```
 
 SQL Injection Prevention:
+
 ```ruby
 # Bad: Direct interpolation
 User.where("email = '#{params[:email]}'")
@@ -271,6 +283,7 @@ User.where("email = ?", params[:email])
 ## CI/CD Integration
 
 GitHub Actions Workflow:
+
 ```yaml
 # .github/workflows/ci.yml
 name: CI

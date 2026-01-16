@@ -3,6 +3,7 @@
 ## Complete FastAPI Application
 
 ### Project Structure
+
 ```
 fastapi_app/
 ├── app/

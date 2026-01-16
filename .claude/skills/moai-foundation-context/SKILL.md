@@ -6,17 +6,9 @@ version: 3.1.0
 modularized: false
 user-invocable: false
 category: foundation
-tags:
-  [
-    "foundation",
-    "context",
-    "session",
-    "token-optimization",
-    "state-management",
-    "multi-agent",
-  ]
+tags: ['foundation', 'context', 'session', 'token-optimization', 'state-management', 'multi-agent']
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Grep

@@ -1,15 +1,15 @@
 ---
-name: "moai-platform-vercel"
-description: "Vercel edge deployment specialist covering Edge Functions, Next.js optimization, preview deployments, ISR, and storage solutions. Use when deploying Next.js applications, implementing edge computing, or configuring Vercel platform features."
+name: 'moai-platform-vercel'
+description: 'Vercel edge deployment specialist covering Edge Functions, Next.js optimization, preview deployments, ISR, and storage solutions. Use when deploying Next.js applications, implementing edge computing, or configuring Vercel platform features.'
 version: 2.1.0
-category: "platform"
+category: 'platform'
 modularized: true
 user-invocable: false
 tags: ['vercel', 'edge', 'nextjs', 'isr', 'preview', 'cdn', 'kv', 'blob', 'postgres']
-context7-libraries: "/vercel/next.js, /vercel/vercel"
-related-skills: "moai-platform-railway, moai-lang-typescript, moai-domain-frontend"
+context7-libraries: '/vercel/next.js, /vercel/vercel'
+related-skills: 'moai-platform-railway, moai-lang-typescript, moai-domain-frontend'
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Write
@@ -104,9 +104,9 @@ For monorepo configuration, set buildCommand to run turbo build from root with f
 
 Use Context7 MCP tools for latest documentation:
 
-Step 1: Resolve library ID using mcp__context7__resolve-library-id with "vercel" or "next.js".
+Step 1: Resolve library ID using mcp**context7**resolve-library-id with "vercel" or "next.js".
 
-Step 2: Fetch documentation using mcp__context7__get-library-docs with resolved ID, specific topic, and appropriate token allocation of 5000 to 10000 tokens.
+Step 2: Fetch documentation using mcp**context7**get-library-docs with resolved ID, specific topic, and appropriate token allocation of 5000 to 10000 tokens.
 
 ---
 

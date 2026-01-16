@@ -1,6 +1,6 @@
 ---
-description: "Submit feedback or report issues"
-argument-hint: "[issue|suggestion|question]"
+description: 'Submit feedback or report issues'
+argument-hint: '[issue|suggestion|question]'
 type: local
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, TodoWrite, AskUserQuestion
 model: sonnet

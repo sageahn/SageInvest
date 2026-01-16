@@ -13,7 +13,8 @@ describe('Retry Policy', () => {
     });
 
     it('should retry on failure and eventually succeed', async () => {
-      const mockFn = vi.fn()
+      const mockFn = vi
+        .fn()
         .mockRejectedValueOnce(new Error('Attempt 1 failed'))
         .mockRejectedValueOnce(new Error('Attempt 2 failed'))
         .mockResolvedValue('success');
@@ -27,15 +28,14 @@ describe('Retry Policy', () => {
     it('should respect maxRetries limit', async () => {
       const mockFn = vi.fn().mockRejectedValue(new Error('Always fails'));
 
-      await expect(
-        retryWithBackoff(mockFn, { maxRetries: 2 })
-      ).rejects.toThrow('Always fails');
+      await expect(retryWithBackoff(mockFn, { maxRetries: 2 })).rejects.toThrow('Always fails');
 
       expect(mockFn).toHaveBeenCalledTimes(3); // Initial attempt + 2 retries
     });
 
     it('should use exponential backoff delay', async () => {
-      const mockFn = vi.fn()
+      const mockFn = vi
+        .fn()
         .mockRejectedValueOnce(new Error('Fail 1'))
         .mockRejectedValueOnce(new Error('Fail 2'))
         .mockResolvedValue('success');
@@ -71,7 +71,8 @@ describe('Retry Policy', () => {
     });
 
     it('should retry network errors', async () => {
-      const mockFn = vi.fn()
+      const mockFn = vi
+        .fn()
         .mockRejectedValueOnce(new Error('Network error')) // No response property
         .mockResolvedValue('success');
 
@@ -82,7 +83,8 @@ describe('Retry Policy', () => {
     });
 
     it('should retry 5xx errors', async () => {
-      const mockFn = vi.fn()
+      const mockFn = vi
+        .fn()
         .mockRejectedValueOnce({ response: { status: 500 } })
         .mockResolvedValue('success');
 
@@ -93,7 +95,8 @@ describe('Retry Policy', () => {
     });
 
     it('should retry 429 rate limit errors', async () => {
-      const mockFn = vi.fn()
+      const mockFn = vi
+        .fn()
         .mockRejectedValueOnce({ response: { status: 429 } })
         .mockResolvedValue('success');
 

@@ -11,6 +11,7 @@
 ### Security Vulnerability Categories
 
 Injection Attacks:
+
 - SQL Injection: Parameterized query validation
 - Command Injection: Shell command safety checks
 - LDAP Injection: Directory service query safety
@@ -18,6 +19,7 @@ Injection Attacks:
 - NoSQL Injection: NoSQL query safety
 
 Authentication & Authorization:
+
 - Hardcoded credentials detection
 - Weak password validation
 - Session management issues
@@ -25,6 +27,7 @@ Authentication & Authorization:
 - Multi-factor authentication gaps
 
 Data Protection:
+
 - Sensitive data exposure
 - Cryptographic storage issues
 - Insufficient encryption
@@ -32,6 +35,7 @@ Data Protection:
 - Data leakage detection
 
 API Security:
+
 - Improper input validation
 - Authentication token handling
 - Rate limiting issues
@@ -39,6 +43,7 @@ API Security:
 - API version management
 
 Context7 Integration:
+
 - OWASP Top 10 patterns
 - Semgrep security rules
 - Real-time vulnerability database
@@ -135,6 +140,7 @@ async def analyze_sql_injection(self, file_path: str, content: str) -> List[Code
 ```
 
 SQL Injection Best Practices:
+
 - Use parameterized queries
 - Implement ORM frameworks
 - Validate and sanitize user input

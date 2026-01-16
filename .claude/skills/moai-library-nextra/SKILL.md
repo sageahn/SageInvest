@@ -16,8 +16,8 @@ allowed-tools:
 aliases:
   - moai-library-nextra
 category: library
-tags: ["library", "nextra", "nextjs", "documentation", "mdx", "static-site"]
-status: "active"
+tags: ['library', 'nextra', 'nextjs', 'documentation', 'mdx', 'static-site']
+status: 'active'
 ---
 
 ## Quick Reference
@@ -36,7 +36,7 @@ Core Files:
 
 - The pages directory contains documentation pages in MDX format
 - The theme.config.tsx file contains site configuration
-- The _meta.js files control navigation structure
+- The \_meta.js files control navigation structure
 
 ## Implementation Guide
 
@@ -50,7 +50,7 @@ Use this skill when building documentation sites with modern React features, cre
 
 ### Project Setup
 
-To initialize a Nextra documentation site, use the create-nextra-app command with npx specifying the docs template. The resulting project structure includes a pages directory containing the custom App component file, the index MDX file for the home page, and subdirectories for documentation sections. Each section contains MDX files for content and a _meta.json file for navigation configuration.
+To initialize a Nextra documentation site, use the create-nextra-app command with npx specifying the docs template. The resulting project structure includes a pages directory containing the custom App component file, the index MDX file for the home page, and subdirectories for documentation sections. Each section contains MDX files for content and a \_meta.json file for navigation configuration.
 
 ### Theme Configuration
 
@@ -60,7 +60,7 @@ Essential configuration options include branding settings for logo and logoLink,
 
 ### Navigation Structure
 
-The _meta.js files control sidebar menu ordering and display names. Each file exports a default object where keys represent file or directory names and values represent display labels. Special entries include separator lines using triple dashes as keys with empty string values, and external links can be configured with nested objects containing title, href, and newWindow properties.
+The \_meta.js files control sidebar menu ordering and display names. Each file exports a default object where keys represent file or directory names and values represent display labels. Special entries include separator lines using triple dashes as keys with empty string values, and external links can be configured with nested objects containing title, href, and newWindow properties.
 
 ### MDX Content and JSX Integration
 

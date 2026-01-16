@@ -948,9 +948,9 @@ test_that("example with local setup", {
 
 ````markdown
 ---
-title: "Comprehensive Data Analysis"
-author: "Data Scientist"
-date: "`r Sys.Date()`"
+title: 'Comprehensive Data Analysis'
+author: 'Data Scientist'
+date: '`r Sys.Date()`'
 output:
   html_document:
     toc: true
@@ -961,7 +961,7 @@ output:
   pdf_document:
     toc: true
 params:
-  data_file: "data/sales.csv"
+  data_file: 'data/sales.csv'
   year: 2024
 ---
 
@@ -1019,7 +1019,7 @@ The total revenue for `r params$year` was
 
 ````markdown
 ---
-title: "Advanced Analysis with Quarto"
+title: 'Advanced Analysis with Quarto'
 format:
   html:
     code-fold: true

@@ -31,52 +31,52 @@ Restore Branch: Branch created for point-in-time recovery
 
 ```typescript
 class NeonBranchManager {
-  private apiKey: string
-  private projectId: string
-  private baseUrl = 'https://console.neon.tech/api/v2'
+  private apiKey: string;
+  private projectId: string;
+  private baseUrl = 'https://console.neon.tech/api/v2';
 
   constructor(apiKey: string, projectId: string) {
-    this.apiKey = apiKey
-    this.projectId = projectId
+    this.apiKey = apiKey;
+    this.projectId = projectId;
   }
 
   private async request(path: string, options: RequestInit = {}) {
     const response = await fetch(`${this.baseUrl}${path}`, {
       ...options,
       headers: {
-        'Authorization': `Bearer ${this.apiKey}`,
+        Authorization: `Bearer ${this.apiKey}`,
         'Content-Type': 'application/json',
-        ...options.headers
-      }
-    })
-    if (!response.ok) throw new Error(`Neon API error: ${response.statusText}`)
-    return response.json()
+        ...options.headers,
+      },
+    });
+    if (!response.ok) throw new Error(`Neon API error: ${response.statusText}`);
+    return response.json();
   }
 
   async createBranch(name: string, parentId: string = 'main') {
     return this.request(`/projects/${this.projectId}/branches`, {
       method: 'POST',
       body: JSON.stringify({
-        branch: { name, parent_id: parentId }
-      })
-    })
+        branch: { name, parent_id: parentId },
+      }),
+    });
   }
 
   async deleteBranch(branchId: string) {
     return this.request(`/projects/${this.projectId}/branches/${branchId}`, {
-      method: 'DELETE'
-    })
+      method: 'DELETE',
+    });
   }
 
   async listBranches() {
-    return this.request(`/projects/${this.projectId}/branches`)
+    return this.request(`/projects/${this.projectId}/branches`);
   }
 
   async getBranchConnectionString(branchId: string) {
     const endpoints = await this.request(
       `/projects/${this.projectId}/branches/${branchId}/endpoints`
-    )
-    return endpoints.endpoints[0]?.connection_uri
+    );
+    return endpoints.endpoints[0]?.connection_uri;
   }
 }
 ```
@@ -92,34 +92,34 @@ async function createPreviewEnvironment(prNumber: number) {
   const branchManager = new NeonBranchManager(
     process.env.NEON_API_KEY!,
     process.env.NEON_PROJECT_ID!
-  )
+  );
 
   // Create branch from main with PR identifier
-  const branch = await branchManager.createBranch(`pr-${prNumber}`, 'main')
+  const branch = await branchManager.createBranch(`pr-${prNumber}`, 'main');
 
   // Get connection string for the new branch
-  const connectionString = await branchManager.getBranchConnectionString(branch.branch.id)
+  const connectionString = await branchManager.getBranchConnectionString(branch.branch.id);
 
   return {
     branchId: branch.branch.id,
     branchName: branch.branch.name,
     connectionString,
-    createdAt: new Date().toISOString()
-  }
+    createdAt: new Date().toISOString(),
+  };
 }
 
 async function cleanupPreviewEnvironment(prNumber: number) {
   const branchManager = new NeonBranchManager(
     process.env.NEON_API_KEY!,
     process.env.NEON_PROJECT_ID!
-  )
+  );
 
   // Find and delete the PR branch
-  const { branches } = await branchManager.listBranches()
-  const prBranch = branches.find(b => b.name === `pr-${prNumber}`)
+  const { branches } = await branchManager.listBranches();
+  const prBranch = branches.find((b) => b.name === `pr-${prNumber}`);
 
   if (prBranch) {
-    await branchManager.deleteBranch(prBranch.id)
+    await branchManager.deleteBranch(prBranch.id);
   }
 }
 ```
@@ -230,22 +230,22 @@ jobs:
 
 ```typescript
 interface FeatureBranchConfig {
-  featureName: string
-  baseBranch?: string
-  autoCleanupDays?: number
+  featureName: string;
+  baseBranch?: string;
+  autoCleanupDays?: number;
 }
 
 async function createFeatureBranch(config: FeatureBranchConfig) {
-  const { featureName, baseBranch = 'main', autoCleanupDays = 7 } = config
+  const { featureName, baseBranch = 'main', autoCleanupDays = 7 } = config;
 
   const branchManager = new NeonBranchManager(
     process.env.NEON_API_KEY!,
     process.env.NEON_PROJECT_ID!
-  )
+  );
 
   // Create branch with feature prefix
-  const branchName = `feature-${featureName}-${Date.now()}`
-  const branch = await branchManager.createBranch(branchName, baseBranch)
+  const branchName = `feature-${featureName}-${Date.now()}`;
+  const branch = await branchManager.createBranch(branchName, baseBranch);
 
   // Store cleanup metadata
   const metadata = {
@@ -253,33 +253,33 @@ async function createFeatureBranch(config: FeatureBranchConfig) {
     branchName,
     featureName,
     createdAt: new Date().toISOString(),
-    expiresAt: new Date(Date.now() + autoCleanupDays * 24 * 60 * 60 * 1000).toISOString()
-  }
+    expiresAt: new Date(Date.now() + autoCleanupDays * 24 * 60 * 60 * 1000).toISOString(),
+  };
 
   return {
     ...metadata,
-    connectionString: await branchManager.getBranchConnectionString(branch.branch.id)
-  }
+    connectionString: await branchManager.getBranchConnectionString(branch.branch.id),
+  };
 }
 
 async function cleanupExpiredBranches() {
   const branchManager = new NeonBranchManager(
     process.env.NEON_API_KEY!,
     process.env.NEON_PROJECT_ID!
-  )
+  );
 
-  const { branches } = await branchManager.listBranches()
-  const now = new Date()
+  const { branches } = await branchManager.listBranches();
+  const now = new Date();
 
   for (const branch of branches) {
     // Check if branch is a feature branch and expired
     if (branch.name.startsWith('feature-')) {
-      const createdAt = new Date(branch.created_at)
-      const ageInDays = (now.getTime() - createdAt.getTime()) / (24 * 60 * 60 * 1000)
+      const createdAt = new Date(branch.created_at);
+      const ageInDays = (now.getTime() - createdAt.getTime()) / (24 * 60 * 60 * 1000);
 
       if (ageInDays > 7) {
-        console.log(`Cleaning up expired branch: ${branch.name}`)
-        await branchManager.deleteBranch(branch.id)
+        console.log(`Cleaning up expired branch: ${branch.name}`);
+        await branchManager.deleteBranch(branch.id);
       }
     }
   }
@@ -297,29 +297,29 @@ async function resetBranchToParent(branchName: string) {
   const branchManager = new NeonBranchManager(
     process.env.NEON_API_KEY!,
     process.env.NEON_PROJECT_ID!
-  )
+  );
 
   // Find the current branch
-  const { branches } = await branchManager.listBranches()
-  const currentBranch = branches.find(b => b.name === branchName)
+  const { branches } = await branchManager.listBranches();
+  const currentBranch = branches.find((b) => b.name === branchName);
 
   if (!currentBranch) {
-    throw new Error(`Branch ${branchName} not found`)
+    throw new Error(`Branch ${branchName} not found`);
   }
 
-  const parentId = currentBranch.parent_id
+  const parentId = currentBranch.parent_id;
 
   // Delete current branch
-  await branchManager.deleteBranch(currentBranch.id)
+  await branchManager.deleteBranch(currentBranch.id);
 
   // Recreate with same name from parent
-  const newBranch = await branchManager.createBranch(branchName, parentId)
+  const newBranch = await branchManager.createBranch(branchName, parentId);
 
   return {
     branchId: newBranch.branch.id,
     connectionString: await branchManager.getBranchConnectionString(newBranch.branch.id),
-    resetAt: new Date().toISOString()
-  }
+    resetAt: new Date().toISOString(),
+  };
 }
 ```
 

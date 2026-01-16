@@ -1,14 +1,13 @@
 ---
-name: "moai-lang-python"
-description: "Python 3.13+ development specialist covering FastAPI, Django, async patterns, data science, testing with pytest, and modern Python features. Use when developing Python APIs, web applications, data pipelines, or writing tests."
+name: 'moai-lang-python'
+description: 'Python 3.13+ development specialist covering FastAPI, Django, async patterns, data science, testing with pytest, and modern Python features. Use when developing Python APIs, web applications, data pipelines, or writing tests.'
 version: 1.1.0
-category: "language"
+category: 'language'
 modularized: false
 user-invocable: false
-tags:
-  ["language", "python", "fastapi", "django", "pytest", "async", "data-science"]
+tags: ['language', 'python', 'fastapi', 'django', 'pytest', 'async', 'data-science']
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Grep
@@ -118,7 +117,7 @@ Create a BaseSchema model with model_config set to ConfigDict. Set from_attribut
 
 Engine and Session Setup:
 
-Import create_async_engine, async_sessionmaker, and AsyncSession from sqlalchemy.ext.asyncio. Create engine using create_async_engine with the postgresql+asyncpg connection string, pool_pre_ping set to True, and echo set to True. Create async_session using async_sessionmaker with the engine, class_ set to AsyncSession, and expire_on_commit set to False to prevent detached instance errors.
+Import create*async_engine, async_sessionmaker, and AsyncSession from sqlalchemy.ext.asyncio. Create engine using create_async_engine with the postgresql+asyncpg connection string, pool_pre_ping set to True, and echo set to True. Create async_session using async_sessionmaker with the engine, class* set to AsyncSession, and expire_on_commit set to False to prevent detached instance errors.
 
 Repository Pattern:
 

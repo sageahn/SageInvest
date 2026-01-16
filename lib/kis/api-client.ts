@@ -105,7 +105,7 @@ export class KISApiClient {
       {
         headers: {
           'Content-Type': 'application/json',
-          'appKey': appKey,
+          appKey: appKey,
         },
       }
     );

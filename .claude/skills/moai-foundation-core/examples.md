@@ -9,6 +9,7 @@
 **Scenario**: 새로운 기능을 개발한 후 TRUST 5 품질 게이트를 통과시키는 상황
 
 **Input**:
+
 ```python
 # 개발된 코드에 TRUST 5 검증 요청
 Task(
@@ -22,9 +23,9 @@ Task(
 ```
 
 **Output**:
+
 ```markdown
-TRUST 5 Validation Report
-=========================
+# TRUST 5 Validation Report
 
 Test-first: PASS (87% coverage, threshold: 85%)
 Readable: PASS (naming conventions compliant)
@@ -44,6 +45,7 @@ Overall Status: APPROVED for merge
 **Scenario**: 사용자 인증 기능을 SPEC-First TDD 방식으로 개발하는 전체 과정
 
 **Input**:
+
 ```bash
 # Phase 1: SPEC 생성
 /moai:1-plan "JWT 기반 사용자 인증 시스템 구현"
@@ -57,28 +59,30 @@ Overall Status: APPROVED for merge
 ```
 
 **Output**:
+
 ```markdown
-Phase 1 Result (.moai/specs/SPEC-001/spec.md):
-==============================================
+# Phase 1 Result (.moai/specs/SPEC-001/spec.md):
+
 ID: SPEC-001
 Title: JWT Authentication System
 EARS Format:
+
 - [Ubiquitous] System shall hash passwords using bcrypt
 - [Event-driven] When user submits credentials, system shall validate and return JWT
 - [State-driven] While token is valid, user shall access protected resources
 - [Unwanted] System shall not store plain-text passwords
-Token Usage: 28K/30K
+  Token Usage: 28K/30K
 
-Phase 2 Result:
-===============
+# Phase 2 Result:
+
 RED: 5 failing tests created (test_login, test_register, test_token_validation...)
 GREEN: All tests passing after implementation
 REFACTOR: Code optimized, duplications removed
 Coverage: 92% (threshold: 85%)
 Token Usage: 165K/180K
 
-Phase 3 Result:
-===============
+# Phase 3 Result:
+
 API Documentation: Generated (docs/api/auth.md)
 Architecture Diagram: Created (docs/diagrams/auth-flow.mermaid)
 Token Usage: 35K/40K
@@ -93,6 +97,7 @@ Token Usage: 35K/40K
 **Scenario**: 10개 이상의 파일이 관련된 복잡한 마이크로서비스 개발
 
 **Input**:
+
 ```python
 # 복잡한 작업: 순차 + 병렬 위임 조합
 async def develop_microservice():
@@ -132,16 +137,18 @@ async def develop_microservice():
 ```
 
 **Output**:
+
 ```markdown
-Delegation Report
-=================
+# Delegation Report
 
 Phase 1 (Sequential):
+
 - api-designer: Completed in 45s
   - 12 endpoints designed
   - OpenAPI spec generated
 
 Phase 2 (Parallel - 3 agents):
+
 - backend-expert: Completed in 120s
   - 8 API handlers implemented
   - Database models created
@@ -153,6 +160,7 @@ Phase 2 (Parallel - 3 agents):
   - Mock data prepared
 
 Phase 3 (Validation):
+
 - core-quality: TRUST 5 PASSED
   - Coverage: 89%
   - No security issues
@@ -187,6 +195,7 @@ Task(subagent_type="workflow-docs", prompt="Generate documentation")
 ```
 
 모니터링 방법:
+
 - /context 명령으로 현재 토큰 사용량 확인
 - 150K 초과 시 /clear 권장
 - 50+ 메시지 후 컨텍스트 초기화 고려
@@ -197,19 +206,23 @@ Task(subagent_type="workflow-docs", prompt="Generate documentation")
 
 ```markdown
 ## Quick Reference (30초, ~1000 토큰)
+
 - 핵심 개념만 포함
 - 즉시 사용 가능한 정보
 
 ## Implementation Guide (5분, ~3000 토큰)
+
 - 단계별 워크플로우
 - 실용적인 예시
 
 ## Advanced Patterns (10+분, ~5000 토큰)
+
 - 심층 기술 정보
 - 엣지 케이스 처리
 ```
 
 파일 분리 기준:
+
 - SKILL.md: 500줄 이하 (핵심 내용)
 - modules/: 상세 내용 (무제한)
 - examples.md: 실행 가능한 예시
@@ -337,20 +350,20 @@ else:
 
 작업 복잡도에 따른 에이전트 선택 가이드:
 
-| 복잡도 | 파일 수 | 에이전트 수 | 실행 패턴 |
-|--------|---------|------------|----------|
-| Simple | 1개 | 1-2개 | 순차 |
-| Medium | 3-5개 | 2-3개 | 순차 |
-| Complex | 10+개 | 5+개 | 순차+병렬 혼합 |
+| 복잡도  | 파일 수 | 에이전트 수 | 실행 패턴      |
+| ------- | ------- | ----------- | -------------- |
+| Simple  | 1개     | 1-2개       | 순차           |
+| Medium  | 3-5개   | 2-3개       | 순차           |
+| Complex | 10+개   | 5+개        | 순차+병렬 혼합 |
 
 토큰 예산 배분:
 
-| Phase | 예산 | 전략 |
-|-------|------|------|
-| SPEC | 30K | 요구사항만 로드 |
-| TDD | 180K | 선택적 파일 로딩 |
-| Docs | 40K | 결과 캐싱 |
-| Total | 250K | Phase 분리 |
+| Phase | 예산 | 전략             |
+| ----- | ---- | ---------------- |
+| SPEC  | 30K  | 요구사항만 로드  |
+| TDD   | 180K | 선택적 파일 로딩 |
+| Docs  | 40K  | 결과 캐싱        |
+| Total | 250K | Phase 분리       |
 
 ---
 

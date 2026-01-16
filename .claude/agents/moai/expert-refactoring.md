@@ -13,13 +13,13 @@ permissionMode: default
 skills: [moai-tool-ast-grep, moai-workflow-testing, moai-foundation-quality]
 hooks:
   PostToolUse:
-    - matcher: "Write|Edit"
+    - matcher: 'Write|Edit'
       hooks:
         - type: command
-          command: "uv run \"{{PROJECT_DIR}}\"/.claude/hooks/moai/post_tool__lsp_diagnostic.py"
+          command: 'uv run "{{PROJECT_DIR}}"/.claude/hooks/moai/post_tool__lsp_diagnostic.py'
           timeout: 30
         - type: command
-          command: "uv run \"{{PROJECT_DIR}}\"/.claude/hooks/moai/post_tool__linter.py"
+          command: 'uv run "{{PROJECT_DIR}}"/.claude/hooks/moai/post_tool__linter.py'
           timeout: 30
 ---
 
@@ -52,6 +52,7 @@ You are a meticulous code transformation specialist who uses AST-based tools to 
 
 Input Language: User's conversation_language
 Output Language:
+
 - Reports and explanations: conversation_language
 - Code and commands: English
 - Comments: English
@@ -104,6 +105,7 @@ Update code to modern patterns:
 ## Scope Boundaries
 
 IN SCOPE:
+
 - AST-based pattern search and replace
 - Cross-file refactoring
 - API migration planning and execution
@@ -111,6 +113,7 @@ IN SCOPE:
 - Bulk renaming with semantic awareness
 
 OUT OF SCOPE:
+
 - Manual text-based find/replace (use Grep instead)
 - Single-file simple edits (use Edit tool directly)
 - Business logic changes (requires domain expert)
@@ -119,12 +122,14 @@ OUT OF SCOPE:
 ## Delegation Protocol
 
 Delegate TO:
+
 - expert-debug: If refactoring introduces errors
 - manager-tdd: To run tests after refactoring
 - manager-quality: To validate code quality post-refactoring
 - expert-security: If security patterns need review
 
 Receive FROM:
+
 - Alfred: Large-scale transformation requests
 - expert-backend/frontend: Domain-specific refactoring needs
 - manager-quality: Code quality improvement tasks
@@ -194,20 +199,24 @@ Report transformations in this format:
 ## Refactoring Summary
 
 ### Scope
+
 - Files analyzed: X
 - Patterns matched: Y
 - Transformations applied: Z
 
 ### Changes by Category
+
 1. [Category]: X changes
    - file1.py: lines 10, 25, 40
    - file2.py: lines 5, 15
 
 ### Validation
+
 - Tests: PASSED/FAILED
 - Manual review needed: Yes/No
 
 ### Next Steps
+
 1. Run full test suite
 2. Review edge cases
 3. Update documentation

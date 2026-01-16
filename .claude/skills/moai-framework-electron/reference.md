@@ -150,15 +150,15 @@ electron-app/
 
 ```typescript
 // src/main/app.ts
-import { app, BrowserWindow, session } from "electron";
-import { join } from "path";
+import { app, BrowserWindow, session } from 'electron';
+import { join } from 'path';
 
 class Application {
   private mainWindow: BrowserWindow | null = null;
 
   async initialize(): Promise<void> {
     // Set app user model ID for Windows
-    if (process.platform === "win32") {
+    if (process.platform === 'win32') {
       app.setAppUserModelId(app.getName());
     }
 
@@ -169,7 +169,7 @@ class Application {
       return;
     }
 
-    app.on("second-instance", () => {
+    app.on('second-instance', () => {
       if (this.mainWindow) {
         if (this.mainWindow.isMinimized()) {
           this.mainWindow.restore();
@@ -179,15 +179,15 @@ class Application {
     });
 
     // macOS: Re-create window when dock icon clicked
-    app.on("activate", () => {
+    app.on('activate', () => {
       if (BrowserWindow.getAllWindows().length === 0) {
         this.createMainWindow();
       }
     });
 
     // Quit when all windows closed (except macOS)
-    app.on("window-all-closed", () => {
-      if (process.platform !== "darwin") {
+    app.on('window-all-closed', () => {
+      if (process.platform !== 'darwin') {
         app.quit();
       }
     });
@@ -208,7 +208,7 @@ class Application {
       callback({
         responseHeaders: {
           ...details.responseHeaders,
-          "Content-Security-Policy": [
+          'Content-Security-Policy': [
             "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'",
           ],
         },
@@ -216,12 +216,10 @@ class Application {
     });
 
     // Configure permissions
-    session.defaultSession.setPermissionRequestHandler(
-      (webContents, permission, callback) => {
-        const allowedPermissions = ["notifications", "clipboard-read"];
-        callback(allowedPermissions.includes(permission));
-      },
-    );
+    session.defaultSession.setPermissionRequestHandler((webContents, permission, callback) => {
+      const allowedPermissions = ['notifications', 'clipboard-read'];
+      callback(allowedPermissions.includes(permission));
+    });
   }
 
   private createMainWindow(): void {
@@ -232,7 +230,7 @@ class Application {
       minHeight: 600,
       show: false,
       webPreferences: {
-        preload: join(__dirname, "../preload/index.js"),
+        preload: join(__dirname, '../preload/index.js'),
         sandbox: true,
         contextIsolation: true,
         nodeIntegration: false,
@@ -241,16 +239,16 @@ class Application {
     });
 
     // Show window when ready
-    this.mainWindow.on("ready-to-show", () => {
+    this.mainWindow.on('ready-to-show', () => {
       this.mainWindow?.show();
     });
 
     // Load app content
-    if (process.env.NODE_ENV === "development") {
-      this.mainWindow.loadURL("http://localhost:5173");
+    if (process.env.NODE_ENV === 'development') {
+      this.mainWindow.loadURL('http://localhost:5173');
       this.mainWindow.webContents.openDevTools();
     } else {
-      this.mainWindow.loadFile(join(__dirname, "../renderer/index.html"));
+      this.mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
     }
   }
 }
@@ -262,12 +260,8 @@ export const application = new Application();
 
 ```typescript
 // src/main/windows/window-manager.ts
-import {
-  BrowserWindow,
-  BrowserWindowConstructorOptions,
-  screen,
-} from "electron";
-import { join } from "path";
+import { BrowserWindow, BrowserWindowConstructorOptions, screen } from 'electron';
+import { join } from 'path';
 
 interface WindowState {
   width: number;
@@ -281,10 +275,7 @@ export class WindowManager {
   private windows = new Map<string, BrowserWindow>();
   private stateStore: Map<string, WindowState> = new Map();
 
-  createWindow(
-    id: string,
-    options: BrowserWindowConstructorOptions = {},
-  ): BrowserWindow {
+  createWindow(id: string, options: BrowserWindowConstructorOptions = {}): BrowserWindow {
     // Restore previous state
     const savedState = this.stateStore.get(id);
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -296,7 +287,7 @@ export class WindowManager {
       y: savedState?.y,
       show: false,
       webPreferences: {
-        preload: join(__dirname, "../preload/index.js"),
+        preload: join(__dirname, '../preload/index.js'),
         sandbox: true,
         contextIsolation: true,
         nodeIntegration: false,
@@ -318,11 +309,11 @@ export class WindowManager {
     }
 
     // Save state on close
-    window.on("close", () => {
+    window.on('close', () => {
       this.saveWindowState(id, window);
     });
 
-    window.on("closed", () => {
+    window.on('closed', () => {
       this.windows.delete(id);
     });
 
@@ -366,18 +357,18 @@ export const windowManager = new WindowManager();
 // src/shared/ipc-types.ts
 export interface IpcChannels {
   // Main -> Renderer
-  "app:update-available": { version: string };
-  "app:update-downloaded": void;
+  'app:update-available': { version: string };
+  'app:update-downloaded': void;
 
   // Renderer -> Main (invoke)
-  "file:open": { path: string };
-  "file:save": { path: string; content: string };
-  "file:read": string; // Returns file content
-  "window:minimize": void;
-  "window:maximize": void;
-  "window:close": void;
-  "storage:get": { key: string };
-  "storage:set": { key: string; value: unknown };
+  'file:open': { path: string };
+  'file:save': { path: string; content: string };
+  'file:read': string; // Returns file content
+  'window:minimize': void;
+  'window:maximize': void;
+  'window:close': void;
+  'storage:get': { key: string };
+  'storage:set': { key: string; value: unknown };
 }
 
 export type IpcChannel = keyof IpcChannels;
@@ -388,20 +379,20 @@ export type IpcPayload<C extends IpcChannel> = IpcChannels[C];
 
 ```typescript
 // src/main/ipc/index.ts
-import { ipcMain, dialog, BrowserWindow } from "electron";
-import { readFile, writeFile } from "fs/promises";
-import Store from "electron-store";
+import { ipcMain, dialog, BrowserWindow } from 'electron';
+import { readFile, writeFile } from 'fs/promises';
+import Store from 'electron-store';
 
 const store = new Store();
 
 export function registerIpcHandlers(): void {
   // File operations
-  ipcMain.handle("file:open", async () => {
+  ipcMain.handle('file:open', async () => {
     const result = await dialog.showOpenDialog({
-      properties: ["openFile"],
+      properties: ['openFile'],
       filters: [
-        { name: "All Files", extensions: ["*"] },
-        { name: "Text", extensions: ["txt", "md"] },
+        { name: 'All Files', extensions: ['*'] },
+        { name: 'Text', extensions: ['txt', 'md'] },
       ],
     });
 
@@ -410,29 +401,29 @@ export function registerIpcHandlers(): void {
     }
 
     const filePath = result.filePaths[0];
-    const content = await readFile(filePath, "utf-8");
+    const content = await readFile(filePath, 'utf-8');
     return { path: filePath, content };
   });
 
   ipcMain.handle(
-    "file:save",
+    'file:save',
     async (_event, { path, content }: { path: string; content: string }) => {
-      await writeFile(path, content, "utf-8");
+      await writeFile(path, content, 'utf-8');
       return { success: true };
-    },
+    }
   );
 
-  ipcMain.handle("file:read", async (_event, path: string) => {
-    return readFile(path, "utf-8");
+  ipcMain.handle('file:read', async (_event, path: string) => {
+    return readFile(path, 'utf-8');
   });
 
   // Window operations
-  ipcMain.handle("window:minimize", (event) => {
+  ipcMain.handle('window:minimize', (event) => {
     const window = BrowserWindow.fromWebContents(event.sender);
     window?.minimize();
   });
 
-  ipcMain.handle("window:maximize", (event) => {
+  ipcMain.handle('window:maximize', (event) => {
     const window = BrowserWindow.fromWebContents(event.sender);
     if (window?.isMaximized()) {
       window.unmaximize();
@@ -441,23 +432,20 @@ export function registerIpcHandlers(): void {
     }
   });
 
-  ipcMain.handle("window:close", (event) => {
+  ipcMain.handle('window:close', (event) => {
     const window = BrowserWindow.fromWebContents(event.sender);
     window?.close();
   });
 
   // Storage operations
-  ipcMain.handle("storage:get", (_event, { key }: { key: string }) => {
+  ipcMain.handle('storage:get', (_event, { key }: { key: string }) => {
     return store.get(key);
   });
 
-  ipcMain.handle(
-    "storage:set",
-    (_event, { key, value }: { key: string; value: unknown }) => {
-      store.set(key, value);
-      return { success: true };
-    },
-  );
+  ipcMain.handle('storage:set', (_event, { key, value }: { key: string; value: unknown }) => {
+    store.set(key, value);
+    return { success: true };
+  });
 }
 ```
 
@@ -465,53 +453,47 @@ export function registerIpcHandlers(): void {
 
 ```typescript
 // src/preload/index.ts
-import { contextBridge, ipcRenderer } from "electron";
+import { contextBridge, ipcRenderer } from 'electron';
 
 // Expose protected methods for renderer
 const api = {
   // Window controls
   window: {
-    minimize: () => ipcRenderer.invoke("window:minimize"),
-    maximize: () => ipcRenderer.invoke("window:maximize"),
-    close: () => ipcRenderer.invoke("window:close"),
+    minimize: () => ipcRenderer.invoke('window:minimize'),
+    maximize: () => ipcRenderer.invoke('window:maximize'),
+    close: () => ipcRenderer.invoke('window:close'),
   },
 
   // File operations
   file: {
-    open: () => ipcRenderer.invoke("file:open"),
-    save: (path: string, content: string) =>
-      ipcRenderer.invoke("file:save", { path, content }),
-    read: (path: string) => ipcRenderer.invoke("file:read", path),
+    open: () => ipcRenderer.invoke('file:open'),
+    save: (path: string, content: string) => ipcRenderer.invoke('file:save', { path, content }),
+    read: (path: string) => ipcRenderer.invoke('file:read', path),
   },
 
   // Storage
   storage: {
-    get: <T>(key: string): Promise<T | undefined> =>
-      ipcRenderer.invoke("storage:get", { key }),
-    set: (key: string, value: unknown) =>
-      ipcRenderer.invoke("storage:set", { key, value }),
+    get: <T>(key: string): Promise<T | undefined> => ipcRenderer.invoke('storage:get', { key }),
+    set: (key: string, value: unknown) => ipcRenderer.invoke('storage:set', { key, value }),
   },
 
   // App events
   onUpdateAvailable: (callback: (version: string) => void) => {
-    const handler = (
-      _event: Electron.IpcRendererEvent,
-      { version }: { version: string },
-    ) => {
+    const handler = (_event: Electron.IpcRendererEvent, { version }: { version: string }) => {
       callback(version);
     };
-    ipcRenderer.on("app:update-available", handler);
-    return () => ipcRenderer.removeListener("app:update-available", handler);
+    ipcRenderer.on('app:update-available', handler);
+    return () => ipcRenderer.removeListener('app:update-available', handler);
   },
 
   onUpdateDownloaded: (callback: () => void) => {
     const handler = () => callback();
-    ipcRenderer.on("app:update-downloaded", handler);
-    return () => ipcRenderer.removeListener("app:update-downloaded", handler);
+    ipcRenderer.on('app:update-downloaded', handler);
+    return () => ipcRenderer.removeListener('app:update-downloaded', handler);
   },
 };
 
-contextBridge.exposeInMainWorld("electronAPI", api);
+contextBridge.exposeInMainWorld('electronAPI', api);
 
 // Type declaration for renderer
 declare global {
@@ -529,9 +511,9 @@ declare global {
 
 ```typescript
 // src/main/services/updater.ts
-import { autoUpdater, UpdateInfo } from "electron-updater";
-import { BrowserWindow, dialog } from "electron";
-import log from "electron-log";
+import { autoUpdater, UpdateInfo } from 'electron-updater';
+import { BrowserWindow, dialog } from 'electron';
+import log from 'electron-log';
 
 export class UpdateService {
   private mainWindow: BrowserWindow | null = null;
@@ -545,33 +527,33 @@ export class UpdateService {
     autoUpdater.autoInstallOnAppQuit = true;
 
     // Event handlers
-    autoUpdater.on("checking-for-update", () => {
-      log.info("Checking for updates...");
+    autoUpdater.on('checking-for-update', () => {
+      log.info('Checking for updates...');
     });
 
-    autoUpdater.on("update-available", (info: UpdateInfo) => {
-      log.info("Update available:", info.version);
-      this.mainWindow?.webContents.send("app:update-available", {
+    autoUpdater.on('update-available', (info: UpdateInfo) => {
+      log.info('Update available:', info.version);
+      this.mainWindow?.webContents.send('app:update-available', {
         version: info.version,
       });
       this.promptForUpdate(info);
     });
 
-    autoUpdater.on("update-not-available", () => {
-      log.info("No updates available");
+    autoUpdater.on('update-not-available', () => {
+      log.info('No updates available');
     });
 
-    autoUpdater.on("error", (error) => {
-      log.error("Update error:", error);
+    autoUpdater.on('error', (error) => {
+      log.error('Update error:', error);
     });
 
-    autoUpdater.on("download-progress", (progress) => {
+    autoUpdater.on('download-progress', (progress) => {
       log.info(`Download progress: ${progress.percent.toFixed(1)}%`);
     });
 
-    autoUpdater.on("update-downloaded", () => {
-      log.info("Update downloaded");
-      this.mainWindow?.webContents.send("app:update-downloaded");
+    autoUpdater.on('update-downloaded', () => {
+      log.info('Update downloaded');
+      this.mainWindow?.webContents.send('app:update-downloaded');
       this.promptForRestart();
     });
   }
@@ -580,16 +562,16 @@ export class UpdateService {
     try {
       await autoUpdater.checkForUpdates();
     } catch (error) {
-      log.error("Failed to check for updates:", error);
+      log.error('Failed to check for updates:', error);
     }
   }
 
   private async promptForUpdate(info: UpdateInfo): Promise<void> {
     const result = await dialog.showMessageBox(this.mainWindow!, {
-      type: "info",
-      title: "Update Available",
+      type: 'info',
+      title: 'Update Available',
       message: `Version ${info.version} is available. Would you like to download it?`,
-      buttons: ["Download", "Later"],
+      buttons: ['Download', 'Later'],
     });
 
     if (result.response === 0) {
@@ -599,11 +581,10 @@ export class UpdateService {
 
   private async promptForRestart(): Promise<void> {
     const result = await dialog.showMessageBox(this.mainWindow!, {
-      type: "info",
-      title: "Update Ready",
-      message:
-        "A new version has been downloaded. Restart to apply the update?",
-      buttons: ["Restart Now", "Later"],
+      type: 'info',
+      title: 'Update Ready',
+      message: 'A new version has been downloaded. Restart to apply the update?',
+      buttons: ['Restart Now', 'Later'],
     });
 
     if (result.response === 0) {
@@ -645,15 +626,15 @@ Content Security Policy:
 
 ```typescript
 // src/main/ipc/validators.ts
-import { z } from "zod";
+import { z } from 'zod';
 
 const FilePathSchema = z.string().refine(
   (path) => {
     // Prevent path traversal
-    const normalized = path.replace(/\\/g, "/");
-    return !normalized.includes("..") && !normalized.startsWith("/");
+    const normalized = path.replace(/\\/g, '/');
+    return !normalized.includes('..') && !normalized.startsWith('/');
   },
-  { message: "Invalid file path" },
+  { message: 'Invalid file path' }
 );
 
 const StorageKeySchema = z
@@ -676,14 +657,14 @@ export const validators = {
 
 ```typescript
 // src/main/services/tray.ts
-import { Tray, Menu, app, nativeImage } from "electron";
-import { join } from "path";
+import { Tray, Menu, app, nativeImage } from 'electron';
+import { join } from 'path';
 
 export class TrayService {
   private tray: Tray | null = null;
 
   initialize(): void {
-    const iconPath = join(__dirname, "../../resources/icons/tray.png");
+    const iconPath = join(__dirname, '../../resources/icons/tray.png');
     const icon = nativeImage.createFromPath(iconPath);
 
     this.tray = new Tray(icon);
@@ -691,26 +672,26 @@ export class TrayService {
 
     const contextMenu = Menu.buildFromTemplate([
       {
-        label: "Show App",
+        label: 'Show App',
         click: () => {
-          const { windowManager } = require("./window-manager");
-          const mainWindow = windowManager.getWindow("main");
+          const { windowManager } = require('./window-manager');
+          const mainWindow = windowManager.getWindow('main');
           mainWindow?.show();
           mainWindow?.focus();
         },
       },
-      { type: "separator" },
+      { type: 'separator' },
       {
-        label: "Preferences",
-        accelerator: "CmdOrCtrl+,",
+        label: 'Preferences',
+        accelerator: 'CmdOrCtrl+,',
         click: () => {
           // Open preferences
         },
       },
-      { type: "separator" },
+      { type: 'separator' },
       {
-        label: "Quit",
-        accelerator: "CmdOrCtrl+Q",
+        label: 'Quit',
+        accelerator: 'CmdOrCtrl+Q',
         click: () => app.quit(),
       },
     ]);
@@ -718,9 +699,9 @@ export class TrayService {
     this.tray.setContextMenu(contextMenu);
 
     // macOS: Click to show app
-    this.tray.on("click", () => {
-      const { windowManager } = require("./window-manager");
-      const mainWindow = windowManager.getWindow("main");
+    this.tray.on('click', () => {
+      const { windowManager } = require('./window-manager');
+      const mainWindow = windowManager.getWindow('main');
       mainWindow?.show();
       mainWindow?.focus();
     });
@@ -739,10 +720,10 @@ export const trayService = new TrayService();
 
 ```typescript
 // src/main/services/menu.ts
-import { Menu, app, shell, MenuItemConstructorOptions } from "electron";
+import { Menu, app, shell, MenuItemConstructorOptions } from 'electron';
 
 export function createApplicationMenu(): void {
-  const isMac = process.platform === "darwin";
+  const isMac = process.platform === 'darwin';
 
   const template: MenuItemConstructorOptions[] = [
     // App menu (macOS only)
@@ -751,15 +732,15 @@ export function createApplicationMenu(): void {
           {
             label: app.name,
             submenu: [
-              { role: "about" as const },
-              { type: "separator" as const },
-              { role: "services" as const },
-              { type: "separator" as const },
-              { role: "hide" as const },
-              { role: "hideOthers" as const },
-              { role: "unhide" as const },
-              { type: "separator" as const },
-              { role: "quit" as const },
+              { role: 'about' as const },
+              { type: 'separator' as const },
+              { role: 'services' as const },
+              { type: 'separator' as const },
+              { role: 'hide' as const },
+              { role: 'hideOthers' as const },
+              { role: 'unhide' as const },
+              { type: 'separator' as const },
+              { role: 'quit' as const },
             ],
           },
         ]
@@ -767,77 +748,76 @@ export function createApplicationMenu(): void {
 
     // File menu
     {
-      label: "File",
+      label: 'File',
       submenu: [
         {
-          label: "New",
-          accelerator: "CmdOrCtrl+N",
+          label: 'New',
+          accelerator: 'CmdOrCtrl+N',
           click: () => {
             // Handle new file
           },
         },
         {
-          label: "Open...",
-          accelerator: "CmdOrCtrl+O",
+          label: 'Open...',
+          accelerator: 'CmdOrCtrl+O',
           click: () => {
             // Handle open
           },
         },
-        { type: "separator" },
+        { type: 'separator' },
         {
-          label: "Save",
-          accelerator: "CmdOrCtrl+S",
+          label: 'Save',
+          accelerator: 'CmdOrCtrl+S',
           click: () => {
             // Handle save
           },
         },
-        { type: "separator" },
-        isMac ? { role: "close" } : { role: "quit" },
+        { type: 'separator' },
+        isMac ? { role: 'close' } : { role: 'quit' },
       ],
     },
 
     // Edit menu
     {
-      label: "Edit",
+      label: 'Edit',
       submenu: [
-        { role: "undo" },
-        { role: "redo" },
-        { type: "separator" },
-        { role: "cut" },
-        { role: "copy" },
-        { role: "paste" },
-        { role: "selectAll" },
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'selectAll' },
       ],
     },
 
     // View menu
     {
-      label: "View",
+      label: 'View',
       submenu: [
-        { role: "reload" },
-        { role: "forceReload" },
-        { role: "toggleDevTools" },
-        { type: "separator" },
-        { role: "resetZoom" },
-        { role: "zoomIn" },
-        { role: "zoomOut" },
-        { type: "separator" },
-        { role: "togglefullscreen" },
+        { role: 'reload' },
+        { role: 'forceReload' },
+        { role: 'toggleDevTools' },
+        { type: 'separator' },
+        { role: 'resetZoom' },
+        { role: 'zoomIn' },
+        { role: 'zoomOut' },
+        { type: 'separator' },
+        { role: 'togglefullscreen' },
       ],
     },
 
     // Help menu
     {
-      label: "Help",
+      label: 'Help',
       submenu: [
         {
-          label: "Documentation",
-          click: () => shell.openExternal("https://docs.example.com"),
+          label: 'Documentation',
+          click: () => shell.openExternal('https://docs.example.com'),
         },
         {
-          label: "Report Issue",
-          click: () =>
-            shell.openExternal("https://github.com/example/repo/issues"),
+          label: 'Report Issue',
+          click: () => shell.openExternal('https://github.com/example/repo/issues'),
         },
       ],
     },
@@ -860,16 +840,16 @@ module.exports = {
   packagerConfig: {
     asar: true,
     darwinDarkModeSupport: true,
-    executableName: "my-app",
-    appBundleId: "com.example.myapp",
-    appCategoryType: "public.app-category.developer-tools",
-    icon: "./resources/icons/icon",
+    executableName: 'my-app',
+    appBundleId: 'com.example.myapp',
+    appCategoryType: 'public.app-category.developer-tools',
+    icon: './resources/icons/icon',
     osxSign: {
-      identity: "Developer ID Application: Your Name (TEAM_ID)",
-      "hardened-runtime": true,
-      entitlements: "./entitlements.plist",
-      "entitlements-inherit": "./entitlements.plist",
-      "signature-flags": "library",
+      identity: 'Developer ID Application: Your Name (TEAM_ID)',
+      'hardened-runtime': true,
+      entitlements: './entitlements.plist',
+      'entitlements-inherit': './entitlements.plist',
+      'signature-flags': 'library',
     },
     osxNotarize: {
       appleId: process.env.APPLE_ID,
@@ -880,55 +860,55 @@ module.exports = {
   rebuildConfig: {},
   makers: [
     {
-      name: "@electron-forge/maker-squirrel",
+      name: '@electron-forge/maker-squirrel',
       config: {
-        name: "my_app",
-        setupIcon: "./resources/icons/icon.ico",
+        name: 'my_app',
+        setupIcon: './resources/icons/icon.ico',
       },
     },
     {
-      name: "@electron-forge/maker-zip",
-      platforms: ["darwin"],
+      name: '@electron-forge/maker-zip',
+      platforms: ['darwin'],
     },
     {
-      name: "@electron-forge/maker-dmg",
+      name: '@electron-forge/maker-dmg',
       config: {
-        icon: "./resources/icons/icon.icns",
-        format: "ULFO",
+        icon: './resources/icons/icon.icns',
+        format: 'ULFO',
       },
     },
     {
-      name: "@electron-forge/maker-deb",
+      name: '@electron-forge/maker-deb',
       config: {
         options: {
-          maintainer: "Your Name",
-          homepage: "https://example.com",
+          maintainer: 'Your Name',
+          homepage: 'https://example.com',
         },
       },
     },
     {
-      name: "@electron-forge/maker-rpm",
+      name: '@electron-forge/maker-rpm',
       config: {},
     },
   ],
   plugins: [
     {
-      name: "@electron-forge/plugin-vite",
+      name: '@electron-forge/plugin-vite',
       config: {
         build: [
           {
-            entry: "src/main/index.ts",
-            config: "vite.main.config.ts",
+            entry: 'src/main/index.ts',
+            config: 'vite.main.config.ts',
           },
           {
-            entry: "src/preload/index.ts",
-            config: "vite.preload.config.ts",
+            entry: 'src/preload/index.ts',
+            config: 'vite.preload.config.ts',
           },
         ],
         renderer: [
           {
-            name: "main_window",
-            config: "vite.renderer.config.ts",
+            name: 'main_window',
+            config: 'vite.renderer.config.ts',
           },
         ],
       },
@@ -936,11 +916,11 @@ module.exports = {
   ],
   publishers: [
     {
-      name: "@electron-forge/publisher-github",
+      name: '@electron-forge/publisher-github',
       config: {
         repository: {
-          owner: "your-username",
-          name: "your-repo",
+          owner: 'your-username',
+          name: 'your-repo',
         },
         prerelease: false,
       },
@@ -962,16 +942,16 @@ directories:
   buildResources: resources
 
 files:
-  - "!**/.vscode/*"
-  - "!src/*"
-  - "!docs/*"
-  - "!*.md"
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!docs/*'
+  - '!*.md'
 
 extraResources:
   - from: resources/
     to: resources/
     filter:
-      - "**/*"
+      - '**/*'
 
 asar: true
 compression: maximum
@@ -1047,8 +1027,8 @@ Utility processes run in a separate Node.js environment for CPU-intensive tasks 
 
 ```typescript
 // src/main/workers/utility-worker.ts
-import { utilityProcess, MessageChannelMain } from "electron";
-import { join } from "path";
+import { utilityProcess, MessageChannelMain } from 'electron';
+import { join } from 'path';
 
 export class UtilityWorker {
   private worker: Electron.UtilityProcess | null = null;
@@ -1057,19 +1037,15 @@ export class UtilityWorker {
   async spawn(): Promise<void> {
     const { port1, port2 } = new MessageChannelMain();
 
-    this.worker = utilityProcess.fork(
-      join(__dirname, "workers/image-processor.js"),
-      [],
-      {
-        serviceName: "image-processor",
-        allowLoadingUnsignedLibraries: false,
-      }
-    );
+    this.worker = utilityProcess.fork(join(__dirname, 'workers/image-processor.js'), [], {
+      serviceName: 'image-processor',
+      allowLoadingUnsignedLibraries: false,
+    });
 
-    this.worker.postMessage({ type: "init" }, [port1]);
+    this.worker.postMessage({ type: 'init' }, [port1]);
     this.port = port2;
 
-    this.worker.on("exit", (code) => {
+    this.worker.on('exit', (code) => {
       console.log(`Utility process exited with code ${code}`);
       this.worker = null;
     });
@@ -1078,22 +1054,22 @@ export class UtilityWorker {
   async processImage(imagePath: string): Promise<Buffer> {
     return new Promise((resolve, reject) => {
       if (!this.port) {
-        reject(new Error("Worker not initialized"));
+        reject(new Error('Worker not initialized'));
         return;
       }
 
       const handler = (event: Electron.MessageEvent) => {
-        if (event.data.type === "result") {
-          this.port?.removeListener("message", handler);
+        if (event.data.type === 'result') {
+          this.port?.removeListener('message', handler);
           resolve(Buffer.from(event.data.buffer));
-        } else if (event.data.type === "error") {
-          this.port?.removeListener("message", handler);
+        } else if (event.data.type === 'error') {
+          this.port?.removeListener('message', handler);
           reject(new Error(event.data.message));
         }
       };
 
-      this.port.on("message", handler);
-      this.port.postMessage({ type: "process", path: imagePath });
+      this.port.on('message', handler);
+      this.port.postMessage({ type: 'process', path: imagePath });
     });
   }
 
@@ -1109,24 +1085,24 @@ export class UtilityWorker {
 
 ```typescript
 // src/main/workers/image-processor.js
-const sharp = require("sharp");
+const sharp = require('sharp');
 
-process.parentPort.on("message", async (event) => {
+process.parentPort.on('message', async (event) => {
   const [port] = event.ports;
 
-  port.on("message", async (msgEvent) => {
+  port.on('message', async (msgEvent) => {
     const { type, path } = msgEvent.data;
 
-    if (type === "process") {
+    if (type === 'process') {
       try {
         const buffer = await sharp(path)
-          .resize(800, 600, { fit: "inside" })
+          .resize(800, 600, { fit: 'inside' })
           .webp({ quality: 80 })
           .toBuffer();
 
-        port.postMessage({ type: "result", buffer });
+        port.postMessage({ type: 'result', buffer });
       } catch (error) {
-        port.postMessage({ type: "error", message: error.message });
+        port.postMessage({ type: 'error', message: error.message });
       }
     }
   });
@@ -1143,28 +1119,26 @@ process.parentPort.on("message", async (event) => {
 
 ```typescript
 // src/main/protocol.ts
-import { app, protocol, net } from "electron";
-import { join } from "path";
-import { pathToFileURL } from "url";
+import { app, protocol, net } from 'electron';
+import { join } from 'path';
+import { pathToFileURL } from 'url';
 
-const PROTOCOL_NAME = "myapp";
+const PROTOCOL_NAME = 'myapp';
 
 export function registerProtocols(): void {
   // Register as default protocol client (for deep linking)
   if (process.defaultApp) {
     if (process.argv.length >= 2) {
-      app.setAsDefaultProtocolClient(PROTOCOL_NAME, process.execPath, [
-        join(process.argv[1]),
-      ]);
+      app.setAsDefaultProtocolClient(PROTOCOL_NAME, process.execPath, [join(process.argv[1])]);
     }
   } else {
     app.setAsDefaultProtocolClient(PROTOCOL_NAME);
   }
 
   // Register custom protocol handler for local resources
-  protocol.handle("app", (request) => {
+  protocol.handle('app', (request) => {
     const url = new URL(request.url);
-    const filePath = join(__dirname, "../renderer", url.pathname);
+    const filePath = join(__dirname, '../renderer', url.pathname);
     return net.fetch(pathToFileURL(filePath).toString());
   });
 }
@@ -1174,21 +1148,18 @@ export function handleProtocolUrl(url: string): void {
   const parsedUrl = new URL(url);
 
   switch (parsedUrl.hostname) {
-    case "open":
+    case 'open':
       handleOpenAction(parsedUrl.pathname, parsedUrl.searchParams);
       break;
-    case "auth":
+    case 'auth':
       handleAuthCallback(parsedUrl.searchParams);
       break;
     default:
-      console.warn("Unknown protocol action:", parsedUrl.hostname);
+      console.warn('Unknown protocol action:', parsedUrl.hostname);
   }
 }
 
-function handleOpenAction(
-  path: string,
-  params: URLSearchParams
-): void {
+function handleOpenAction(path: string, params: URLSearchParams): void {
   // Handle open file/project action
   const filePath = decodeURIComponent(path.slice(1));
   // Send to renderer or process directly
@@ -1196,8 +1167,8 @@ function handleOpenAction(
 
 function handleAuthCallback(params: URLSearchParams): void {
   // Handle OAuth callback
-  const code = params.get("code");
-  const state = params.get("state");
+  const code = params.get('code');
+  const state = params.get('state');
   // Process authentication
 }
 ```
@@ -1206,20 +1177,20 @@ function handleAuthCallback(params: URLSearchParams): void {
 
 ```typescript
 // src/main/index.ts
-app.on("open-url", (event, url) => {
+app.on('open-url', (event, url) => {
   event.preventDefault();
   handleProtocolUrl(url);
 });
 
 // Handle deep link on Windows/Linux (second instance)
-app.on("second-instance", (_event, commandLine) => {
+app.on('second-instance', (_event, commandLine) => {
   const url = commandLine.find((arg) => arg.startsWith(`${PROTOCOL_NAME}://`));
   if (url) {
     handleProtocolUrl(url);
   }
 
   // Focus the main window
-  const mainWindow = windowManager.getWindow("main");
+  const mainWindow = windowManager.getWindow('main');
   if (mainWindow) {
     if (mainWindow.isMinimized()) mainWindow.restore();
     mainWindow.focus();
@@ -1235,39 +1206,39 @@ app.on("second-instance", (_event, commandLine) => {
 
 ```typescript
 // src/main/security.ts
-import { app, session, shell, BrowserWindow } from "electron";
+import { app, session, shell, BrowserWindow } from 'electron';
 
 export function configureSecurity(): void {
   // 1. Disable remote module (deprecated but ensure disabled)
-  app.on("remote-get-builtin", (event) => event.preventDefault());
-  app.on("remote-get-current-web-contents", (event) => event.preventDefault());
-  app.on("remote-get-current-window", (event) => event.preventDefault());
+  app.on('remote-get-builtin', (event) => event.preventDefault());
+  app.on('remote-get-current-web-contents', (event) => event.preventDefault());
+  app.on('remote-get-current-window', (event) => event.preventDefault());
 
   // 2. Block navigation to untrusted origins
-  app.on("web-contents-created", (_event, contents) => {
+  app.on('web-contents-created', (_event, contents) => {
     // Block navigation
-    contents.on("will-navigate", (event, url) => {
-      const allowedOrigins = ["http://localhost", "file://"];
+    contents.on('will-navigate', (event, url) => {
+      const allowedOrigins = ['http://localhost', 'file://'];
       const isAllowed = allowedOrigins.some((origin) => url.startsWith(origin));
       if (!isAllowed) {
         event.preventDefault();
-        console.warn("Blocked navigation to:", url);
+        console.warn('Blocked navigation to:', url);
       }
     });
 
     // Block new windows
     contents.setWindowOpenHandler(({ url }) => {
       // Open external URLs in default browser
-      if (url.startsWith("https://") || url.startsWith("http://")) {
+      if (url.startsWith('https://') || url.startsWith('http://')) {
         shell.openExternal(url);
       }
-      return { action: "deny" };
+      return { action: 'deny' };
     });
 
     // Block webview creation
-    contents.on("will-attach-webview", (event) => {
+    contents.on('will-attach-webview', (event) => {
       event.preventDefault();
-      console.warn("Blocked webview creation");
+      console.warn('Blocked webview creation');
     });
   });
 }
@@ -1280,7 +1251,7 @@ export function configureSessionSecurity(): void {
     callback({
       responseHeaders: {
         ...details.responseHeaders,
-        "Content-Security-Policy": [
+        'Content-Security-Policy': [
           [
             "default-src 'self'",
             "script-src 'self'",
@@ -1291,29 +1262,26 @@ export function configureSessionSecurity(): void {
             "frame-ancestors 'none'",
             "base-uri 'self'",
             "form-action 'self'",
-          ].join("; "),
+          ].join('; '),
         ],
-        "X-Content-Type-Options": ["nosniff"],
-        "X-Frame-Options": ["DENY"],
-        "X-XSS-Protection": ["1; mode=block"],
+        'X-Content-Type-Options': ['nosniff'],
+        'X-Frame-Options': ['DENY'],
+        'X-XSS-Protection': ['1; mode=block'],
       },
     });
   });
 
   // Permission request handler
   ses.setPermissionRequestHandler((webContents, permission, callback) => {
-    const allowedPermissions: Electron.PermissionType[] = [
-      "notifications",
-      "clipboard-read",
-    ];
+    const allowedPermissions: Electron.PermissionType[] = ['notifications', 'clipboard-read'];
 
     const denied: Electron.PermissionType[] = [
-      "geolocation",
-      "media",
-      "mediaKeySystem",
-      "midi",
-      "pointerLock",
-      "fullscreen",
+      'geolocation',
+      'media',
+      'mediaKeySystem',
+      'midi',
+      'pointerLock',
+      'fullscreen',
     ];
 
     if (denied.includes(permission)) {
@@ -1326,11 +1294,11 @@ export function configureSessionSecurity(): void {
   });
 
   // Certificate error handler (for development, not production)
-  if (process.env.NODE_ENV !== "development") {
+  if (process.env.NODE_ENV !== 'development') {
     ses.setCertificateVerifyProc((request, callback) => {
       // Reject invalid certificates in production
       if (request.errorCode !== 0) {
-        console.error("Certificate error:", request.hostname);
+        console.error('Certificate error:', request.hostname);
         callback(-2); // Reject
         return;
       }
@@ -1344,12 +1312,10 @@ export function configureSessionSecurity(): void {
 
 ```typescript
 // src/main/windows/secure-window.ts
-import { BrowserWindow, BrowserWindowConstructorOptions } from "electron";
-import { join } from "path";
+import { BrowserWindow, BrowserWindowConstructorOptions } from 'electron';
+import { join } from 'path';
 
-export function createSecureWindow(
-  options: BrowserWindowConstructorOptions = {}
-): BrowserWindow {
+export function createSecureWindow(options: BrowserWindowConstructorOptions = {}): BrowserWindow {
   const secureDefaults: BrowserWindowConstructorOptions = {
     webPreferences: {
       // Security: Isolate renderer from Node.js
@@ -1364,10 +1330,10 @@ export function createSecureWindow(
       enableWebSQL: false,
 
       // Security: Preload script for safe API exposure
-      preload: join(__dirname, "../preload/index.js"),
+      preload: join(__dirname, '../preload/index.js'),
 
       // Security: Disable devtools in production
-      devTools: process.env.NODE_ENV === "development",
+      devTools: process.env.NODE_ENV === 'development',
 
       // Performance: Disable unused features
       spellcheck: false,
@@ -1375,7 +1341,7 @@ export function createSecureWindow(
     },
 
     // Security: Prevent title from showing sensitive data
-    title: "My App",
+    title: 'My App',
   };
 
   return new BrowserWindow({
@@ -1397,14 +1363,14 @@ export function createSecureWindow(
 
 ```typescript
 // src/main/crash-reporter.ts
-import { crashReporter, app } from "electron";
-import { join } from "path";
+import { crashReporter, app } from 'electron';
+import { join } from 'path';
 
 export function initializeCrashReporter(): void {
   crashReporter.start({
     productName: app.getName(),
-    companyName: "Your Company",
-    submitURL: "https://your-crash-server.com/submit",
+    companyName: 'Your Company',
+    submitURL: 'https://your-crash-server.com/submit',
     uploadToServer: true,
     ignoreSystemCrashHandler: false,
     rateLimit: true,
@@ -1417,7 +1383,7 @@ export function initializeCrashReporter(): void {
   });
 
   // Log crash reports location for debugging
-  console.log("Crash reports path:", app.getPath("crashDumps"));
+  console.log('Crash reports path:', app.getPath('crashDumps'));
 }
 
 export function addCrashContext(key: string, value: string): void {
@@ -1429,28 +1395,25 @@ export function addCrashContext(key: string, value: string): void {
 
 ```typescript
 // src/main/error-handler.ts
-import { dialog, app } from "electron";
-import log from "electron-log";
+import { dialog, app } from 'electron';
+import log from 'electron-log';
 
 export function setupErrorHandlers(): void {
   // Unhandled promise rejections
-  process.on("unhandledRejection", (reason, promise) => {
-    log.error("Unhandled Rejection:", reason);
+  process.on('unhandledRejection', (reason, promise) => {
+    log.error('Unhandled Rejection:', reason);
 
-    if (process.env.NODE_ENV === "development") {
-      dialog.showErrorBox(
-        "Unhandled Promise Rejection",
-        String(reason)
-      );
+    if (process.env.NODE_ENV === 'development') {
+      dialog.showErrorBox('Unhandled Promise Rejection', String(reason));
     }
   });
 
   // Uncaught exceptions
-  process.on("uncaughtException", (error) => {
-    log.error("Uncaught Exception:", error);
+  process.on('uncaughtException', (error) => {
+    log.error('Uncaught Exception:', error);
 
     dialog.showErrorBox(
-      "Application Error",
+      'Application Error',
       `An unexpected error occurred: ${error.message}\n\nThe application will now quit.`
     );
 
@@ -1458,15 +1421,15 @@ export function setupErrorHandlers(): void {
   });
 
   // Renderer process crashes
-  app.on("render-process-gone", (event, webContents, details) => {
-    log.error("Renderer process gone:", details);
+  app.on('render-process-gone', (event, webContents, details) => {
+    log.error('Renderer process gone:', details);
 
-    if (details.reason === "crashed") {
+    if (details.reason === 'crashed') {
       const options = {
-        type: "error" as const,
-        title: "Window Crashed",
-        message: "This window has crashed.",
-        buttons: ["Reload", "Close"],
+        type: 'error' as const,
+        title: 'Window Crashed',
+        message: 'This window has crashed.',
+        buttons: ['Reload', 'Close'],
       };
 
       dialog.showMessageBox(options).then((result) => {
@@ -1478,11 +1441,11 @@ export function setupErrorHandlers(): void {
   });
 
   // GPU process crashes
-  app.on("child-process-gone", (event, details) => {
-    log.error("Child process gone:", details);
+  app.on('child-process-gone', (event, details) => {
+    log.error('Child process gone:', details);
 
-    if (details.type === "GPU" && details.reason === "crashed") {
-      log.warn("GPU process crashed, app may have rendering issues");
+    if (details.type === 'GPU' && details.reason === 'crashed') {
+      log.warn('GPU process crashed, app may have rendering issues');
     }
   });
 }
@@ -1508,21 +1471,21 @@ export function setupErrorHandlers(): void {
 
 ```typescript
 // src/main/services/database.ts
-import Database from "better-sqlite3";
-import { app } from "electron";
-import { join } from "path";
+import Database from 'better-sqlite3';
+import { app } from 'electron';
+import { join } from 'path';
 
 export class DatabaseService {
   private db: Database.Database;
 
   constructor() {
-    const dbPath = join(app.getPath("userData"), "app.db");
+    const dbPath = join(app.getPath('userData'), 'app.db');
     this.db = new Database(dbPath, {
-      verbose: process.env.NODE_ENV === "development" ? console.log : undefined,
+      verbose: process.env.NODE_ENV === 'development' ? console.log : undefined,
     });
 
     // Enable WAL mode for better concurrency
-    this.db.pragma("journal_mode = WAL");
+    this.db.pragma('journal_mode = WAL');
 
     // Initialize schema
     this.initializeSchema();
@@ -1547,9 +1510,9 @@ export class DatabaseService {
   }
 
   getSetting<T>(key: string): T | undefined {
-    const row = this.db
-      .prepare("SELECT value FROM settings WHERE key = ?")
-      .get(key) as { value: string } | undefined;
+    const row = this.db.prepare('SELECT value FROM settings WHERE key = ?').get(key) as
+      | { value: string }
+      | undefined;
     return row ? JSON.parse(row.value) : undefined;
   }
 

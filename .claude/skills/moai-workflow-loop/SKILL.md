@@ -33,8 +33,8 @@ Core Capabilities:
 
 Key Components:
 
-- post_tool__lsp_diagnostic.py: LSP diagnostics after Write/Edit operations
-- stop__loop_controller.py: Loop iteration control
+- post_tool\_\_lsp_diagnostic.py: LSP diagnostics after Write/Edit operations
+- stop\_\_loop_controller.py: Loop iteration control
 - ralph.yaml: Configuration settings
 
 Commands:
@@ -180,9 +180,9 @@ Configuration is stored at .moai/config/sections/ralph.yaml.
 
 Loop state is stored at .moai/cache/.moai_loop_state.json.
 
-The LSP hook is located at .claude/hooks/moai/post_tool__lsp_diagnostic.py.
+The LSP hook is located at .claude/hooks/moai/post_tool\_\_lsp_diagnostic.py.
 
-The loop hook is located at .claude/hooks/moai/stop__loop_controller.py.
+The loop hook is located at .claude/hooks/moai/stop\_\_loop_controller.py.
 
 ### Supported Languages
 

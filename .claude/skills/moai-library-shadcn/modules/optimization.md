@@ -31,23 +31,20 @@ shadcn/ui uses Tailwind CSS. Optimize CSS output by:
 
 ```typescript
 export default {
- content: [
- "./app//*.{js,ts,jsx,tsx}",
- "./components//*.{js,ts,jsx,tsx}",
- ],
- // Only include styles used in templates
-}
+  content: ['./app//*.{js,ts,jsx,tsx}', './components//*.{js,ts,jsx,tsx}'],
+  // Only include styles used in templates
+};
 ```
 
 2. Tree-shaking unused components - Import only what you need:
 
 ```typescript
 // GOOD: Import specific components
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 // AVOID: Importing entire component library
-import * as UI from "@/components/ui"
+import * as UI from '@/components/ui';
 ```
 
 ### Component Import Optimization

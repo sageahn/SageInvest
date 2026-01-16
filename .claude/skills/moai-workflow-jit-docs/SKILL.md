@@ -1,20 +1,12 @@
 ---
-name: "moai-workflow-jit-docs"
-description: "Enhanced Just-In-Time document loading system that intelligently discovers, loads, and caches relevant documentation based on user intent and project context. Use when users need specific documentation, when working with new technologies, when answering domain-specific questions, or when context indicates documentation gaps."
+name: 'moai-workflow-jit-docs'
+description: 'Enhanced Just-In-Time document loading system that intelligently discovers, loads, and caches relevant documentation based on user intent and project context. Use when users need specific documentation, when working with new technologies, when answering domain-specific questions, or when context indicates documentation gaps.'
 version: 3.0.0
-category: "workflow"
+category: 'workflow'
 modularized: false
 user-invocable: false
-tags:
-  [
-    "workflow",
-    "documentation",
-    "jit-loading",
-    "context-aware",
-    "caching",
-    "discovery",
-  ]
-status: "active"
+tags: ['workflow', 'documentation', 'jit-loading', 'context-aware', 'caching', 'discovery']
+status: 'active'
 updated: 2026-01-08
 allowed-tools:
   - Read

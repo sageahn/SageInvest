@@ -1,13 +1,13 @@
 ---
-name: "moai-lang-typescript"
-description: "TypeScript 5.9+ development specialist covering React 19, Next.js 16 App Router, type-safe APIs with tRPC, Zod validation, and modern TypeScript patterns. Use when developing TypeScript applications, React components, Next.js pages, or type-safe APIs."
+name: 'moai-lang-typescript'
+description: 'TypeScript 5.9+ development specialist covering React 19, Next.js 16 App Router, type-safe APIs with tRPC, Zod validation, and modern TypeScript patterns. Use when developing TypeScript applications, React components, Next.js pages, or type-safe APIs.'
 version: 1.1.0
-category: "language"
+category: 'language'
 modularized: false
 user-invocable: false
 tags: ['typescript', 'react', 'nextjs', 'frontend', 'fullstack']
 updated: 2026-01-11
-status: "active"
+status: 'active'
 allowed-tools:
   - Read
   - Grep

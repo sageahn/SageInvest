@@ -178,7 +178,7 @@ trait UserRepository:
 object UserRepository:
   def findById(id: Long): ZIO[UserRepository, Throwable, Option[User]] =
     ZIO.serviceWithZIO(_.findById(id))
-  
+
   def save(user: User): ZIO[UserRepository, Throwable, User] =
     ZIO.serviceWithZIO(_.save(user))
 
@@ -186,10 +186,10 @@ object UserRepository:
 case class UserRepositoryLive(db: Database) extends UserRepository:
   def findById(id: Long): Task[Option[User]] =
     ZIO.attempt(db.query(s"SELECT * FROM users WHERE id = $id")).map(_.headOption)
-  
+
   def save(user: User): Task[User] =
     ZIO.attempt(db.insert("users", user)).as(user)
-  
+
   def delete(id: Long): Task[Boolean] =
     ZIO.attempt(db.delete("users", id)).map(_ > 0)
 
@@ -516,21 +516,25 @@ def spec = suite("UserService")(
 ## Best Practices
 
 Effect Types:
+
 - Use typed errors for domain-specific failures
 - Use Task for interop with external libraries
 - Prefer ZIO.serviceWithZIO for service access
 
 Layers:
+
 - Define one layer per service implementation
 - Use ZLayer.make for automatic wiring
 - Create test layers that mirror production structure
 
 Streams:
+
 - Use groupedWithin for time-based batching
 - Prefer mapZIOPar for CPU-bound parallel work
 - Use broadcast for multiple consumers
 
 Error Handling:
+
 - Model errors as ADTs for exhaustive handling
 - Use catchSome for partial recovery
 - Use refineToOrDie for unexpected errors

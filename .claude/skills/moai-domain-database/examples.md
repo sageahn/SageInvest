@@ -9,6 +9,7 @@ Multishot prompting examples demonstrating practical database patterns covering 
 **Scenario**: Optimize a slow query for user analytics with proper indexing.
 
 **Input**:
+
 ```sql
 -- Slow query: Full table scan
 SELECT u.id, u.name, u.email, COUNT(o.id) as order_count, SUM(o.total) as total_spent
@@ -24,6 +25,7 @@ LIMIT 100;
 ```
 
 **Output**:
+
 ```sql
 -- Step 1: Create optimized indexes
 CREATE INDEX CONCURRENTLY idx_users_status_created
@@ -71,6 +73,7 @@ LIMIT 100;
 **Scenario**: Build an analytics pipeline for e-commerce order analysis.
 
 **Input**:
+
 ```python
 from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import datetime, timedelta
@@ -91,6 +94,7 @@ order_doc = {
 ```
 
 **Output**:
+
 ```python
 from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import datetime, timedelta
@@ -279,6 +283,7 @@ class OrderAnalytics:
 **Scenario**: Implement a sophisticated caching strategy with different TTLs and cache invalidation.
 
 **Input**:
+
 ```python
 import redis.asyncio as redis
 from typing import Optional, Any
@@ -293,6 +298,7 @@ class CacheConfig:
 ```
 
 **Output**:
+
 ```python
 import redis.asyncio as redis
 from typing import Optional, Any, Callable
@@ -827,4 +833,4 @@ async def benchmark_user_analytics():
 
 ---
 
-*For additional patterns and database-specific optimizations, see the `modules/` directory.*
+_For additional patterns and database-specific optimizations, see the `modules/` directory._

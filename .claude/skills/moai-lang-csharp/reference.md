@@ -9,16 +9,19 @@ Comprehensive API reference and Context7 library mappings for C# 12 and .NET 8 d
 ### Primary Libraries
 
 ASP.NET Core:
+
 - Context7 ID: `/dotnet/aspnetcore`
 - Topics: minimal-apis, controllers, middleware, authentication, authorization, blazor, signalr
 - Version: 8.0+
 
 Entity Framework Core:
+
 - Context7 ID: `/dotnet/efcore`
 - Topics: dbcontext, migrations, linq, query-optimization, relationships, tracking
 - Version: 8.0+
 
 .NET Runtime:
+
 - Context7 ID: `/dotnet/runtime`
 - Topics: collections, threading, memory, span, async, linq
 - Version: 8.0+
@@ -191,6 +194,7 @@ appsettings.Production.json         # Production overrides
 ```
 
 Access configuration:
+
 ```csharp
 builder.Configuration.GetConnectionString("Default")
 builder.Configuration["Jwt:Issuer"]
@@ -255,7 +259,7 @@ builder.Services.AddScoped<IService, Service>();
 builder.Services.AddScoped<MyService>();
 
 // Factory pattern
-builder.Services.AddScoped<IService>(sp => 
+builder.Services.AddScoped<IService>(sp =>
     new Service(sp.GetRequiredService<IDependency>()));
 
 // Options pattern
@@ -364,7 +368,7 @@ public async Task<ActionResult> Create([FromBody] CreateRequest request)
     // Model validation via attributes
     if (!ModelState.IsValid)
         return BadRequest(ModelState);
-    
+
     // Business validation
     var result = await validator.ValidateAsync(request);
     if (!result.IsValid)

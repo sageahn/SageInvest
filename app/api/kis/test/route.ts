@@ -9,10 +9,7 @@ export async function POST() {
     const config = await configRepository.getConfig();
 
     if (!config) {
-      return NextResponse.json(
-        { error: 'Configuration not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Configuration not found' }, { status: 404 });
     }
 
     // Test by issuing a token
@@ -30,15 +27,9 @@ export async function POST() {
     console.error('Connection test failed:', error);
 
     if (error.response?.status === 401) {
-      return NextResponse.json(
-        { error: 'Invalid credentials' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    return NextResponse.json(
-      { error: 'Connection test failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Connection test failed' }, { status: 500 });
   }
 }

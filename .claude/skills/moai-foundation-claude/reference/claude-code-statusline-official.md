@@ -122,14 +122,14 @@ print(f"Model: {model} | ${cost:.2f} | Ctx: {pct}%")
 ```javascript
 #!/usr/bin/env node
 let data = '';
-process.stdin.on('data', chunk => data += chunk);
+process.stdin.on('data', (chunk) => (data += chunk));
 process.stdin.on('end', () => {
   const input = JSON.parse(data);
   const model = input.model || 'unknown';
   const cost = input.cost?.total_usd || 0;
   const used = input.context_window?.used || 0;
   const total = input.context_window?.total || 1;
-  const pct = Math.round(used * 100 / total);
+  const pct = Math.round((used * 100) / total);
   console.log(`${model} | $${cost.toFixed(2)} | ${pct}%`);
 });
 ```
@@ -162,6 +162,7 @@ echo -e "${color}Context: ${percentage}%\033[0m"
 ### Keep Output Concise
 
 Status line has limited space. Prioritize essential information:
+
 - Model name (abbreviated if needed)
 - Cost or token usage
 - Context percentage
@@ -170,6 +171,7 @@ Status line has limited space. Prioritize essential information:
 ### Use Visual Indicators
 
 Employ emojis and colors for quick scanning:
+
 - Green checkmark for healthy status
 - Yellow warning for approaching limits
 - Red alert for critical conditions
@@ -194,6 +196,7 @@ echo '{"model":"sonnet"}' | jq -r '.model'
 ### Update Frequency Considerations
 
 Statusline updates at most every 300ms:
+
 - Avoid expensive computations
 - Cache values when possible
 - Use efficient JSON parsing
@@ -233,6 +236,7 @@ Statusline updates at most every 300ms:
 ### Statusline Not Updating
 
 Check that:
+
 - Script is executable (chmod +x)
 - Script outputs to stdout (not stderr)
 - JSON parsing is correct
@@ -241,6 +245,7 @@ Check that:
 ### Display Issues
 
 If output appears garbled:
+
 - Verify ANSI codes are correct
 - Ensure single-line output
 - Check for trailing newlines
@@ -249,6 +254,7 @@ If output appears garbled:
 ### Performance Issues
 
 If statusline causes slowdown:
+
 - Simplify JSON parsing
 - Remove external command calls
 - Use lightweight scripting language

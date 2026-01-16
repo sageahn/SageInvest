@@ -310,11 +310,11 @@ rule:
   inside:
     pattern: 'def $FUNC($$$ARGS): $$$BODY'
 fix: |
-    try:
-        $CALL()
-    except Exception as e:
-        logger.error(f"Error in $FUNC: {e}")
-        raise
+  try:
+      $CALL()
+  except Exception as e:
+      logger.error(f"Error in $FUNC: {e}")
+      raise
 ```
 
 ### Extract Common Pattern
@@ -327,7 +327,7 @@ rule:
   pattern: |
     print("DEBUG: $MSG")
 fix: |
-    logger.debug($MSG)
+  logger.debug($MSG)
 ```
 
 ### Convert ES5 to ES6

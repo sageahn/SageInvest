@@ -212,7 +212,7 @@ def load_secure_config() -> dict:
 # .moai/specs/traceability.yaml
 requirements:
   SPEC-001-REQ-01:
-    description: "User registration with email/password"
+    description: 'User registration with email/password'
     implementation:
       - src/auth/registration.py::register_user
       - src/models/user.py::User
@@ -222,7 +222,7 @@ requirements:
     status: Implemented
 
   SPEC-001-REQ-02:
-    description: "OAuth2 authentication"
+    description: 'OAuth2 authentication'
     implementation:
       - src/auth/oauth2.py::OAuth2Handler
     tests:

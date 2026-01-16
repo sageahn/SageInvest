@@ -5,6 +5,7 @@
 ### Theme Configuration API
 
 DocsThemeConfig Interface:
+
 - `logo`: React node for site logo
 - `logoLink`: URL for logo click
 - `project`: Project link configuration
@@ -17,11 +18,13 @@ DocsThemeConfig Interface:
 - `useNextSeoProps`: SEO metadata function
 
 Sidebar Options:
+
 - `defaultMenuCollapseLevel`: Default collapse depth
 - `toggleButton`: Show toggle button
 - `autoCollapse`: Auto-collapse inactive sections
 
 TOC Options:
+
 - `backToTop`: Show back to top button
 - `float`: Float table of contents
 - `headingDepth`: Heading levels to include
@@ -29,6 +32,7 @@ TOC Options:
 ### Navigation API (\_meta.js)
 
 Page Configuration:
+
 ```javascript
 {
   "page-name": "Display Title",
@@ -42,6 +46,7 @@ Page Configuration:
 ```
 
 Page Options:
+
 - `title`: Display title in sidebar
 - `type`: Page type (page, separator, menu)
 - `display`: Display mode (normal, hidden, children)
@@ -50,6 +55,7 @@ Page Options:
 ### MDX Component API
 
 Built-in Components:
+
 - `Callout`: Alert/info boxes (type: info, warning, error, default)
 - `Tabs`: Tabbed content container
 - `Tab`: Individual tab item
@@ -59,6 +65,7 @@ Built-in Components:
 - `FileTree`: File structure visualization
 
 Callout Types:
+
 - `info`: Blue informational box
 - `warning`: Yellow warning box
 - `error`: Red error/danger box
@@ -67,12 +74,14 @@ Callout Types:
 ### Search API
 
 FlexSearch Configuration:
+
 - `placeholder`: Search input placeholder
 - `emptyResult`: Empty result message
 - `loading`: Loading indicator
 - `error`: Error message
 
 Search Customization:
+
 - Custom search endpoint
 - Result filtering
 - Keyboard shortcuts
@@ -84,30 +93,32 @@ Search Customization:
 ### next.config.js
 
 Nextra Plugin Configuration:
+
 ```javascript
-const withNextra = require("nextra")({
-  theme: "nextra-theme-docs",
-  themeConfig: "./theme.config.tsx",
+const withNextra = require('nextra')({
+  theme: 'nextra-theme-docs',
+  themeConfig: './theme.config.tsx',
   staticImage: true,
   latex: true,
   flexsearch: {
-    codeblocks: true
+    codeblocks: true,
   },
-  defaultShowCopyCode: true
+  defaultShowCopyCode: true,
 });
 
 module.exports = withNextra({
   // Next.js config
   reactStrictMode: true,
   images: {
-    domains: ["example.com"]
-  }
+    domains: ['example.com'],
+  },
 });
 ```
 
 ### theme.config.tsx
 
 Full Configuration Example:
+
 ```typescript
 const config: DocsThemeConfig = {
   // Branding
@@ -156,16 +167,18 @@ const config: DocsThemeConfig = {
 ### Internationalization (i18n)
 
 next.config.js i18n:
+
 ```javascript
 module.exports = withNextra({
   i18n: {
-    locales: ["en", "ko", "ja"],
-    defaultLocale: "en"
-  }
+    locales: ['en', 'ko', 'ja'],
+    defaultLocale: 'en',
+  },
 });
 ```
 
 Language-specific \_meta:
+
 ```
 pages/
   en/
@@ -183,6 +196,7 @@ pages/
 ### Project Structure Pattern
 
 Recommended Directory Layout:
+
 ```
 docs/
   pages/
@@ -215,11 +229,13 @@ docs/
 ### Custom Component Integration
 
 Creating Custom Components:
+
 1. Create component in `components/` directory
 2. Import in MDX files
 3. Use standard React patterns
 
 Global Component Registration:
+
 ```typescript
 // pages/_app.tsx
 import type { AppProps } from "next/app";
@@ -237,18 +253,20 @@ export default function App({ Component, pageProps }: AppProps) {
 ### Static Export Pattern
 
 Static HTML Generation:
+
 ```javascript
 // next.config.js
 module.exports = withNextra({
-  output: "export",
+  output: 'export',
   images: {
-    unoptimized: true
+    unoptimized: true,
   },
-  trailingSlash: true
+  trailingSlash: true,
 });
 ```
 
 Build Command:
+
 ```bash
 npm run build
 # Output in /out directory
@@ -257,6 +275,7 @@ npm run build
 ### Theme Customization Pattern
 
 CSS Variables Override:
+
 ```css
 /* styles/custom.css */
 :root {
@@ -271,14 +290,15 @@ CSS Variables Override:
 ```
 
 Tailwind Integration:
+
 ```javascript
 // tailwind.config.js
 module.exports = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-    "./theme.config.tsx"
-  ]
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx}',
+    './theme.config.tsx',
+  ],
 };
 ```
 
@@ -291,6 +311,7 @@ module.exports = {
 Symptoms: Build fails, module not found
 
 Solutions:
+
 1. Clear `.next` cache: `rm -rf .next`
 2. Reinstall dependencies: `rm -rf node_modules && npm install`
 3. Check Next.js/Nextra version compatibility
@@ -301,6 +322,7 @@ Solutions:
 Symptoms: MDX syntax errors, component not rendering
 
 Solutions:
+
 1. Check JSX syntax in MDX files
 2. Verify component imports are correct
 3. Ensure no unescaped special characters
@@ -311,6 +333,7 @@ Solutions:
 Symptoms: Search returns no results, index empty
 
 Solutions:
+
 1. Verify FlexSearch is enabled in next.config.js
 2. Rebuild the search index: `npm run build`
 3. Check for build errors in search indexing
@@ -321,6 +344,7 @@ Solutions:
 Symptoms: Wrong language, missing translations
 
 Solutions:
+
 1. Verify locale configuration in next.config.js
 2. Check \_meta.json exists for each locale
 3. Confirm URL structure matches locale pattern
@@ -331,6 +355,7 @@ Solutions:
 Symptoms: Incorrect styles, theme not applying
 
 Solutions:
+
 1. Check CSS import order
 2. Verify Tailwind configuration
 3. Clear browser cache

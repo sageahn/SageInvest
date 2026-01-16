@@ -57,15 +57,15 @@ GitHub Actions 워크플로우와 관련 설정을 포함합니다.
 
 MoAI-ADK 프레임워크의 핵심 설정과 문서를 관리합니다.
 
-| 하위 디렉토리 | 용도 |
-|--------------|------|
-| `announcements/` | 다국어 공지사항 (ko, en, ja, zh) |
-| `config/` | 프로젝트 구성 섹션 |
-| `llm-configs/` | LLM 모델별 설정 |
-| `memory/` | 프로젝트 장기 메모리 |
-| `project/` | 프로젝트 문서 (product, structure, tech) |
-| `reports/` | 품질 보고서 및 분석 |
-| `specs/` | EARS 형식 SPEC 문서 |
+| 하위 디렉토리    | 용도                                     |
+| ---------------- | ---------------------------------------- |
+| `announcements/` | 다국어 공지사항 (ko, en, ja, zh)         |
+| `config/`        | 프로젝트 구성 섹션                       |
+| `llm-configs/`   | LLM 모델별 설정                          |
+| `memory/`        | 프로젝트 장기 메모리                     |
+| `project/`       | 프로젝트 문서 (product, structure, tech) |
+| `reports/`       | 품질 보고서 및 분석                      |
+| `specs/`         | EARS 형식 SPEC 문서                      |
 
 ### `.moai/config/sections/` - 구성 섹션
 
@@ -89,15 +89,15 @@ specs/
 
 ## 주요 파일 위치
 
-| 파일 | 경로 | 용도 |
-|------|------|------|
-| Alfred 지침 | `/CLAUDE.md` | 오케스트레이션 규칙 |
-| 사용자 설정 | `/.moai/config/sections/user.yaml` | 사용자 정보 |
-| 언어 설정 | `/.moai/config/sections/language.yaml` | 언어 구성 |
-| 제품 문서 | `/.moai/project/product.md` | 제품 개요 |
-| 구조 문서 | `/.moai/project/structure.md` | 프로젝트 구조 (본 파일) |
-| 기술 문서 | `/.moai/project/tech.md` | 기술 스택 |
-| MCP 설정 | `/.mcp.json` | MCP 서버 연결 |
+| 파일        | 경로                                   | 용도                    |
+| ----------- | -------------------------------------- | ----------------------- |
+| Alfred 지침 | `/CLAUDE.md`                           | 오케스트레이션 규칙     |
+| 사용자 설정 | `/.moai/config/sections/user.yaml`     | 사용자 정보             |
+| 언어 설정   | `/.moai/config/sections/language.yaml` | 언어 구성               |
+| 제품 문서   | `/.moai/project/product.md`            | 제품 개요               |
+| 구조 문서   | `/.moai/project/structure.md`          | 프로젝트 구조 (본 파일) |
+| 기술 문서   | `/.moai/project/tech.md`               | 기술 스택               |
+| MCP 설정    | `/.mcp.json`                           | MCP 서버 연결           |
 
 ## 확장 예정 디렉토리
 
@@ -118,4 +118,4 @@ SageInvest/
 
 ---
 
-*이 문서는 MoAI-ADK의 workflow-docs에 의해 자동 생성되었습니다.*
+_이 문서는 MoAI-ADK의 workflow-docs에 의해 자동 생성되었습니다._

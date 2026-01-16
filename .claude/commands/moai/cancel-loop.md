@@ -1,6 +1,6 @@
 ---
-description: "Cancel autonomous loop with snapshot preservation"
-argument-hint: "[--force] [--snapshot] | [--list]"
+description: 'Cancel autonomous loop with snapshot preservation'
+argument-hint: '[--force] [--snapshot] | [--list]'
 type: utility
 allowed-tools: Task, AskUserQuestion, TodoWrite, Bash, Read, Write, Edit, Glob, Grep
 model: inherit
@@ -56,13 +56,13 @@ Arguments: $ARGUMENTS
 
 ## Command Options
 
-| 옵션 | 설명 |
-|------|------|
-| `--force` | 확인 없이 취소 |
-| `--snapshot` | 스냅샷 저장 |
-| `--keep` | state 파일 보존 |
-| `--reason TEXT` | 취소 사유 |
-| `--list` | 스냅샷 목록 |
+| 옵션            | 설명            |
+| --------------- | --------------- |
+| `--force`       | 확인 없이 취소  |
+| `--snapshot`    | 스냅샷 저장     |
+| `--keep`        | state 파일 보존 |
+| `--reason TEXT` | 취소 사유       |
+| `--list`        | 스냅샷 목록     |
 
 ## Output Format
 
@@ -72,18 +72,22 @@ Arguments: $ARGUMENTS
 ## Loop: Cancelled
 
 ### Status
+
 - Iterations: 7/100
 - Errors: 2 remaining
 - Warnings: 3 remaining
 
 ### TODO
+
 1. [ ] src/auth.py:67 - missing return
 2. [ ] tests/test_auth.py:12 - unused var
 
 ### Snapshot
+
 .moai/cache/ralph-snapshots/cancel-20240111-105230.json
 
 ### Recovery
+
 /moai:loop --resume latest
 ```
 
@@ -96,6 +100,7 @@ Arguments: $ARGUMENTS
 2. cancel-20240110-154523 (12 iters, 0 errors)
 
 ### Recovery
+
 /moai:loop --resume cancel-20240111-105230
 ```
 
@@ -105,9 +110,11 @@ Arguments: $ARGUMENTS
 ## No Active Loop
 
 ### Snapshots Available
+
 2 snapshots found. Use --list to view.
 
 ### Start New
+
 /moai:loop
 ```
 

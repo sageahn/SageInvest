@@ -65,6 +65,7 @@ class ContextManager:
 ```
 
 Usage:
+
 ```python
 context_manager = ContextManager()
 

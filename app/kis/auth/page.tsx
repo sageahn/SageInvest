@@ -54,15 +54,15 @@ export default function KISAuthPage() {
       ]);
 
       if (configRes.ok) {
-        const config = await configRes.json() as { app_key: string; environment: string } | null;
+        const config = (await configRes.json()) as { app_key: string; environment: string } | null;
         setCurrentConfig(config);
       }
 
       if (tokenRes.ok) {
-        const data = await tokenRes.json() as { token?: any };
+        const data = (await tokenRes.json()) as { token?: any };
         setCurrentToken(data.token);
       }
-    } catch (error) {
+    } catch {
       console.error('Failed to fetch status:', error);
     }
   };
@@ -87,11 +87,11 @@ export default function KISAuthPage() {
         throw new Error('인증 실패');
       }
 
-      const data = await response.json() as { token?: any };
+      const data = (await response.json()) as { token?: any };
       setCurrentToken(data.token);
       setMessage({ type: 'success', text: '인증 성공! 토큰이 발급되었습니다.' });
       setAppSecret('');
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: '인증 실패. 설정을 확인해주세요.' });
     } finally {
       setLoading(false);
@@ -108,10 +108,10 @@ export default function KISAuthPage() {
         throw new Error('토큰 갱신 실패');
       }
 
-      const data = await response.json() as { token?: any };
+      const data = (await response.json()) as { token?: any };
       setCurrentToken(data.token);
       setMessage({ type: 'success', text: '토큰이 갱신되었습니다.' });
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: '토큰 갱신 실패' });
     } finally {
       setLoading(false);
@@ -129,9 +129,7 @@ export default function KISAuthPage() {
 
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                App Key
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">App Key</label>
               <input
                 type="text"
                 value={appKey}
@@ -143,9 +141,7 @@ export default function KISAuthPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                App Secret
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">App Secret</label>
               <input
                 type="password"
                 value={appSecret}
@@ -157,12 +153,12 @@ export default function KISAuthPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                환경
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">환경</label>
               <select
                 value={environment}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setEnvironment(e.target.value as any)}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                  setEnvironment(e.target.value as any)
+                }
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               >
                 <option value="production">Production (실전)</option>
@@ -200,7 +196,9 @@ export default function KISAuthPage() {
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-gray-600">App Key:</span>
-                <span className="font-mono text-sm">{currentConfig.app_key.substring(0, 8)}...</span>
+                <span className="font-mono text-sm">
+                  {currentConfig.app_key.substring(0, 8)}...
+                </span>
               </div>
 
               <div className="flex justify-between">

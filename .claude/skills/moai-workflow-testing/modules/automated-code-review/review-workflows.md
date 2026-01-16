@@ -11,18 +11,21 @@
 ### CI/CD Integration Platforms
 
 GitHub Actions:
+
 - Automated reviews on pull requests
 - Status checks for quality gates
 - Comment generation with findings
 - Matrix builds for multiple Python versions
 
 GitLab CI/CD:
+
 - Pipeline integration with code quality stages
 - Merge request automation
 - Quality gate enforcement
 - Code quality reports
 
 Jenkins:
+
 - Pipeline as code integration
 - Build failure on quality gate violations
 - Trend analysis and reporting
@@ -152,7 +155,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Full history for better analysis
+          fetch-depth: 0 # Full history for better analysis
 
       - name: Set up Python
         uses: actions/setup-python@v4
