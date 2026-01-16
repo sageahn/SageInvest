@@ -1,0 +1,5 @@
+순번,API 통신방식,메뉴 위치,API 명,API ID,실전 TR_ID,모의 TR_ID,HTTP Method,URL 명,실전 Domain,모의 Domain
+1,REST,OAuth인증,접근토큰발급(P),인증-001,,,POST,/oauth2/tokenP,https://openapi.koreainvestment.com:9443,https://openapivts.koreainvestment.com:29443
+2,REST,OAuth인증,접근토큰폐기(P),인증-002,,,POST,/oauth2/revokeP,https://openapi.koreainvestment.com:9443,https://openapivts.koreainvestment.com:29443
+3,REST,OAuth인증,Hashkey,Hashkey,,,POST,/uapi/hashkey,https://openapi.koreainvestment.com:9443,https://openapivts.koreainvestment.com:29443
+4,WEBSOCKET,OAuth인증,실시간 (웹소켓) 접속키 발급,실시간-000,,,POST,/oauth2/Approval,https://openapi.koreainvestment.com:9443,https://openapivts.koreainvestment.com:29443
