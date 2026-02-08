@@ -9,6 +9,7 @@ export class ConfigRepository {
    */
   async saveConfig(appKey: string, appSecret: string, environment: KISEnvironment): Promise<void> {
     const encryptedSecret = encrypt(appSecret);
+    const encryptedKey = encrypt(appKey);
 
     const existing = await this.getConfig();
 
@@ -17,13 +18,13 @@ export class ConfigRepository {
         `UPDATE kis_configs
          SET app_key = $1, app_secret_encrypted = $2, environment = $3
          WHERE id = $4`,
-        [appKey, encryptedSecret, environment, existing.id]
+        [encryptedKey, encryptedSecret, environment, existing.id]
       );
     } else {
       await query(
         `INSERT INTO kis_configs (app_key, app_secret_encrypted, environment)
          VALUES ($1, $2, $3)`,
-        [appKey, encryptedSecret, environment]
+        [encryptedKey, encryptedSecret, environment]
       );
     }
   }
@@ -46,7 +47,7 @@ export class ConfigRepository {
     const row = result.rows[0];
     return {
       id: row.id,
-      app_key: row.app_key,
+      app_key: decrypt(row.app_key),
       app_secret: decrypt(row.app_secret_encrypted),
       environment: row.environment,
       created_at: new Date(row.created_at),

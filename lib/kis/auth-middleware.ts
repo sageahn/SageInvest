@@ -19,12 +19,10 @@ export class KISAuthMiddleware {
   private tokenManager: TokenManager;
   private axiosInstance: AxiosInstance;
   private appKey: string;
-  private appSecret: string;
 
-  constructor(environment: KISEnvironment, appKey: string, appSecret: string) {
+  constructor(environment: KISEnvironment, appKey: string) {
     this.tokenManager = new TokenManager(environment);
     this.appKey = appKey;
-    this.appSecret = appSecret;
 
     this.axiosInstance = axios.create({
       timeout: 30000,
@@ -55,7 +53,6 @@ export class KISAuthMiddleware {
 
         // Add appkey header
         config.headers['appkey'] = this.appKey;
-        config.headers['appsecret'] = this.appSecret;
 
         // Add hash header for POST requests if needed
         if (config.method === 'post' && config.headers['needs-hash'] === 'true' && config.data) {

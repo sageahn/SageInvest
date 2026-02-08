@@ -1,5 +1,6 @@
 // KIS Token Repository
 import { query } from '@/lib/db';
+import { encrypt, decrypt } from './crypto';
 import type { KISAuthToken, KISEnvironment } from './types';
 
 export interface TokenRow {
@@ -20,18 +21,20 @@ export class TokenRepository {
   async saveToken(token: KISAuthToken, environment: KISEnvironment): Promise<void> {
     const existingToken = await this.getToken(environment);
 
+    const encryptedToken = encrypt(token.access_token);
+
     if (existingToken) {
       await query(
         `UPDATE kis_tokens
          SET access_token = $1, token_type = $2, expires_in = $3, expires_at = $4
          WHERE environment = $5`,
-        [token.access_token, token.token_type, token.expires_in, token.expires_at, environment]
+        [encryptedToken, token.token_type, token.expires_in, token.expires_at, environment]
       );
     } else {
       await query(
         `INSERT INTO kis_tokens (access_token, token_type, expires_in, expires_at, environment)
          VALUES ($1, $2, $3, $4, $5)`,
-        [token.access_token, token.token_type, token.expires_in, token.expires_at, environment]
+        [encryptedToken, token.token_type, token.expires_in, token.expires_at, environment]
       );
     }
   }
@@ -55,7 +58,7 @@ export class TokenRepository {
 
     const row = result.rows[0];
     return {
-      access_token: row.access_token,
+      access_token: decrypt(row.access_token),
       token_type: row.token_type,
       expires_in: row.expires_in,
       expires_at: new Date(row.expires_at),
