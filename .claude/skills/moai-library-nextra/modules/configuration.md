@@ -310,35 +310,34 @@ const withNextra = require('nextra')({
   staticImage: true,
   flexSearch: true,
   defaultShowCopyCode: true,
-});
+})
 
 module.exports = withNextra({
   reactStrictMode: true,
-});
+})
 ```
 
 ### Nextra 4.x with Next.js 15
 
 ```javascript
 // next.config.mjs
-import nextra from 'nextra';
+import nextra from 'nextra'
 
 const withNextra = nextra({
   // Nextra options
-});
+})
 
 export default withNextra({
   // Next.js 15 options
   experimental: {
     turbopack: true,
   },
-});
+})
 ```
 
 ## Version Compatibility
 
 Current stable versions as of 2025:
-
 - Nextra 3.x: Compatible with Next.js 13.x and 14.x (Pages Router)
 - Nextra 4.x: Compatible with Next.js 14.x and 15.x (App Router, Turbopack support)
 

@@ -17,16 +17,18 @@ Supabase Storage provides file storage with automatic image transformations, CDN
 ### Upload File
 
 ```typescript
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
 async function uploadFile(file: File, bucket: string, path: string) {
-  const { data, error } = await supabase.storage.from(bucket).upload(path, file, {
-    cacheControl: '3600',
-    upsert: false,
-  });
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .upload(path, file, {
+      cacheControl: '3600',
+      upsert: false
+    })
 
-  if (error) throw error;
-  return data.path;
+  if (error) throw error
+  return data.path
 }
 ```
 
@@ -34,15 +36,17 @@ async function uploadFile(file: File, bucket: string, path: string) {
 
 ```typescript
 async function uploadUserFile(file: File, userId: string) {
-  const fileName = `${userId}/${Date.now()}-${file.name}`;
+  const fileName = `${userId}/${Date.now()}-${file.name}`
 
-  const { data, error } = await supabase.storage.from('user-files').upload(fileName, file, {
-    cacheControl: '3600',
-    upsert: false,
-  });
+  const { data, error } = await supabase.storage
+    .from('user-files')
+    .upload(fileName, file, {
+      cacheControl: '3600',
+      upsert: false
+    })
 
-  if (error) throw error;
-  return data;
+  if (error) throw error
+  return data
 }
 ```
 
@@ -52,34 +56,34 @@ async function uploadUserFile(file: File, userId: string) {
 
 ```typescript
 async function uploadImage(file: File, userId: string) {
-  const fileName = `${userId}/${Date.now()}-${file.name}`;
+  const fileName = `${userId}/${Date.now()}-${file.name}`
 
   const { data, error } = await supabase.storage
     .from('images')
-    .upload(fileName, file, { cacheControl: '3600', upsert: false });
+    .upload(fileName, file, { cacheControl: '3600', upsert: false })
 
-  if (error) throw error;
+  if (error) throw error
 
   // Get original URL
-  const {
-    data: { publicUrl },
-  } = supabase.storage.from('images').getPublicUrl(fileName);
+  const { data: { publicUrl } } = supabase.storage
+    .from('images')
+    .getPublicUrl(fileName)
 
   // Get resized URL
-  const {
-    data: { publicUrl: resizedUrl },
-  } = supabase.storage.from('images').getPublicUrl(fileName, {
-    transform: { width: 800, height: 600, resize: 'contain' },
-  });
+  const { data: { publicUrl: resizedUrl } } = supabase.storage
+    .from('images')
+    .getPublicUrl(fileName, {
+      transform: { width: 800, height: 600, resize: 'contain' }
+    })
 
   // Get thumbnail URL
-  const {
-    data: { publicUrl: thumbnailUrl },
-  } = supabase.storage.from('images').getPublicUrl(fileName, {
-    transform: { width: 200, height: 200, resize: 'cover' },
-  });
+  const { data: { publicUrl: thumbnailUrl } } = supabase.storage
+    .from('images')
+    .getPublicUrl(fileName, {
+      transform: { width: 200, height: 200, resize: 'cover' }
+    })
 
-  return { originalPath: data.path, publicUrl, resizedUrl, thumbnailUrl };
+  return { originalPath: data.path, publicUrl, resizedUrl, thumbnailUrl }
 }
 ```
 
@@ -97,19 +101,25 @@ Available transformation parameters:
 
 ```typescript
 // Square thumbnail with crop
-const thumbnail = supabase.storage.from('images').getPublicUrl(path, {
-  transform: { width: 150, height: 150, resize: 'cover' },
-});
+const thumbnail = supabase.storage
+  .from('images')
+  .getPublicUrl(path, {
+    transform: { width: 150, height: 150, resize: 'cover' }
+  })
 
 // WebP format for smaller size
-const webp = supabase.storage.from('images').getPublicUrl(path, {
-  transform: { width: 800, format: 'webp', quality: 80 },
-});
+const webp = supabase.storage
+  .from('images')
+  .getPublicUrl(path, {
+    transform: { width: 800, format: 'webp', quality: 80 }
+  })
 
 // Responsive image
-const responsive = supabase.storage.from('images').getPublicUrl(path, {
-  transform: { width: 400, resize: 'contain' },
-});
+const responsive = supabase.storage
+  .from('images')
+  .getPublicUrl(path, {
+    transform: { width: 400, resize: 'contain' }
+  })
 ```
 
 ## Bucket Management
@@ -152,10 +162,12 @@ For private buckets:
 
 ```typescript
 async function getSignedUrl(bucket: string, path: string, expiresIn: number = 3600) {
-  const { data, error } = await supabase.storage.from(bucket).createSignedUrl(path, expiresIn);
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .createSignedUrl(path, expiresIn)
 
-  if (error) throw error;
-  return data.signedUrl;
+  if (error) throw error
+  return data.signedUrl
 }
 ```
 
@@ -163,10 +175,12 @@ async function getSignedUrl(bucket: string, path: string, expiresIn: number = 36
 
 ```typescript
 async function downloadFile(bucket: string, path: string) {
-  const { data, error } = await supabase.storage.from(bucket).download(path);
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .download(path)
 
-  if (error) throw error;
-  return data; // Blob
+  if (error) throw error
+  return data // Blob
 }
 ```
 
@@ -176,14 +190,16 @@ async function downloadFile(bucket: string, path: string) {
 
 ```typescript
 async function listFiles(bucket: string, folder: string) {
-  const { data, error } = await supabase.storage.from(bucket).list(folder, {
-    limit: 100,
-    offset: 0,
-    sortBy: { column: 'created_at', order: 'desc' },
-  });
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .list(folder, {
+      limit: 100,
+      offset: 0,
+      sortBy: { column: 'created_at', order: 'desc' }
+    })
 
-  if (error) throw error;
-  return data;
+  if (error) throw error
+  return data
 }
 ```
 
@@ -191,10 +207,12 @@ async function listFiles(bucket: string, folder: string) {
 
 ```typescript
 async function deleteFile(bucket: string, paths: string[]) {
-  const { data, error } = await supabase.storage.from(bucket).remove(paths);
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .remove(paths)
 
-  if (error) throw error;
-  return data;
+  if (error) throw error
+  return data
 }
 ```
 
@@ -202,10 +220,12 @@ async function deleteFile(bucket: string, paths: string[]) {
 
 ```typescript
 async function moveFile(bucket: string, fromPath: string, toPath: string) {
-  const { data, error } = await supabase.storage.from(bucket).move(fromPath, toPath);
+  const { data, error } = await supabase.storage
+    .from(bucket)
+    .move(fromPath, toPath)
 
-  if (error) throw error;
-  return data;
+  if (error) throw error
+  return data
 }
 ```
 
@@ -270,19 +290,16 @@ function StorageImage({ path, bucket, width, height, fallback }: Props) {
 ## Best Practices
 
 File Organization:
-
 - Use user ID as folder prefix for user content
 - Include timestamp in filenames to prevent collisions
 - Use consistent naming conventions
 
 Performance:
-
 - Set appropriate cache-control headers
 - Use image transformations instead of storing multiple sizes
 - Leverage CDN for global delivery
 
 Security:
-
 - Always use RLS-style policies for storage
 - Use signed URLs for private content
 - Validate file types before upload
@@ -298,6 +315,5 @@ Topic: "storage bucket policies"
 ---
 
 Related Modules:
-
 - row-level-security.md - Storage access policies
 - typescript-patterns.md - Client patterns

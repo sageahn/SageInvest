@@ -1,7 +1,6 @@
 # PostgreSQL Advanced Patterns
 
 ## Overview
-
 Comprehensive PostgreSQL patterns covering advanced schema design, query optimization, indexing strategies, partitioning, and performance tuning for modern applications.
 
 ## Quick Implementation
@@ -133,35 +132,30 @@ $$ LANGUAGE plpgsql;
 ## Key Features
 
 ### 1. Advanced Indexing
-
 - Partial indexes for filtered data
 - GIN indexes for full-text search and JSONB
 - Expression indexes for computed values
 - Composite indexes for multi-column queries
 
 ### 2. Query Optimization
-
 - Cursor-based pagination
 - Window functions for analytics
 - CTE (Common Table Expressions)
 - Materialized views for performance
 
 ### 3. Data Modeling
-
 - JSONB for flexible schemas
 - Array types for multi-valued data
 - Range types for temporal data
 - Custom types for domain-specific data
 
 ### 4. Performance Tuning
-
 - Table partitioning
 - Connection pooling
 - Query execution plans
 - Vacuum and analyze strategies
 
 ## Best Practices
-
 - Use appropriate data types and constraints
 - Implement proper indexing strategies
 - Monitor query performance
@@ -169,7 +163,6 @@ $$ LANGUAGE plpgsql;
 - Implement backup and recovery procedures
 
 ## Integration Points
-
 - ORMs (SQLAlchemy, Django ORM)
 - Connection pools (PgBouncer, connection poolers)
 - Monitoring tools (pg_stat_statements)

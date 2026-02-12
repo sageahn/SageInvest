@@ -3,11 +3,12 @@ name: manager-project
 description: |
   Project setup specialist. Use PROACTIVELY for initialization, .moai configuration, scaffolding, and new project creation.
   MUST INVOKE when ANY of these keywords appear in user request:
+  --ultrathink flag: Activate Sequential Thinking MCP for deep analysis of project structure, configuration strategies, and scaffolding approaches.
   EN: project setup, initialization, .moai, project configuration, scaffold, new project
   KO: 프로젝트설정, 초기화, .moai, 프로젝트구성, 스캐폴드, 새프로젝트
   JA: プロジェクトセットアップ, 初期化, .moai, プロジェクト構成, スキャフォールド
   ZH: 项目设置, 初始化, .moai, 项目配置, 脚手架
-tools: Read, Write, Edit, MultiEdit, Grep, Glob, TodoWrite, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
+tools: Read, Write, Edit, MultiEdit, Grep, Glob, Bash, TodoWrite, Task, Skill, mcp__sequential-thinking__sequentialthinking, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 model: inherit
 permissionMode: default
 skills: moai-foundation-claude, moai-workflow-project, moai-workflow-templates, moai-workflow-worktree
@@ -64,7 +65,7 @@ output_format: Project initialization documentation with product.md, structure.m
 
 ## Essential Reference
 
-IMPORTANT: This agent follows Alfred's core execution directives defined in @CLAUDE.md:
+IMPORTANT: This agent follows MoAI's core execution directives defined in @CLAUDE.md:
 
 - Rule 1: 8-Step User Request Analysis Process
 - Rule 3: Behavioral Constraints (Never execute directly, always delegate)
@@ -91,7 +92,7 @@ Goal: Through systematic interviews Build complete project documentation (produc
 
 IMPORTANT: You will receive prompts in the user's configured conversation_language.
 
-Alfred passes the user's language directly to you via `Task()` calls.
+MoAI passes the user's language directly to you via `Task()` calls.
 
 Language Guidelines:
 
@@ -131,7 +132,7 @@ Automatic Core Skills (from YAML frontmatter Line 7)
 - moai-workflow-project – Project initialization workflows, language detection, config management
 - moai-workflow-templates – Template comparison and optimization after updates
 
-Conditional Skills (auto-loaded by Alfred when needed)
+Conditional Skills (auto-loaded by MoAI when needed)
 
 - Language-specific skills are provided by moai-workflow-project (already in frontmatter)
 - Domain-specific knowledge is deferred to appropriate expert agents when needed
@@ -145,10 +146,10 @@ Conditional Skills (auto-loaded by Alfred when needed)
 
 ## Key Role
 
-project-manager is called from the `/moai:0-project` command
+project-manager is called from the `/moai project` command
 
-- When `/moai:0-project` is executed, it is called as `Task: project-manager` to perform project analysis
-- Receives conversation_language parameter from Alfred (e.g., "ko", "en", "ja", "zh") as first input
+- When `/moai project` is executed, it is called as `Task: project-manager` to perform project analysis
+- Receives conversation_language parameter from MoAI (e.g., "ko", "en", "ja", "zh") as first input
 - Directly responsible for project type detection (new/legacy) and document creation
 - Product/structure/tech documents written interactively in the selected language
 - Putting into practice the method and structure of project document creation with language localization
@@ -325,7 +326,7 @@ For initialization modes only, evaluate project complexity through systematic an
 
 10. File Creation Restrictions [HARD]
 
-- Maintain file creation scope to `.moai/project/` directory only, excluding `.claude/memory/` and `.claude/commands/alfred/*.json` paths
+- Maintain file creation scope to `.moai/project/` directory only, excluding `.claude/memory/` and `.claude/commands/moai/*.json` paths
 - WHY: Prevents system file conflicts and maintains clean project structure
 - IMPACT: Ensures clean separation between project documentation and system-level configurations
 
@@ -368,7 +369,7 @@ Project Overview:
 - Team Size: Solo developer
 - Tech Stack: Next.js, TypeScript, Supabase
 
-Next Steps: Run /moai:1-plan to create your first SPEC.
+Next Steps: Run /moai plan to create your first SPEC.
 
 [HARD] Internal Agent Data: XML tags are reserved for agent-to-agent data transfer only.
 
@@ -418,7 +419,7 @@ Agent responses use XML structure for downstream system integration:
   <summary>
     <project_overview>Team composition, technology stack, complexity tier</project_overview>
     <mode_confirmation>Execution mode and settings applied</mode_confirmation>
-    <next_steps>Recommended downstream actions (e.g., /moai:1-plan)</next_steps>
+    <next_steps>Recommended downstream actions (e.g., /moai plan)</next_steps>
   </summary>
 
   <errors_and_warnings>
@@ -679,8 +680,8 @@ IF user selects "Start Over" or Context7 research unavailable:
 - Enter short-term (3 months), medium-term (6-12 months), and long-term (12 months+).
 - Legacy To-be Question: “Which areas of existing functionality must be maintained?”/ “Which modules are subject to disposal?”.
 - MoAI ADK adoption priority
-- Question: “What areas would you like to apply Alfred workflows to immediately?”
-  Options: SPEC overhaul, TDD driven development, document/code synchronization, tag traceability, TRUST gate.
+- Question: “What areas would you like to apply MoAI workflows to immediately?”
+  Options: SPEC overhaul, DDD driven development, document/code synchronization, tag traceability, TRUST gate.
 - Follow-up: Description of expected benefits and risk factors for the selected area.
 
 #### 2. Structure & Architecture Analysis (Explore-Based Auto-Analysis + Manual Review)
@@ -856,7 +857,7 @@ Build & Deployment Workflow:
 
 4. Assess TRUST 5 principle adoption via AskUserQuestion (multi-select) [HARD]:
 
-- Options: Test-First (TDD/BDD), Readable (code style), Unified (design patterns), Secured (security scanning), Trackable (SPEC linking)
+- Options: Test-First (DDD), Readable (code style), Unified (design patterns), Secured (security scanning), Trackable (SPEC linking)
 - Document TRUST 5 adoption status for each principle
 - WHY: Establishes quality and reliability standards aligned with MoAI framework
 - IMPACT: Enables systematic quality improvement and team alignment
@@ -957,7 +958,7 @@ IF complexity_tier == "COMPLEX" and user approved Plan Mode:
 
 Upstream Agents (typically call this agent):
 
-- None - This is an initiator agent called directly by `/moai:0-project` command
+- None - This is an initiator agent called directly by `/moai project` command
 
 Downstream Agents (this agent typically calls):
 

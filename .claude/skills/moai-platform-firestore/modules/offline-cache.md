@@ -11,61 +11,58 @@ Firestore provides robust offline support through local caching, enabling apps t
 ### Web SDK (Firebase v9+)
 
 Memory Cache (Default):
-
 ```typescript
-import { initializeFirestore, memoryLocalCache } from 'firebase/firestore';
+import { initializeFirestore, memoryLocalCache } from 'firebase/firestore'
 
 const db = initializeFirestore(app, {
-  localCache: memoryLocalCache(),
-});
+  localCache: memoryLocalCache()
+})
 ```
 
 Persistent Cache with Multi-Tab Support:
-
 ```typescript
 import {
   initializeFirestore,
   persistentLocalCache,
   persistentMultipleTabManager,
-  CACHE_SIZE_UNLIMITED,
-} from 'firebase/firestore';
+  CACHE_SIZE_UNLIMITED
+} from 'firebase/firestore'
 
 const db = initializeFirestore(app, {
   localCache: persistentLocalCache({
     tabManager: persistentMultipleTabManager(),
-    cacheSizeBytes: CACHE_SIZE_UNLIMITED,
-  }),
-});
+    cacheSizeBytes: CACHE_SIZE_UNLIMITED
+  })
+})
 ```
 
 Persistent Cache with Single Tab:
-
 ```typescript
 import {
   initializeFirestore,
   persistentLocalCache,
   persistentSingleTabManager,
-} from 'firebase/firestore';
+} from 'firebase/firestore'
 
 const db = initializeFirestore(app, {
   localCache: persistentLocalCache({
     tabManager: persistentSingleTabManager({
-      forceOwnership: true,
+      forceOwnership: true
     }),
-    cacheSizeBytes: 100 * 1024 * 1024, // 100MB
-  }),
-});
+    cacheSizeBytes: 100 * 1024 * 1024  // 100MB
+  })
+})
 ```
 
 ### React Native / Mobile
 
 ```typescript
-import firestore from '@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore'
 
 firestore().settings({
   persistence: true,
-  cacheSizeBytes: firestore.CACHE_SIZE_UNLIMITED,
-});
+  cacheSizeBytes: firestore.CACHE_SIZE_UNLIMITED
+})
 ```
 
 ### Flutter
@@ -88,7 +85,6 @@ FirebaseFirestore.instance.settings = const Settings(
 When cache exceeds the configured size, Firestore automatically removes the least recently used documents. The default cache size is 40MB.
 
 Recommended Cache Sizes:
-
 - Small apps: 10-40MB (default)
 - Medium apps: 100MB
 - Data-heavy apps: CACHE_SIZE_UNLIMITED (use with caution)
@@ -96,12 +92,12 @@ Recommended Cache Sizes:
 ### Manual Cache Clearing
 
 ```typescript
-import { clearIndexedDbPersistence, terminate } from 'firebase/firestore';
+import { clearIndexedDbPersistence, terminate } from 'firebase/firestore'
 
 async function clearCache() {
-  await terminate(db);
-  await clearIndexedDbPersistence(db);
-  window.location.reload();
+  await terminate(db)
+  await clearIndexedDbPersistence(db)
+  window.location.reload()
 }
 ```
 
@@ -112,18 +108,18 @@ async function clearCache() {
 ### Document Metadata
 
 ```typescript
-import { onSnapshot, doc } from 'firebase/firestore';
+import { onSnapshot, doc } from 'firebase/firestore'
 
 onSnapshot(doc(db, 'documents', docId), { includeMetadataChanges: true }, (snapshot) => {
-  const data = snapshot.data();
-  const metadata = snapshot.metadata;
+  const data = snapshot.data()
+  const metadata = snapshot.metadata
 
   console.log({
     data,
     hasPendingWrites: metadata.hasPendingWrites,
-    fromCache: metadata.fromCache,
-  });
-});
+    fromCache: metadata.fromCache
+  })
+})
 ```
 
 ### Visual Indicators for Sync Status
@@ -159,11 +155,11 @@ function DocumentStatus({ metadata }: { metadata: SnapshotMetadata }) {
 ### Snapshots In Sync Detection
 
 ```typescript
-import { onSnapshotsInSync } from 'firebase/firestore';
+import { onSnapshotsInSync } from 'firebase/firestore'
 
 const unsubscribe = onSnapshotsInSync(db, () => {
-  console.log('All local changes have been synced to server');
-});
+  console.log('All local changes have been synced to server')
+})
 ```
 
 ---
@@ -173,72 +169,72 @@ const unsubscribe = onSnapshotsInSync(db, () => {
 ### Programmatic Network Control
 
 ```typescript
-import { enableNetwork, disableNetwork } from 'firebase/firestore';
+import { enableNetwork, disableNetwork } from 'firebase/firestore'
 
 async function goOffline() {
-  await disableNetwork(db);
-  console.log('Network disabled - using cache only');
+  await disableNetwork(db)
+  console.log('Network disabled - using cache only')
 }
 
 async function goOnline() {
-  await enableNetwork(db);
-  console.log('Network enabled - syncing changes');
+  await enableNetwork(db)
+  console.log('Network enabled - syncing changes')
 }
 ```
 
 ### Firestore-Aware Network Hook
 
 ```typescript
-import { useState, useEffect, useCallback } from 'react';
-import { enableNetwork, disableNetwork, waitForPendingWrites } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { useState, useEffect, useCallback } from 'react'
+import { enableNetwork, disableNetwork, waitForPendingWrites } from 'firebase/firestore'
+import { db } from '@/lib/firebase'
 
 interface FirestoreNetworkState {
-  isOnline: boolean;
-  hasPendingWrites: boolean;
-  forceOffline: () => Promise<void>;
-  forceOnline: () => Promise<void>;
-  waitForSync: () => Promise<void>;
+  isOnline: boolean
+  hasPendingWrites: boolean
+  forceOffline: () => Promise<void>
+  forceOnline: () => Promise<void>
+  waitForSync: () => Promise<void>
 }
 
 function useFirestoreNetwork(): FirestoreNetworkState {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const [hasPendingWrites, setHasPendingWrites] = useState(false);
+  const [isOnline, setIsOnline] = useState(navigator.onLine)
+  const [hasPendingWrites, setHasPendingWrites] = useState(false)
 
   useEffect(() => {
     const handleOnline = () => {
-      setIsOnline(true);
-      enableNetwork(db);
-    };
+      setIsOnline(true)
+      enableNetwork(db)
+    }
     const handleOffline = () => {
-      setIsOnline(false);
-    };
+      setIsOnline(false)
+    }
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
 
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
-    };
-  }, []);
+      window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
+    }
+  }, [])
 
   const forceOffline = useCallback(async () => {
-    await disableNetwork(db);
-    setIsOnline(false);
-  }, []);
+    await disableNetwork(db)
+    setIsOnline(false)
+  }, [])
 
   const forceOnline = useCallback(async () => {
-    await enableNetwork(db);
-    setIsOnline(true);
-  }, []);
+    await enableNetwork(db)
+    setIsOnline(true)
+  }, [])
 
   const waitForSync = useCallback(async () => {
-    await waitForPendingWrites(db);
-    setHasPendingWrites(false);
-  }, []);
+    await waitForPendingWrites(db)
+    setHasPendingWrites(false)
+  }, [])
 
-  return { isOnline, hasPendingWrites, forceOffline, forceOnline, waitForSync };
+  return { isOnline, hasPendingWrites, forceOffline, forceOnline, waitForSync }
 }
 ```
 
@@ -251,33 +247,33 @@ function useFirestoreNetwork(): FirestoreNetworkState {
 Firestore provides optimistic updates by default:
 
 ```typescript
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 
 async function createDocument(title: string) {
   const docRef = await addDoc(collection(db, 'documents'), {
     title,
     createdAt: serverTimestamp(),
-    status: 'pending',
-  });
+    status: 'pending'
+  })
 
-  console.log('Created document:', docRef.id);
-  return docRef.id;
+  console.log('Created document:', docRef.id)
+  return docRef.id
 }
 ```
 
 ### Wait for Pending Writes
 
 ```typescript
-import { waitForPendingWrites } from 'firebase/firestore';
+import { waitForPendingWrites } from 'firebase/firestore'
 
 async function ensureDataSynced() {
-  await waitForPendingWrites(db);
-  console.log('All data synced to server');
+  await waitForPendingWrites(db)
+  console.log('All data synced to server')
 }
 
 async function beforeLogout() {
-  await waitForPendingWrites(db);
-  await auth.signOut();
+  await waitForPendingWrites(db)
+  await auth.signOut()
 }
 ```
 
@@ -288,16 +284,16 @@ async function beforeLogout() {
 ### Source Options
 
 ```typescript
-import { getDoc, doc, getDocFromCache, getDocFromServer } from 'firebase/firestore';
+import { getDoc, doc, getDocFromCache, getDocFromServer } from 'firebase/firestore'
 
 // Default: Try cache first, fall back to server
-const docSnap = await getDoc(doc(db, 'documents', docId));
+const docSnap = await getDoc(doc(db, 'documents', docId))
 
 // Cache only (throws if not in cache)
-const cachedSnap = await getDocFromCache(doc(db, 'documents', docId));
+const cachedSnap = await getDocFromCache(doc(db, 'documents', docId))
 
 // Server only (ignores cache)
-const serverSnap = await getDocFromServer(doc(db, 'documents', docId));
+const serverSnap = await getDocFromServer(doc(db, 'documents', docId))
 ```
 
 ### Hybrid Strategy Pattern
@@ -308,20 +304,20 @@ async function fetchWithFallback<T>(
   transform: (data: DocumentData) => T
 ): Promise<{ data: T; source: 'cache' | 'server' }> {
   try {
-    const cached = await getDocFromCache(ref);
+    const cached = await getDocFromCache(ref)
     if (cached.exists()) {
-      getDocFromServer(ref).catch(() => {});
-      return { data: transform(cached.data()!), source: 'cache' };
+      getDocFromServer(ref).catch(() => {})
+      return { data: transform(cached.data()!), source: 'cache' }
     }
   } catch {
     // Cache miss
   }
 
-  const server = await getDocFromServer(ref);
+  const server = await getDocFromServer(ref)
   if (!server.exists()) {
-    throw new Error('Document not found');
+    throw new Error('Document not found')
   }
-  return { data: transform(server.data()!), source: 'server' };
+  return { data: transform(server.data()!), source: 'server' }
 }
 ```
 
@@ -332,13 +328,11 @@ async function fetchWithFallback<T>(
 ### Understanding Tab Managers
 
 persistentSingleTabManager:
-
 - Only one tab can access persistence at a time
 - Other tabs fall back to memory-only cache
 - Use when multi-tab sync is not needed
 
 persistentMultipleTabManager:
-
 - All tabs share the same persistent cache
 - Changes in one tab appear in all tabs
 - Recommended for most applications
@@ -351,7 +345,7 @@ persistentMultipleTabManager:
 
 ```typescript
 async function warmCache(userId: string) {
-  await getDoc(doc(db, 'users', userId));
+  await getDoc(doc(db, 'users', userId))
 
   await getDocs(
     query(
@@ -360,9 +354,9 @@ async function warmCache(userId: string) {
       orderBy('updatedAt', 'desc'),
       limit(20)
     )
-  );
+  )
 
-  console.log('Cache warmed for user:', userId);
+  console.log('Cache warmed for user:', userId)
 }
 ```
 

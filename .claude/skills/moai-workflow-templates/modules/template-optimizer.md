@@ -101,17 +101,21 @@ def restore_from_backup(backup_id: str):
 
 ```json
 {
-  "template_optimization": {
-    "last_optimized": "2025-11-24T12:00:00Z",
-    "backup_version": "backup-2025-10-15-v0.27.0",
-    "template_version": "0.28.2",
-    "customizations_preserved": ["language", "team_settings", "domains"],
-    "optimization_flags": {
-      "merge_applied": true,
-      "conflicts_resolved": 0,
-      "user_content_extracted": true
-    }
-  }
+ "template_optimization": {
+ "last_optimized": "2025-11-24T12:00:00Z",
+ "backup_version": "backup-2025-10-15-v0.27.0",
+ "template_version": "0.28.2",
+ "customizations_preserved": [
+ "language",
+ "team_settings",
+ "domains"
+ ],
+ "optimization_flags": {
+ "merge_applied": true,
+ "conflicts_resolved": 0,
+ "user_content_extracted": true
+ }
+ }
 }
 ```
 
@@ -121,7 +125,6 @@ def restore_from_backup(backup_id: str):
 ## Template Update History
 
 ### v0.28.2 (2025-11-24)
-
 - Optimization Applied: Yes
 - Backup Used: backup-2025-10-15-v0.27.0
 - Customizations Preserved: language (ko), team_settings

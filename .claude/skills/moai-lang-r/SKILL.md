@@ -1,20 +1,31 @@
 ---
-name: 'moai-lang-r'
-description: 'R 4.4+ development specialist covering tidyverse, ggplot2, Shiny, and data science patterns. Use when developing data analysis pipelines, visualizations, or Shiny applications.'
-version: 1.1.0
-category: 'language'
-modularized: true
+name: moai-lang-r
+description: >
+  R 4.4+ development specialist covering tidyverse, ggplot2, Shiny, and data
+  science patterns. Use when developing data analysis pipelines,
+  visualizations, or Shiny applications.
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Grep Glob Bash(R:*) Bash(Rscript:*) mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-tags: ['language', 'r', 'tidyverse', 'ggplot2', 'shiny', 'dplyr', 'data-science']
-updated: 2026-01-11
-status: 'active'
-allowed-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+metadata:
+  version: "1.1.0"
+  category: "language"
+  status: "active"
+  updated: "2026-01-11"
+  modularized: "true"
+  tags: "language, r, tidyverse, ggplot2, shiny, dplyr, data-science"
+
+# MoAI Extension: Progressive Disclosure
+progressive_disclosure:
+  enabled: true
+  level1_tokens: 100
+  level2_tokens: 5000
+
+# MoAI Extension: Triggers
+triggers:
+  keywords: ["R", "tidyverse", "ggplot2", "Shiny", "dplyr", "data science", ".R", ".Rmd", ".qmd", "DESCRIPTION", "renv.lock"]
+  languages: ["r"]
 ---
 
 ## Quick Reference (30 seconds)
@@ -143,7 +154,7 @@ See:
 
 - moai-lang-python for Python and R interoperability with reticulate
 - moai-domain-database for SQL patterns and database optimization
-- moai-workflow-testing for TDD and testing strategies
+- moai-workflow-testing for DDD and testing strategies
 - moai-essentials-debug for AI-powered debugging
 - moai-foundation-quality for TRUST 5 quality principles
 

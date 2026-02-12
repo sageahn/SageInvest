@@ -143,7 +143,7 @@ id: format-to-fstring
 language: python
 rule:
   pattern: '"$$$STR".format($ARG)'
-fix: 'f"$$$STR"' # Note: requires manual adjustment of placeholders
+fix: 'f"$$$STR"'  # Note: requires manual adjustment of placeholders
 message: 'Consider using f-strings for cleaner formatting'
 ```
 

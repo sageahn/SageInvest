@@ -5,7 +5,6 @@ Auth0 Continuous Session Protection enables dynamic session and token management
 ## Overview
 
 Continuous Session Protection provides:
-
 - Real-time session monitoring
 - Dynamic token management
 - Risk-based session control
@@ -16,8 +15,7 @@ Continuous Session Protection provides:
 ### Session Information Access
 
 Available Data:
-
-- IP addresses
+- IP adddesses
 - ASN (Autonomous System Number)
 - Device details
 - User agent information
@@ -26,7 +24,6 @@ Available Data:
 - Expiration dates
 
 Use Cases:
-
 - Risk assessment
 - Anomaly detection
 - Session fingerprinting
@@ -35,15 +32,13 @@ Use Cases:
 ### Proactive Risk Detection
 
 Detectable Anomalies:
-
-- IP address changes
+- IP adddess changes
 - Geographic impossibilities
 - Device changes
 - Unusual access patterns
 - Time-based anomalies
 
 Response Actions:
-
 - Revoke sessions
 - Revoke refresh tokens
 - Force re-authentication
@@ -52,14 +47,12 @@ Response Actions:
 ### Dynamic Token Management
 
 Flexible Configuration:
-
 - Customize token lifetimes
 - Adjust based on user attributes
 - Organization-specific policies
 - Role-based expiration
 
 Examples:
-
 - Shorter lifetime for admin users
 - Longer lifetime for trusted devices
 - Organization-specific policies
@@ -68,7 +61,6 @@ Examples:
 ### Data Enrichment
 
 External Integration:
-
 - Feed session data to external systems
 - Risk evaluation services
 - Customer databases
@@ -79,7 +71,6 @@ External Integration:
 ### Auth0 Actions
 
 Continuous Session Protection uses Auth0 Actions:
-
 - Post-login triggers
 - Token refresh triggers
 - Custom logic execution
@@ -90,14 +81,12 @@ Continuous Session Protection uses Auth0 Actions:
 Available in Actions:
 
 Event Object:
-
 - event.session - Session details
 - event.request - Request information
 - event.user - User information
 - event.transaction - Transaction context
 
 Session Details:
-
 - Session ID
 - Creation time
 - Last activity
@@ -107,14 +96,12 @@ Session Details:
 ### Token Refresh Handling
 
 During Token Refresh:
-
 - Access full session context
 - Evaluate current risk
 - Make continuation decision
 - Modify token properties
 
 Possible Actions:
-
 - Allow refresh normally
 - Deny refresh (force re-auth)
 - Modify new token claims
@@ -122,16 +109,14 @@ Possible Actions:
 
 ## Risk Detection Patterns
 
-### IP Address Monitoring
+### IP Adddess Monitoring
 
 Detection:
-
 - Track IP changes within session
 - Flag unexpected changes
 - Consider VPN/proxy patterns
 
 Response:
-
 - Log for analysis
 - Trigger verification
 - Revoke if high risk
@@ -139,13 +124,11 @@ Response:
 ### Geographic Analysis
 
 Detection:
-
 - Calculate distance between logins
 - Detect impossible travel
 - Monitor location patterns
 
 Response:
-
 - Step-up authentication
 - Session termination
 - User notification
@@ -153,13 +136,11 @@ Response:
 ### Device Fingerprinting
 
 Detection:
-
 - Track device characteristics
 - Identify device changes
 - Compare with known devices
 
 Response:
-
 - Verify new devices
 - Challenge unknown devices
 - Update device registry
@@ -167,13 +148,11 @@ Response:
 ### Behavioral Analysis
 
 Detection:
-
 - Access pattern changes
 - Time-based anomalies
 - Resource access patterns
 
 Response:
-
 - Increase monitoring
 - Require verification
 - Adjust permissions
@@ -183,13 +162,11 @@ Response:
 ### User-Based Adjustment
 
 Examples:
-
 - Admin users: Shorter lifetimes
 - Regular users: Standard lifetimes
 - Verified users: Extended lifetimes
 
 Implementation:
-
 - Check user roles/attributes
 - Set appropriate expiration
 - Apply consistently
@@ -197,13 +174,11 @@ Implementation:
 ### Organization-Based
 
 Examples:
-
 - High-security org: Short lifetimes
 - Standard org: Normal lifetimes
 - Specific requirements: Custom settings
 
 Implementation:
-
 - Check organization membership
 - Apply organization policies
 - Override as needed
@@ -211,13 +186,11 @@ Implementation:
 ### Risk-Based
 
 Examples:
-
 - High risk: Very short lifetime
 - Medium risk: Reduced lifetime
 - Low risk: Standard lifetime
 
 Implementation:
-
 - Evaluate risk signals
 - Calculate risk score
 - Adjust lifetime accordingly
@@ -227,14 +200,12 @@ Implementation:
 ### Active Session Tracking
 
 Monitor:
-
 - Active sessions per user
 - Session locations
 - Session devices
 - Session age
 
 Actions:
-
 - List sessions
 - Terminate specific sessions
 - Terminate all sessions
@@ -243,14 +214,12 @@ Actions:
 ### Session Termination
 
 Triggers:
-
 - Risk threshold exceeded
 - Anomaly detected
 - User request
 - Administrative action
 
 Methods:
-
 - Revoke refresh tokens
 - Clear session
 - Force logout
@@ -258,7 +227,6 @@ Methods:
 ### Concurrent Session Control
 
 Options:
-
 - Limit active sessions
 - Replace oldest session
 - Deny new session
@@ -269,14 +237,12 @@ Options:
 ### Risk Configuration
 
 Balance Security and UX:
-
 - Start with monitoring
 - Analyze patterns
 - Implement gradually
 - Avoid false positives
 
 Threshold Setting:
-
 - Appropriate for user base
 - Consider legitimate scenarios
 - Regular review
@@ -285,14 +251,12 @@ Threshold Setting:
 ### Response Actions
 
 Graduated Response:
-
 1. Log and monitor
 2. Increase verification
 3. Shorten tokens
 4. Terminate session
 
 User Communication:
-
 - Clear security messages
 - Easy re-authentication
 - Support contact
@@ -300,14 +264,12 @@ User Communication:
 ### Monitoring
 
 Track Metrics:
-
 - Session anomalies
 - Action frequency
 - User impact
 - False positive rate
 
 Review Regularly:
-
 - Analyze patterns
 - Adjust thresholds
 - Refine detection
@@ -318,14 +280,12 @@ Review Regularly:
 ### External Risk Services
 
 Send session data to:
-
 - Risk assessment APIs
 - Fraud detection services
 - User behavior analytics
 - Security information platforms
 
 Receive:
-
 - Risk scores
 - Recommendations
 - Additional context
@@ -333,7 +293,6 @@ Receive:
 ### SIEM Integration
 
 Export events for:
-
 - Centralized monitoring
 - Correlation analysis
 - Compliance reporting
@@ -342,7 +301,6 @@ Export events for:
 ### User Notification
 
 Alert users about:
-
 - Session changes
 - Security events
 - Required actions

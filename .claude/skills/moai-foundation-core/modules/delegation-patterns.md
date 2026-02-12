@@ -9,16 +9,14 @@ Last Updated: 2026-01-06
 
 ## Quick Reference (30 seconds)
 
-Core Principle: Alfred NEVER executes directly. All work via `Task()` delegation to specialized agents.
+Core Principle: MoAI NEVER executes directly. All work via `Task()` delegation to specialized agents.
 
 Three Primary Patterns:
-
 1. Sequential - Dependencies between agents (Phase 1 → Phase 2 → Phase 3)
 2. Parallel - Independent agents (Backend + Frontend + Docs simultaneously)
 3. Conditional - Analysis-driven routing (Security issue → security-expert)
 
 Base Syntax:
-
 ```python
 result = await Task(
     subagent_type="agent-name",
@@ -28,7 +26,6 @@ result = await Task(
 ```
 
 Agent Selection:
-
 - Simple (1 file): 1-2 agents sequential
 - Medium (3-5 files): 2-3 agents sequential
 - Complex (10+ files): 5+ agents parallel/sequential mix
@@ -36,7 +33,6 @@ Agent Selection:
 Context Size: 20-30K tokens target, 50K maximum
 
 Extended Documentation:
-
 - [Delegation Implementation](delegation-implementation.md) - Detailed patterns and code
 - [Delegation Advanced](delegation-advanced.md) - Error handling and hybrid patterns
 
@@ -49,7 +45,6 @@ Extended Documentation:
 Use Case: When agents have dependencies on each other.
 
 Flow Diagram:
-
 ```
 Phase 1: Design
     ↓ (design results)
@@ -61,7 +56,6 @@ Phase 4: Quality Gate
 ```
 
 Example:
-
 ```python
 async def implement_feature_sequential(feature_description: str):
     """Sequential workflow with context passing."""
@@ -85,7 +79,7 @@ async def implement_feature_sequential(feature_description: str):
     # Phase 3: Implementation (depends on API design)
     backend_result = await Task(
         subagent_type="code-backend",
-        prompt="Implement backend with TDD",
+        prompt="Implement backend with DDD",
         context={"spec_id": spec_result.spec_id, "api_design": api_result}
     )
 
@@ -99,7 +93,6 @@ async def implement_feature_sequential(feature_description: str):
 Use Case: When agents work on independent tasks simultaneously.
 
 Flow Diagram:
-
 ```
 Start
     → Backend Agent → Result 1
@@ -111,7 +104,6 @@ Start
 ```
 
 Example:
-
 ```python
 async def implement_feature_parallel(spec_id: str):
     """Parallel workflow for independent tasks."""
@@ -160,7 +152,6 @@ Benefits:
 Use Case: Route to different agents based on analysis results.
 
 Flow Diagram:
-
 ```
 Analysis Agent → Determines issue type
     → Security issue → security-expert
@@ -170,7 +161,6 @@ Analysis Agent → Determines issue type
 ```
 
 Example:
-
 ```python
 async def handle_issue_conditional(issue_description: str):
     """Conditional routing based on issue analysis."""
@@ -217,20 +207,17 @@ For comprehensive implementation patterns including context optimization, error 
 ## Works Well With
 
 Agents (Delegation Targets):
-
 - workflow-spec - SPEC generation
-- workflow-tdd - TDD implementation
+- workflow-ddd - DDD implementation
 - code-backend - Backend development
 - code-frontend - Frontend development
 - security-expert - Security analysis
 - core-quality - Quality validation
 
 Skills:
-
 - moai-foundation-token-optimization - Context management
 
 Foundation Modules:
-
 - [Token Optimization](token-optimization.md) - Context passing strategies
 - [Execution Rules](execution-rules.md) - Security constraints for delegation
 

@@ -7,7 +7,6 @@ Deep dive into systematic assumption identification and validation.
 ### Technical Assumptions
 
 Common technical assumptions to examine:
-
 - Technology X can handle our scale requirements
 - The API will maintain backward compatibility
 - Performance will be acceptable with chosen approach
@@ -15,7 +14,6 @@ Common technical assumptions to examine:
 - Development team has necessary expertise
 
 Validation Methods:
-
 - Proof of concept implementation
 - Load testing and benchmarking
 - API documentation and changelog review
@@ -25,7 +23,6 @@ Validation Methods:
 ### Business Assumptions
 
 Common business assumptions to examine:
-
 - Users will adopt the new feature
 - Budget will remain available
 - Timeline is realistic
@@ -33,7 +30,6 @@ Common business assumptions to examine:
 - Stakeholder priorities are aligned
 
 Validation Methods:
-
 - User research and feedback sessions
 - Budget confirmation with finance
 - Historical project data comparison
@@ -43,7 +39,6 @@ Validation Methods:
 ### Team Assumptions
 
 Common team assumptions to examine:
-
 - Team has capacity for this work
 - Skills are available in-house
 - Communication channels are effective
@@ -51,7 +46,6 @@ Common team assumptions to examine:
 - Knowledge transfer is not needed
 
 Validation Methods:
-
 - Capacity planning review
 - Skills matrix assessment
 - Team retrospective feedback
@@ -75,7 +69,6 @@ Status: Unvalidated, Validated, or Invalidated
 ## Integration with AskUserQuestion
 
 When surfacing assumptions, use AskUserQuestion to:
-
 - Confirm which assumptions are critical to validate
 - Gather evidence from user's domain knowledge
 - Prioritize assumption validation efforts

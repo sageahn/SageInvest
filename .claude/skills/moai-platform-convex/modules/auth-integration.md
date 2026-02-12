@@ -65,7 +65,7 @@ const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL)
 
 function ConvexAuth0Inner({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0()
-
+  
   return (
     <ConvexProviderWithAuth0
       client={convex}
@@ -102,20 +102,22 @@ export function ConvexAuth0Provider({ children }: { children: React.ReactNode })
 
 ```typescript
 // convex/functions/users.ts
-import { query, mutation } from '../_generated/server';
-import { v } from 'convex/values';
+import { query, mutation } from '../_generated/server'
+import { v } from 'convex/values'
 
 export const current = query({
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) return null;
-
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) return null
+    
     return await ctx.db
       .query('users')
-      .withIndex('by_token', (q) => q.eq('tokenIdentifier', identity.tokenIdentifier))
-      .first();
-  },
-});
+      .withIndex('by_token', (q) =>
+        q.eq('tokenIdentifier', identity.tokenIdentifier)
+      )
+      .first()
+  }
+})
 ```
 
 ### Ensure User Exists
@@ -123,35 +125,37 @@ export const current = query({
 ```typescript
 export const ensureUser = mutation({
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error('Unauthorized');
-
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) throw new Error('Unauthorized')
+    
     // Check if user exists
     const existing = await ctx.db
       .query('users')
-      .withIndex('by_token', (q) => q.eq('tokenIdentifier', identity.tokenIdentifier))
-      .first();
-
-    if (existing) return existing._id;
-
+      .withIndex('by_token', (q) =>
+        q.eq('tokenIdentifier', identity.tokenIdentifier)
+      )
+      .first()
+    
+    if (existing) return existing._id
+    
     // Create new user
     return await ctx.db.insert('users', {
       tokenIdentifier: identity.tokenIdentifier,
       email: identity.email ?? '',
       name: identity.name ?? '',
       pictureUrl: identity.pictureUrl ?? '',
-      createdAt: Date.now(),
-    });
-  },
-});
+      createdAt: Date.now()
+    })
+  }
+})
 ```
 
 ### User Schema
 
 ```typescript
 // convex/schema.ts
-import { defineSchema, defineTable } from 'convex/server';
-import { v } from 'convex/values';
+import { defineSchema, defineTable } from 'convex/server'
+import { v } from 'convex/values'
 
 export default defineSchema({
   users: defineTable({
@@ -160,11 +164,11 @@ export default defineSchema({
     name: v.string(),
     pictureUrl: v.optional(v.string()),
     role: v.optional(v.string()),
-    createdAt: v.number(),
+    createdAt: v.number()
   })
     .index('by_token', ['tokenIdentifier'])
-    .index('by_email', ['email']),
-});
+    .index('by_email', ['email'])
+})
 ```
 
 ---
@@ -177,39 +181,39 @@ export default defineSchema({
 export const getDocument = query({
   args: { id: v.id('documents') },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    const doc = await ctx.db.get(args.id);
-
-    if (!doc) throw new Error('Document not found');
-
+    const identity = await ctx.auth.getUserIdentity()
+    const doc = await ctx.db.get(args.id)
+    
+    if (!doc) throw new Error('Document not found')
+    
     // Public documents are always accessible
-    if (doc.isPublic) return doc;
-
+    if (doc.isPublic) return doc
+    
     // Private documents require authentication
-    if (!identity) throw new Error('Unauthorized');
-
+    if (!identity) throw new Error('Unauthorized')
+    
     // Check ownership
-    if (doc.ownerId === identity.subject) return doc;
-
+    if (doc.ownerId === identity.subject) return doc
+    
     // Check collaborator access
     const collaborator = await ctx.db
       .query('collaborators')
       .withIndex('by_document_user', (q) =>
         q.eq('documentId', args.id).eq('userId', identity.subject)
       )
-      .first();
-
-    if (collaborator) return doc;
-
-    throw new Error('Forbidden');
-  },
-});
+      .first()
+    
+    if (collaborator) return doc
+    
+    throw new Error('Forbidden')
+  }
+})
 ```
 
 ### Role-Based Access Control
 
 ```typescript
-import { internalQuery } from '../_generated/server';
+import { internalQuery } from '../_generated/server'
 
 export const getUserRole = internalQuery({
   args: { userId: v.string() },
@@ -217,29 +221,29 @@ export const getUserRole = internalQuery({
     const user = await ctx.db
       .query('users')
       .withIndex('by_token', (q) => q.eq('tokenIdentifier', args.userId))
-      .first();
-
-    return user?.role ?? 'user';
-  },
-});
+      .first()
+    
+    return user?.role ?? 'user'
+  }
+})
 
 export const adminOnlyOperation = mutation({
   args: { action: v.string() },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error('Unauthorized');
-
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) throw new Error('Unauthorized')
+    
     const role = await ctx.runQuery(internal.users.getUserRole, {
-      userId: identity.tokenIdentifier,
-    });
-
+      userId: identity.tokenIdentifier
+    })
+    
     if (role !== 'admin') {
-      throw new Error('Admin access required');
+      throw new Error('Admin access required')
     }
-
+    
     // Perform admin action
-  },
-});
+  }
+})
 ```
 
 ### Permission-Based Access
@@ -254,33 +258,34 @@ permissions: defineTable({
     v.literal('write'),
     v.literal('delete'),
     v.literal('admin')
-  ),
-}).index('by_user_resource', ['userId', 'resourceId']);
+  )
+})
+  .index('by_user_resource', ['userId', 'resourceId'])
 
 // Authorization helper
 export const hasPermission = internalQuery({
   args: {
     userId: v.string(),
     resourceId: v.id('documents'),
-    permission: v.string(),
+    permission: v.string()
   },
   handler: async (ctx, args) => {
-    const permissionLevels = ['read', 'write', 'delete', 'admin'];
-    const requiredLevel = permissionLevels.indexOf(args.permission);
-
+    const permissionLevels = ['read', 'write', 'delete', 'admin']
+    const requiredLevel = permissionLevels.indexOf(args.permission)
+    
     const userPermission = await ctx.db
       .query('permissions')
       .withIndex('by_user_resource', (q) =>
         q.eq('userId', args.userId).eq('resourceId', args.resourceId)
       )
-      .first();
-
-    if (!userPermission) return false;
-
-    const userLevel = permissionLevels.indexOf(userPermission.permission);
-    return userLevel >= requiredLevel;
-  },
-});
+      .first()
+    
+    if (!userPermission) return false
+    
+    const userLevel = permissionLevels.indexOf(userPermission.permission)
+    return userLevel >= requiredLevel
+  }
+})
 ```
 
 ---
@@ -291,25 +296,25 @@ export const hasPermission = internalQuery({
 
 ```typescript
 // src/hooks/useCurrentUser.ts
-import { useQuery, useMutation } from 'convex/react';
-import { api } from '../../convex/_generated/api';
-import { useEffect } from 'react';
+import { useQuery, useMutation } from 'convex/react'
+import { api } from '../../convex/_generated/api'
+import { useEffect } from 'react'
 
 export function useCurrentUser() {
-  const user = useQuery(api.functions.users.current);
-  const ensureUser = useMutation(api.functions.users.ensureUser);
-
+  const user = useQuery(api.functions.users.current)
+  const ensureUser = useMutation(api.functions.users.ensureUser)
+  
   useEffect(() => {
     if (user === null) {
-      ensureUser();
+      ensureUser()
     }
-  }, [user, ensureUser]);
-
+  }, [user, ensureUser])
+  
   return {
     user,
     isLoading: user === undefined,
-    isAuthenticated: user !== null,
-  };
+    isAuthenticated: user !== null
+  }
 }
 ```
 
@@ -322,10 +327,10 @@ import { Navigate } from 'react-router-dom'
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, isLoading, isAuthenticated } = useCurrentUser()
-
+  
   if (isLoading) return <LoadingSpinner />
   if (!isAuthenticated) return <Navigate to="/login" />
-
+  
   return <>{children}</>
 }
 ```
@@ -335,12 +340,12 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
 ```typescript
 export function AdminRoute({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useCurrentUser()
-
+  
   if (isLoading) return <LoadingSpinner />
   if (!user || user.role !== 'admin') {
     return <Navigate to="/unauthorized" />
   }
-
+  
   return <>{children}</>
 }
 ```
@@ -357,35 +362,35 @@ sessions: defineTable({
   userId: v.string(),
   deviceInfo: v.string(),
   lastActiveAt: v.number(),
-  createdAt: v.number(),
+  createdAt: v.number()
 })
   .index('by_user', ['userId'])
-  .index('by_last_active', ['lastActiveAt']);
+  .index('by_last_active', ['lastActiveAt'])
 
 // Update session activity
 export const updateSession = mutation({
   args: { deviceInfo: v.string() },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) return;
-
+    const identity = await ctx.auth.getUserIdentity()
+    if (!identity) return
+    
     const existing = await ctx.db
       .query('sessions')
       .withIndex('by_user', (q) => q.eq('userId', identity.subject))
-      .first();
-
+      .first()
+    
     if (existing) {
-      await ctx.db.patch(existing._id, { lastActiveAt: Date.now() });
+      await ctx.db.patch(existing._id, { lastActiveAt: Date.now() })
     } else {
       await ctx.db.insert('sessions', {
         userId: identity.subject,
         deviceInfo: args.deviceInfo,
         lastActiveAt: Date.now(),
-        createdAt: Date.now(),
-      });
+        createdAt: Date.now()
+      })
     }
-  },
-});
+  }
+})
 ```
 
 ---
@@ -393,20 +398,17 @@ export const updateSession = mutation({
 ## Best Practices
 
 Authentication Setup:
-
 - Use official Convex auth provider integrations
 - Configure auth providers in convex/auth.config.ts
 - Store minimal user data in Convex database
 
 Authorization:
-
 - Always validate authentication in server functions
 - Use internal queries for authorization checks
 - Implement least-privilege access patterns
 - Cache authorization results when appropriate
 
 Security:
-
 - Never trust client-provided user IDs
 - Use identity.tokenIdentifier for user identification
 - Validate permissions for every protected operation

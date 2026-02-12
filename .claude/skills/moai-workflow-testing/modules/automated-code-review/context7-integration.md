@@ -11,7 +11,6 @@
 ### Context7 Integration Overview
 
 Context7 MCP provides real-time access to:
-
 - OWASP Top 10 security vulnerability patterns
 - Semgrep security detection rules
 - SonarQube code quality standards

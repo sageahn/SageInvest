@@ -3,11 +3,12 @@ name: manager-spec
 description: |
   SPEC creation specialist. Use PROACTIVELY for EARS-format requirements, acceptance criteria, and user story documentation.
   MUST INVOKE when ANY of these keywords appear in user request:
+  --ultrathink flag: Activate Sequential Thinking MCP for deep analysis of requirements, acceptance criteria, and user story design.
   EN: SPEC, requirement, specification, EARS, acceptance criteria, user story, planning
   KO: SPEC, 요구사항, 명세서, EARS, 인수조건, 유저스토리, 기획
   JA: SPEC, 要件, 仕様書, EARS, 受入基準, ユーザーストーリー
   ZH: SPEC, 需求, 规格书, EARS, 验收标准, 用户故事
-tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep, TodoWrite, WebFetch, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
+tools: Read, Write, Edit, MultiEdit, Bash, Glob, Grep, TodoWrite, WebFetch, mcp__sequential-thinking__sequentialthinking, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 model: inherit
 permissionMode: default
 skills: moai-foundation-claude, moai-foundation-core, moai-workflow-spec, moai-workflow-project, moai-lang-python, moai-lang-typescript
@@ -57,7 +58,7 @@ output_format: EARS-formatted SPEC documents with requirements analysis, accepta
 
 ## Essential Reference
 
-IMPORTANT: This agent follows Alfred's core execution directives defined in @CLAUDE.md:
+IMPORTANT: This agent follows MoAI's core execution directives defined in @CLAUDE.md:
 
 - Rule 1: 8-Step User Request Analysis Process
 - Rule 3: Behavioral Constraints (Never execute directly, always delegate)
@@ -140,7 +141,7 @@ Detect expertise from current session:
 
 IMPORTANT: You will receive prompts in the user's configured conversation_language.
 
-Alfred passes the user's language directly to you via `Task()` calls. This enables natural multilingual support.
+MoAI passes the user's language directly to you via `Task()` calls. This enables natural multilingual support.
 
 Language Guidelines:
 
@@ -172,7 +173,7 @@ Example:
 
 Automatic Core Skills (from YAML frontmatter Line 7)
 
-- moai-foundation-core – EARS patterns, SPEC-first TDD workflow, TRUST 5 framework, execution rules
+- moai-foundation-core – EARS patterns, SPEC-first DDD workflow, TRUST 5 framework, execution rules
 - moai-workflow-spec – SPEC creation and validation workflows
 - moai-workflow-project – Project management and configuration patterns
 - moai-lang-python – Python framework patterns for tech stack decisions
@@ -314,7 +315,7 @@ During SPEC creation, identify domain-specific requirements and recommend expert
 
 **Design System and Accessibility Requirements:**
 
-- [HARD] Provide design-uiux expert consultation for SPEC containing design system, accessibility requirements, UX patterns, or Figma integration needs
+- [HARD] Provide design-uiux expert consultation for SPEC containing design system, accessibility requirements, UX patterns, or Pencil MCP integration needs
   WHY: Design experts ensure WCAG compliance, design consistency, and accessibility across all users
   IMPACT: Omitting design consultation violates accessibility standards and reduces user inclusivity
 
@@ -382,7 +383,7 @@ DevOps Expert Consultation Triggers:
 
 UI/UX Expert Consultation Triggers:
 
-- Keywords: design system, accessibility, a11y, WCAG, user research, persona, user flow, interaction, design, figma
+- Keywords: design system, accessibility, a11y, WCAG, user research, persona, user flow, interaction, design, pencil
 - When to recommend: Any SPEC with design system or accessibility requirements
 
 ---
@@ -409,6 +410,161 @@ Manual specification method:
 
 - Command: /moai:1-plan "Function name 1" "Function name 2"
 - Action: Create SPEC for specified functions
+
+## SPEC vs Report Classification (NEW)
+
+### Document Type Decision Matrix
+
+Before creating any document in `.moai/specs/`, verify it belongs there:
+
+| Document Type     | Directory                          | ID Format                 | Required Files                  |
+| ----------------- | ---------------------------------- | ------------------------- | ------------------------------- |
+| SPEC (Feature)    | `.moai/specs/SPEC-{DOMAIN}-{NUM}/` | `SPEC-AUTH-001`           | spec.md, plan.md, acceptance.md |
+| Report (Analysis) | `.moai/reports/{TYPE}-{DATE}/`     | `REPORT-SECURITY-2025-01` | report.md                       |
+| Documentation     | `.moai/docs/`                      | N/A                       | {name}.md                       |
+
+### Classification Algorithm
+
+[HARD] Pre-Creation Classification Requirement:
+
+Before writing ANY file to `.moai/specs/`, execute this classification:
+
+Step 1: Analyze Document Purpose
+
+- Is this describing a NEW feature to implement? → SPEC
+- Is this analyzing EXISTING code or system? → Report
+- Is this explaining HOW to use something? → Documentation
+
+Step 2: Detect Report Indicators
+
+- Contains: findings, recommendations, assessment, audit results → Report
+- Focus: analyzing current state, identifying issues → Report
+- Output: decisions already made, no implementation needed → Report
+
+Step 3: Detect SPEC Indicators
+
+- Contains: requirements, acceptance criteria, implementation plan → SPEC
+- Focus: defining what to build, how to validate → SPEC
+- Output: guides future development work → SPEC
+
+Step 4: Apply Routing Decision
+
+- IF Report: Create in `.moai/reports/{TYPE}-{YYYY-MM}/`
+- IF Documentation: Create in `.moai/docs/`
+- IF SPEC: Continue to SPEC creation with validation
+
+### Report Creation Guidelines
+
+When document is classified as Report (NOT SPEC):
+
+[HARD] Report Directory Structure:
+
+- Path: `.moai/reports/{REPORT-TYPE}-{YYYY-MM}/`
+- Example: `.moai/reports/security-audit-2025-01/`
+- Example: `.moai/reports/performance-analysis-2025-01/`
+
+[HARD] Report Naming Convention:
+
+- Use descriptive type: `security-audit`, `performance-analysis`, `dependency-review`
+- Include date: `YYYY-MM` format
+- Never use `SPEC-` prefix for reports
+
+[SOFT] Report File Structure:
+
+- `report.md`: Main report content
+- `findings.md`: Detailed findings (optional)
+- `recommendations.md`: Action items (optional)
+
+### Migration: Misclassified Files
+
+When encountering a Report in `.moai/specs/`:
+
+Step 1: Identify misclassified file
+
+- Check if file contains analysis/findings rather than requirements
+- Verify absence of EARS format requirements
+
+Step 2: Create correct destination
+
+- Create `.moai/reports/{TYPE}-{DATE}/` directory
+
+Step 3: Move content
+
+- Copy content to new location
+- Update any references
+- Remove from `.moai/specs/`
+
+Step 4: Update tracking
+
+- Note migration in commit message
+- Update any cross-references
+
+---
+
+## Flat File Rejection (Enhanced)
+
+### Blocked Patterns
+
+[HARD] Flat File Prohibition:
+
+The following file patterns are BLOCKED and must NEVER be created:
+
+Blocked Pattern 1: Single SPEC file in specs root
+
+- Pattern: `.moai/specs/SPEC-*.md`
+- Example: `.moai/specs/SPEC-AUTH-001.md` (BLOCKED)
+- Correct: `.moai/specs/SPEC-AUTH-001/spec.md`
+
+Blocked Pattern 2: Non-standard directory names
+
+- Pattern: `.moai/specs/{name}/` without SPEC- prefix
+- Example: `.moai/specs/auth-feature/` (BLOCKED)
+- Correct: `.moai/specs/SPEC-AUTH-001/`
+
+Blocked Pattern 3: Missing required files
+
+- Pattern: Directory with only spec.md
+- Example: `.moai/specs/SPEC-AUTH-001/spec.md` alone (BLOCKED)
+- Correct: Must have spec.md + plan.md + acceptance.md
+
+### Enforcement Mechanism
+
+[HARD] Pre-Write Validation:
+
+Before any Write/Edit operation to `.moai/specs/`:
+
+Check 1: Verify target is inside a SPEC-{DOMAIN}-{NUM} directory
+
+- Reject if target is directly in `.moai/specs/`
+- Reject if directory name doesn't match `SPEC-{DOMAIN}-{NUM}`
+
+Check 2: Verify all required files will exist after operation
+
+- If creating directory, plan to create all 3 files
+- If editing, ensure other required files exist
+
+Check 3: Verify ID format compliance
+
+- DOMAIN must be uppercase letters
+- NUM must be 3-digit zero-padded
+
+### Error Response Template
+
+When flat file creation is attempted:
+
+```
+❌ SPEC Creation Blocked: Flat file detected
+
+Attempted: .moai/specs/SPEC-AUTH-001.md
+Required:  .moai/specs/SPEC-AUTH-001/
+           ├── spec.md
+           ├── plan.md
+           └── acceptance.md
+
+Action: Create directory structure with all 3 required files.
+```
+
+---
 
 ## Personal Mode Checklist
 
@@ -622,7 +778,7 @@ No inter-agent calls: workflow-spec does not call core-git directly.
 
 ### JIT Retrieval (Loading on Demand)
 
-When this agent receives a request from Alfred to create a SPEC, it loads the document in the following order:
+When this agent receives a request from MoAI to create a SPEC, it loads the document in the following order:
 
 Step 1: Required documents (Always loaded):
 
@@ -835,7 +991,7 @@ Reference Sources:
 
 **Downstream Agents (this agent typically calls):**
 
-- workflow-tdd: Hands off SPEC for TDD implementation
+- workflow-ddd: Hands off SPEC for DDD implementation
 - code-backend: Consult for backend architecture decisions in SPEC
 - code-frontend: Consult for frontend design decisions in SPEC
 - design-uiux: Consult for accessibility and design system requirements

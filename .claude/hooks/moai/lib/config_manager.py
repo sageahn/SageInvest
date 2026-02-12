@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Configuration Manager for Alfred Hooks
+"""Configuration Manager for MoAI Hooks
 
 Provides centralized configuration management with fallbacks and validation.
 """
@@ -72,7 +72,7 @@ DEFAULT_CONFIG = {
 
 
 class ConfigManager:
-    """Configuration manager for Alfred hooks with validation and fallbacks."""
+    """Configuration manager for MoAI hooks with validation and fallbacks."""
 
     def __init__(self, config_path: Path | None = None):
         """Initialize configuration manager.
@@ -111,7 +111,7 @@ class ConfigManager:
         config = {}
         if self.config_path.exists():
             try:
-                with open(self.config_path, "r", encoding="utf-8") as f:
+                with open(self.config_path, "r", encoding="utf-8", errors="replace") as f:
                     if self.config_path.suffix in [".yaml", ".yml"]:
                         if not YAML_AVAILABLE:
                             # Fall back to defaults if YAML not available

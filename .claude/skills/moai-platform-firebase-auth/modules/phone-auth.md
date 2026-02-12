@@ -9,7 +9,6 @@ Comprehensive guide for implementing SMS-based phone number authentication with 
 Phone authentication enables users to sign in using their phone number via SMS verification. Firebase handles SMS delivery, verification code generation, and user account management.
 
 Key Features:
-
 - International phone number support with E.164 format
 - Automatic reCAPTCHA verification for web
 - Auto-verification on Android devices
@@ -27,7 +26,7 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
   PhoneAuthProvider,
-  signInWithCredential,
+  signInWithCredential
 } from 'firebase/auth';
 
 const auth = getAuth();
@@ -41,7 +40,7 @@ const setupRecaptcha = () => {
     },
     'expired-callback': () => {
       console.log('reCAPTCHA expired');
-    },
+    }
   });
   return recaptchaVerifier;
 };
@@ -51,7 +50,11 @@ const sendVerificationCode = async (phoneNumber: string) => {
   const recaptchaVerifier = setupRecaptcha();
 
   try {
-    const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+    const confirmationResult = await signInWithPhoneNumber(
+      auth,
+      phoneNumber,
+      recaptchaVerifier
+    );
     return confirmationResult;
   } catch (error: any) {
     if (error.code === 'auth/invalid-phone-number') {
@@ -83,7 +86,7 @@ const setupInvisibleRecaptcha = () => {
     size: 'invisible',
     callback: () => {
       onSignInSubmit();
-    },
+    }
   });
   return recaptchaVerifier;
 };
@@ -276,10 +279,10 @@ Always use E.164 format for phone numbers:
 ```typescript
 // E.164 Format Examples
 const validFormats = [
-  '+12025551234', // US
-  '+442071234567', // UK
-  '+81312345678', // Japan
-  '+8210123456789', // South Korea
+  '+12025551234',      // US
+  '+442071234567',     // UK
+  '+81312345678',      // Japan
+  '+8210123456789',    // South Korea
 ];
 
 const isValidE164 = (phone: string): boolean => {
@@ -339,28 +342,24 @@ const testPhoneNumbers = ['+15551234567', '+15559876543'];
 ## Best Practices
 
 Rate Limiting and Abuse Prevention:
-
 - Firebase automatically rate limits SMS sending
 - Implement client-side rate limiting for better UX
 - Show countdown timer after sending code
 - Limit resend attempts per session
 
 User Experience Guidelines:
-
 - Pre-fill country code based on device locale
 - Show clear instructions for phone number format
 - Provide countdown timer for code expiration
 - Allow code resend after timeout period
 
 Security Considerations:
-
 - Validate phone number format before sending
 - Implement proper error handling for all edge cases
 - Use invisible reCAPTCHA for seamless experience
 - Consider SIM swap attack mitigation for sensitive operations
 
 Cost Management:
-
 - SMS messages incur costs per message sent
 - Implement proper rate limiting to control costs
 - Use test phone numbers during development

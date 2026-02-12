@@ -54,16 +54,29 @@ export default function KISAuthPage() {
       ]);
 
       if (configRes.ok) {
-        const config = (await configRes.json()) as { app_key: string; environment: string } | null;
-        setCurrentConfig(config);
+        const config = (await configRes.json()) as Partial<KISConfig> | null;
+        if (config) {
+          setCurrentConfig({
+            app_key: config.app_key || '',
+            app_secret: config.app_secret || '',
+            environment: (config.environment as any) || 'production',
+            created_at: config.created_at || new Date(),
+            updated_at: config.updated_at || new Date(),
+          });
+        } else {
+          setCurrentConfig(null);
+        }
       }
 
       if (tokenRes.ok) {
         const data = (await tokenRes.json()) as { token?: any };
         setCurrentToken(data.token);
       }
-    } catch {
-      console.error('Failed to fetch status:', error);
+    } catch (error) {
+      console.error(
+        'Failed to fetch status:',
+        error instanceof Error ? error.message : String(error)
+      );
     }
   };
 
@@ -133,7 +146,7 @@ export default function KISAuthPage() {
               <input
                 type="text"
                 value={appKey}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAppKey(e.target.value)}
+                onChange={(e) => setAppKey((e.target as HTMLInputElement).value)}
                 placeholder="36자 App Key"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 maxLength={36}
@@ -145,7 +158,7 @@ export default function KISAuthPage() {
               <input
                 type="password"
                 value={appSecret}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAppSecret(e.target.value)}
+                onChange={(e) => setAppSecret((e.target as HTMLInputElement).value)}
                 placeholder="180자 App Secret"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 maxLength={180}
@@ -156,8 +169,8 @@ export default function KISAuthPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">환경</label>
               <select
                 value={environment}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  setEnvironment(e.target.value as any)
+                onChange={(e) =>
+                  setEnvironment((e.target as HTMLSelectElement).value as 'production' | 'mock')
                 }
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
               >

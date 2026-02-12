@@ -147,8 +147,8 @@ export default function KISDashboardWidget() {
                   if (typeof window !== 'undefined') {
                     window.location.reload();
                   }
-                } catch {
-                  console.error('Token refresh failed:', error);
+                } catch (err) {
+                  console.error('Token refresh failed:', err);
                 }
               }}
               className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
@@ -181,8 +181,8 @@ export default function KISDashboardWidget() {
                 if (typeof window !== 'undefined') {
                   window.location.reload();
                 }
-              } catch {
-                console.error('Token refresh failed:', error);
+              } catch (err) {
+                console.error('Token refresh failed:', err);
               }
             }}
             className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"

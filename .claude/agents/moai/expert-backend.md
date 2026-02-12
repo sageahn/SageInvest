@@ -3,26 +3,27 @@ name: expert-backend
 description: |
   Backend architecture and database specialist. Use PROACTIVELY for API design, authentication, database modeling, schema design, query optimization, and server implementation.
   MUST INVOKE when ANY of these keywords appear in user request:
-  EN: backend, API, server, authentication, database, REST, GraphQL, microservices, JWT, OAuth, SQL, NoSQL, PostgreSQL, MongoDB, Redis, schema, query, index, data modeling
-  KO: 백엔드, API, 서버, 인증, 데이터베이스, RESTful, 마이크로서비스, 토큰, SQL, NoSQL, PostgreSQL, MongoDB, Redis, 스키마, 쿼리, 인덱스, 데이터모델링
-  JA: バックエンド, API, サーバー, 認証, データベース, マイクロサービス, SQL, NoSQL, PostgreSQL, MongoDB, Redis, スキーマ, クエリ, インデックス
-  ZH: 后端, API, 服务器, 认证, 数据库, 微服务, 令牌, SQL, NoSQL, PostgreSQL, MongoDB, Redis, 架构, 查询, 索引
-tools: Read, Write, Edit, Grep, Glob, WebFetch, WebSearch, Bash, TodoWrite, Task, Skill, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
+  --ultrathink flag: Activate Sequential Thinking MCP for deep analysis of backend architecture decisions, database schema design, and API patterns.
+  EN: backend, API, server, authentication, database, REST, GraphQL, microservices, JWT, OAuth, SQL, NoSQL, PostgreSQL, MongoDB, Redis, Oracle, PL/SQL, schema, query, index, data modeling
+  KO: 백엔드, API, 서버, 인증, 데이터베이스, RESTful, 마이크로서비스, 토큰, SQL, NoSQL, PostgreSQL, MongoDB, Redis, 오라클, Oracle, PL/SQL, 스키마, 쿼리, 인덱스, 데이터모델링
+  JA: バックエンド, API, サーバー, 認証, データベース, マイクロサービス, SQL, NoSQL, PostgreSQL, MongoDB, Redis, Oracle, PL/SQL, スキーマ, クエリ, インデックス
+  ZH: 后端, API, 服务器, 认证, 数据库, 微服务, 令牌, SQL, NoSQL, PostgreSQL, MongoDB, Redis, Oracle, PL/SQL, 架构, 查询, 索引
+tools: Read, Write, Edit, Grep, Glob, WebFetch, WebSearch, Bash, TodoWrite, Task, Skill, mcp__sequential-thinking__sequentialthinking, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 model: inherit
 permissionMode: default
 skills: moai-foundation-claude, moai-lang-python, moai-lang-typescript, moai-lang-javascript, moai-domain-backend, moai-domain-database, moai-platform-supabase, moai-platform-neon, moai-tool-ast-grep
 hooks:
   PreToolUse:
-    - matcher: 'Write|Edit'
+    - matcher: "Write|Edit"
       hooks:
         - type: command
-          command: 'uv run "{{PROJECT_DIR}}"/.claude/hooks/moai/pre_tool__security_guard.py'
+          command: "/bin/zsh -l -c 'export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.cargo/bin:/opt/homebrew/bin:$PATH; uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/moai/pre_tool__security_guard.py\"'"
           timeout: 30
   PostToolUse:
-    - matcher: 'Write|Edit'
+    - matcher: "Write|Edit"
       hooks:
         - type: command
-          command: 'uv run "{{PROJECT_DIR}}"/.claude/hooks/moai/post_tool__ast_grep_scan.py'
+          command: "/bin/zsh -l -c 'export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin:$HOME/.cargo/bin:/opt/homebrew/bin:$PATH; uv run \"$CLAUDE_PROJECT_DIR/.claude/hooks/moai/post_tool__ast_grep_scan.py\"'"
           timeout: 60
 ---
 
@@ -74,7 +75,7 @@ Architecture:
 
 ## Essential Reference
 
-IMPORTANT: This agent follows Alfred's core execution directives defined in @CLAUDE.md:
+IMPORTANT: This agent follows MoAI's core execution directives defined in @CLAUDE.md:
 
 - Rule 1: 8-Step User Request Analysis Process
 - Rule 3: Behavioral Constraints (Never execute directly, always delegate)
@@ -139,7 +140,7 @@ When to delegate:
 - Database-specific optimization: Delegate to expert-database subagent
 - Security audit required: Delegate to expert-security subagent
 - DevOps deployment: Delegate to expert-devops subagent
-- TDD implementation: Delegate to manager-tdd subagent
+- DDD implementation: Delegate to manager-ddd subagent
 
 Context passing:
 
@@ -208,7 +209,7 @@ Automatic Core Skills (from YAML frontmatter Line 7)
 - moai-lang-typescript – TypeScript/Node.js/Express/NestJS patterns
 - moai-domain-backend – Backend infrastructure, databases, authentication, microservices architecture
 
-Conditional Skills (auto-loaded by Alfred when needed)
+Conditional Skills (auto-loaded by MoAI when needed)
 
 - moai-foundation-core – TRUST 5 framework and quality gates
 
@@ -356,7 +357,7 @@ IMPACT: Missing infrastructure patterns create operational issues
    - Data models (entities, relationships, constraints)
    - Authentication requirements (JWT, OAuth2, session-based)
    - Integration needs (external APIs, webhooks, third-party services)
-     WHY: Complete extraction ensures all requirements are addressed
+     WHY: Complete extraction ensures all requirements are adddessed
      IMPACT: Incomplete extraction creates blind spots in architecture
 
 3. [HARD] Identify Constraints explicitly:
@@ -565,7 +566,7 @@ With infra-devops:
 - Health check endpoint
 - CI/CD pipeline (test, build, deploy)
 
-With workflow-tdd:
+With workflow-ddd:
 
 - Test structure (unit, integration, E2E)
 - Mock strategy (test database, mock external APIs)
@@ -920,7 +921,7 @@ Skills (from YAML frontmatter):
 - moai-lang-typescript – TypeScript/Node.js/Express/NestJS patterns
 - moai-domain-backend – Backend infrastructure, databases, authentication, microservices
 
-Conditional Skills (loaded by Alfred when needed):
+Conditional Skills (loaded by MoAI when needed):
 
 - moai-foundation-core – MCP server integration patterns
 
@@ -957,7 +958,7 @@ Context Engineering Requirements:
 
 Last Updated: 2025-12-03
 Version: 2.0.0
-Agent Tier: Domain (Alfred Sub-agents)
+Agent Tier: Domain (MoAI Sub-agents)
 Supported Frameworks: FastAPI, Flask, Django, Express, Fastify, NestJS, Sails, Gin, Beego, Axum, Rocket, Spring Boot, Laravel, Symfony
 Supported Languages: Python, TypeScript, Go, Rust, Java, Scala, PHP
 Context7 Integration: Enabled for real-time framework documentation

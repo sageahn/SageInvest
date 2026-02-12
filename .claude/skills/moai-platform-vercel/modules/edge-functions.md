@@ -10,26 +10,25 @@ Vercel Edge Functions execute at the network edge (30+ global locations) with su
 
 ```typescript
 // app/api/edge-handler/route.ts
-export const runtime = 'edge';
-export const preferredRegion = ['iad1', 'sfo1', 'fra1'];
+export const runtime = 'edge'
+export const preferredRegion = ['iad1', 'sfo1', 'fra1']
 
 export async function GET(request: Request) {
-  const { geo, ip } = request;
+  const { geo, ip } = request
 
   return Response.json({
     country: geo?.country ?? 'Unknown',
     city: geo?.city ?? 'Unknown',
     region: geo?.region ?? 'Unknown',
     ip: ip ?? 'Unknown',
-    timestamp: new Date().toISOString(),
-  });
+    timestamp: new Date().toISOString()
+  })
 }
 ```
 
 ### Region Selection
 
 Available regions for preferredRegion configuration:
-
 - `iad1` - Washington, D.C. (US East)
 - `sfo1` - San Francisco (US West)
 - `fra1` - Frankfurt (Europe)
@@ -43,79 +42,79 @@ Available regions for preferredRegion configuration:
 
 ```typescript
 // middleware.ts
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const response = NextResponse.next();
+  const response = NextResponse.next()
 
   // Add custom headers
-  response.headers.set('x-custom-header', 'my-value');
+  response.headers.set('x-custom-header', 'my-value')
 
   // Geo-based locale detection
-  const country = request.geo?.country ?? 'US';
-  response.cookies.set('user-country', country);
+  const country = request.geo?.country ?? 'US'
+  response.cookies.set('user-country', country)
 
-  return response;
+  return response
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
-};
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
+}
 ```
 
 ### A/B Testing at Edge
 
 ```typescript
 // middleware.ts
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const existingBucket = request.cookies.get('ab-bucket')?.value;
+  const existingBucket = request.cookies.get('ab-bucket')?.value
 
   if (!existingBucket) {
-    const bucket = Math.random() < 0.5 ? 'control' : 'variant';
-    const response = NextResponse.next();
+    const bucket = Math.random() < 0.5 ? 'control' : 'variant'
+    const response = NextResponse.next()
     response.cookies.set('ab-bucket', bucket, {
       maxAge: 60 * 60 * 24 * 30, // 30 days
       httpOnly: true,
-      sameSite: 'lax',
-    });
-    return response;
+      sameSite: 'lax'
+    })
+    return response
   }
 
-  return NextResponse.next();
+  return NextResponse.next()
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
-};
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
+}
 ```
 
 ## Geo-Based Content Delivery
 
 ```typescript
 // app/api/localized/route.ts
-export const runtime = 'edge';
+export const runtime = 'edge'
 
 const CONTENT_BY_REGION: Record<string, { currency: string; locale: string }> = {
   US: { currency: 'USD', locale: 'en-US' },
   DE: { currency: 'EUR', locale: 'de-DE' },
   JP: { currency: 'JPY', locale: 'ja-JP' },
-  KR: { currency: 'KRW', locale: 'ko-KR' },
-};
+  KR: { currency: 'KRW', locale: 'ko-KR' }
+}
 
 export async function GET(request: Request) {
-  const country = request.geo?.country ?? 'US';
-  const config = CONTENT_BY_REGION[country] ?? CONTENT_BY_REGION.US;
+  const country = request.geo?.country ?? 'US'
+  const config = CONTENT_BY_REGION[country] ?? CONTENT_BY_REGION.US
 
   return Response.json(config, {
     headers: {
       'Cache-Control': 'public, s-maxage=3600',
-      'CDN-Cache-Control': 'public, max-age=86400',
-    },
-  });
+      'CDN-Cache-Control': 'public, max-age=86400'
+    }
+  })
 }
 ```
 
@@ -123,30 +122,30 @@ export async function GET(request: Request) {
 
 ```typescript
 // middleware.ts
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  const token = request.cookies.get('auth-token')?.value;
+  const token = request.cookies.get('auth-token')?.value
 
   if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(new URL('/login', request.url))
   }
 
   // Optional: Verify JWT at edge for stateless auth
   if (token) {
     try {
       // Use edge-compatible JWT library
-      const payload = await verifyToken(token);
-      const response = NextResponse.next();
-      response.headers.set('x-user-id', payload.sub);
-      return response;
+      const payload = await verifyToken(token)
+      const response = NextResponse.next()
+      response.headers.set('x-user-id', payload.sub)
+      return response
     } catch {
-      return NextResponse.redirect(new URL('/login', request.url));
+      return NextResponse.redirect(new URL('/login', request.url))
     }
   }
 
-  return NextResponse.next();
+  return NextResponse.next()
 }
 ```
 
@@ -155,7 +154,6 @@ export async function middleware(request: NextRequest) {
 ### Supported APIs
 
 Edge runtime supports Web APIs but not Node.js APIs:
-
 - Fetch API (fetch, Request, Response, Headers)
 - URL and URLSearchParams
 - TextEncoder and TextDecoder
@@ -194,9 +192,9 @@ return Response.json(data, {
     // Browser cache for 5 minutes
     'CDN-Cache-Control': 'public, max-age=300',
     // Stale-while-revalidate for smooth updates
-    'Stale-While-Revalidate': '60',
-  },
-});
+    'Stale-While-Revalidate': '60'
+  }
+})
 ```
 
 ### Error Handling
@@ -204,11 +202,14 @@ return Response.json(data, {
 ```typescript
 export async function GET(request: Request) {
   try {
-    const result = await processRequest(request);
-    return Response.json(result);
+    const result = await processRequest(request)
+    return Response.json(result)
   } catch (error) {
-    console.error('Edge function error:', error);
-    return Response.json({ error: 'Internal Server Error' }, { status: 500 });
+    console.error('Edge function error:', error)
+    return Response.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    )
   }
 }
 ```
@@ -216,7 +217,6 @@ export async function GET(request: Request) {
 ## Context7 Integration
 
 For latest Edge Functions documentation, use:
-
 - Library: `/vercel/vercel`
 - Topics: edge-functions, middleware, geo-detection
 - Token allocation: 5000-10000 for comprehensive coverage

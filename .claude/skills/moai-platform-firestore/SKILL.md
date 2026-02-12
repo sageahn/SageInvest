@@ -1,23 +1,26 @@
 ---
-name: 'moai-platform-firestore'
-description: 'Firebase Firestore specialist covering NoSQL patterns, real-time sync, offline caching, and Security Rules. Use when building mobile-first apps with offline support, implementing real-time listeners, or configuring Firestore security.'
-version: 2.1.0
-category: 'platform'
-modularized: true
+name: moai-platform-firestore
+description: >
+  Firebase Firestore specialist covering NoSQL patterns, real-time sync, offline
+  caching, and Security Rules. Use when building mobile-first apps with offline
+  support, implementing real-time listeners, or configuring Firestore security.
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Write Bash(firebase:*) Bash(npm:*) Bash(npx:*) Grep Glob mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-tags: ['firestore', 'firebase', 'nosql', 'realtime', 'offline', 'mobile']
-updated: 2026-01-11
-status: 'active'
-context7-libraries: ['/firebase/firebase-docs']
-related-skills: ['moai-platform-firebase-auth', 'moai-lang-flutter', 'moai-lang-typescript']
-allowed-tools:
-  - Read
-  - Write
-  - Bash
-  - Grep
-  - Glob
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+metadata:
+  version: "2.1.0"
+  category: "platform"
+  status: "active"
+  updated: "2026-01-11"
+  modularized: "true"
+  tags: "firestore, firebase, nosql, realtime, offline, mobile"
+  context7-libraries: "/firebase/firebase-docs"
+  related-skills: "moai-platform-firebase-auth, moai-lang-flutter, moai-lang-typescript"
+
+# MoAI Extension: Triggers
+triggers:
+  keywords: ["firestore", "nosql", "real-time", "offline", "mobile database", "security rules", "sync"]
 ---
 
 # moai-platform-firestore: Firebase Firestore Specialist
@@ -44,9 +47,9 @@ Use Firestore for mobile-first applications with offline support, real-time coll
 
 ### Context7 Documentation Access
 
-Step 1: Resolve the Firebase library ID using mcp**context7**resolve-library-id with libraryName "firebase" to get the Context7-compatible library ID.
+Step 1: Resolve the Firebase library ID using mcp__context7__resolve-library-id with libraryName "firebase" to get the Context7-compatible library ID.
 
-Step 2: Fetch Firestore documentation using mcp**context7**get-library-docs with the resolved ID. Set topic to specific areas such as "firestore security-rules", "firestore offline", or "firestore real-time". Allocate 6000 to 8000 tokens for comprehensive coverage.
+Step 2: Fetch Firestore documentation using mcp__context7__get-library-docs with the resolved ID. Set topic to specific areas such as "firestore security-rules", "firestore offline", or "firestore real-time". Allocate 6000 to 8000 tokens for comprehensive coverage.
 
 ### Module Index
 
@@ -74,7 +77,7 @@ Define Security Rules using rules_version 2 and service cloud.firestore. In the 
 
 ### Real-time Listener with Metadata
 
-Import collection, query, where, orderBy, and onSnapshot from firebase/firestore. Create a subscribeToDocuments function taking userId and a callback. Build a query on the documents collection filtering where collaborators array-contains userId and ordering by createdAt descending. Call onSnapshot with the query, includeMetadataChanges set to true, and a callback that maps snapshot.docs to objects containing id, document data spread, \_pending set to doc.metadata.hasPendingWrites, and \_fromCache set to doc.metadata.fromCache. Return the unsubscribe function.
+Import collection, query, where, orderBy, and onSnapshot from firebase/firestore. Create a subscribeToDocuments function taking userId and a callback. Build a query on the documents collection filtering where collaborators array-contains userId and ordering by createdAt descending. Call onSnapshot with the query, includeMetadataChanges set to true, and a callback that maps snapshot.docs to objects containing id, document data spread, _pending set to doc.metadata.hasPendingWrites, and _fromCache set to doc.metadata.fromCache. Return the unsubscribe function.
 
 ### Composite Indexes Configuration
 

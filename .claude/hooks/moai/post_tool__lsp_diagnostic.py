@@ -10,7 +10,7 @@ LSP diagnostic information after each Write or Edit operation.
 
 Exit Codes:
 - 0: Success (no errors found or LSP unavailable)
-- 2: Attention needed (errors found, Claude should address)
+- 2: Attention needed (errors found, Claude should adddess)
 
 Output:
 - JSON with hookSpecificOutput containing diagnostic summary
@@ -24,6 +24,13 @@ import os
 import sys
 from pathlib import Path
 from typing import Any
+
+# Ensure UTF-8 stdout/stderr on Windows (cp949 default breaks non-ASCII output)
+if sys.platform == "win32":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 # Environment variable to disable LSP diagnostics
 DISABLE_ENV_VAR = "MOAI_DISABLE_LSP_DIAGNOSTIC"

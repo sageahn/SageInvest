@@ -10,53 +10,51 @@ description: Performance optimization, rendering strategies, and SVG generation 
 ### 1. Mermaid Rendering Strategies
 
 Strategy 1: Server-Side Rendering (SSR)
-
 ```javascript
 // Node.js server with mermaid-cli
 const { execSync } = require('child_process');
 const fs = require('fs');
 
 function generateSVG(mermaidCode, outputPath) {
-  const tempFile = '/tmp/diagram.mmd';
-  fs.writeFileSync(tempFile, mermaidCode);
+ const tempFile = '/tmp/diagram.mmd';
+ fs.writeFileSync(tempFile, mermaidCode);
 
-  try {
-    // Use mermaid-cli for server-side rendering
-    execSync(`mmdc -i ${tempFile} -o ${outputPath} -t dark -s 4`);
+ try {
+ // Use mermaid-cli for server-side rendering
+ execSync(`mmdc -i ${tempFile} -o ${outputPath} -t dark -s 4`);
 
-    return {
-      status: 'success',
-      path: outputPath,
-      size: fs.statSync(outputPath).size,
-    };
-  } catch (error) {
-    return {
-      status: 'error',
-      message: error.message,
-    };
-  }
+ return {
+ status: 'success',
+ path: outputPath,
+ size: fs.statSync(outputPath).size
+ };
+ } catch (error) {
+ return {
+ status: 'error',
+ message: error.message
+ };
+ }
 }
 
 // Cache generated diagrams
 const diagrams = new Map();
 
 app.get('/diagram/:id.svg', (req, res) => {
-  const cacheKey = `diagram-${req.params.id}`;
+ const cacheKey = `diagram-${req.params.id}`;
 
-  if (diagrams.has(cacheKey)) {
-    return res.sendFile(diagrams.get(cacheKey));
-  }
+ if (diagrams.has(cacheKey)) {
+ return res.sendFile(diagrams.get(cacheKey));
+ }
 
-  const mermaidCode = getMermaidCode(req.params.id);
-  const outputPath = generateSVG(mermaidCode, `/tmp/${cacheKey}.svg`);
+ const mermaidCode = getMermaidCode(req.params.id);
+ const outputPath = generateSVG(mermaidCode, `/tmp/${cacheKey}.svg`);
 
-  diagrams.set(cacheKey, outputPath);
-  res.sendFile(outputPath);
+ diagrams.set(cacheKey, outputPath);
+ res.sendFile(outputPath);
 });
 ```
 
 Strategy 2: Client-Side Rendering (CSR)
-
 ```typescript
 // React component with lazy loading
 import mermaid from 'mermaid';
@@ -105,31 +103,30 @@ const useVisibilityObserver = (ref) => {
 ```
 
 Strategy 3: Hybrid Rendering
-
 ```typescript
 // Use SSR for complex diagrams, CSR for simple ones
 interface DiagramConfig {
-  complexity: 'simple' | 'medium' | 'complex';
-  data: string;
-  format: 'svg' | 'png';
+ complexity: 'simple' | 'medium' | 'complex';
+ data: string;
+ format: 'svg' | 'png';
 }
 
 async function renderDiagram(config: DiagramConfig) {
-  if (config.complexity === 'simple') {
-    // Client-side for fast rendering
-    return renderClientSide(config.data);
-  } else if (config.complexity === 'complex') {
-    // Server-side for reliability
-    return await renderServerSide(config.data, config.format);
-  } else {
-    // Hybrid: SSR with caching
-    const cached = await checkCache(config.data);
-    if (cached) return cached;
+ if (config.complexity === 'simple') {
+ // Client-side for fast rendering
+ return renderClientSide(config.data);
+ } else if (config.complexity === 'complex') {
+ // Server-side for reliability
+ return await renderServerSide(config.data, config.format);
+ } else {
+ // Hybrid: SSR with caching
+ const cached = await checkCache(config.data);
+ if (cached) return cached;
 
-    const svg = await renderServerSide(config.data, 'svg');
-    await cache(config.data, svg);
-    return svg;
-  }
+ const svg = await renderServerSide(config.data, 'svg');
+ await cache(config.data, svg);
+ return svg;
+ }
 }
 ```
 
@@ -139,64 +136,64 @@ async function renderDiagram(config: DiagramConfig) {
 
 ```typescript
 class DiagramCache {
-  private memoryCache = new Map<string, CacheEntry>();
-  private redisClient = createRedisClient();
-  private S3Bucket = createS3Bucket();
+ private memoryCache = new Map<string, CacheEntry>();
+ private redisClient = createRedisClient();
+ private S3Bucket = createS3Bucket();
 
-  async get(diagramId: string): Promise<SVG | null> {
-    // Layer 1: Memory cache (milliseconds)
-    let cached = this.memoryCache.get(diagramId);
-    if (cached && !this.isExpired(cached)) {
-      metrics.increment('cache.memory.hit');
-      return cached.svg;
-    }
+ async get(diagramId: string): Promise<SVG | null> {
+ // Layer 1: Memory cache (milliseconds)
+ let cached = this.memoryCache.get(diagramId);
+ if (cached && !this.isExpired(cached)) {
+ metrics.increment('cache.memory.hit');
+ return cached.svg;
+ }
 
-    // Layer 2: Redis cache (seconds/minutes)
-    try {
-      cached = await this.redisClient.get(diagramId);
-      if (cached) {
-        metrics.increment('cache.redis.hit');
-        // Populate memory cache
-        this.memoryCache.set(diagramId, cached);
-        return cached.svg;
-      }
-    } catch (error) {
-      logger.warn('Redis cache miss', { diagramId });
-    }
+ // Layer 2: Redis cache (seconds/minutes)
+ try {
+ cached = await this.redisClient.get(diagramId);
+ if (cached) {
+ metrics.increment('cache.redis.hit');
+ // Populate memory cache
+ this.memoryCache.set(diagramId, cached);
+ return cached.svg;
+ }
+ } catch (error) {
+ logger.warn('Redis cache miss', { diagramId });
+ }
 
-    // Layer 3: S3 cache (permanent)
-    try {
-      cached = await this.S3Bucket.get(`diagrams/${diagramId}.svg`);
-      if (cached) {
-        metrics.increment('cache.s3.hit');
-        // Populate Redis and memory
-        await this.redisClient.set(diagramId, cached, 3600); // 1 hour TTL
-        this.memoryCache.set(diagramId, cached);
-        return cached.svg;
-      }
-    } catch (error) {
-      logger.warn('S3 cache miss', { diagramId });
-    }
+ // Layer 3: S3 cache (permanent)
+ try {
+ cached = await this.S3Bucket.get(`diagrams/${diagramId}.svg`);
+ if (cached) {
+ metrics.increment('cache.s3.hit');
+ // Populate Redis and memory
+ await this.redisClient.set(diagramId, cached, 3600); // 1 hour TTL
+ this.memoryCache.set(diagramId, cached);
+ return cached.svg;
+ }
+ } catch (error) {
+ logger.warn('S3 cache miss', { diagramId });
+ }
 
-    // Cache miss - generate new
-    metrics.increment('cache.miss');
-    return null;
-  }
+ // Cache miss - generate new
+ metrics.increment('cache.miss');
+ return null;
+ }
 
-  async set(diagramId: string, svg: SVG, ttl: number = 3600) {
-    const entry = { svg, timestamp: Date.now(), ttl };
+ async set(diagramId: string, svg: SVG, ttl: number = 3600) {
+ const entry = { svg, timestamp: Date.now(), ttl };
 
-    // All layers
-    this.memoryCache.set(diagramId, entry);
-    await this.redisClient.set(diagramId, entry, ttl);
-    await this.S3Bucket.put(`diagrams/${diagramId}.svg`, svg);
-  }
+ // All layers
+ this.memoryCache.set(diagramId, entry);
+ await this.redisClient.set(diagramId, entry, ttl);
+ await this.S3Bucket.put(`diagrams/${diagramId}.svg`, svg);
+ }
 
-  invalidate(diagramId: string) {
-    this.memoryCache.delete(diagramId);
-    this.redisClient.del(diagramId);
-    // Keep S3 for history
-  }
+ invalidate(diagramId: string) {
+ this.memoryCache.delete(diagramId);
+ this.redisClient.del(diagramId);
+ // Keep S3 for history
+ }
 }
 ```
 
@@ -205,31 +202,31 @@ class DiagramCache {
 ```typescript
 // Event-based cache invalidation
 class CacheInvalidator {
-  async invalidateOnDiagramUpdate(diagramId: string) {
-    // Publish invalidation event
-    await eventBus.publish('diagram.updated', { diagramId });
+ async invalidateOnDiagramUpdate(diagramId: string) {
+ // Publish invalidation event
+ await eventBus.publish('diagram.updated', { diagramId });
 
-    // Subscribe to updates
-    eventBus.subscribe('diagram.updated', async (event) => {
-      await this.cache.invalidate(event.diagramId);
+ // Subscribe to updates
+ eventBus.subscribe('diagram.updated', async (event) => {
+ await this.cache.invalidate(event.diagramId);
 
-      // Pre-generate for frequently accessed diagrams
-      if (await this.isFavorite(event.diagramId)) {
-        await this.preGenerateSVG(event.diagramId);
-      }
-    });
-  }
+ // Pre-generate for frequently accessed diagrams
+ if (await this.isFavorite(event.diagramId)) {
+ await this.preGenerateSVG(event.diagramId);
+ }
+ });
+ }
 
-  // Time-based TTL
-  setTTL(diagramId: string, category: string) {
-    const ttls = {
-      architecture: 86400, // 24 hours
-      sequence: 3600, // 1 hour
-      temporary: 600, // 10 minutes
-      frequently_accessed: 0, // Never expire
-    };
-    return ttls[category] || 3600;
-  }
+ // Time-based TTL
+ setTTL(diagramId: string, category: string) {
+ const ttls = {
+ 'architecture': 86400, // 24 hours
+ 'sequence': 3600, // 1 hour
+ 'temporary': 600, // 10 minutes
+ 'frequently_accessed': 0 // Never expire
+ };
+ return ttls[category] || 3600;
+ }
 }
 ```
 
@@ -241,42 +238,42 @@ class CacheInvalidator {
 import { minify } from 'svgo';
 
 class SVGOptimizer {
-  async optimize(svg: string): Promise<string> {
-    const optimized = minify(svg, {
-      plugins: [
-        {
-          name: 'preset-default',
-          params: {
-            overrides: {
-              cleanupIds: { minify: true },
-              removeViewBox: false, // Keep for responsiveness
-              removeHiddenElems: true,
-              removeEmptyContainers: true,
-              convertStyleToAttrs: true,
-              removeEmptyAttrs: true,
-              removeUnknownsAndDefaults: true,
-              removeUselessDefs: true,
-              removeUselessStrokeAndFill: true,
-            },
-          },
-        },
-        'convertColors',
-        'removeDoctype',
-      ],
-    });
+ async optimize(svg: string): Promise<string> {
+ const optimized = minify(svg, {
+ plugins: [
+ {
+ name: 'preset-default',
+ params: {
+ overrides: {
+ cleanupIds: { minify: true },
+ removeViewBox: false, // Keep for responsiveness
+ removeHiddenElems: true,
+ removeEmptyContainers: true,
+ convertStyleToAttrs: true,
+ removeEmptyAttrs: true,
+ removeUnknownsAndDefaults: true,
+ removeUselessDefs: true,
+ removeUselessStrokeAndFill: true,
+ }
+ }
+ },
+ 'convertColors',
+ 'removeDoctype'
+ ]
+ });
 
-    return optimized.data;
-  }
+ return optimized.data;
+ }
 
-  // Measure compression ratio
-  measureCompression(original: string, optimized: string) {
-    const ratio = (((original.length - optimized.length) / original.length) * 100).toFixed(2);
-    return {
-      original: `${(original.length / 1024).toFixed(2)}KB`,
-      optimized: `${(optimized.length / 1024).toFixed(2)}KB`,
-      saved: `${ratio}%`,
-    };
-  }
+ // Measure compression ratio
+ measureCompression(original: string, optimized: string) {
+ const ratio = ((original.length - optimized.length) / original.length * 100).toFixed(2);
+ return {
+ original: `${(original.length / 1024).toFixed(2)}KB`,
+ optimized: `${(optimized.length / 1024).toFixed(2)}KB`,
+ saved: `${ratio}%`
+ };
+ }
 }
 
 // Usage
@@ -291,7 +288,7 @@ console.log(`Optimized: ${stats.saved}% reduction`);
 
 ```typescript
 function createResponsiveSVG(width: number, height: number) {
-  return `
+ return `
  <svg
  viewBox="0 0 ${width} ${height}"
  preserveAspectRatio="xMidYMid meet"
@@ -328,41 +325,41 @@ const styles = `
 
 ```typescript
 class DiagramMetrics {
-  async trackRendering(diagramId: string, code: string) {
-    const startTime = performance.now();
+ async trackRendering(diagramId: string, code: string) {
+ const startTime = performance.now();
 
-    const svg = await renderDiagram(code);
+ const svg = await renderDiagram(code);
 
-    const duration = performance.now() - startTime;
-    const nodeCount = svg.match(/<g class="node"/g)?.length || 0;
-    const edgeCount = svg.match(/<line/g)?.length || 0;
-    const svgSize = new Blob([svg]).size;
+ const duration = performance.now() - startTime;
+ const nodeCount = svg.match(/<g class="node"/g)?.length || 0;
+ const edgeCount = svg.match(/<line/g)?.length || 0;
+ const svgSize = new Blob([svg]).size;
 
-    // Send to metrics service
-    await metrics.record({
-      type: 'diagram.render',
-      diagramId,
-      duration_ms: duration,
-      node_count: nodeCount,
-      edge_count: edgeCount,
-      svg_size_bytes: svgSize,
-      complexity: this.calculateComplexity(nodeCount, edgeCount),
-      timestamp: new Date().toISOString(),
-    });
+ // Send to metrics service
+ await metrics.record({
+ type: 'diagram.render',
+ diagramId,
+ duration_ms: duration,
+ node_count: nodeCount,
+ edge_count: edgeCount,
+ svg_size_bytes: svgSize,
+ complexity: this.calculateComplexity(nodeCount, edgeCount),
+ timestamp: new Date().toISOString()
+ });
 
-    return {
-      duration_ms: duration,
-      metrics: { nodeCount, edgeCount, svgSize },
-    };
-  }
+ return {
+ duration_ms: duration,
+ metrics: { nodeCount, edgeCount, svgSize }
+ };
+ }
 
-  calculateComplexity(nodes: number, edges: number): string {
-    const score = nodes + edges;
-    if (score < 20) return 'simple';
-    if (score < 50) return 'medium';
-    if (score < 100) return 'complex';
-    return 'very-complex';
-  }
+ calculateComplexity(nodes: number, edges: number): string {
+ const score = nodes + edges;
+ if (score < 20) return 'simple';
+ if (score < 50) return 'medium';
+ if (score < 100) return 'complex';
+ return 'very-complex';
+ }
 }
 ```
 
@@ -370,51 +367,51 @@ class DiagramMetrics {
 
 ```typescript
 interface PerformanceBudget {
-  renderTime_ms: number;
-  svgSize_bytes: number;
-  nodeCount: number;
-  memory_mb: number;
+ renderTime_ms: number;
+ svgSize_bytes: number;
+ nodeCount: number;
+ memory_mb: number;
 }
 
 const budgets: Record<string, PerformanceBudget> = {
-  simple: {
-    renderTime_ms: 100,
-    svgSize_bytes: 10000,
-    nodeCount: 20,
-    memory_mb: 10,
-  },
-  medium: {
-    renderTime_ms: 500,
-    svgSize_bytes: 100000,
-    nodeCount: 50,
-    memory_mb: 50,
-  },
-  complex: {
-    renderTime_ms: 2000,
-    svgSize_bytes: 500000,
-    nodeCount: 150,
-    memory_mb: 200,
-  },
+ 'simple': {
+ renderTime_ms: 100,
+ svgSize_bytes: 10000,
+ nodeCount: 20,
+ memory_mb: 10
+ },
+ 'medium': {
+ renderTime_ms: 500,
+ svgSize_bytes: 100000,
+ nodeCount: 50,
+ memory_mb: 50
+ },
+ 'complex': {
+ renderTime_ms: 2000,
+ svgSize_bytes: 500000,
+ nodeCount: 150,
+ memory_mb: 200
+ }
 };
 
 async function validatePerformance(diagramId: string, metrics: DiagramMetrics) {
-  const complexity = metrics.complexity;
-  const budget = budgets[complexity];
+ const complexity = metrics.complexity;
+ const budget = budgets[complexity];
 
-  const issues = [];
-  if (metrics.duration_ms > budget.renderTime_ms) {
-    issues.push(`Render time exceeded: ${metrics.duration_ms}ms > ${budget.renderTime_ms}ms`);
-  }
-  if (metrics.svgSize_bytes > budget.svgSize_bytes) {
-    issues.push(`SVG size exceeded: ${metrics.svgSize_bytes}B > ${budget.svgSize_bytes}B`);
-  }
+ const issues = [];
+ if (metrics.duration_ms > budget.renderTime_ms) {
+ issues.push(`Render time exceeded: ${metrics.duration_ms}ms > ${budget.renderTime_ms}ms`);
+ }
+ if (metrics.svgSize_bytes > budget.svgSize_bytes) {
+ issues.push(`SVG size exceeded: ${metrics.svgSize_bytes}B > ${budget.svgSize_bytes}B`);
+ }
 
-  if (issues.length > 0) {
-    logger.warn('Performance budget exceeded', { diagramId, issues });
-    await metrics.alert('diagram.performance.budget_exceeded', { diagramId, issues });
-  }
+ if (issues.length > 0) {
+ logger.warn('Performance budget exceeded', { diagramId, issues });
+ await metrics.alert('diagram.performance.budget_exceeded', { diagramId, issues });
+ }
 
-  return issues.length === 0;
+ return issues.length === 0;
 }
 ```
 

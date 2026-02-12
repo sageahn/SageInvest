@@ -182,8 +182,8 @@ def log_checkpoint(cwd: str, branch_name: str, operation_type: str) -> None:
             "operation": operation_type,
         }
 
-        with log_file.open("a") as f:
-            f.write(json.dumps(log_entry) + "\n")
+        with log_file.open("a", encoding="utf-8", errors="replace") as f:
+            f.write(json.dumps(log_entry, ensure_ascii=False) + "\n")
 
     except (OSError, PermissionError):
         # Ignore log failures (not critical)
@@ -225,7 +225,7 @@ def list_checkpoints(cwd: str, max_count: int = 10) -> list[dict[str, str]]:
     checkpoints = []
 
     try:
-        with log_file.open("r") as f:
+        with log_file.open("r", encoding="utf-8", errors="replace") as f:
             for line in f:
                 try:
                     checkpoints.append(json.loads(line.strip()))

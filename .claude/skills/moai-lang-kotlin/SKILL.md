@@ -1,15 +1,32 @@
 ---
-name: 'moai-lang-kotlin'
-description: 'Kotlin 2.0+ development specialist covering Ktor, coroutines, Compose Multiplatform, and Kotlin-idiomatic patterns. Use when building Kotlin server apps, Android apps, or multiplatform projects.'
-version: 1.1.0
-category: 'language'
-modularized: false
+name: moai-lang-kotlin
+description: >
+  Kotlin 2.0+ development specialist covering Ktor, coroutines, Compose
+  Multiplatform, and Kotlin-idiomatic patterns. Use when building Kotlin
+  server apps, Android apps, or multiplatform projects.
+license: Apache-2.0
+compatibility: Designed for Claude Code
 user-invocable: false
-tags: ['kotlin', 'ktor', 'coroutines', 'compose', 'android', 'multiplatform']
-context7-libraries: '/ktorio/ktor, /jetbrains/compose-multiplatform, /jetbrains/exposed'
-related-skills: 'moai-lang-java, moai-lang-swift'
-updated: 2026-01-11
-status: 'active'
+metadata:
+  version: "1.1.0"
+  category: "language"
+  status: "active"
+  updated: "2026-01-11"
+  modularized: "false"
+  tags: "kotlin, ktor, coroutines, compose, android, multiplatform"
+  context7-libraries: "/ktorio/ktor, /jetbrains/compose-multiplatform, /jetbrains/exposed"
+  related-skills: "moai-lang-java, moai-lang-swift"
+
+# MoAI Extension: Progressive Disclosure
+progressive_disclosure:
+  enabled: true
+  level1_tokens: 100
+  level2_tokens: 5000
+
+# MoAI Extension: Triggers
+triggers:
+  keywords: ["Kotlin", "Ktor", "coroutine", "Flow", "Compose", "Android", ".kt", ".kts", "build.gradle.kts"]
+  languages: ["kotlin"]
 ---
 
 ## Quick Reference (30 seconds)
@@ -88,7 +105,7 @@ Library mappings for latest documentation:
 - `/jetbrains/compose-multiplatform` - Compose Multiplatform
 - `/arrow-kt/arrow` - Arrow functional programming
 
-Usage: Call mcp**context7**get_library_docs with context7CompatibleLibraryID, topic string for specific areas, and tokens parameter for response size.
+Usage: Call mcp__context7__get_library_docs with context7CompatibleLibraryID, topic string for specific areas, and tokens parameter for response size.
 
 ---
 

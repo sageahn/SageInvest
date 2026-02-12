@@ -7,12 +7,11 @@ Swift Concurrency including async/await, actors, TaskGroup, and structured concu
 ### Basic Async Functions
 
 Simple Async Function:
-
 ```swift
 func fetchUser(_ id: String) async throws -> User {
     let url = URL(string: "https://api.example.com/users/\(id)")!
     let (data, response) = try await URLSession.shared.data(from: url)
-
+    
     guard let httpResponse = response as? HTTPURLResponse,
           200..<300 ~= httpResponse.statusCode else {
         throw NetworkError.requestFailed
@@ -24,15 +23,14 @@ func fetchUser(_ id: String) async throws -> User {
 ### Async Sequences
 
 Custom AsyncSequence:
-
 ```swift
 struct CountdownSequence: AsyncSequence {
     typealias Element = Int
     let start: Int
-
+    
     struct AsyncIterator: AsyncIteratorProtocol {
         var current: Int
-
+        
         mutating func next() async -> Int? {
             guard current >= 0 else { return nil }
             defer { current -= 1 }
@@ -40,7 +38,7 @@ struct CountdownSequence: AsyncSequence {
             return current
         }
     }
-
+    
     func makeAsyncIterator() -> AsyncIterator {
         AsyncIterator(current: start)
     }
@@ -52,19 +50,18 @@ struct CountdownSequence: AsyncSequence {
 ### Basic Actor Pattern
 
 Thread-Safe State:
-
 ```swift
 actor ImageCache {
     private var cache: [URL: UIImage] = [:]
     private var inProgress: [URL: Task<UIImage, Error>] = [:]
-
+    
     func image(for url: URL) async throws -> UIImage {
         if let cached = cache[url] { return cached }
         if let task = inProgress[url] { return try await task.value }
-
+        
         let task = Task { try await downloadImage(url) }
         inProgress[url] = task
-
+        
         do {
             let image = try await task.value
             cache[url] = image
@@ -75,7 +72,7 @@ actor ImageCache {
             throw error
         }
     }
-
+    
     private func downloadImage(_ url: URL) async throws -> UIImage {
         let (data, _) = try await URLSession.shared.data(from: url)
         guard let image = UIImage(data: data) else { throw ImageError.invalidData }
@@ -87,14 +84,13 @@ actor ImageCache {
 ### MainActor
 
 UI Updates:
-
 ```swift
 @MainActor
 @Observable
 final class ContentViewModel {
     private(set) var items: [Item] = []
     private(set) var isLoading = false
-
+    
     func loadItems() async {
         isLoading = true
         defer { isLoading = false }
@@ -108,12 +104,11 @@ final class ContentViewModel {
 ### Parallel Execution
 
 Basic TaskGroup:
-
 ```swift
 func fetchAllUsers(_ ids: [String]) async throws -> [User] {
     try await withThrowingTaskGroup(of: User.self) { group in
         for id in ids { group.addTask { try await api.fetchUser(id) } }
-
+        
         var users: [User] = []
         for try await user in group { users.append(user) }
         return users
@@ -124,19 +119,18 @@ func fetchAllUsers(_ ids: [String]) async throws -> [User] {
 ### Controlled Concurrency
 
 Limiting Parallel Tasks:
-
 ```swift
 func processImages(_ urls: [URL], maxConcurrency: Int = 4) async throws -> [ProcessedImage] {
     try await withThrowingTaskGroup(of: ProcessedImage.self) { group in
         var results: [ProcessedImage] = []
         var urlIterator = urls.makeIterator()
-
+        
         for _ in 0..<min(maxConcurrency, urls.count) {
             if let url = urlIterator.next() {
                 group.addTask { try await self.processImage(url) }
             }
         }
-
+        
         for try await result in group {
             results.append(result)
             if let url = urlIterator.next() {
@@ -153,13 +147,12 @@ func processImages(_ urls: [URL], maxConcurrency: Int = 4) async throws -> [Proc
 ### Async Let
 
 Parallel Independent Operations:
-
 ```swift
 func loadDashboard() async throws -> Dashboard {
     async let user = api.fetchCurrentUser()
     async let posts = api.fetchRecentPosts()
     async let notifications = api.fetchNotifications()
-
+    
     return try await Dashboard(user: user, posts: posts, notifications: notifications)
 }
 ```
@@ -167,11 +160,10 @@ func loadDashboard() async throws -> Dashboard {
 ### Task Cancellation
 
 Checking Cancellation:
-
 ```swift
 func processLargeDataset(_ items: [DataItem]) async throws -> [ProcessedItem] {
     var results: [ProcessedItem] = []
-
+    
     for item in items {
         try Task.checkCancellation()
         let processed = try await process(item)
@@ -184,12 +176,11 @@ func processLargeDataset(_ items: [DataItem]) async throws -> [ProcessedItem] {
 ### Task Priority
 
 Setting Priority:
-
 ```swift
 func loadContent() async {
     let imageTask = Task(priority: .userInitiated) { try await loadVisibleImages() }
     let prefetchTask = Task(priority: .background) { try await prefetchNextPage() }
-
+    
     _ = try? await imageTask.value
     _ = try? await prefetchTask.value
 }
@@ -200,11 +191,10 @@ func loadContent() async {
 ### Creating AsyncStream
 
 Event-Based:
-
 ```swift
 actor EventBus {
     private var continuations: [UUID: AsyncStream<AppEvent>.Continuation] = [:]
-
+    
     func subscribe() -> AsyncStream<AppEvent> {
         let id = UUID()
         return AsyncStream { continuation in
@@ -214,9 +204,9 @@ actor EventBus {
             }
         }
     }
-
+    
     private func removeContinuation(_ id: UUID) { continuations.removeValue(forKey: id) }
-
+    
     func emit(_ event: AppEvent) {
         for continuation in continuations.values { continuation.yield(event) }
     }
@@ -245,7 +235,6 @@ func makeTimer(interval: Duration) -> AsyncStream<Date> {
 ### Callback to Async
 
 Converting Completion Handlers:
-
 ```swift
 func fetchDataAsync() async throws -> Data {
     try await withCheckedThrowingContinuation { continuation in

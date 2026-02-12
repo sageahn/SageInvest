@@ -7,7 +7,6 @@ Publishers, Subscribers, Operators, and integration with async/await.
 ### Built-in Publishers
 
 Just and Future:
-
 ```swift
 import Combine
 
@@ -28,15 +27,14 @@ let futurePublisher = Future<User, Error> { promise in
 ### PassthroughSubject
 
 Event Broadcasting:
-
 ```swift
 class EventBus {
     private let eventSubject = PassthroughSubject<AppEvent, Never>()
-
+    
     var eventPublisher: AnyPublisher<AppEvent, Never> {
         eventSubject.eraseToAnyPublisher()
     }
-
+    
     func emit(_ event: AppEvent) { eventSubject.send(event) }
 }
 ```
@@ -44,14 +42,13 @@ class EventBus {
 ### CurrentValueSubject
 
 State Container:
-
 ```swift
 class ThemeManager {
     private let themeSubject = CurrentValueSubject<Theme, Never>(.system)
-
+    
     var themePublisher: AnyPublisher<Theme, Never> { themeSubject.eraseToAnyPublisher() }
     var currentTheme: Theme { themeSubject.value }
-
+    
     func setTheme(_ theme: Theme) { themeSubject.send(theme) }
 }
 ```
@@ -61,7 +58,6 @@ class ThemeManager {
 ### Transformation
 
 Map and FlatMap:
-
 ```swift
 userPublisher
     .map { userId in URLRequest(url: URL(string: "https://api.example.com/users/\(userId)")!) }
@@ -77,13 +73,12 @@ userPublisher
 ### Filtering
 
 Debounce and RemoveDuplicates:
-
 ```swift
 class SearchViewModel: ObservableObject {
     @Published var searchText = ""
     @Published private(set) var results: [SearchResult] = []
     private var cancellables = Set<AnyCancellable>()
-
+    
     init(searchService: SearchServiceProtocol) {
         $searchText
             .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
@@ -99,13 +94,12 @@ class SearchViewModel: ObservableObject {
 ### Combining
 
 CombineLatest:
-
 ```swift
 class FormViewModel: ObservableObject {
     @Published var email = ""
     @Published var password = ""
     @Published private(set) var isValid = false
-
+    
     init() {
         Publishers.CombineLatest($email, $password)
             .map { email, password in
@@ -119,7 +113,6 @@ class FormViewModel: ObservableObject {
 ### Error Handling
 
 Catch and Retry:
-
 ```swift
 func fetchWithRetry<T: Decodable>(_ url: URL) -> AnyPublisher<T, Error> {
     URLSession.shared.dataTaskPublisher(for: url)
@@ -135,7 +128,6 @@ func fetchWithRetry<T: Decodable>(_ url: URL) -> AnyPublisher<T, Error> {
 ### Sink
 
 Basic Sink:
-
 ```swift
 let subscription = [1, 2, 3].publisher
     .sink(
@@ -147,12 +139,11 @@ let subscription = [1, 2, 3].publisher
 ### Assign
 
 Property Assignment:
-
 ```swift
 class ViewModel: ObservableObject {
     @Published var count = 0
     @Published var displayText = ""
-
+    
     init() {
         $count.map { "Count: \($0)" }.assign(to: &$displayText)
     }
@@ -164,7 +155,6 @@ class ViewModel: ObservableObject {
 ### Publisher to Async
 
 Converting Publishers:
-
 ```swift
 extension Publisher {
     func async() async throws -> Output where Failure == Error {
@@ -188,7 +178,6 @@ extension Publisher {
 ### Async to Publisher
 
 Converting Async:
-
 ```swift
 func asyncToPublisher<T>(_ operation: @escaping () async throws -> T) -> AnyPublisher<T, Error> {
     Future { promise in
@@ -205,14 +194,13 @@ func asyncToPublisher<T>(_ operation: @escaping () async throws -> T) -> AnyPubl
 ### @Published with Combine
 
 ViewModel Pattern:
-
 ```swift
 class ContentViewModel: ObservableObject {
     @Published var items: [Item] = []
     @Published var searchQuery = ""
     @Published private(set) var filteredItems: [Item] = []
     private var cancellables = Set<AnyCancellable>()
-
+    
     init() {
         Publishers.CombineLatest($items, $searchQuery)
             .map { items, query in
@@ -227,12 +215,11 @@ class ContentViewModel: ObservableObject {
 ### onReceive Modifier
 
 Responding to Publishers:
-
 ```swift
 struct TimerView: View {
     @State private var currentTime = Date()
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-
+    
     var body: some View {
         Text(currentTime.formatted(date: .omitted, time: .standard))
             .onReceive(timer) { currentTime = $0 }
@@ -243,11 +230,10 @@ struct TimerView: View {
 ### Notification Center
 
 System Notifications:
-
 ```swift
 struct KeyboardAdaptiveView: View {
     @State private var keyboardHeight: CGFloat = 0
-
+    
     var body: some View {
         content
             .padding(.bottom, keyboardHeight)

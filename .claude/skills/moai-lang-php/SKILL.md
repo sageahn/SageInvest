@@ -1,20 +1,31 @@
 ---
-name: 'moai-lang-php'
-description: 'PHP 8.3+ development specialist covering Laravel 11, Symfony 7, Eloquent ORM, and modern PHP patterns. Use when developing PHP APIs, web applications, or Laravel/Symfony projects.'
-version: 1.1.0
-category: 'language'
-modularized: true
+name: moai-lang-php
+description: >
+  PHP 8.3+ development specialist covering Laravel 11, Symfony 7, Eloquent
+  ORM, and modern PHP patterns. Use when developing PHP APIs, web
+  applications, or Laravel/Symfony projects.
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Grep Glob Bash(php:*) Bash(composer:*) Bash(phpunit:*) Bash(phpstan:*) Bash(phpcs:*) Bash(artisan:*) Bash(laravel:*) mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-tags: ['language', 'php', 'laravel', 'symfony', 'eloquent', 'doctrine', 'phpunit']
-updated: 2026-01-11
-status: 'active'
-allowed-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+metadata:
+  version: "1.1.0"
+  category: "language"
+  status: "active"
+  updated: "2026-01-11"
+  modularized: "true"
+  tags: "language, php, laravel, symfony, eloquent, doctrine, phpunit"
+
+# MoAI Extension: Progressive Disclosure
+progressive_disclosure:
+  enabled: true
+  level1_tokens: 100
+  level2_tokens: 5000
+
+# MoAI Extension: Triggers
+triggers:
+  keywords: ["PHP", "Laravel", "Symfony", "Eloquent", "Doctrine", "PHPUnit", "Pest", ".php", "composer.json", "artisan"]
+  languages: ["php"]
 ---
 
 ## Quick Reference (30 seconds)
@@ -141,7 +152,7 @@ See:
 
 - moai-domain-backend for REST API and microservices architecture
 - moai-domain-database for SQL patterns and ORM optimization
-- moai-workflow-testing for TDD and testing strategies
+- moai-workflow-testing for DDD and testing strategies
 - moai-platform-deploy for Docker and deployment patterns
 - moai-essentials-debug for AI-powered debugging
 - moai-foundation-quality for TRUST 5 quality principles

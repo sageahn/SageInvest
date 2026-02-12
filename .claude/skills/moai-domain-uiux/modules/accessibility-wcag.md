@@ -47,11 +47,11 @@ export function meetsWCAG(
  isLargeText: boolean = false
 ): boolean {
  const ratio = getContrastRatio(foreground, background);
-
+ 
  if (level === 'AAA') {
  return isLargeText ? ratio >= 4.5 : ratio >= 7;
  }
-
+ 
  // AA level
  return isLargeText ? ratio >= 3 : ratio >= 4.5;
 }
@@ -64,46 +64,46 @@ export function meetsWCAG(
 import { useEffect, useRef } from 'react';
 
 export function useKeyboardNavigation<T extends HTMLElement>(
-  options: {
-    onEscape?: () => void;
-    onEnter?: () => void;
-    trapFocus?: boolean;
-  } = {}
+ options: {
+ onEscape?: () => void;
+ onEnter?: () => void;
+ trapFocus?: boolean;
+ } = {}
 ) {
-  const elementRef = useRef<T>(null);
+ const elementRef = useRef<T>(null);
 
-  useEffect(() => {
-    const element = elementRef.current;
-    if (!element) return;
+ useEffect(() => {
+ const element = elementRef.current;
+ if (!element) return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        options.onEscape?.();
-      } else if (e.key === 'Enter') {
-        options.onEnter?.();
-      } else if (e.key === 'Tab' && options.trapFocus) {
-        // Focus trap implementation
-        const focusableElements = element.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        const firstElement = focusableElements[0];
-        const lastElement = focusableElements[focusableElements.length - 1];
+ const handleKeyDown = (e: KeyboardEvent) => {
+ if (e.key === 'Escape') {
+ options.onEscape?.();
+ } else if (e.key === 'Enter') {
+ options.onEnter?.();
+ } else if (e.key === 'Tab' && options.trapFocus) {
+ // Focus trap implementation
+ const focusableElements = element.querySelectorAll<HTMLElement>(
+ 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+ );
+ const firstElement = focusableElements[0];
+ const lastElement = focusableElements[focusableElements.length - 1];
 
-        if (e.shiftKey && document.activeElement === firstElement) {
-          lastElement.focus();
-          e.preventDefault();
-        } else if (!e.shiftKey && document.activeElement === lastElement) {
-          firstElement.focus();
-          e.preventDefault();
-        }
-      }
-    };
+ if (e.shiftKey && document.activeElement === firstElement) {
+ lastElement.focus();
+ e.preventDefault();
+ } else if (!e.shiftKey && document.activeElement === lastElement) {
+ firstElement.focus();
+ e.preventDefault();
+ }
+ }
+ };
 
-    element.addEventListener('keydown', handleKeyDown);
-    return () => element.removeEventListener('keydown', handleKeyDown);
-  }, [options]);
+ element.addEventListener('keydown', handleKeyDown);
+ return () => element.removeEventListener('keydown', handleKeyDown);
+ }, [options]);
 
-  return elementRef;
+ return elementRef;
 }
 ```
 
@@ -112,31 +112,31 @@ export function useKeyboardNavigation<T extends HTMLElement>(
 ```css
 /* styles/motion.css */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
+ *,
+ *::before,
+ *::after {
+ animation-duration: 0.01ms !important;
+ animation-iteration-count: 1 !important;
+ transition-duration: 0.01ms !important;
+ scroll-behavior: auto !important;
+ }
 }
 
 /* Safe animations for reduced motion users */
 .fade-enter {
-  opacity: 0;
+ opacity: 0;
 }
 
 .fade-enter-active {
-  opacity: 1;
-  transition: opacity 200ms ease-in;
+ opacity: 1;
+ transition: opacity 200ms ease-in;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fade-enter-active {
-    transition: none;
-    opacity: 1;
-  }
+ .fade-enter-active {
+ transition: none;
+ opacity: 1;
+ }
 }
 ```
 
@@ -242,7 +242,6 @@ export function Alert({ message }: { message: string }) {
 ### Testing Checklist
 
 Manual Testing:
-
 - [ ] Keyboard navigation (Tab, Shift+Tab, Enter, Escape)
 - [ ] Screen reader testing (NVDA, JAWS, VoiceOver)
 - [ ] Color contrast verification (4.5:1 minimum)
@@ -250,7 +249,6 @@ Manual Testing:
 - [ ] Reduced motion preference respected
 
 Automated Testing:
-
 - [ ] jest-axe for component accessibility
 - [ ] Storybook a11y addon for visual testing
 - [ ] Chromatic for visual regression

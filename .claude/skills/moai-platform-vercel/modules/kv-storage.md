@@ -25,26 +25,26 @@ vercel env pull
 
 ```typescript
 // app/api/kv/route.ts
-import { kv } from '@vercel/kv';
+import { kv } from '@vercel/kv'
 
 export async function GET() {
   // Get value
-  const value = await kv.get('my-key');
+  const value = await kv.get('my-key')
 
-  return Response.json({ value });
+  return Response.json({ value })
 }
 
 export async function POST(request: Request) {
-  const { key, value, ttl } = await request.json();
+  const { key, value, ttl } = await request.json()
 
   // Set value with optional TTL (seconds)
   if (ttl) {
-    await kv.set(key, value, { ex: ttl });
+    await kv.set(key, value, { ex: ttl })
   } else {
-    await kv.set(key, value);
+    await kv.set(key, value)
   }
 
-  return Response.json({ success: true });
+  return Response.json({ success: true })
 }
 ```
 
@@ -53,33 +53,33 @@ export async function POST(request: Request) {
 ```typescript
 // Session storage
 async function getSession(sessionId: string) {
-  return kv.get(`session:${sessionId}`);
+  return kv.get(`session:${sessionId}`)
 }
 
 async function setSession(sessionId: string, data: object) {
-  await kv.set(`session:${sessionId}`, data, { ex: 3600 }); // 1 hour TTL
+  await kv.set(`session:${sessionId}`, data, { ex: 3600 }) // 1 hour TTL
 }
 
 // Rate limiting
 async function checkRateLimit(ip: string): Promise<boolean> {
-  const key = `ratelimit:${ip}`;
-  const current = await kv.incr(key);
+  const key = `ratelimit:${ip}`
+  const current = await kv.incr(key)
 
   if (current === 1) {
-    await kv.expire(key, 60); // Reset after 60 seconds
+    await kv.expire(key, 60) // Reset after 60 seconds
   }
 
-  return current <= 100; // 100 requests per minute
+  return current <= 100 // 100 requests per minute
 }
 
 // Caching
 async function getCachedData(key: string) {
-  const cached = await kv.get(key);
-  if (cached) return cached;
+  const cached = await kv.get(key)
+  if (cached) return cached
 
-  const fresh = await fetchFreshData();
-  await kv.set(key, fresh, { ex: 300 }); // 5 minute cache
-  return fresh;
+  const fresh = await fetchFreshData()
+  await kv.set(key, fresh, { ex: 300 }) // 5 minute cache
+  return fresh
 }
 ```
 
@@ -90,30 +90,30 @@ async function getCachedData(key: string) {
 await kv.hset('user:123', {
   name: 'John Doe',
   email: 'john@example.com',
-  plan: 'pro',
-});
+  plan: 'pro'
+})
 
 // Get single field
-const name = await kv.hget('user:123', 'name');
+const name = await kv.hget('user:123', 'name')
 
 // Get all fields
-const user = await kv.hgetall('user:123');
+const user = await kv.hgetall('user:123')
 
 // Increment numeric field
-await kv.hincrby('user:123', 'loginCount', 1);
+await kv.hincrby('user:123', 'loginCount', 1)
 ```
 
 ### List Operations
 
 ```typescript
 // Add to queue
-await kv.lpush('job-queue', JSON.stringify({ task: 'send-email', to: 'user@example.com' }));
+await kv.lpush('job-queue', JSON.stringify({ task: 'send-email', to: 'user@example.com' }))
 
 // Process from queue
-const job = await kv.rpop('job-queue');
+const job = await kv.rpop('job-queue')
 
 // Get recent items
-const recent = await kv.lrange('recent-views', 0, 9);
+const recent = await kv.lrange('recent-views', 0, 9)
 ```
 
 ## Vercel Blob
@@ -137,23 +137,23 @@ vercel env pull
 
 ```typescript
 // app/api/upload/route.ts
-import { put } from '@vercel/blob';
-import { NextRequest } from 'next/server';
+import { put } from '@vercel/blob'
+import { NextRequest } from 'next/server'
 
 export async function POST(request: NextRequest) {
-  const formData = await request.formData();
-  const file = formData.get('file') as File;
+  const formData = await request.formData()
+  const file = formData.get('file') as File
 
   if (!file) {
-    return Response.json({ error: 'No file provided' }, { status: 400 });
+    return Response.json({ error: 'No file provided' }, { status: 400 })
   }
 
   const blob = await put(file.name, file, {
     access: 'public',
-    addRandomSuffix: true,
-  });
+    addRandomSuffix: true
+  })
 
-  return Response.json(blob);
+  return Response.json(blob)
 }
 ```
 
@@ -161,11 +161,11 @@ export async function POST(request: NextRequest) {
 
 ```typescript
 // app/api/upload/route.ts
-import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
-import { NextRequest } from 'next/server';
+import { handleUpload, type HandleUploadBody } from '@vercel/blob/client'
+import { NextRequest } from 'next/server'
 
 export async function POST(request: NextRequest) {
-  const body = (await request.json()) as HandleUploadBody;
+  const body = await request.json() as HandleUploadBody
 
   const jsonResponse = await handleUpload({
     body,
@@ -174,16 +174,16 @@ export async function POST(request: NextRequest) {
       // Validate upload before generating token
       return {
         allowedContentTypes: ['image/jpeg', 'image/png', 'image/webp'],
-        maximumSizeInBytes: 5 * 1024 * 1024, // 5MB
-      };
+        maximumSizeInBytes: 5 * 1024 * 1024 // 5MB
+      }
     },
     onUploadCompleted: async ({ blob }) => {
       // Update database with blob URL
-      console.log('Upload completed:', blob.url);
-    },
-  });
+      console.log('Upload completed:', blob.url)
+    }
+  })
 
-  return Response.json(jsonResponse);
+  return Response.json(jsonResponse)
 }
 ```
 
@@ -224,17 +224,17 @@ export function Uploader() {
 
 ```typescript
 // app/api/files/route.ts
-import { list, del } from '@vercel/blob';
+import { list, del } from '@vercel/blob'
 
 export async function GET() {
-  const { blobs } = await list();
-  return Response.json(blobs);
+  const { blobs } = await list()
+  return Response.json(blobs)
 }
 
 export async function DELETE(request: Request) {
-  const { url } = await request.json();
-  await del(url);
-  return Response.json({ deleted: true });
+  const { url } = await request.json()
+  await del(url)
+  return Response.json({ deleted: true })
 }
 ```
 
@@ -259,23 +259,23 @@ vercel env pull
 
 ```typescript
 // app/api/users/route.ts
-import { sql } from '@vercel/postgres';
+import { sql } from '@vercel/postgres'
 
 export async function GET() {
-  const { rows } = await sql`SELECT * FROM users LIMIT 10`;
-  return Response.json(rows);
+  const { rows } = await sql`SELECT * FROM users LIMIT 10`
+  return Response.json(rows)
 }
 
 export async function POST(request: Request) {
-  const { name, email } = await request.json();
+  const { name, email } = await request.json()
 
   const { rows } = await sql`
     INSERT INTO users (name, email)
     VALUES (${name}, ${email})
     RETURNING *
-  `;
+  `
 
-  return Response.json(rows[0]);
+  return Response.json(rows[0])
 }
 ```
 
@@ -283,18 +283,18 @@ export async function POST(request: Request) {
 
 ```typescript
 // lib/db.ts
-import { createPool } from '@vercel/postgres';
+import { createPool } from '@vercel/postgres'
 
 const pool = createPool({
-  connectionString: process.env.POSTGRES_URL,
-});
+  connectionString: process.env.POSTGRES_URL
+})
 
 export async function query(text: string, params?: any[]) {
-  const client = await pool.connect();
+  const client = await pool.connect()
   try {
-    return await client.query(text, params);
+    return await client.query(text, params)
   } finally {
-    client.release();
+    client.release()
   }
 }
 ```
@@ -303,26 +303,26 @@ export async function query(text: string, params?: any[]) {
 
 ```typescript
 // app/api/transfer/route.ts
-import { sql } from '@vercel/postgres';
+import { sql } from '@vercel/postgres'
 
 export async function POST(request: Request) {
-  const { from, to, amount } = await request.json();
+  const { from, to, amount } = await request.json()
 
-  await sql`BEGIN`;
+  await sql`BEGIN`
   try {
     await sql`
       UPDATE accounts SET balance = balance - ${amount}
       WHERE id = ${from} AND balance >= ${amount}
-    `;
+    `
     await sql`
       UPDATE accounts SET balance = balance + ${amount}
       WHERE id = ${to}
-    `;
-    await sql`COMMIT`;
-    return Response.json({ success: true });
+    `
+    await sql`COMMIT`
+    return Response.json({ success: true })
   } catch (error) {
-    await sql`ROLLBACK`;
-    return Response.json({ error: 'Transfer failed' }, { status: 500 });
+    await sql`ROLLBACK`
+    return Response.json({ error: 'Transfer failed' }, { status: 500 })
   }
 }
 ```
@@ -331,7 +331,7 @@ export async function POST(request: Request) {
 
 ```typescript
 // scripts/migrate.ts
-import { sql } from '@vercel/postgres';
+import { sql } from '@vercel/postgres'
 
 async function migrate() {
   await sql`
@@ -341,16 +341,16 @@ async function migrate() {
       email VARCHAR(255) UNIQUE NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
-  `;
+  `
 
   await sql`
     CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)
-  `;
+  `
 
-  console.log('Migration complete');
+  console.log('Migration complete')
 }
 
-migrate();
+migrate()
 ```
 
 ## Edge-Compatible Usage
@@ -359,20 +359,20 @@ migrate();
 
 ```typescript
 // app/api/edge-kv/route.ts
-import { kv } from '@vercel/kv';
+import { kv } from '@vercel/kv'
 
-export const runtime = 'edge';
+export const runtime = 'edge'
 
 export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const key = url.searchParams.get('key');
+  const url = new URL(request.url)
+  const key = url.searchParams.get('key')
 
   if (!key) {
-    return Response.json({ error: 'Key required' }, { status: 400 });
+    return Response.json({ error: 'Key required' }, { status: 400 })
   }
 
-  const value = await kv.get(key);
-  return Response.json({ value });
+  const value = await kv.get(key)
+  return Response.json({ value })
 }
 ```
 
@@ -380,21 +380,20 @@ export async function GET(request: Request) {
 
 ```typescript
 // app/api/edge-db/route.ts
-import { sql } from '@vercel/postgres';
+import { sql } from '@vercel/postgres'
 
-export const runtime = 'edge';
+export const runtime = 'edge'
 
 export async function GET() {
   // Uses Neon serverless driver for edge compatibility
-  const { rows } = await sql`SELECT NOW()`;
-  return Response.json({ time: rows[0].now });
+  const { rows } = await sql`SELECT NOW()`
+  return Response.json({ time: rows[0].now })
 }
 ```
 
 ## Context7 Integration
 
 For latest storage documentation, use:
-
 - Library: `/vercel/vercel`
 - Topics: kv, blob, postgres, storage
 - Token allocation: 8000-12000 for comprehensive coverage

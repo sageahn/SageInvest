@@ -9,20 +9,17 @@ Auth0 maintains compliance with major security standards and industry certificat
 Information Security Management System (ISMS)
 
 Scope:
-
 - Comprehensive security management
 - Risk assessment and treatment
 - Security controls implementation
 - Continuous improvement
 
 Verification:
-
 - Annual independent audits
 - Certification renewal
 - Continuous compliance
 
 Benefits:
-
 - Internationally recognized
 - Systematic security approach
 - Risk-based framework
@@ -32,13 +29,11 @@ Benefits:
 Cloud Security Controls
 
 Scope:
-
 - Cloud-specific security controls
 - Shared responsibility guidance
 - Cloud service provider requirements
 
 Additional to ISO 27001:
-
 - Cloud-specific extensions
 - Provider/customer responsibilities
 - Cloud security best practices
@@ -48,13 +43,11 @@ Additional to ISO 27001:
 Protection of Personal Data in Cloud
 
 Scope:
-
 - Personal data protection
 - Privacy controls
 - Cloud processing requirements
 
 Focus Areas:
-
 - PII protection
 - Transparency
 - Customer control
@@ -65,7 +58,6 @@ Focus Areas:
 Service Organization Controls
 
 Trust Services Criteria:
-
 - Security
 - Availability
 - Processing Integrity
@@ -73,7 +65,6 @@ Trust Services Criteria:
 - Privacy
 
 Type 2 Significance:
-
 - Tests over extended period
 - Operating effectiveness verified
 - Not just point-in-time
@@ -87,13 +78,11 @@ Access: Report available to customers under NDA
 Cloud Security Alliance Security Trust Assurance and Risk
 
 Features:
-
 - Cloud security assessment
 - Transparency registry
 - Industry-recognized
 
 Assessment Type:
-
 - Self-assessment (Level 1)
 - Third-party audit available
 
@@ -106,19 +95,16 @@ Access: Publicly available self-assessment
 OpenID Foundation Certification
 
 Certified Profiles:
-
 - FAPI 1.0 Advanced OP
 - mTLS client authentication
 - Private Key JWT authentication
 
 Purpose:
-
 - Financial services security
 - Open banking compliance
 - High-security applications
 
 Requirements Met:
-
 - Strong authentication
 - Sender-constrained tokens
 - Secure authorization
@@ -130,13 +116,11 @@ Health Insurance Portability and Accountability Act
 Auth0 Role: Business Associate
 
 Features:
-
 - BAA available upon request
 - Technical safeguards implemented
 - Required controls in place
 
 Customer Requirements:
-
 - Execute BAA with Auth0
 - Implement required controls
 - Maintain compliance program
@@ -146,13 +130,11 @@ Customer Requirements:
 Payment Card Industry Data Security Standard
 
 Coverage:
-
 - Compliant deployment models
 - Security controls documented
 - Customer guidance available
 
 Customer Responsibility:
-
 - Follow Auth0 guidance
 - Implement required controls
 - Maintain own compliance
@@ -166,7 +148,6 @@ General Data Protection Regulation (EU)
 Status: GDPR ready
 
 Features:
-
 - Data processing documentation
 - User rights support
 - Data export capabilities
@@ -177,13 +158,11 @@ Role: Data Processor (customer is Data Controller)
 ### Privacy Regulations
 
 Various jurisdictions:
-
 - CCPA (California)
 - Regional privacy laws
 - Industry-specific requirements
 
 Support:
-
 - Privacy controls
 - Data handling documentation
 - Compliance features
@@ -193,14 +172,12 @@ Support:
 ### Auth0 Support Center
 
 Available Materials:
-
 - Certification certificates
 - Audit reports (under NDA)
 - Compliance documentation
 - Security questionnaires
 
 Access Requirements:
-
 - Customer account
 - Appropriate access level
 - NDA where required
@@ -208,7 +185,6 @@ Access Requirements:
 ### Available Documents
 
 Upon Request:
-
 - SOC 2 Type 2 report
 - ISO certificates
 - Penetration test summary
@@ -219,13 +195,11 @@ Upon Request:
 ### Third-Party Audits
 
 Audit Providers:
-
 - Independent auditors
 - Recognized firms
 - Annual assessments
 
 Scope:
-
 - Controls testing
 - Compliance verification
 - Continuous monitoring
@@ -233,7 +207,6 @@ Scope:
 ### Certification Maintenance
 
 Continuous Compliance:
-
 - Ongoing control operation
 - Regular internal audits
 - Gap remediation
@@ -244,7 +217,6 @@ Continuous Compliance:
 ### Risk Reduction
 
 Using Certified Platform:
-
 - Proven security controls
 - Regular audits
 - Known security posture
@@ -253,7 +225,6 @@ Using Certified Platform:
 ### Compliance Support
 
 For Customer Compliance:
-
 - Inherit platform compliance
 - Documented controls
 - Audit evidence
@@ -262,7 +233,6 @@ For Customer Compliance:
 ### Due Diligence
 
 Vendor Assessment:
-
 - Certification evidence
 - Audit reports
 - Security documentation
@@ -273,7 +243,6 @@ Vendor Assessment:
 ### Leveraging Certifications
 
 For Your Compliance:
-
 - Reference Auth0 certifications
 - Request relevant reports
 - Map to your requirements
@@ -282,7 +251,6 @@ For Your Compliance:
 ### Compliance Documentation
 
 Maintain Records:
-
 - Auth0 certification copies
 - Shared responsibility documentation
 - Configuration evidence
@@ -291,7 +259,6 @@ Maintain Records:
 ### Regular Review
 
 Annual Activities:
-
 - Review Auth0 compliance status
 - Update certifications
 - Verify continued compliance
@@ -310,7 +277,6 @@ Annual Activities:
 ### Contact
 
 For specific compliance questions:
-
 - Auth0 Support
 - Account team
 - Security team

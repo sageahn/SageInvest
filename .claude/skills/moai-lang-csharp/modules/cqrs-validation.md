@@ -18,7 +18,7 @@ dotnet add package MediatR.Extensions.Microsoft.DependencyInjection
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
-
+    
     // Add behaviors (pipeline)
     cfg.AddBehavior<LoggingBehavior<,>>();
     cfg.AddBehavior<ValidationBehavior<,>>();
@@ -102,7 +102,7 @@ public class CreateOrderCommandHandler(
     public async Task<OrderDto> Handle(CreateOrderCommand request, CancellationToken ct)
     {
         var order = Order.Create(request.CustomerId, request.Items);
-
+        
         context.Orders.Add(order);
         await context.SaveChangesAsync(ct);
 
@@ -229,7 +229,7 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email is required")
-            .EmailAddress().WithMessage("Invalid email format")
+            .EmailAdddess().WithMessage("Invalid email format")
             .MaximumLength(256).WithMessage("Email cannot exceed 256 characters");
 
         RuleFor(x => x.Password)
@@ -256,7 +256,7 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 
         RuleFor(x => x.Email)
             .NotEmpty()
-            .EmailAddress()
+            .EmailAdddess()
             .MustAsync(async (email, ct) => !await userRepository.EmailExistsAsync(email, ct))
             .WithMessage("Email is already in use");
 
@@ -338,7 +338,7 @@ public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
         // Validate when updating email
         RuleSet("Email", () =>
         {
-            RuleFor(x => x.Email).NotEmpty().EmailAddress();
+            RuleFor(x => x.Email).NotEmpty().EmailAdddess();
         });
     }
 }
@@ -560,7 +560,7 @@ public class CreateUserCommandHandler(
     public async Task<UserDto> Handle(CreateUserCommand request, CancellationToken ct)
     {
         var user = User.Create(request.Name, request.Email, request.Password);
-
+        
         context.Users.Add(user);
         await context.SaveChangesAsync(ct);
 

@@ -3,7 +3,6 @@
 ## Template Metaprogramming
 
 Variadic Templates:
-
 ```cpp
 template<typename... Args>
 auto sum(Args... args) {
@@ -17,7 +16,6 @@ void print_all(Args&&... args) {
 ```
 
 SFINAE and if constexpr:
-
 ```cpp
 template<typename T>
 auto to_string(const T& value) -> std::string {
@@ -34,7 +32,6 @@ auto to_string(const T& value) -> std::string {
 ## Testing with Google Test
 
 Complete Test Suite:
-
 ```cpp
 #include <gtest/gtest.h>
 
@@ -74,7 +71,6 @@ INSTANTIATE_TEST_SUITE_P(Basics, AdditionTest,
 ## Catch2 Testing Framework
 
 Alternative Testing:
-
 ```cpp
 #include <catch2/catch_test_macros.hpp>
 
@@ -107,7 +103,6 @@ TEST_CASE("Generators", "[generator]") {
 ## Advanced Concurrency
 
 Thread Pool Implementation:
-
 ```cpp
 #include <thread>
 #include <queue>
@@ -170,7 +165,6 @@ private:
 ```
 
 Lock-Free Queue:
-
 ```cpp
 #include <atomic>
 #include <optional>
@@ -230,7 +224,6 @@ public:
 ## Memory Management Patterns
 
 Custom Allocator:
-
 ```cpp
 template<typename T>
 class PoolAllocator {
@@ -276,7 +269,6 @@ private:
 ## Production Patterns
 
 Dependency Injection:
-
 ```cpp
 // Interface
 class ILogger {
@@ -321,7 +313,6 @@ public:
 ## Build System Patterns
 
 Conan 2.0 Integration:
-
 ```python
 # conanfile.py
 from conan import ConanFile
@@ -345,20 +336,23 @@ class MyProjectConan(ConanFile):
 ```
 
 vcpkg Manifest:
-
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-  "name": "myproject",
-  "version": "1.0.0",
-  "dependencies": ["fmt", "nlohmann-json", "spdlog", { "name": "gtest", "features": ["gmock"] }]
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "myproject",
+    "version": "1.0.0",
+    "dependencies": [
+        "fmt",
+        "nlohmann-json",
+        "spdlog",
+        { "name": "gtest", "features": [ "gmock" ] }
+    ]
 }
 ```
 
 ## Performance Optimization
 
 Cache-Friendly Data Structures:
-
 ```cpp
 // Structure of Arrays (SoA) for better cache performance
 struct Particles {
@@ -387,7 +381,6 @@ struct Particles {
 ```
 
 SIMD Optimization:
-
 ```cpp
 #include <immintrin.h>
 

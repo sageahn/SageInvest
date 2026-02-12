@@ -5,7 +5,6 @@ Financial-grade API (FAPI) is a set of security and privacy specifications devel
 ## Overview
 
 FAPI provides enhanced OAuth 2.0 and OpenID Connect profiles designed for:
-
 - Financial services
 - Open banking
 - Healthcare
@@ -15,7 +14,6 @@ FAPI provides enhanced OAuth 2.0 and OpenID Connect profiles designed for:
 ## Auth0 FAPI Certification
 
 Auth0 is certified for:
-
 - FAPI 1.0 Advanced OP (OpenID Provider)
 - mTLS client authentication profile
 - Private Key JWT client authentication profile
@@ -25,7 +23,6 @@ Auth0 is certified for:
 ### FAPI 1.0 Baseline
 
 Minimum security requirements for read-only access:
-
 - OAuth 2.0 authorization code flow
 - PKCE required
 - State parameter required
@@ -34,7 +31,6 @@ Minimum security requirements for read-only access:
 ### FAPI 1.0 Advanced
 
 Enhanced security for read-write access:
-
 - All baseline requirements
 - Pushed Authorization Requests (PAR)
 - JWT-secured Authorization Requests (JAR)
@@ -48,13 +44,11 @@ Enhanced security for read-write access:
 Requirement: At least two independent authentication factors.
 
 Factor Categories:
-
 - Something known (password, PIN)
 - Something possessed (device, token)
 - Something inherent (biometric)
 
 Auth0 Implementation:
-
 - Multi-factor authentication
 - WebAuthn support
 - Push notifications
@@ -65,14 +59,12 @@ Auth0 Implementation:
 Purpose: Bind authorization to specific transaction details.
 
 Implementation:
-
 - Rich Authorization Requests (RAR)
 - Transaction details in authorization request
 - User verifies transaction during authorization
 - Authorization uniquely linked to transaction
 
 User Experience:
-
 - See transaction details
 - Confirm specific action
 - Authentication bound to transaction
@@ -82,14 +74,12 @@ User Experience:
 Purpose: Secure transmission of authorization parameters.
 
 How It Works:
-
 1. Client sends parameters to PAR endpoint
 2. Auth0 returns request_uri
 3. Client redirects with request_uri only
 4. Sensitive parameters never in browser
 
 Benefits:
-
 - Parameters not exposed in URL
 - Reduced risk of manipulation
 - Signed request verification
@@ -99,13 +89,11 @@ Benefits:
 Purpose: Protect authorization request integrity and confidentiality.
 
 How It Works:
-
 - Authorization parameters in signed JWT
 - Optionally encrypted
 - Prevents tampering
 
 Benefits:
-
 - Request integrity
 - Optional confidentiality
 - Signed by client
@@ -115,7 +103,6 @@ Benefits:
 Purpose: Encrypt access token payloads containing sensitive authorization details.
 
 Use Cases:
-
 - Rich authorization data
 - Sensitive permissions
 - Transaction details in tokens
@@ -127,13 +114,11 @@ Use Cases:
 Asymmetric authentication using signed JWTs.
 
 Features:
-
 - Private key never transmitted
 - Short-lived signed assertions
 - No shared secret
 
 Requirements:
-
 - Enterprise plan
 - Register public key with Auth0
 - Sign client_assertion with private key
@@ -143,13 +128,11 @@ Requirements:
 Mutual TLS client authentication.
 
 Features:
-
 - Certificate-based authentication
 - Transport-layer security
 - Strong client identity
 
 Requirements:
-
 - Enterprise plan with HRI add-on
 - Register client certificate
 - mTLS infrastructure
@@ -159,7 +142,6 @@ Requirements:
 ### Sender Constraining
 
 Bind tokens to client:
-
 - DPoP for application-layer binding
 - mTLS for transport-layer binding
 - Prevents token theft
@@ -167,7 +149,6 @@ Bind tokens to client:
 ### Token Binding
 
 Certificate thumbprint in tokens:
-
 - cnf claim with x5t#S256
 - Validates client certificate
 - Ensures token only used by legitimate client
@@ -179,7 +160,6 @@ Certificate thumbprint in tokens:
 Minimum: Enterprise Plan
 
 For Full FAPI:
-
 - Highly Regulated Identity add-on
 - Required for mTLS
 - Required for advanced features
@@ -209,14 +189,12 @@ For Full FAPI:
 ### Application Changes
 
 Client Requirements:
-
 - Support PAR flow
 - Implement JAR if required
 - Handle sender-constrained tokens
 - Proper error handling
 
 Resource Server Requirements:
-
 - Validate sender-constrained tokens
 - Verify token binding
 - Handle FAPI token types
@@ -226,14 +204,12 @@ Resource Server Requirements:
 ### Credential Management
 
 Private Keys:
-
 - Secure generation
 - Protected storage
 - Regular rotation
 - Zero-downtime rotation support
 
 Certificates:
-
 - Proper CA hierarchy
 - Certificate lifecycle management
 - Revocation handling
@@ -241,14 +217,12 @@ Certificates:
 ### Security Configuration
 
 Enable All Features:
-
 - PAR for authorization
 - JAR for request signing
 - Sender constraining for tokens
 - Strong client authentication
 
 Monitor and Audit:
-
 - Log all FAPI transactions
 - Monitor for anomalies
 - Regular security review
@@ -256,7 +230,6 @@ Monitor and Audit:
 ### Testing
 
 Conformance Testing:
-
 - Use FAPI conformance suite
 - Test all flows
 - Verify error handling
@@ -267,7 +240,6 @@ Conformance Testing:
 ### Open Banking
 
 UK/EU Open Banking:
-
 - FAPI profiles mandated
 - PSD2 alignment
 - Strong customer authentication
@@ -275,7 +247,6 @@ UK/EU Open Banking:
 ### Financial Services
 
 Global Standards:
-
 - Financial sector requirements
 - Regulatory compliance
 - Security best practices
@@ -283,7 +254,6 @@ Global Standards:
 ### Healthcare
 
 SMART on FHIR:
-
 - FAPI-aligned security
 - Healthcare data protection
 - Patient consent management
