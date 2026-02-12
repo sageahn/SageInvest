@@ -24,7 +24,7 @@ on:
 
 jobs:
   test-first:
-    name: 'T1: Test Coverage ≥85%'
+    name: "T1: Test Coverage ≥85%"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,7 +43,7 @@ jobs:
           fail_ci_if_error: true
 
   readable:
-    name: 'R: Code Quality ≥8.0'
+    name: "R: Code Quality ≥8.0"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -55,7 +55,7 @@ jobs:
         run: pip install mypy && mypy src/ --strict
 
   unified:
-    name: 'U: Consistency ≥90%'
+    name: "U: Consistency ≥90%"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -65,7 +65,7 @@ jobs:
         run: pip install isort && isort --check-only src/
 
   secured:
-    name: 'S: Security Score 100'
+    name: "S: Security Score 100"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -77,7 +77,7 @@ jobs:
         run: pip install detect-secrets && detect-secrets scan
 
   trackable:
-    name: 'T2: Traceability Check'
+    name: "T2: Traceability Check"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -87,7 +87,7 @@ jobs:
         run: python .moai/scripts/check_traceability.py
 
   quality-gate:
-    name: 'Final Quality Gate'
+    name: "Final Quality Gate"
     needs: [test-first, readable, unified, secured, trackable]
     runs-on: ubuntu-latest
     steps:

@@ -1,7 +1,6 @@
 # Advanced Agent Patterns - Anthropic Engineering Insights
 
 Sources:
-
 - https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
 - https://www.anthropic.com/engineering/advanced-tool-use
 - https://www.anthropic.com/engineering/code-execution-with-mcp
@@ -23,14 +22,12 @@ Updated: 2026-01-06
 For complex, multi-session tasks, use a two-agent system:
 
 Initializer Agent (runs once):
-
 - Sets up project structure and environment
 - Creates feature registry tracking completion status
 - Establishes progress documentation patterns
 - Generates initialization scripts for future sessions
 
 Executor Agent (runs repeatedly):
-
 - Consumes environment created by initializer
 - Works on single features per session
 - Updates progress documentation
@@ -43,15 +40,14 @@ Maintain a JSON file tracking all functionality:
 ```json
 {
   "features": [
-    { "id": "auth-login", "status": "complete", "tested": true },
-    { "id": "auth-logout", "status": "in-progress", "tested": false },
-    { "id": "user-profile", "status": "pending", "tested": false }
+    {"id": "auth-login", "status": "complete", "tested": true},
+    {"id": "auth-logout", "status": "in-progress", "tested": false},
+    {"id": "user-profile", "status": "pending", "tested": false}
   ]
 }
 ```
 
 This enables:
-
 - Clear work boundaries per session
 - Progress tracking across sessions
 - Prioritization of incomplete features
@@ -59,7 +55,6 @@ This enables:
 ### Progress Documentation
 
 Create persistent progress logs (claude-progress.txt):
-
 - Summary of completed work
 - Current feature status
 - Blockers and decisions made
@@ -70,7 +65,6 @@ Commit progress with git for history preservation.
 ### Session Initialization Protocol
 
 At start of each session:
-
 1. Verify correct directory
 2. Review progress logs
 3. Select priority feature from registry
@@ -84,13 +78,11 @@ At start of each session:
 For large tool libraries, implement discovery mechanism:
 
 Benefits:
-
 - 85% reduction in token consumption
 - Tools loaded only when needed
 - Reduced context pollution
 
 Implementation approach:
-
 - Register tools with metadata including name, description, and keywords
 - Provide search tool that queries registry
 - Use defer_loading parameter to hide tools until searched
@@ -101,13 +93,11 @@ Implementation approach:
 For complex multi-step workflows:
 
 Benefits:
-
 - 37% token reduction on complex tasks
 - Elimination of repeated inference passes
 - Parallel operation execution
 
 Pattern:
-
 - Agent generates code orchestrating multiple tool calls
 - Code executes in sandbox environment
 - Results returned to agent in single response
@@ -129,13 +119,11 @@ Examples teach API conventions without token overhead.
 Process data before model sees results:
 
 Benefits:
-
 - 98.7% token reduction possible (150K to 2K tokens)
 - Deterministic operations executed reliably
 - Complex transformations handled efficiently
 
 Pattern:
-
 - Agent writes filtering and aggregation code
 - Code executes in sandboxed environment
 - Only relevant results returned to model
@@ -144,7 +132,6 @@ Pattern:
 ### Reusable Skills Pattern
 
 Save working code as functions:
-
 - Extract successful patterns into reusable modules
 - Reference modules in future sessions
 - Build library of proven implementations
@@ -154,14 +141,12 @@ Save working code as functions:
 ### Orchestrator-Worker Architecture
 
 Lead Agent (higher capability model):
-
 - Analyzes incoming queries
 - Decomposes into parallel subtasks
 - Spawns specialized worker agents
 - Synthesizes results into final output
 
 Worker Agents (cost-effective models):
-
 - Execute specific, focused tasks
 - Return condensed summaries (1K-2K tokens)
 - Operate with isolated context windows
@@ -170,14 +155,12 @@ Worker Agents (cost-effective models):
 ### Hierarchical Communication
 
 Lead to workers:
-
 - Clear task boundaries
 - Specific output format requirements
 - Guidance on tools and sources
 - Prevention of duplicate work
 
 Workers to lead:
-
 - Condensed findings summary
 - Source attribution
 - Quality indicators
@@ -201,7 +184,6 @@ Find the smallest possible set of high-signal tokens that maximize likelihood of
 LLMs lose focus as context grows (context rot). Every token depletes attention budget.
 
 Strategies:
-
 - Place critical information at start and end of context
 - Use clear section markers (XML tags or Markdown headers)
 - Remove redundant or low-signal content
@@ -210,7 +192,6 @@ Strategies:
 ### Context Compaction
 
 For long-running tasks:
-
 - Summarize conversation history automatically
 - Reinitiate with compressed context
 - Preserve architectural decisions and key findings
@@ -219,7 +200,6 @@ For long-running tasks:
 ### Just-In-Time Retrieval
 
 Maintain lightweight identifiers and load data dynamically:
-
 - Store file paths, URLs, and IDs
 - Load content only when needed
 - Combine upfront retrieval for speed with autonomous exploration
@@ -235,7 +215,6 @@ Instead of: list_users, list_events, create_event, delete_event
 Use: manage_events with action parameter
 
 Benefits:
-
 - Reduced tool selection complexity
 - Clearer mental model for agent
 - Lower probability of incorrect tool choice
@@ -243,7 +222,6 @@ Benefits:
 ### Context-Aware Responses
 
 Return high-signal information:
-
 - Use natural language names rather than cryptic IDs
 - Include relevant metadata in responses
 - Format for agent consumption, not human reading
@@ -251,20 +229,17 @@ Return high-signal information:
 ### Parameter Specification
 
 Clear parameter naming:
-
 - user_id not user
 - start_date not start
 - include_archived not archived
 
 Enable response format control:
-
 - Optional enum for concise or detailed responses
 - Agent specifies verbosity based on task needs
 
 ### Error Handling
 
 Replace opaque error codes with instructive feedback:
-
 - Explain what went wrong
 - Suggest correct usage
 - Provide examples of valid parameters
@@ -273,7 +248,6 @@ Replace opaque error codes with instructive feedback:
 ### Poka-Yoke Design
 
 Make incorrect usage harder than correct usage:
-
 - Validate parameters before execution
 - Return helpful errors for invalid combinations
 - Design APIs that guide toward success
@@ -283,7 +257,6 @@ Make incorrect usage harder than correct usage:
 ### When to Use Think Tool
 
 High-value scenarios:
-
 - Processing complex tool outputs before proceeding
 - Compliance verification with detailed guidelines
 - Sequential decision-making where errors are consequential
@@ -292,7 +265,6 @@ High-value scenarios:
 ### Performance Characteristics
 
 Measured improvements:
-
 - Airline domain: 54% relative improvement with targeted examples
 - Retail scenarios: 81.2% pass-rate
 - SWE-bench: 1.6% average improvement
@@ -327,7 +299,6 @@ Variable performance? Build representative test sets for programmatic evaluation
 ### Phase 1: Explore
 
 Start with exploration without coding:
-
 - Read files to understand structure
 - Identify relevant components
 - Map dependencies and interfaces
@@ -335,7 +306,6 @@ Start with exploration without coding:
 ### Phase 2: Plan
 
 Use extended thinking prompts:
-
 - Outline approach before implementation
 - Consider alternatives and tradeoffs
 - Define clear success criteria
@@ -343,7 +313,6 @@ Use extended thinking prompts:
 ### Phase 3: Code
 
 Implement iteratively:
-
 - Small, testable changes
 - Verify each step before proceeding
 - Handle edge cases explicitly
@@ -351,7 +320,6 @@ Implement iteratively:
 ### Phase 4: Commit
 
 Meaningful commits:
-
 - Descriptive messages explaining why
 - Logical groupings of related changes
 - Clean history for future reference
@@ -366,7 +334,6 @@ BM25 keyword search: Handle exact phrases and error codes
 ### Context Prepending
 
 Enrich chunks with metadata before encoding:
-
 - Transform isolated statements into fully-contextualized information
 - Include surrounding context and relationships
 - Improves retrieval precision by 49-67%
@@ -374,7 +341,6 @@ Enrich chunks with metadata before encoding:
 ### Configuration
 
 Optimal settings from research:
-
 - Top-20 chunks outperform smaller selections
 - Domain-specific prompts improve quality
 - Reranking adds significant precision gains
@@ -384,7 +350,6 @@ Optimal settings from research:
 ### Credential Handling
 
 Web-based execution:
-
 - Credentials never enter sandbox
 - Proxy services handle authenticated operations
 - Branch-level restrictions enforced externally
@@ -392,7 +357,6 @@ Web-based execution:
 ### Sandboxing Architecture
 
 Dual-layer protection:
-
 - Filesystem isolation: Read/write boundaries
 - Network isolation: Domain allowlists via proxy
 
@@ -401,7 +365,6 @@ OS-level enforcement using kernel security features.
 ### Permission Boundaries
 
 84% reduction in permission prompts through:
-
 - Defined operation boundaries
 - Automatic allowlisting of safe operations
 - Clear separation of privileged actions

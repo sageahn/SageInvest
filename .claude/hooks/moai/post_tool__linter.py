@@ -14,7 +14,7 @@ Provides feedback to Claude about code quality issues:
 
 Exit Codes:
 - 0: Success (linting completed, issues reported as context)
-- 2: Critical lint errors (Claude should address immediately)
+- 2: Critical lint errors (Claude should adddess immediately)
 
 Output:
 - JSON with additionalContext containing lint issues
@@ -28,6 +28,13 @@ import sys
 from pathlib import Path
 from typing import Any
 
+# Ensure UTF-8 stdout/stderr on Windows (cp949 default breaks non-ASCII output)
+if sys.platform == "win32":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 # Setup import path for shared modules
 HOOKS_DIR = Path(__file__).parent
 LIB_DIR = HOOKS_DIR / "lib"
@@ -37,6 +44,7 @@ if str(LIB_DIR) not in sys.path:
 # Try importing tool_registry, with fallback
 try:
     import tool_registry  # noqa: F401
+    from tool_registry import ToolType  # noqa: F401
 
     TOOL_REGISTRY_AVAILABLE = True
 except ImportError:

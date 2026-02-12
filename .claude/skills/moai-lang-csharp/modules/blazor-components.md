@@ -336,7 +336,7 @@ Comprehensive guide to Blazor development including Server, WASM, InteractiveSer
         public string Name { get; set; } = "";
 
         [Required]
-        [EmailAddress]
+        [EmailAdddess]
         public string Email { get; set; } = "";
 
         [Required]
@@ -372,7 +372,7 @@ public class RegisterModelValidator : AbstractValidator<RegisterModel>
 
         RuleFor(x => x.Email)
             .NotEmpty()
-            .EmailAddress();
+            .EmailAdddess();
 
         RuleFor(x => x.Password)
             .NotEmpty()
@@ -419,15 +419,15 @@ public class RegisterModelValidator : AbstractValidator<RegisterModel>
 
 ```javascript
 // wwwroot/js/interop.js
-window.getWindowDimensions = function () {
-  return {
-    width: window.innerWidth,
-    height: window.innerHeight,
-  };
+window.getWindowDimensions = function() {
+    return {
+        width: window.innerWidth,
+        height: window.innerHeight
+    };
 };
 
-window.focusElement = function (elementId) {
-  document.getElementById(elementId)?.focus();
+window.focusElement = function(elementId) {
+    document.getElementById(elementId)?.focus();
 };
 ```
 
@@ -485,7 +485,7 @@ window.focusElement = function (elementId) {
 @code {
     // Simple state
     private List<TodoItem> todos = [];
-
+    
     private void AddTodo(string title)
     {
         todos.Add(new TodoItem { Title = title });
@@ -721,7 +721,7 @@ else
             request.StartIndex,
             request.Count,
             request.CancellationToken);
-
+        
         return new ItemsProviderResult<UserDto>(result.Items, result.TotalCount);
     }
 }

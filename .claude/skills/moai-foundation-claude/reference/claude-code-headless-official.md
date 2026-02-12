@@ -50,7 +50,6 @@ claude -p "Analyze this" --output-format json
 ```
 
 Returns structured JSON:
-
 ```json
 {
   "result": "Response text",
@@ -292,7 +291,7 @@ result = agent.run("Your task", tools=["Read", "Write"])
 import { Claude } from '@anthropic-ai/sdk';
 
 const agent = new Claude();
-const result = await agent.run('Your task', { tools: ['Read', 'Write'] });
+const result = await agent.run("Your task", { tools: ["Read", "Write"] });
 ```
 
 ### SDK Features
@@ -360,7 +359,6 @@ echo "Session: $session_id" >> sessions.log
 ### Command Hangs
 
 If headless mode appears to hang:
-
 - Check for permission prompts (use --allowedTools)
 - Verify network connectivity
 - Check API key configuration
@@ -368,7 +366,6 @@ If headless mode appears to hang:
 ### Unexpected Output Format
 
 If output format is wrong:
-
 - Verify --output-format flag spelling
 - Check for conflicting environment variables
 - Ensure JSON schema is valid if using --json-schema
@@ -376,7 +373,6 @@ If output format is wrong:
 ### Tool Permission Denied
 
 If tools are blocked:
-
 - Verify tool names in --allowedTools
 - Check pattern syntax for command restrictions
 - Review enterprise policy restrictions

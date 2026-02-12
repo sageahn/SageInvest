@@ -12,7 +12,6 @@
 The automated code review system provides comprehensive code quality analysis across multiple dimensions:
 
 TRUST 5 Framework:
-
 - Truthfulness: Code correctness and logic accuracy validation
 - Relevance: Requirements fulfillment and purpose alignment checking
 - Usability: Maintainability and understandability assessment
@@ -20,14 +19,12 @@ TRUST 5 Framework:
 - Timeliness: Performance standards and modern practices verification
 
 Static Analysis Integration:
-
 - pylint: Code quality and style checking
 - flake8: Style guide enforcement
 - bandit: Security vulnerability scanning
 - mypy: Type checking and validation
 
 Context7-Enhanced Analysis:
-
 - Up-to-date security patterns from OWASP and Semgrep
 - Performance anti-patterns from profiling best practices
 - Code quality patterns from SonarQube standards
@@ -70,7 +67,6 @@ for category, score in report.overall_category_scores.items():
 ```
 
 Category Score Calculation:
-
 - Scores range from 0.0 to 1.0
 - Penalties applied based on issue severity and confidence
 - Weighted average for overall score
@@ -93,13 +89,11 @@ Info: Suggestions and best practice recommendations
 Step 1: Initialize the automated code reviewer with optional Context7 client for enhanced pattern detection
 
 Step 2: Review the codebase by specifying:
-
 - Project path to analyze
 - Include patterns for files to review (default: ["/*.py"])
 - Exclude patterns for directories to skip (default: ["/__pycache__/", "/venv/", "/tests/"])
 
 Step 3: Analyze the generated report which includes:
-
 - Overall TRUST score across all categories
 - Per-file review results with individual issues
 - Summary metrics with issue counts by severity and category
@@ -165,7 +159,6 @@ For detailed implementation and advanced features, see the specialized modules:
 ### TRUST 5 Validation Framework
 
 See [trust5-validation.md](./trust5-validation.md) for:
-
 - Complete TRUST 5 category implementations
 - Custom validation rules and patterns
 - Category-specific analysis methods
@@ -175,7 +168,6 @@ See [trust5-validation.md](./trust5-validation.md) for:
 ### Static Analysis Integration
 
 See [static-analysis.md](./static-analysis.md) for:
-
 - pylint, flake8, bandit, mypy integration details
 - Tool configuration and customization
 - Result parsing and normalization
@@ -185,7 +177,6 @@ See [static-analysis.md](./static-analysis.md) for:
 ### Security Analysis
 
 See [security-analysis.md](./security-analysis.md) for:
-
 - Context7-enhanced security pattern detection
 - OWASP Top 10 vulnerability scanning
 - SQL injection, command injection, path traversal detection
@@ -195,7 +186,6 @@ See [security-analysis.md](./security-analysis.md) for:
 ### Quality Metrics
 
 See [quality-metrics.md](./quality-metrics.md) for:
-
 - Function length and complexity analysis
 - Nesting depth detection
 - Cyclomatic complexity calculation
@@ -205,7 +195,6 @@ See [quality-metrics.md](./quality-metrics.md) for:
 ### Advanced TRUST 5 Framework
 
 See [automated-code-review/trust5-framework.md](./automated-code-review/trust5-framework.md) for:
-
 - Deep dive into TRUST 5 methodology
 - Category-specific analysis patterns
 - Advanced scoring algorithms
@@ -215,7 +204,6 @@ See [automated-code-review/trust5-framework.md](./automated-code-review/trust5-f
 ### Context7 Integration
 
 See [automated-code-review/context7-integration.md](./automated-code-review/context7-integration.md) for:
-
 - Context7 MCP integration patterns
 - Real-time pattern loading
 - Security vulnerability databases
@@ -225,7 +213,6 @@ See [automated-code-review/context7-integration.md](./automated-code-review/cont
 ### Review Workflows
 
 See [automated-code-review/review-workflows.md](./automated-code-review/review-workflows.md) for:
-
 - CI/CD pipeline integration
 - Automated review workflows
 - Report generation and formatting

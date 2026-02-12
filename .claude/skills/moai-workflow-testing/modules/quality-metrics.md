@@ -11,7 +11,6 @@
 ### Quality Metrics Categories
 
 Code Complexity Metrics:
-
 - Cyclomatic Complexity: Decision complexity measurement
 - Cognitive Complexity: Human cognitive load estimation
 - Nesting Depth: Control flow nesting levels
@@ -19,7 +18,6 @@ Code Complexity Metrics:
 - Parameter Count: Number of function parameters
 
 Maintainability Indices:
-
 - Maintainability Index: Overall maintainability score
 - Technical Debt: Effort required to fix issues
 - Code Duplication: Repeated code patterns
@@ -27,7 +25,6 @@ Maintainability Indices:
 - Test Coverage: Test completeness (requires pytest-cov)
 
 Code Smell Detection:
-
 - Long Methods: Functions exceeding length thresholds
 - God Classes: Classes with too many responsibilities
 - Feature Envy: Methods that use other classes more

@@ -29,41 +29,41 @@ export type Database = {
     Tables: {
       projects: {
         Row: {
-          id: string;
-          name: string;
-          organization_id: string;
-          owner_id: string;
-          created_at: string;
-        };
+          id: string
+          name: string
+          organization_id: string
+          owner_id: string
+          created_at: string
+        }
         Insert: {
-          id?: string;
-          name: string;
-          organization_id: string;
-          owner_id: string;
-          created_at?: string;
-        };
+          id?: string
+          name: string
+          organization_id: string
+          owner_id: string
+          created_at?: string
+        }
         Update: {
-          id?: string;
-          name?: string;
-          organization_id?: string;
-          owner_id?: string;
-          created_at?: string;
-        };
-      };
+          id?: string
+          name?: string
+          organization_id?: string
+          owner_id?: string
+          created_at?: string
+        }
+      }
       // ... other tables
-    };
+    }
     Functions: {
       search_documents: {
         Args: {
-          query_embedding: number[];
-          match_threshold: number;
-          match_count: number;
-        };
-        Returns: { id: string; content: string; similarity: number }[];
-      };
-    };
-  };
-};
+          query_embedding: number[]
+          match_threshold: number
+          match_count: number
+        }
+        Returns: { id: string; content: string; similarity: number }[]
+      }
+    }
+  }
+}
 ```
 
 ## Client Configuration
@@ -71,24 +71,24 @@ export type Database = {
 ### Browser Client with Types
 
 ```typescript
-import { createClient } from '@supabase/supabase-js';
-import { Database } from './database.types';
+import { createClient } from '@supabase/supabase-js'
+import { Database } from './database.types'
 
 export const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+)
 ```
 
 ### Server Client (Next.js App Router)
 
 ```typescript
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
-import { Database } from './database.types';
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+import { Database } from './database.types'
 
 export function createServerSupabase() {
-  const cookieStore = cookies();
+  const cookieStore = cookies()
 
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -96,17 +96,17 @@ export function createServerSupabase() {
     {
       cookies: {
         get(name: string) {
-          return cookieStore.get(name)?.value;
+          return cookieStore.get(name)?.value
         },
         set(name, value, options) {
-          cookieStore.set({ name, value, ...options });
+          cookieStore.set({ name, value, ...options })
         },
         remove(name, options) {
-          cookieStore.set({ name, value: '', ...options });
-        },
-      },
+          cookieStore.set({ name, value: '', ...options })
+        }
+      }
     }
-  );
+  )
 }
 ```
 
@@ -115,33 +115,43 @@ export function createServerSupabase() {
 ### Base Service
 
 ```typescript
-import { supabase } from './supabase/client';
-import { Database } from './database.types';
+import { supabase } from './supabase/client'
+import { Database } from './database.types'
 
-type Tables = Database['public']['Tables'];
+type Tables = Database['public']['Tables']
 
 export abstract class BaseService<T extends keyof Tables> {
   constructor(protected tableName: T) {}
 
   async findAll() {
-    const { data, error } = await supabase.from(this.tableName).select('*');
+    const { data, error } = await supabase
+      .from(this.tableName)
+      .select('*')
 
-    if (error) throw error;
-    return data as Tables[T]['Row'][];
+    if (error) throw error
+    return data as Tables[T]['Row'][]
   }
 
   async findById(id: string) {
-    const { data, error } = await supabase.from(this.tableName).select('*').eq('id', id).single();
+    const { data, error } = await supabase
+      .from(this.tableName)
+      .select('*')
+      .eq('id', id)
+      .single()
 
-    if (error) throw error;
-    return data as Tables[T]['Row'];
+    if (error) throw error
+    return data as Tables[T]['Row']
   }
 
   async create(item: Tables[T]['Insert']) {
-    const { data, error } = await supabase.from(this.tableName).insert(item).select().single();
+    const { data, error } = await supabase
+      .from(this.tableName)
+      .insert(item)
+      .select()
+      .single()
 
-    if (error) throw error;
-    return data as Tables[T]['Row'];
+    if (error) throw error
+    return data as Tables[T]['Row']
   }
 
   async update(id: string, item: Tables[T]['Update']) {
@@ -150,16 +160,19 @@ export abstract class BaseService<T extends keyof Tables> {
       .update(item)
       .eq('id', id)
       .select()
-      .single();
+      .single()
 
-    if (error) throw error;
-    return data as Tables[T]['Row'];
+    if (error) throw error
+    return data as Tables[T]['Row']
   }
 
   async delete(id: string) {
-    const { error } = await supabase.from(this.tableName).delete().eq('id', id);
+    const { error } = await supabase
+      .from(this.tableName)
+      .delete()
+      .eq('id', id)
 
-    if (error) throw error;
+    if (error) throw error
   }
 }
 ```
@@ -167,13 +180,11 @@ export abstract class BaseService<T extends keyof Tables> {
 ### Document Service with Embeddings
 
 ```typescript
-import { supabase } from './supabase/client';
+import { supabase } from './supabase/client'
 
 export class DocumentService {
   async create(projectId: string, title: string, content: string) {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser()
 
     const { data, error } = await supabase
       .from('documents')
@@ -181,37 +192,38 @@ export class DocumentService {
         project_id: projectId,
         title,
         content,
-        created_by: user!.id,
+        created_by: user!.id
       })
       .select()
-      .single();
+      .single()
 
-    if (error) throw error;
+    if (error) throw error
 
     // Generate embedding asynchronously
     await supabase.functions.invoke('generate-embedding', {
-      body: { documentId: data.id, content },
-    });
+      body: { documentId: data.id, content }
+    })
 
-    return data;
+    return data
   }
 
   async semanticSearch(projectId: string, query: string) {
     // Get embedding for query
-    const { data: embeddingData } = await supabase.functions.invoke('get-embedding', {
-      body: { text: query },
-    });
+    const { data: embeddingData } = await supabase.functions.invoke(
+      'get-embedding',
+      { body: { text: query } }
+    )
 
     // Search using RPC
     const { data, error } = await supabase.rpc('search_documents', {
       p_project_id: projectId,
       p_query_embedding: embeddingData.embedding,
       p_match_threshold: 0.7,
-      p_match_count: 10,
-    });
+      p_match_count: 10
+    })
 
-    if (error) throw error;
-    return data;
+    if (error) throw error
+    return data
   }
 
   async findByProject(projectId: string) {
@@ -219,30 +231,28 @@ export class DocumentService {
       .from('documents')
       .select('*, created_by_user:profiles!created_by(*)')
       .eq('project_id', projectId)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
 
-    if (error) throw error;
-    return data;
+    if (error) throw error
+    return data
   }
 
   subscribeToChanges(projectId: string, callback: (payload: any) => void) {
-    return supabase
-      .channel(`documents:${projectId}`)
-      .on(
-        'postgres_changes',
+    return supabase.channel(`documents:${projectId}`)
+      .on('postgres_changes',
         {
           event: '*',
           schema: 'public',
           table: 'documents',
-          filter: `project_id=eq.${projectId}`,
+          filter: `project_id=eq.${projectId}`
         },
         callback
       )
-      .subscribe();
+      .subscribe()
   }
 }
 
-export const documentService = new DocumentService();
+export const documentService = new DocumentService()
 ```
 
 ## React Query Integration
@@ -254,50 +264,50 @@ export const queryKeys = {
   projects: {
     all: ['projects'] as const,
     list: (filters?: ProjectFilters) => [...queryKeys.projects.all, 'list', filters] as const,
-    detail: (id: string) => [...queryKeys.projects.all, 'detail', id] as const,
+    detail: (id: string) => [...queryKeys.projects.all, 'detail', id] as const
   },
   documents: {
     all: ['documents'] as const,
     list: (projectId: string) => [...queryKeys.documents.all, 'list', projectId] as const,
     search: (projectId: string, query: string) =>
-      [...queryKeys.documents.all, 'search', projectId, query] as const,
-  },
-};
+      [...queryKeys.documents.all, 'search', projectId, query] as const
+  }
+}
 ```
 
 ### Custom Hooks
 
 ```typescript
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { documentService } from '@/services/document-service';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { documentService } from '@/services/document-service'
 
 export function useDocuments(projectId: string) {
   return useQuery({
     queryKey: queryKeys.documents.list(projectId),
-    queryFn: () => documentService.findByProject(projectId),
-  });
+    queryFn: () => documentService.findByProject(projectId)
+  })
 }
 
 export function useSemanticSearch(projectId: string, query: string) {
   return useQuery({
     queryKey: queryKeys.documents.search(projectId, query),
     queryFn: () => documentService.semanticSearch(projectId, query),
-    enabled: query.length > 2,
-  });
+    enabled: query.length > 2
+  })
 }
 
 export function useCreateDocument(projectId: string) {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: ({ title, content }: { title: string; content: string }) =>
       documentService.create(projectId, title, content),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: queryKeys.documents.list(projectId),
-      });
-    },
-  });
+        queryKey: queryKeys.documents.list(projectId)
+      })
+    }
+  })
 }
 ```
 
@@ -306,36 +316,35 @@ export function useCreateDocument(projectId: string) {
 ### Subscription Hook
 
 ```typescript
-import { useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/lib/supabase/client';
+import { useEffect } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
+import { supabase } from '@/lib/supabase/client'
 
 export function useRealtimeDocuments(projectId: string) {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     const channel = supabase
       .channel(`documents:${projectId}`)
-      .on(
-        'postgres_changes',
+      .on('postgres_changes',
         {
           event: '*',
           schema: 'public',
           table: 'documents',
-          filter: `project_id=eq.${projectId}`,
+          filter: `project_id=eq.${projectId}`
         },
         () => {
           queryClient.invalidateQueries({
-            queryKey: queryKeys.documents.list(projectId),
-          });
+            queryKey: queryKeys.documents.list(projectId)
+          })
         }
       )
-      .subscribe();
+      .subscribe()
 
     return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [projectId, queryClient]);
+      supabase.removeChannel(channel)
+    }
+  }, [projectId, queryClient])
 }
 ```
 
@@ -343,7 +352,7 @@ export function useRealtimeDocuments(projectId: string) {
 
 ```typescript
 export function useUpdateDocument() {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: async ({ id, updates }: { id: string; updates: Partial<Document> }) => {
@@ -352,31 +361,31 @@ export function useUpdateDocument() {
         .update(updates)
         .eq('id', id)
         .select()
-        .single();
+        .single()
 
-      if (error) throw error;
-      return data;
+      if (error) throw error
+      return data
     },
     onMutate: async ({ id, updates }) => {
-      await queryClient.cancelQueries({ queryKey: ['documents'] });
+      await queryClient.cancelQueries({ queryKey: ['documents'] })
 
-      const previousDocuments = queryClient.getQueryData(['documents']);
+      const previousDocuments = queryClient.getQueryData(['documents'])
 
       queryClient.setQueryData(['documents'], (old: Document[]) =>
-        old.map((doc) => (doc.id === id ? { ...doc, ...updates } : doc))
-      );
+        old.map(doc => doc.id === id ? { ...doc, ...updates } : doc)
+      )
 
-      return { previousDocuments };
+      return { previousDocuments }
     },
     onError: (err, variables, context) => {
       if (context?.previousDocuments) {
-        queryClient.setQueryData(['documents'], context.previousDocuments);
+        queryClient.setQueryData(['documents'], context.previousDocuments)
       }
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['documents'] });
-    },
-  });
+      queryClient.invalidateQueries({ queryKey: ['documents'] })
+    }
+  })
 }
 ```
 
@@ -391,21 +400,21 @@ export class SupabaseError extends Error {
     public code: string,
     public details?: unknown
   ) {
-    super(message);
-    this.name = 'SupabaseError';
+    super(message)
+    this.name = 'SupabaseError'
   }
 }
 
 export function handleSupabaseError(error: PostgrestError): never {
   switch (error.code) {
     case '23505':
-      throw new SupabaseError('Resource already exists', 'DUPLICATE', error);
+      throw new SupabaseError('Resource already exists', 'DUPLICATE', error)
     case '23503':
-      throw new SupabaseError('Referenced resource not found', 'NOT_FOUND', error);
+      throw new SupabaseError('Referenced resource not found', 'NOT_FOUND', error)
     case 'PGRST116':
-      throw new SupabaseError('Resource not found', 'NOT_FOUND', error);
+      throw new SupabaseError('Resource not found', 'NOT_FOUND', error)
     default:
-      throw new SupabaseError(error.message, error.code, error);
+      throw new SupabaseError(error.message, error.code, error)
   }
 }
 ```
@@ -439,7 +448,6 @@ Topic: "supabase realtime subscription"
 ---
 
 Related Modules:
-
 - auth-integration.md - Auth patterns
 - realtime-presence.md - Real-time subscriptions
 - postgresql-pgvector.md - Database operations

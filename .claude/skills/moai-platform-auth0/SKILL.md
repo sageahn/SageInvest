@@ -1,35 +1,26 @@
 ---
-name: 'moai-platform-auth0'
-description: 'Auth0 security specialist covering attack protection, multi-factor authentication, token security, sender constraining, and compliance. Use when implementing Auth0 security features, configuring attack defenses, setting up MFA, or meeting regulatory requirements.'
-version: 1.0.0
-category: 'security'
-modularized: true
+name: moai-platform-auth0
+description: >
+  Auth0 security specialist covering attack protection, multi-factor authentication,
+  token security, sender constraining, and compliance. Use when implementing Auth0
+  security features, configuring attack defenses, setting up MFA, or meeting
+  regulatory requirements.
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Write Edit Grep Glob WebFetch WebSearch Bash(npm:*) Bash(npx:*) Bash(curl:*)
 user-invocable: false
-tags:
-  [
-    'auth0',
-    'security',
-    'mfa',
-    'attack-protection',
-    'tokens',
-    'dpop',
-    'mtls',
-    'compliance',
-    'fapi',
-    'gdpr',
-  ]
-updated: 2026-01-08
-status: 'active'
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Grep
-  - Glob
-  - WebFetch
-  - WebSearch
-  - Bash
-context7-libraries: '/auth0/docs'
+metadata:
+  version: "1.0.0"
+  category: "security"
+  status: "active"
+  updated: "2026-01-08"
+  modularized: "true"
+  tags: "auth0, security, mfa, attack-protection, tokens, dpop, mtls, compliance, fapi, gdpr"
+  context7-libraries: "/auth0/docs"
+
+# MoAI Extension: Triggers
+triggers:
+  keywords: ["auth0", "authentication", "oauth", "sso", "identity", "mfa", "token security"]
 ---
 
 # Auth0 Security Specialist
@@ -41,28 +32,24 @@ Comprehensive security skill for Auth0 implementations covering attack protectio
 ### Security Feature Categories
 
 Attack Protection:
-
 - Bot Detection: CAPTCHA challenges for suspicious traffic
 - Breached Password Detection: Blocks compromised credentials
 - Brute Force Protection: Limits failed login attempts per account
 - Suspicious IP Throttling: Rate limits high-velocity attacks
 
 Multi-Factor Authentication:
-
 - Push notifications via Auth0 Guardian
 - One-time passwords (TOTP)
 - WebAuthn with security keys and biometrics
 - SMS/voice verification and Adaptive MFA
 
 Token Security:
-
 - JWT structure and validation
 - Access token management with scopes
 - Refresh token rotation and expiration
 - Token revocation strategies
 
 Sender Constraining:
-
 - DPoP: Application-layer token binding
 - mTLS: Transport-layer certificate binding
 
@@ -89,7 +76,7 @@ Security Center: Dashboard > Security > Security Center
 
 ### Attack Protection
 
-Bot Detection: Navigate to Dashboard > Security > Attack Protection > Bot Detection. Configure sensitivity (Low/Medium/High) and response type (Auth Challenge recommended, Simple CAPTCHA, or third-party). IP AllowList supports up to 100 addresses/CIDR ranges.
+Bot Detection: Navigate to Dashboard > Security > Attack Protection > Bot Detection. Configure sensitivity (Low/Medium/High) and response type (Auth Challenge recommended, Simple CAPTCHA, or third-party). IP AllowList supports up to 100 adddesses/CIDR ranges.
 
 Supported flows: Universal Login, Classic Login, Lock.js v12.4.0+, native apps. Unsupported: Enterprise connections, social login, cross-origin authentication.
 
@@ -106,7 +93,6 @@ For details: modules/attack-protection-overview.md
 Factor Configuration: Navigate to Dashboard > Security > Multi-factor Auth.
 
 Independent Factors (at least one required):
-
 - WebAuthn with FIDO Security Keys
 - One-time Password (OTP/TOTP)
 - Push Notifications via Auth0 Guardian
@@ -120,7 +106,6 @@ MFA Policies: Never, Use Adaptive MFA (Enterprise), Always
 WebAuthn: Provides passwordless MFA with security keys or biometrics. Single interaction for multi-factor authentication, phishing-resistant.
 
 Adaptive MFA (Enterprise): Evaluates risk signals per transaction:
-
 - NewDevice: Device not used in past 30 days
 - ImpossibleTravel: Geographic anomalies
 - UntrustedIP: Suspicious activity history
@@ -140,7 +125,6 @@ Access Tokens: Authorize API access with scopes. Types: Opaque (require introspe
 Refresh Tokens: Enable session continuity. Maximum 200 active per user per application. Security features: Rotation (invalidates predecessor), expiring tokens (idle/absolute), revocation via Management API.
 
 Best Practices:
-
 - Treat signing keys as critical credentials
 - Prefer RS256 over HS256 for public key validation
 - Store tokens server-side when possible
@@ -155,7 +139,6 @@ DPoP (Application Layer): Binds tokens to client-generated asymmetric key pairs.
 Steps: Generate key pair (ES256 recommended), create DPoP Proof JWT, send via DPoP header, include updated proof with each API request.
 
 Proof JWT Structure:
-
 - Header: typ (dpop+jwt), alg, jwk (public key)
 - Payload: jti, htm, htu, iat, ath (for API calls)
 
@@ -172,7 +155,6 @@ For details: modules/dpop-implementation.md, modules/mtls-sender-constraining.md
 ### Compliance
 
 Highly Regulated Identity (Enterprise + HRI add-on):
-
 - Strong Customer Authentication: Minimum two independent factors
 - Dynamic Linking: Transaction details in authorization
 - PAR: Pushed Authorization Requests
@@ -181,7 +163,6 @@ Highly Regulated Identity (Enterprise + HRI add-on):
 - Private Key JWT and mTLS authentication
 
 GDPR Compliance:
-
 - Customer as Data Controller, Auth0 as Data Processor
 - User rights: Access, portability (JSON export), erasure, consent management
 - Security: Profile encryption, breach detection, brute-force protection
@@ -199,7 +180,6 @@ For details: modules/highly-regulated-identity.md, modules/gdpr-compliance.md
 Access from Dashboard > Security > Security Center.
 
 Threat Categories:
-
 - Credential Stuffing: Machine-driven compromise attempts
 - Signup Attacks: Automated account creation
 - MFA Bypass: Circumvention attempts
@@ -231,7 +211,6 @@ Dynamic management: Customize lifetimes by user attributes, organization, or rol
 ## Module Reference
 
 Attack Protection:
-
 - modules/attack-protection-overview.md
 - modules/bot-detection.md
 - modules/breached-password-detection.md
@@ -242,7 +221,6 @@ Attack Protection:
 - modules/state-parameters.md
 
 MFA:
-
 - modules/mfa-overview.md
 - modules/mfa-factors.md
 - modules/webauthn-fido.md
@@ -254,7 +232,6 @@ MFA:
 - modules/ropg-flow-mfa.md
 
 Tokens:
-
 - modules/tokens-overview.md
 - modules/jwt-fundamentals.md
 - modules/id-tokens.md
@@ -265,12 +242,10 @@ Tokens:
 - modules/token-best-practices.md
 
 Sender Constraining:
-
 - modules/dpop-implementation.md
 - modules/mtls-sender-constraining.md
 
 Compliance:
-
 - modules/compliance-overview.md
 - modules/fapi-implementation.md
 - modules/highly-regulated-identity.md
@@ -280,7 +255,6 @@ Compliance:
 - modules/customer-managed-keys.md
 
 Security Operations:
-
 - modules/security-center.md
 - modules/application-credentials.md
 - modules/continuous-session-protection.md
@@ -292,7 +266,6 @@ Security Operations:
 ## Usage Guide
 
 This skill provides comprehensive Auth0 security guidance. Use it for:
-
 - Attack Protection configuration
 - Multi-Factor Authentication setup
 - Token security implementation
@@ -306,7 +279,6 @@ For comprehensive security reviews, use the expert-security agent included in th
 ## Resources
 
 Official Documentation:
-
 - https://auth0.com/docs/secure
 - https://auth0.com/docs/secure/attack-protection
 - https://auth0.com/docs/secure/multi-factor-authentication

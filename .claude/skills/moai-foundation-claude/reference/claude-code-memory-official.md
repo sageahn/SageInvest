@@ -124,7 +124,7 @@ Agent Catalog (`memory/agents.md`):
 
 ## Implementation
 
-- tdd-implementer: Execute TDD cycle (RED-GREEN-REFACTOR)
+- ddd-implementer: Execute DDD cycle (ANALYZE-PRESERVE-IMPROVE)
 - backend-expert: Backend architecture and API development
 - frontend-expert: Frontend UI component development
 
@@ -156,7 +156,13 @@ Settings Management (`config/config.json`):
   "constitution": {
     "test_coverage_target": 90,
     "enforce_tdd": true,
-    "quality_gates": ["test-first", "readable", "unified", "secured", "trackable"]
+    "quality_gates": [
+      "test-first",
+      "readable",
+      "unified",
+      "secured",
+      "trackable"
+    ]
   },
   "git_strategy": {
     "mode": "team",
@@ -177,7 +183,7 @@ Command References (`memory/commands.md`):
 
 - /moai:0-project: Initialize project structure
 - /moai:1-plan: Generate SPEC document
-- /moai:2-run: Execute TDD implementation
+- /moai:2-run: Execute DDD implementation
 - /moai:3-sync: Generate documentation
 - /moai:9-feedback: Collect improvement feedback
 
@@ -379,7 +385,10 @@ Production Environment:
     "cache_size": "50MB",
     "auto_refresh": false,
     "debug_memory": false,
-    "memory_files": [".claude/memory/execution-rules.md", ".claude/memory/production-policies.md"],
+    "memory_files": [
+      ".claude/memory/execution-rules.md",
+      ".claude/memory/production-policies.md"
+    ],
     "memory_restrictions": {
       "max_file_size": "1MB",
       "allowed_extensions": [".md", ".json"],

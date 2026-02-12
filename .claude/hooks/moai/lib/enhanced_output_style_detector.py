@@ -163,7 +163,7 @@ class OutputStyleDetector:
             # Check for TODO/task tracking patterns
             todo_file = cwd / ".moai" / "current_session_todo.txt"
             if todo_file.exists():
-                content = todo_file.read_text()
+                content = todo_file.read_text(encoding="utf-8", errors="replace")
                 if "plan" in content.lower() or "phase" in content.lower():
                     return "Explanatory"
 
@@ -181,7 +181,7 @@ class OutputStyleDetector:
         try:
             settings_path = Path.cwd() / ".claude" / "settings.json"
             if settings_path.exists():
-                with open(settings_path, "r", encoding="utf-8") as f:
+                with open(settings_path, "r", encoding="utf-8", errors="replace") as f:
                     settings = json.load(f)
                     output_style = settings.get("outputStyle", "")
 
@@ -332,8 +332,8 @@ class OutputStyleDetector:
                 print(f"{method_name} detection failed: {e}", file=sys.stderr)
                 continue
 
-        # Default fallback - Mr. Alfred is the default output style
-        return "Mr. Alfred"
+        # Default fallback - MoAI is the default output style
+        return "MoAI"
 
 
 def safe_collect_output_style() -> str:
@@ -363,7 +363,7 @@ def safe_collect_output_style() -> str:
 
     except Exception as e:
         print(f"Output style detection failed: {e}", file=sys.stderr)
-        return "Mr. Alfred"
+        return "MoAI"
 
 
 # For backward compatibility

@@ -1,20 +1,35 @@
 ---
-name: 'moai-workflow-worktree'
-description: 'Git worktree management for parallel SPEC development with isolated workspaces, automatic registration, and seamless MoAI-ADK integration'
-version: 1.1.0
-category: 'workflow'
-modularized: true
+name: moai-workflow-worktree
+description: >
+  Git worktree management for parallel SPEC development with isolated workspaces,
+  automatic branch registration, and seamless MoAI-ADK integration.
+  Use when setting up parallel development environments, creating isolated SPEC
+  workspaces, managing git worktrees, or working on multiple features simultaneously.
+  Do NOT use for regular git operations like commit or merge
+  (use manager-git agent instead).
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Write Grep Glob mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-tags: ['git', 'worktree', 'parallel', 'development', 'spec', 'isolation']
-updated: 2026-01-08
-status: 'active'
-allowed-tools:
-  - Read
-  - Write
-  - Grep
-  - Glob
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+metadata:
+  version: "1.1.0"
+  category: "workflow"
+  status: "active"
+  updated: "2026-01-08"
+  modularized: "true"
+  tags: "git, worktree, parallel, development, spec, isolation"
+
+# MoAI Extension: Progressive Disclosure
+progressive_disclosure:
+  enabled: true
+  level1_tokens: 100
+  level2_tokens: 5000
+
+# MoAI Extension: Triggers
+triggers:
+  keywords: ["worktree", "git worktree", "parallel development", "isolated workspace", "multiple SPECs", "branch isolation", "feature branch"]
+  phases: ["plan", "run"]
+  agents: ["manager-git", "manager-spec", "manager-project"]
 ---
 
 # MoAI Worktree Management
@@ -29,7 +44,6 @@ What is MoAI Worktree Management?
 A specialized Git worktree system that creates isolated development environments for each SPEC, enabling parallel development without conflicts.
 
 Key Features:
-
 - Isolated Workspaces: Each SPEC gets its own worktree with independent Git state
 - Automatic Registration: Worktree registry tracks all active workspaces
 - Parallel Development: Multiple SPECs can be developed simultaneously
@@ -38,7 +52,6 @@ Key Features:
 - Cleanup Automation: Automatic cleanup of merged worktrees
 
 Quick Access:
-
 - CLI commands: Refer to Worktree Commands Module at modules/worktree-commands.md
 - Management patterns: Refer to Worktree Management Module at modules/worktree-management.md
 - Parallel workflow: Refer to Parallel Development Module at modules/parallel-development.md
@@ -46,7 +59,6 @@ Quick Access:
 - Troubleshooting: Refer to Troubleshooting Module at modules/troubleshooting.md
 
 Use Cases:
-
 - Multiple SPECs development in parallel
 - Isolated testing environments
 - Feature branch isolation
@@ -75,7 +87,7 @@ The registry file stores worktree metadata in JSON format. Each worktree entry c
 
 File Structure:
 
-The worktree system creates a dedicated directory structure. At the worktree root (typically ~/worktrees/ProjectName/), you will find the central registry JSON file and individual directories for each SPEC. Each SPEC directory contains a .git file for worktree metadata and a complete copy of all project files.
+The worktree system creates a dedicated directory structure inside the project's .moai directory. At the worktree root ({repo}/.moai/worktrees/{ProjectName}/), you will find the central registry JSON file and individual directories for each SPEC. Each SPEC directory contains a .git file for worktree metadata and a complete copy of all project files.
 
 Detailed Reference: Refer to Worktree Management Module at modules/worktree-management.md
 
@@ -190,21 +202,18 @@ For faster worktree creation, use the shallow flag with a depth value for shallo
 ## Works Well With
 
 Commands:
-
 - moai:1-plan - SPEC creation with automatic worktree setup
 - moai:2-run - Development in isolated worktree environment
 - moai:3-sync - Integration with automatic worktree sync
 - moai:9-feedback - Worktree workflow improvements
 
 Skills:
-
 - moai-foundation-core - Parallel development patterns
 - moai-workflow-project - Project management integration
 - moai-workflow-spec - SPEC-driven development
 - moai-git-strategy - Git workflow optimization
 
 Tools:
-
 - Git worktree - Native Git worktree functionality
 - Rich CLI - Formatted terminal output
 - Click framework - Command-line interface framework
@@ -224,7 +233,6 @@ For code review workflows, use isolated review worktrees. The primary approach i
 For experimental features, use temporary worktrees with auto-cleanup. The primary approach is creating temporary worktrees and the supporting pattern is safe experimentation with automatic removal.
 
 Module Deep Dives:
-
 - Worktree Commands: Refer to modules/worktree-commands.md for complete CLI reference
 - Worktree Management: Refer to modules/worktree-management.md for core architecture
 - Parallel Development: Refer to modules/parallel-development.md for workflow patterns

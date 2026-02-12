@@ -42,31 +42,25 @@ Feedback Template Types:
 
 ```markdown
 ## Bug Description
-
 [Brief description of the bug]
 
 ## Reproduction Steps
-
 1. [First step]
 2. [Second step]
 3. [Step where bug occurs]
 
 ## Expected Behavior
-
 [What should happen normally]
 
 ## Actual Behavior
-
 [What actually happens]
 
 ## Environment
-
 - MoAI-ADK Version: [version]
 - Python Version: [version]
 - OS: [Windows/macOS/Linux]
 
 ## Additional Information
-
 [Screenshots, error messages, logs]
 ```
 
@@ -74,33 +68,27 @@ Feedback Template Types:
 
 ```markdown
 ## Feature Description
-
 [Brief description of the feature]
 
 ## Usage Scenarios
-
 1. [Scenario 1]
 2. [Scenario 2]
 
 ## Expected Effects
-
 [Expected outcomes and benefits]
 
 ## Priority
-
 - [ ] High
 - [ ] Medium
 - [ ] Low
 
 ## Additional Context
-
 [Any additional information]
 ```
 
 ## Usage Integration
 
 Auto-triggered by `/moai:9-feedback` command:
-
 1. User executes `/moai:9-feedback "description"`
 2. Skill selects appropriate template type
 3. Template is populated with user input

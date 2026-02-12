@@ -12,7 +12,6 @@ Smart refactoring combines AI analysis with traditional refactoring tools to ide
 ### Core Capabilities
 
 Technical Debt Analysis:
-
 - Automated code complexity detection (cyclomatic, cognitive, nesting depth)
 - Code duplication identification across files
 - Method length and parameter count analysis
@@ -20,7 +19,6 @@ Technical Debt Analysis:
 - Severity-based prioritization (critical, high, medium, low)
 
 AI-Powered Refactoring:
-
 - Context-aware refactoring opportunity identification
 - Safe transformation planning with risk assessment
 - Execution order optimization (low-risk first, then high-impact)
@@ -28,7 +26,6 @@ AI-Powered Refactoring:
 - Integration with Rope for safe code transformations
 
 Intelligent Analysis:
-
 - Project-specific convention detection
 - API boundary identification
 - Architectural pattern recognition
@@ -38,21 +35,18 @@ Intelligent Analysis:
 ### Key Components
 
 TechnicalDebtAnalyzer:
-
 - Analyzes Python codebases for technical debt patterns
 - Calculates complexity metrics using AST analysis
 - Detects code duplication using similarity algorithms
 - Generates prioritized debt items with suggested fixes
 
 AIRefactorer:
-
 - Integrates technical debt analysis with refactoring opportunities
 - Creates safe execution plans with risk assessment
 - Leverages Context7 MCP for latest refactoring patterns
 - Uses Rope library for safe code transformations
 
 RefactorPlan:
-
 - Comprehensive refactoring roadmap with execution strategy
 - Time estimation and risk assessment
 - Prerequisites and rollback strategies
@@ -81,7 +75,7 @@ from smart_refactoring import AIRefactorer
 async def main():
     # Initialize refactoring system
     refactorer = AIRefactorer(context7_client=None)
-
+    
     # Analyze and create refactoring plan
     refactor_plan = await refactorer.refactor_with_intelligence(
         codebase_path="/project/src",
@@ -91,7 +85,7 @@ async def main():
             'focus_on': ['complexity', 'duplication']
         }
     )
-
+    
     print(f"Found {len(refactor_plan.opportunities)} opportunities")
     print(f"Estimated time: {refactor_plan.estimated_time}")
     print(f"Risk assessment: {refactor_plan.risk_assessment}")
@@ -102,25 +96,21 @@ asyncio.run(main())
 ### Technical Debt Categories
 
 Code Complexity:
-
 - Cyclomatic complexity > 10 (medium), > 15 (high), > 20 (critical)
 - Cognitive complexity > 15
 - Nesting depth > 4 levels
 
 Duplication:
-
 - Similar code blocks across files
 - Repeated patterns with > 80% similarity
 - Copied and pasted code segments
 
 Method Issues:
-
 - Methods > 50 lines
 - Functions with > 7 parameters
 - Multiple responsibilities in single method
 
 Naming:
-
 - Single-letter variables (except loop counters)
 - Temp/tmp prefix variables
 - Non-descriptive abbreviations
@@ -128,31 +118,26 @@ Naming:
 ### Refactoring Types
 
 Extract Method:
-
 - Trigger: Method > 30 lines or complexity > 8
 - Risk: Low to medium
 - Impact: Reduces complexity, improves readability
 
 Extract Variable:
-
 - Trigger: Complex expressions with multiple operations
 - Risk: Low
 - Impact: Improves code comprehension
 
 Reorganize Imports:
-
 - Trigger: > 10 imports in single file
 - Risk: Low
 - Impact: Better dependency management
 
 Inline Variable:
-
 - Trigger: Variables used once with simple values
 - Risk: Low
 - Impact: Reduces unnecessary indirection
 
 Move Module:
-
 - Trigger: Logical grouping opportunities
 - Risk: Medium to high
 - Impact: Better architecture, reduced coupling
@@ -164,7 +149,6 @@ Move Module:
 ### Workflow Overview
 
 Step 1 - Analyze Technical Debt:
-
 ```python
 from smart_refactoring import TechnicalDebtAnalyzer
 
@@ -180,7 +164,6 @@ for item in debt_items[:5]:  # Top 5 priority items
 ```
 
 Step 2 - Identify Refactoring Opportunities:
-
 ```python
 # AIRefactorer automatically analyzes opportunities
 opportunities = refactor_plan.opportunities
@@ -194,22 +177,21 @@ for opp in opportunities[:3]:
 ```
 
 Step 3 - Execute Safe Refactoring:
-
 ```python
 # Execute refactoring plan in optimal order
 for i, opp_index in enumerate(refactor_plan.execution_order):
     opportunity = refactor_plan.opportunities[opp_index]
-
+    
     print(f"\nStep {i+1}: {opportunity.description}")
     print(f"Type: {opportunity.type.value}")
     print(f"Risk: {opportunity.risk_level}")
-
+    
     # Create git commit before each operation
     # git commit -m "Before refactoring: {opportunity.description}"
-
+    
     # Execute refactoring using Rope
     # (Implementation depends on refactoring type)
-
+    
     # Run tests to verify
     # if tests_pass:
     #     git commit -m "After refactoring: {opportunity.description}"
@@ -220,7 +202,6 @@ for i, opp_index in enumerate(refactor_plan.execution_order):
 ### Configuration Options
 
 Refactor Options:
-
 ```python
 refactor_options = {
     'max_risk_level': 'medium',  # low, medium, high
@@ -236,14 +217,12 @@ refactor_options = {
 ### Integration with Testing
 
 Pre-Refactoring Checklist:
-
 - Comprehensive test suite exists
 - All tests passing
 - Test coverage > 80%
 - Performance benchmarks recorded
 
 Post-Refactoring Verification:
-
 - Run full test suite
 - Verify performance benchmarks
 - Check for breaking changes
@@ -252,7 +231,6 @@ Post-Refactoring Verification:
 ### Rollback Strategy
 
 Safe Refactoring Protocol:
-
 1. Create git commit before each operation
 2. Run automated tests after each change
 3. Maintain detailed change log
@@ -294,7 +272,6 @@ print(f"Technical debt reduced by {improvement:.1%}")
 ### Safe Refactoring Patterns
 
 For detailed refactoring techniques and best practices, see:
-
 - [refactoring/patterns.md](refactoring/patterns.md) - Specific refactoring techniques
 - [refactoring/ai-workflows.md](refactoring/ai-workflows.md) - AI-assisted refactoring workflows
 

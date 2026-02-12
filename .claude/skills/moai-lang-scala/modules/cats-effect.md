@@ -115,8 +115,8 @@ def parallelResources: Resource[IO, (Connection, Connection)] =
 def connectionPool(size: Int): Resource[IO, ConnectionPool] =
   Resource.make(
     IO(ConnectionPool.create(size))
-  )(pool =>
-    pool.closeAll.handleError(e =>
+  )(pool => 
+    pool.closeAll.handleError(e => 
       IO.println(s"Error closing pool: ${e.getMessage}")
     )
   )
@@ -397,13 +397,13 @@ import io.circe.generic.auto.*
 val routes: HttpRoutes[IO] = HttpRoutes.of[IO] {
   case GET -> Root / "users" =>
     Ok(userService.findAll)
-
+  
   case GET -> Root / "users" / LongVar(id) =>
     userService.findById(id).flatMap {
       case Some(user) => Ok(user)
       case None => NotFound()
     }
-
+  
   case req @ POST -> Root / "users" =>
     for
       user <- req.as[CreateUserRequest]
@@ -432,24 +432,24 @@ class UserServiceSpec extends CatsEffectSuite:
   test("should fetch user successfully") {
     val testUser = User(1L, "John", "john@example.com")
     val service = UserService.make(mockRepository)
-
+    
     service.findById(1L).map { result =>
       assertEquals(result, Some(testUser))
     }
   }
-
+  
   test("should handle concurrent operations") {
     val users = (1 to 10).map(i => User(i.toLong, s"User$i", s"user$i@example.com")).toList
     val service = UserService.make(mockRepository)
-
+    
     users.parTraverse(u => service.findById(u.id)).map { results =>
       assertEquals(results.flatten.size, 10)
     }
   }
-
+  
   test("should timeout slow operations") {
     val slowService = UserService.make(slowRepository)
-
+    
     slowService.findById(1L)
       .timeout(100.millis)
       .attempt
@@ -464,25 +464,21 @@ class UserServiceSpec extends CatsEffectSuite:
 ## Best Practices
 
 IO Creation:
-
 - Use IO.pure for already computed values
 - Use IO.delay or IO() for side effects
 - Prefer IO.fromOption/Either/Try over manual conversion
 
 Resource Management:
-
 - Always use Resource for acquisitions that need cleanup
 - Compose resources with for-comprehensions
 - Resources release in reverse acquisition order
 
 Concurrency:
-
 - Use parMapN for independent parallel operations
 - Use Semaphore for rate limiting
 - Always handle Outcome.Canceled in fiber joins
 
 Streaming:
-
 - Use FS2 for large data processing
 - Prefer parEvalMap over manual fiber management
 - Use .compile.drain for side-effectful streams

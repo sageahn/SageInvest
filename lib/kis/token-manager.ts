@@ -94,9 +94,13 @@ export class TokenManager {
    */
   async revokeToken(): Promise<void> {
     const config = await configRepository.getConfig();
+    if (!config) {
+      return;
+    }
+
     const token = await tokenRepository.getToken(config.environment);
 
-    if (config && token) {
+    if (token) {
       await this.apiClient.revokeToken(config.app_key, config.app_secret, token.access_token);
       await tokenRepository.deleteToken(config.environment);
     }

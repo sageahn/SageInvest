@@ -9,35 +9,30 @@ Deep dive into systematic option comparison and decision-making frameworks.
 Standard criteria for technical decisions:
 
 Performance Criteria:
-
 - Response time and latency
 - Throughput and capacity
 - Resource efficiency (CPU, memory, network)
 - Scalability under load
 
 Quality Criteria:
-
 - Code maintainability and readability
 - Test coverage and testability
 - Documentation completeness
 - Error handling robustness
 
 Cost Criteria:
-
 - Implementation effort (person-days)
 - Learning curve and training needs
 - Operational cost (infrastructure, licensing)
 - Technical debt introduced
 
 Risk Criteria:
-
 - Implementation complexity
 - Dependency on external factors
 - Failure modes and recovery
 - Rollback difficulty
 
 Strategic Criteria:
-
 - Alignment with architecture vision
 - Future flexibility and extensibility
 - Team skill development
@@ -55,7 +50,6 @@ Weight assignment process:
 Example Weight Distribution:
 
 Performance-Critical Project:
-
 - Performance: 35%
 - Quality: 20%
 - Cost: 15%
@@ -63,7 +57,6 @@ Performance-Critical Project:
 - Strategic: 10%
 
 Maintainability-Focused Project:
-
 - Performance: 15%
 - Quality: 35%
 - Cost: 20%
@@ -71,7 +64,6 @@ Maintainability-Focused Project:
 - Strategic: 15%
 
 Rapid Delivery Project:
-
 - Performance: 15%
 - Quality: 15%
 - Cost: 40%
@@ -89,7 +81,6 @@ Score 3-4: Below average, has concerns
 Score 1-2: Poor, significant problems
 
 Scoring requirements:
-
 - Provide specific rationale for each score
 - Reference evidence or experience
 - Consider uncertainty in scores
@@ -98,7 +89,6 @@ Scoring requirements:
 ### Step 4: Calculate Composite Scores
 
 Calculation method:
-
 - Multiply each score by criterion weight
 - Sum weighted scores for total
 - Compare totals across options
@@ -121,25 +111,21 @@ Review Trigger: Conditions that would cause reconsideration
 ### Common Trade-off Patterns
 
 Speed vs Quality:
-
 - Faster delivery vs more thorough testing
 - Quick fix vs proper solution
 - MVP vs full feature set
 
 Performance vs Maintainability:
-
 - Optimized code vs readable code
 - Custom solution vs standard library
 - Inline logic vs abstraction layers
 
 Flexibility vs Simplicity:
-
 - Configurable vs hardcoded
 - Generic vs specific
 - Plugin architecture vs monolithic
 
 Cost vs Capability:
-
 - Build vs buy
 - Open source vs commercial
 - Cloud vs on-premise
@@ -147,7 +133,6 @@ Cost vs Capability:
 ## Integration with AskUserQuestion
 
 When analyzing trade-offs:
-
 - Use AskUserQuestion to confirm criterion weights match priorities
 - Use AskUserQuestion to present options with scores
 - Use AskUserQuestion to validate trade-off acceptability
@@ -158,7 +143,6 @@ Example AskUserQuestion for Trade-off Confirmation:
 Question: Based on the trade-off analysis, Option B scores highest. It sacrifices some performance (score 6) for better maintainability (score 9). Is this trade-off acceptable?
 
 Options:
-
 - Accept Option B with acknowledged trade-off
 - Prioritize performance over maintainability
 - Request deeper analysis of performance impact

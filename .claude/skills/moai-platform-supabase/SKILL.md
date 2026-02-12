@@ -1,21 +1,25 @@
 ---
-name: 'moai-platform-supabase'
-description: 'Supabase specialist covering PostgreSQL 16, pgvector, RLS, real-time subscriptions, and Edge Functions. Use when building full-stack apps with Supabase backend.'
-version: 2.1.0
-category: 'platform'
-modularized: true
+name: moai-platform-supabase
+description: >
+  Supabase specialist covering PostgreSQL 16, pgvector, RLS, real-time subscriptions,
+  and Edge Functions. Use when building full-stack apps with Supabase backend.
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Grep Glob mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-tags: ['supabase', 'postgresql', 'pgvector', 'realtime', 'rls', 'edge-functions']
-context7-libraries: ['/supabase/supabase']
-related-skills: ['moai-platform-neon', 'moai-lang-typescript']
-updated: 2026-01-11
-status: 'active'
-allowed-tools:
-  - Read
-  - Grep
-  - Glob
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+metadata:
+  version: "2.1.0"
+  category: "platform"
+  status: "active"
+  updated: "2026-01-11"
+  modularized: "true"
+  tags: "supabase, postgresql, pgvector, realtime, rls, edge-functions"
+  context7-libraries: "/supabase/supabase"
+  related-skills: "moai-platform-neon, moai-lang-typescript"
+
+# MoAI Extension: Triggers
+triggers:
+  keywords: ["supabase", "postgresql", "pgvector", "real-time", "rls", "row level security", "edge functions"]
 ---
 
 # moai-platform-supabase: Supabase Platform Specialist
@@ -48,9 +52,9 @@ Use Supabase for multi-tenant SaaS applications requiring data isolation, AI/ML 
 
 For latest Supabase API documentation, use the Context7 MCP tools:
 
-Step 1 - Resolve library ID: Use mcp**context7**resolve-library-id with query "supabase" to get the Context7-compatible library ID.
+Step 1 - Resolve library ID: Use mcp__context7__resolve-library-id with query "supabase" to get the Context7-compatible library ID.
 
-Step 2 - Fetch documentation: Use mcp**context7**get-library-docs with the resolved library ID, specifying topic and token allocation.
+Step 2 - Fetch documentation: Use mcp__context7__get-library-docs with the resolved library ID, specifying topic and token allocation.
 
 Example topics include "postgresql pgvector", "row-level-security policies", "realtime subscriptions presence", "edge-functions deno", "storage transformations", and "auth jwt".
 
@@ -114,7 +118,7 @@ Migration: Use Supabase CLI with supabase migration new and supabase db push com
 - moai-lang-typescript for TypeScript patterns for Supabase client
 - moai-domain-backend for backend architecture integration
 - moai-foundation-quality for security and RLS best practices
-- moai-workflow-testing for test-driven development with Supabase
+- moai-workflow-testing for DDD testing with Supabase (characterization tests for legacy, specification tests for new features)
 
 ---
 

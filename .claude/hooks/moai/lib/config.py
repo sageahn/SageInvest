@@ -22,7 +22,7 @@ class CacheConfig:
 
     git_ttl_seconds: int = 5
     metrics_ttl_seconds: int = 10
-    alfred_ttl_seconds: int = 1
+    moai_ttl_seconds: int = 1
     todo_ttl_seconds: int = 3
     memory_ttl_seconds: int = 5
     output_style_ttl_seconds: int = 60
@@ -70,7 +70,7 @@ class DisplayConfig:
     git_status: bool = True  # ✅2 M1 ?10 Git changes status
     duration: bool = True  # ⏱️ Session elapsed time
     directory: bool = True  # 📁 Project name/directory
-    active_task: bool = True  # 🎯 Alfred active task
+    active_task: bool = True  # 🎯 MoAI active task
     update_indicator: bool = True  # 🔄 Update notification
 
 
@@ -189,7 +189,7 @@ class StatuslineConfig:
         try:
             import yaml
 
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, "r", encoding="utf-8", errors="replace") as f:
                 data = yaml.safe_load(f)
             return data or {}
         except ImportError:
@@ -210,7 +210,7 @@ class StatuslineConfig:
         import json
 
         try:
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, "r", encoding="utf-8", errors="replace") as f:
                 return json.load(f)
         except Exception as e:
             logger.debug(f"JSON fallback failed: {e}")
@@ -246,7 +246,7 @@ class StatuslineConfig:
                 "cache": {
                     "git_ttl_seconds": 5,
                     "metrics_ttl_seconds": 10,
-                    "alfred_ttl_seconds": 1,
+                    "moai_ttl_seconds": 1,
                     "todo_ttl_seconds": 3,
                     "memory_ttl_seconds": 5,
                     "output_style_ttl_seconds": 60,
@@ -263,7 +263,7 @@ class StatuslineConfig:
                     "git_status": True,  # ✅2 M1 ?10 Git changes status
                     "duration": True,  # ⏱️ Session elapsed time
                     "directory": True,  # 📁 Project name/directory
-                    "active_task": True,  # 🎯 Alfred active task
+                    "active_task": True,  # 🎯 MoAI active task
                     "update_indicator": True,  # 🔄 Update notification
                 },
                 "error_handling": {
@@ -326,7 +326,7 @@ class StatuslineConfig:
         return CacheConfig(
             git_ttl_seconds=cache_data.get("git_ttl_seconds", 5),
             metrics_ttl_seconds=cache_data.get("metrics_ttl_seconds", 10),
-            alfred_ttl_seconds=cache_data.get("alfred_ttl_seconds", 1),
+            moai_ttl_seconds=cache_data.get("moai_ttl_seconds", 1),
             version_ttl_seconds=cache_data.get("version_ttl_seconds", 60),
             update_ttl_seconds=cache_data.get("update_ttl_seconds", 300),
         )

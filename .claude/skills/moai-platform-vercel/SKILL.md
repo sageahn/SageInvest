@@ -1,23 +1,26 @@
 ---
-name: 'moai-platform-vercel'
-description: 'Vercel edge deployment specialist covering Edge Functions, Next.js optimization, preview deployments, ISR, and storage solutions. Use when deploying Next.js applications, implementing edge computing, or configuring Vercel platform features.'
-version: 2.1.0
-category: 'platform'
-modularized: true
+name: moai-platform-vercel
+description: >
+  Vercel edge deployment specialist covering Edge Functions, Next.js optimization,
+  preview deployments, ISR, and storage solutions. Use when deploying Next.js
+  applications, implementing edge computing, or configuring Vercel platform features.
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Write Bash(vercel:*) Bash(npm:*) Bash(npx:*) Grep Glob mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-tags: ['vercel', 'edge', 'nextjs', 'isr', 'preview', 'cdn', 'kv', 'blob', 'postgres']
-context7-libraries: '/vercel/next.js, /vercel/vercel'
-related-skills: 'moai-platform-railway, moai-lang-typescript, moai-domain-frontend'
-updated: 2026-01-11
-status: 'active'
-allowed-tools:
-  - Read
-  - Write
-  - Bash
-  - Grep
-  - Glob
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+metadata:
+  version: "2.1.0"
+  category: "platform"
+  modularized: "true"
+  status: "active"
+  updated: "2026-01-11"
+  tags: "vercel, edge, nextjs, isr, preview, cdn, kv, blob, postgres"
+  context7-libraries: "/vercel/next.js, /vercel/vercel"
+  related-skills: "moai-platform-railway, moai-lang-typescript, moai-domain-frontend"
+
+# MoAI Extension: Triggers
+triggers:
+  keywords: ["vercel", "edge", "nextjs", "isr", "preview deployment", "cdn", "edge functions"]
 ---
 
 # moai-platform-vercel: Vercel Edge Deployment Specialist
@@ -104,9 +107,9 @@ For monorepo configuration, set buildCommand to run turbo build from root with f
 
 Use Context7 MCP tools for latest documentation:
 
-Step 1: Resolve library ID using mcp**context7**resolve-library-id with "vercel" or "next.js".
+Step 1: Resolve library ID using mcp__context7__resolve-library-id with "vercel" or "next.js".
 
-Step 2: Fetch documentation using mcp**context7**get-library-docs with resolved ID, specific topic, and appropriate token allocation of 5000 to 10000 tokens.
+Step 2: Fetch documentation using mcp__context7__get-library-docs with resolved ID, specific topic, and appropriate token allocation of 5000 to 10000 tokens.
 
 ---
 

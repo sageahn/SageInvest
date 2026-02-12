@@ -1,23 +1,34 @@
 ---
-name: 'moai-workflow-project'
-description: 'Integrated project management system with documentation, language initialization, and template optimization modules. Use when setting up projects, generating documentation, configuring multilingual support, or optimizing templates.'
-version: 2.0.0
-category: 'workflow'
-modularized: true
+name: moai-workflow-project
+description: >
+  Integrated project management system with documentation, language
+  initialization, and template optimization modules. Use when setting up
+  projects, generating documentation, configuring multilingual support,
+  or optimizing templates.
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Write Edit Bash(git:*) Bash(npm:*) Bash(npx:*) Bash(uv:*) Bash(pip:*) Bash(ls:*) Bash(mkdir:*) Grep Glob mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-tags: ['workflow', 'project', 'documentation', 'initialization', 'templates']
-updated: 2026-01-08
-status: 'active'
-aliases: ['moai-workflow-project']
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Grep
-  - Glob
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+metadata:
+  version: "2.0.0"
+  category: "workflow"
+  status: "active"
+  updated: "2026-01-08"
+  modularized: "true"
+  tags: "workflow, project, documentation, initialization, templates"
+  aliases: "moai-workflow-project"
+
+# MoAI Extension: Progressive Disclosure
+progressive_disclosure:
+  enabled: true
+  level1_tokens: 100
+  level2_tokens: 5000
+
+# MoAI Extension: Triggers
+triggers:
+  keywords: ["project setup", "initialization", "project initialization", "project configuration", "project documentation", "multilingual", "language initialization"]
+  phases: ["plan", "run"]
+  agents: ["manager-project", "manager-docs"]
 ---
 
 # MoAI Workflow Project - Integrated Project Management System

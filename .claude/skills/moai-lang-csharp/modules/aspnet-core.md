@@ -122,7 +122,7 @@ app.MapPost("/api/users", async Task<Results<Created<UserDto>, ValidationProblem
     var validation = await validator.ValidateAsync(request);
     if (!validation.IsValid)
         return TypedResults.ValidationProblem(validation.ToDictionary());
-
+    
     var user = await service.CreateAsync(request);
     return TypedResults.Created($"/api/users/{user.Id}", user);
 });
@@ -234,7 +234,7 @@ public class CreateUserRequest
     public string Name { get; set; } = string.Empty;
 
     [Required]
-    [EmailAddress]
+    [EmailAdddess]
     public string Email { get; set; } = string.Empty;
 
     [Required]
@@ -269,13 +269,13 @@ public class RequestLoggingMiddleware(RequestDelegate next, ILogger<RequestLoggi
     {
         var requestId = Guid.NewGuid().ToString("N")[..8];
         context.Items["RequestId"] = requestId;
-
+        
         logger.LogInformation(
             "Request {RequestId}: {Method} {Path}",
             requestId, context.Request.Method, context.Request.Path);
-
+        
         var sw = Stopwatch.StartNew();
-
+        
         try
         {
             await next(context);
@@ -333,7 +333,7 @@ public class GlobalExceptionMiddleware(
     {
         context.Response.StatusCode = StatusCodes.Status400BadRequest;
         context.Response.ContentType = "application/problem+json";
-
+        
         var problem = new ValidationProblemDetails(
             ex.Errors.GroupBy(e => e.PropertyName)
                 .ToDictionary(g => g.Key, g => g.Select(e => e.ErrorMessage).ToArray()))
@@ -341,7 +341,7 @@ public class GlobalExceptionMiddleware(
             Status = StatusCodes.Status400BadRequest,
             Title = "Validation failed"
         };
-
+        
         return context.Response.WriteAsJsonAsync(problem);
     }
 
@@ -349,31 +349,31 @@ public class GlobalExceptionMiddleware(
     {
         context.Response.StatusCode = StatusCodes.Status404NotFound;
         context.Response.ContentType = "application/problem+json";
-
+        
         var problem = new ProblemDetails
         {
             Status = StatusCodes.Status404NotFound,
             Title = "Not found",
             Detail = ex.Message
         };
-
+        
         return context.Response.WriteAsJsonAsync(problem);
     }
 
     private Task HandleExceptionAsync(HttpContext context, Exception ex)
     {
         logger.LogError(ex, "Unhandled exception");
-
+        
         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
         context.Response.ContentType = "application/problem+json";
-
+        
         var problem = new ProblemDetails
         {
             Status = StatusCodes.Status500InternalServerError,
             Title = "Internal server error",
             Detail = env.IsDevelopment() ? ex.Message : "An unexpected error occurred"
         };
-
+        
         return context.Response.WriteAsJsonAsync(problem);
     }
 }
@@ -436,7 +436,7 @@ public class JwtTokenService(IConfiguration config)
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
-
+    
     public string GenerateRefreshToken()
     {
         var randomBytes = new byte[64];
@@ -455,21 +455,21 @@ builder.Services.AddAuthorization(options =>
     // Role-based policies
     options.AddPolicy("Admin", policy =>
         policy.RequireRole("Admin"));
-
+    
     options.AddPolicy("AdminOrManager", policy =>
         policy.RequireRole("Admin", "Manager"));
-
+    
     // Claim-based policies
     options.AddPolicy("CanEdit", policy =>
         policy.RequireClaim("permissions", "edit"));
-
+    
     options.AddPolicy("CanDelete", policy =>
         policy.RequireClaim("permissions", "delete"));
-
+    
     // Custom requirements
     options.AddPolicy("MinimumAge", policy =>
         policy.Requirements.Add(new MinimumAgeRequirement(18)));
-
+    
     // Combined requirements
     options.AddPolicy("SeniorEditor", policy =>
         policy.RequireRole("Editor")
@@ -497,20 +497,20 @@ public class MinimumAgeHandler : AuthorizationHandler<MinimumAgeRequirement>
         MinimumAgeRequirement requirement)
     {
         var birthDateClaim = context.User.FindFirst(c => c.Type == "birthdate");
-
+        
         if (birthDateClaim is null)
             return Task.CompletedTask;
-
+        
         if (DateTime.TryParse(birthDateClaim.Value, out var birthDate))
         {
             var age = DateTime.Today.Year - birthDate.Year;
             if (birthDate.Date > DateTime.Today.AddYears(-age))
                 age--;
-
+            
             if (age >= requirement.MinimumAge)
                 context.Succeed(requirement);
         }
-
+        
         return Task.CompletedTask;
     }
 }
@@ -530,7 +530,7 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin()
               .AllowAnyMethod()
               .AllowAnyHeader());
-
+    
     options.AddPolicy("Production", policy =>
         policy.WithOrigins("https://myapp.com", "https://api.myapp.com")
               .WithMethods("GET", "POST", "PUT", "DELETE")
@@ -564,7 +564,7 @@ builder.Services.AddRateLimiter(options =>
 
     options.AddPolicy("api", context =>
         RateLimitPartition.GetTokenBucketLimiter(
-            partitionKey: context.User.Identity?.Name ?? context.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
+            partitionKey: context.User.Identity?.Name ?? context.Connection.RemoteIpAdddess?.ToString() ?? "anonymous",
             factory: _ => new TokenBucketRateLimiterOptions
             {
                 TokenLimit = 100,

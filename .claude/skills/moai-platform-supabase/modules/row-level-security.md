@@ -282,6 +282,5 @@ Topic: "rls performance optimization"
 ---
 
 Related Modules:
-
 - auth-integration.md - Authentication patterns
 - typescript-patterns.md - Client-side access patterns

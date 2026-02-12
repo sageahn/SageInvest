@@ -79,7 +79,7 @@ rule:
     - pattern: 'api_key = "$$$VALUE"'
 constraints:
   VALUE:
-    regex: '.{8,}' # At least 8 characters
+    regex: '.{8,}'  # At least 8 characters
 message: 'Hardcoded credential detected. Use environment variables.'
 ```
 

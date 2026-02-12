@@ -1,20 +1,31 @@
 ---
-name: 'moai-lang-ruby'
-description: 'Ruby 3.3+ development specialist covering Rails 7.2, ActiveRecord, Hotwire/Turbo, and modern Ruby patterns. Use when developing Ruby APIs, web applications, or Rails projects.'
-version: 1.1.0
-category: 'language'
-modularized: true
+name: moai-lang-ruby
+description: >
+  Ruby 3.3+ development specialist covering Rails 7.2, ActiveRecord,
+  Hotwire/Turbo, and modern Ruby patterns. Use when developing Ruby APIs,
+  web applications, or Rails projects.
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Grep Glob Bash(ruby:*) Bash(gem:*) Bash(bundle:*) Bash(rake:*) Bash(rspec:*) Bash(rubocop:*) Bash(rails:*) mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-tags: ['language', 'ruby', 'rails', 'activerecord', 'hotwire', 'turbo', 'rspec']
-updated: 2026-01-11
-status: 'active'
-allowed-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+metadata:
+  version: "1.1.0"
+  category: "language"
+  status: "active"
+  updated: "2026-01-11"
+  modularized: "true"
+  tags: "language, ruby, rails, activerecord, hotwire, turbo, rspec"
+
+# MoAI Extension: Progressive Disclosure
+progressive_disclosure:
+  enabled: true
+  level1_tokens: 100
+  level2_tokens: 5000
+
+# MoAI Extension: Triggers
+triggers:
+  keywords: ["Ruby", "Rails", "ActiveRecord", "Hotwire", "Turbo", "RSpec", ".rb", "Gemfile", "Rakefile", "config.ru"]
+  languages: ["ruby"]
 ---
 
 ## Quick Reference (30 seconds)
@@ -141,7 +152,7 @@ See:
 
 - moai-domain-backend for REST API and web application architecture
 - moai-domain-database for SQL patterns and ActiveRecord optimization
-- moai-workflow-testing for TDD and testing strategies
+- moai-workflow-testing for DDD and testing strategies
 - moai-essentials-debug for AI-powered debugging
 - moai-foundation-quality for TRUST 5 quality principles
 

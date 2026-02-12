@@ -19,22 +19,21 @@ Supabase provides real-time capabilities through Postgres Changes (database chan
 Subscribe to all changes on a table:
 
 ```typescript
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js'
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
-const channel = supabase
-  .channel('db-changes')
-  .on('postgres_changes', { event: '*', schema: 'public', table: 'messages' }, (payload) =>
-    console.log('Change:', payload)
+const channel = supabase.channel('db-changes')
+  .on('postgres_changes',
+    { event: '*', schema: 'public', table: 'messages' },
+    (payload) => console.log('Change:', payload)
   )
-  .subscribe();
+  .subscribe()
 ```
 
 ### Event Types
 
 Available events:
-
 - `INSERT` - New row added
 - `UPDATE` - Row modified
 - `DELETE` - Row removed
@@ -45,19 +44,17 @@ Available events:
 Filter changes by specific conditions:
 
 ```typescript
-supabase
-  .channel('project-updates')
-  .on(
-    'postgres_changes',
+supabase.channel('project-updates')
+  .on('postgres_changes',
     {
       event: 'UPDATE',
       schema: 'public',
       table: 'projects',
-      filter: `id=eq.${projectId}`,
+      filter: `id=eq.${projectId}`
     },
     (payload) => handleProjectUpdate(payload.new)
   )
-  .subscribe();
+  .subscribe()
 ```
 
 ### Multiple Tables
@@ -65,11 +62,16 @@ supabase
 Subscribe to multiple tables on one channel:
 
 ```typescript
-const channel = supabase
-  .channel('app-changes')
-  .on('postgres_changes', { event: '*', schema: 'public', table: 'tasks' }, handleTaskChange)
-  .on('postgres_changes', { event: '*', schema: 'public', table: 'comments' }, handleCommentChange)
-  .subscribe();
+const channel = supabase.channel('app-changes')
+  .on('postgres_changes',
+    { event: '*', schema: 'public', table: 'tasks' },
+    handleTaskChange
+  )
+  .on('postgres_changes',
+    { event: '*', schema: 'public', table: 'comments' },
+    handleCommentChange
+  )
+  .subscribe()
 ```
 
 ## Presence Tracking
@@ -78,10 +80,10 @@ const channel = supabase
 
 ```typescript
 interface PresenceState {
-  user_id: string;
-  online_at: string;
-  typing?: boolean;
-  cursor?: { x: number; y: number };
+  user_id: string
+  online_at: string
+  typing?: boolean
+  cursor?: { x: number; y: number }
 }
 ```
 
@@ -89,28 +91,28 @@ interface PresenceState {
 
 ```typescript
 const channel = supabase.channel('room:collaborative-doc', {
-  config: { presence: { key: userId } },
-});
+  config: { presence: { key: userId } }
+})
 
 channel
   .on('presence', { event: 'sync' }, () => {
-    const state = channel.presenceState<PresenceState>();
-    console.log('Online users:', Object.keys(state));
+    const state = channel.presenceState<PresenceState>()
+    console.log('Online users:', Object.keys(state))
   })
   .on('presence', { event: 'join' }, ({ key, newPresences }) => {
-    console.log('User joined:', key, newPresences);
+    console.log('User joined:', key, newPresences)
   })
   .on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
-    console.log('User left:', key, leftPresences);
+    console.log('User left:', key, leftPresences)
   })
   .subscribe(async (status) => {
     if (status === 'SUBSCRIBED') {
       await channel.track({
         user_id: userId,
-        online_at: new Date().toISOString(),
-      });
+        online_at: new Date().toISOString()
+      })
     }
-  });
+  })
 ```
 
 ### Update Presence State
@@ -119,15 +121,15 @@ Update user presence in real-time:
 
 ```typescript
 // Track typing status
-await channel.track({ typing: true });
+await channel.track({ typing: true })
 
 // Track cursor position
-await channel.track({ cursor: { x: 100, y: 200 } });
+await channel.track({ cursor: { x: 100, y: 200 } })
 
 // Clear typing after timeout
 setTimeout(async () => {
-  await channel.track({ typing: false });
-}, 1000);
+  await channel.track({ typing: false })
+}, 1000)
 ```
 
 ## Collaborative Features
@@ -136,24 +138,24 @@ setTimeout(async () => {
 
 ```typescript
 interface CursorState {
-  user_id: string;
-  user_name: string;
-  cursor: { x: number; y: number };
-  color: string;
+  user_id: string
+  user_name: string
+  cursor: { x: number; y: number }
+  color: string
 }
 
 function setupCollaborativeCursors(documentId: string, userId: string, userName: string) {
   const channel = supabase.channel(`cursors:${documentId}`, {
-    config: { presence: { key: userId } },
-  });
+    config: { presence: { key: userId } }
+  })
 
-  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7'];
-  const userColor = colors[Math.abs(userId.hashCode()) % colors.length];
+  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7']
+  const userColor = colors[Math.abs(userId.hashCode()) % colors.length]
 
   channel
     .on('presence', { event: 'sync' }, () => {
-      const state = channel.presenceState<CursorState>();
-      renderCursors(Object.values(state).flat());
+      const state = channel.presenceState<CursorState>()
+      renderCursors(Object.values(state).flat())
     })
     .subscribe(async (status) => {
       if (status === 'SUBSCRIBED') {
@@ -161,10 +163,10 @@ function setupCollaborativeCursors(documentId: string, userId: string, userName:
           user_id: userId,
           user_name: userName,
           cursor: { x: 0, y: 0 },
-          color: userColor,
-        });
+          color: userColor
+        })
       }
-    });
+    })
 
   // Track mouse movement
   document.addEventListener('mousemove', async (e) => {
@@ -172,11 +174,11 @@ function setupCollaborativeCursors(documentId: string, userId: string, userName:
       user_id: userId,
       user_name: userName,
       cursor: { x: e.clientX, y: e.clientY },
-      color: userColor,
-    });
-  });
+      color: userColor
+    })
+  })
 
-  return channel;
+  return channel
 }
 ```
 
@@ -184,39 +186,39 @@ function setupCollaborativeCursors(documentId: string, userId: string, userName:
 
 ```typescript
 interface EditingState {
-  user_id: string;
-  user_name: string;
-  editing_field: string | null;
+  user_id: string
+  user_name: string
+  editing_field: string | null
 }
 
 function setupFieldLocking(formId: string) {
   const channel = supabase.channel(`form:${formId}`, {
-    config: { presence: { key: currentUserId } },
-  });
+    config: { presence: { key: currentUserId } }
+  })
 
   channel
     .on('presence', { event: 'sync' }, () => {
-      const state = channel.presenceState<EditingState>();
-      updateFieldLocks(Object.values(state).flat());
+      const state = channel.presenceState<EditingState>()
+      updateFieldLocks(Object.values(state).flat())
     })
-    .subscribe();
+    .subscribe()
 
   return {
     startEditing: async (fieldName: string) => {
       await channel.track({
         user_id: currentUserId,
         user_name: currentUserName,
-        editing_field: fieldName,
-      });
+        editing_field: fieldName
+      })
     },
     stopEditing: async () => {
       await channel.track({
         user_id: currentUserId,
         user_name: currentUserName,
-        editing_field: null,
-      });
-    },
-  };
+        editing_field: null
+      })
+    }
+  }
 }
 ```
 
@@ -225,21 +227,21 @@ function setupFieldLocking(formId: string) {
 Send arbitrary messages to channel subscribers:
 
 ```typescript
-const channel = supabase.channel('room:chat');
+const channel = supabase.channel('room:chat')
 
 // Subscribe to broadcasts
 channel
   .on('broadcast', { event: 'message' }, ({ payload }) => {
-    console.log('Received:', payload);
+    console.log('Received:', payload)
   })
-  .subscribe();
+  .subscribe()
 
 // Send broadcast
 await channel.send({
   type: 'broadcast',
   event: 'message',
-  payload: { text: 'Hello everyone!', sender: userId },
-});
+  payload: { text: 'Hello everyone!', sender: userId }
+})
 ```
 
 ## Subscription Management
@@ -248,10 +250,10 @@ await channel.send({
 
 ```typescript
 // Unsubscribe from specific channel
-await supabase.removeChannel(channel);
+await supabase.removeChannel(channel)
 
 // Unsubscribe from all channels
-await supabase.removeAllChannels();
+await supabase.removeAllChannels()
 ```
 
 ### Subscription Status
@@ -260,19 +262,19 @@ await supabase.removeAllChannels();
 channel.subscribe((status) => {
   switch (status) {
     case 'SUBSCRIBED':
-      console.log('Connected to channel');
-      break;
+      console.log('Connected to channel')
+      break
     case 'CLOSED':
-      console.log('Channel closed');
-      break;
+      console.log('Channel closed')
+      break
     case 'CHANNEL_ERROR':
-      console.log('Channel error');
-      break;
+      console.log('Channel error')
+      break
     case 'TIMED_OUT':
-      console.log('Connection timed out');
-      break;
+      console.log('Connection timed out')
+      break
   }
-});
+})
 ```
 
 ## React Integration
@@ -280,40 +282,40 @@ channel.subscribe((status) => {
 ### Custom Hook for Presence
 
 ```typescript
-import { useEffect, useState } from 'react';
-import { supabase } from './supabase/client';
+import { useEffect, useState } from 'react'
+import { supabase } from './supabase/client'
 
 export function usePresence<T>(channelName: string, userId: string, initialState: T) {
-  const [presences, setPresences] = useState<Record<string, T[]>>({});
+  const [presences, setPresences] = useState<Record<string, T[]>>({})
 
   useEffect(() => {
     const channel = supabase.channel(channelName, {
-      config: { presence: { key: userId } },
-    });
+      config: { presence: { key: userId } }
+    })
 
     channel
       .on('presence', { event: 'sync' }, () => {
-        setPresences(channel.presenceState<T>());
+        setPresences(channel.presenceState<T>())
       })
       .subscribe(async (status) => {
         if (status === 'SUBSCRIBED') {
-          await channel.track(initialState);
+          await channel.track(initialState)
         }
-      });
+      })
 
     return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [channelName, userId]);
+      supabase.removeChannel(channel)
+    }
+  }, [channelName, userId])
 
   const updatePresence = async (state: Partial<T>) => {
-    const channel = supabase.getChannels().find((c) => c.topic === channelName);
+    const channel = supabase.getChannels().find(c => c.topic === channelName)
     if (channel) {
-      await channel.track({ ...initialState, ...state } as T);
+      await channel.track({ ...initialState, ...state } as T)
     }
-  };
+  }
 
-  return { presences, updatePresence };
+  return { presences, updatePresence }
 }
 ```
 
@@ -348,6 +350,5 @@ Topic: "broadcast messages supabase"
 ---
 
 Related Modules:
-
 - typescript-patterns.md - Client architecture
 - auth-integration.md - Authenticated subscriptions

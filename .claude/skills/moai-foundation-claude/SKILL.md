@@ -1,36 +1,54 @@
 ---
 name: moai-foundation-claude
-aliases: [moai-foundation-claude]
-category: foundation
-description: Canonical Claude Code authoring kit covering Skills, sub-agents, plugins, slash commands, hooks, memory, settings, sandboxing, headless mode, and advanced agent patterns. Use when creating Claude Code extensions or configuring Claude Code features.
-version: 5.0.0
-modularized: false
+description: >
+  Canonical Claude Code authoring kit covering Skills, sub-agents, plugins, slash commands,
+  hooks, memory, settings, sandboxing, headless mode, and advanced agent patterns.
+  Use when creating Claude Code extensions or configuring Claude Code features.
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Write Edit Grep Glob mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Grep
-  - Glob
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
-tags:
-  [
-    'foundation',
-    'claude-code',
-    'skills',
-    'sub-agents',
-    'plugins',
-    'slash-commands',
-    'hooks',
-    'memory',
-    'settings',
-    'sandboxing',
-    'headless',
-    'agent-patterns',
-  ]
-updated: 2026-01-11
-status: 'active'
+metadata:
+  version: "5.0.0"
+  category: "foundation"
+  status: "active"
+  updated: "2026-01-11"
+  modularized: "false"
+  tags: "foundation, claude-code, skills, sub-agents, plugins, slash-commands, hooks, memory, settings, sandboxing, headless, agent-patterns"
+  aliases: "moai-foundation-claude"
+
+# MoAI Extension: Progressive Disclosure
+progressive_disclosure:
+  enabled: true
+  level1_tokens: 100
+  level2_tokens: 5000
+
+# MoAI Extension: Triggers
+triggers:
+  keywords:
+    - "skill"
+    - "agent"
+    - "plugin"
+    - "slash command"
+    - "hook"
+    - "sandbox"
+    - "headless"
+    - "memory"
+    - "settings"
+    - "claude code"
+    - "sub-agent"
+    - "agent pattern"
+    - "orchestration"
+    - "delegation"
+  agents:
+    - "builder-agent"
+    - "builder-command"
+    - "builder-skill"
+    - "builder-plugin"
+  phases:
+    - "plan"
+    - "run"
+    - "sync"
 ---
 
 # Claude Code Authoring Kit
@@ -74,7 +92,7 @@ Commands: User-invoked via /command. Parameters: $ARGUMENTS, $1, $2. File refs: 
 
 Hooks: Events in settings.json. PreToolUse, PostToolUse, SessionStart, SessionEnd, PreCompact, Notification.
 
-Memory: CLAUDE.md files + .claude/rules/\*.md. Enterprise to Project to User hierarchy. @import syntax.
+Memory: CLAUDE.md files + .claude/rules/*.md. Enterprise to Project to User hierarchy. @import syntax.
 
 Settings: 6-level hierarchy. Managed to file-managed to CLI to local to shared to user.
 
@@ -167,6 +185,27 @@ Worker agents: Execute focused tasks, return condensed summaries
 - Clear parameter names (user_id not user)
 - Instructive error messages with examples
 
+### Explore/Search Performance Optimization
+
+When using Explore agent or direct exploration tools (Grep, Glob, Read), apply these optimizations to prevent performance bottlenecks with GLM models:
+
+**AST-Grep Priority**
+- Use structural search (ast-grep) before text-based search (Grep)
+- Load moai-tool-ast-grep skill for complex pattern matching
+- Example: `sg -p 'class $X extends Service' --lang python` is faster than `grep -r "class.*extends.*Service"`
+
+**Search Scope Limitation**
+- Always use `path` parameter to limit search scope
+- Example: `Grep(pattern="async def", path="src/moai_adk/core/")` instead of `Grep(pattern="async def")`
+
+**File Pattern Specificity**
+- Use specific Glob patterns instead of wildcards
+- Example: `Glob(pattern="src/moai_adk/core/*.py")` instead of `Glob(pattern="src/**/*.py")`
+
+**Parallel Processing**
+- Execute independent searches in parallel (single message, multiple tool calls)
+- Maximum 5 parallel searches to prevent context fragmentation
+
 ## Workflow: Explore-Plan-Code-Commit
 
 Phase 1 Explore: Read files, understand structure, map dependencies
@@ -188,7 +227,7 @@ Phase 4 Commit: Descriptive messages, logical groupings, clean history
 ### Essential Sub-agents
 
 - spec-builder: EARS specifications
-- manager-tdd: TDD execution
+- manager-ddd: DDD execution
 - expert-security: Security analysis
 - expert-backend: API development
 - expert-frontend: UI implementation

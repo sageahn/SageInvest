@@ -7,6 +7,48 @@
 
 ## [Unreleased]
 
+### Changed
+
+#### SPEC-KIS-001 완료
+
+- KIS OpenAPI 인증 시스템 구현 완료
+- 상태: Planned → Completed (2026-02-08)
+- 모든 요구사항 및 사양 구현 완료
+- 95% 테스트 커버리지 달성
+- API 문서 작성 완료
+
+#### SPEC-KIS-002 진행 중
+
+- KIS 국내주식 잔고조회 및 자산현황 기능 개발
+- 상태: Planned → In Progress (2026-02-08)
+- 의존성: SPEC-KIS-001 완료
+
+### Added
+
+#### KIS 잔고조회 기능 (SPEC-KIS-002)
+
+- 국내주식 잔고조회 API 통합
+- 계좌번호 설정 관리
+- 대시보드 자산 요약 위젯
+- 보유종목 상세 목록 페이지
+- 잔고조회 서비스 레이어
+
+#### API Routes
+
+- GET /api/kis/balance - 계좌 잔고 전체 조회
+- GET /api/kis/balance/summary - 자산 요약 조회
+- POST /api/kis/account - 계좌번호 저장
+- GET /api/kis/account - 저장된 계좌번호 조회
+
+### Improved
+
+#### 코드 품질
+
+- ESLint와 Prettier 설정 추가
+- TRUST 5 Readable 가이드라인 준수
+- TypeScript 타입 안전성 강화
+- 테스트 커버리지 개선
+
 ## [0.1.0] - 2026-01-17
 
 ### Added

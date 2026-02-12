@@ -17,23 +17,23 @@ Supabase Auth provides authentication with multiple providers, JWT-based session
 ### Browser Client
 
 ```typescript
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+)
 ```
 
 ### Server-Side Client (Next.js App Router)
 
 ```typescript
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
-import { Database } from './database.types';
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+import { Database } from './database.types'
 
 export function createServerSupabase() {
-  const cookieStore = cookies();
+  const cookieStore = cookies()
 
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -41,17 +41,17 @@ export function createServerSupabase() {
     {
       cookies: {
         get(name: string) {
-          return cookieStore.get(name)?.value;
+          return cookieStore.get(name)?.value
         },
         set(name, value, options) {
-          cookieStore.set({ name, value, ...options });
+          cookieStore.set({ name, value, ...options })
         },
         remove(name, options) {
-          cookieStore.set({ name, value: '', ...options });
-        },
-      },
+          cookieStore.set({ name, value: '', ...options })
+        }
+      }
     }
-  );
+  )
 }
 ```
 
@@ -59,13 +59,13 @@ export function createServerSupabase() {
 
 ```typescript
 // middleware.ts
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { NextResponse, type NextRequest } from 'next/server';
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
-    request: { headers: request.headers },
-  });
+    request: { headers: request.headers }
+  })
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -73,27 +73,27 @@ export async function middleware(request: NextRequest) {
     {
       cookies: {
         get(name: string) {
-          return request.cookies.get(name)?.value;
+          return request.cookies.get(name)?.value
         },
         set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({ name, value, ...options });
-          response.cookies.set({ name, value, ...options });
+          request.cookies.set({ name, value, ...options })
+          response.cookies.set({ name, value, ...options })
         },
         remove(name: string, options: CookieOptions) {
-          request.cookies.set({ name, value: '', ...options });
-          response.cookies.set({ name, value: '', ...options });
-        },
-      },
+          request.cookies.set({ name, value: '', ...options })
+          response.cookies.set({ name, value: '', ...options })
+        }
+      }
     }
-  );
+  )
 
-  await supabase.auth.getUser();
-  return response;
+  await supabase.auth.getUser()
+  return response
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
-};
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)']
+}
 ```
 
 ## Authentication Methods
@@ -106,12 +106,12 @@ async function signUp(email: string, password: string) {
     email,
     password,
     options: {
-      emailRedirectTo: `${window.location.origin}/auth/callback`,
-    },
-  });
+      emailRedirectTo: `${window.location.origin}/auth/callback`
+    }
+  })
 
-  if (error) throw error;
-  return data;
+  if (error) throw error
+  return data
 }
 ```
 
@@ -121,11 +121,11 @@ async function signUp(email: string, password: string) {
 async function signIn(email: string, password: string) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
-    password,
-  });
+    password
+  })
 
-  if (error) throw error;
-  return data;
+  if (error) throw error
+  return data
 }
 ```
 
@@ -139,13 +139,13 @@ async function signInWithGoogle() {
       redirectTo: `${window.location.origin}/auth/callback`,
       queryParams: {
         access_type: 'offline',
-        prompt: 'consent',
-      },
-    },
-  });
+        prompt: 'consent'
+      }
+    }
+  })
 
-  if (error) throw error;
-  return data;
+  if (error) throw error
+  return data
 }
 ```
 
@@ -156,12 +156,12 @@ async function signInWithMagicLink(email: string) {
   const { data, error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${window.location.origin}/auth/callback`,
-    },
-  });
+      emailRedirectTo: `${window.location.origin}/auth/callback`
+    }
+  })
 
-  if (error) throw error;
-  return data;
+  if (error) throw error
+  return data
 }
 ```
 
@@ -171,12 +171,9 @@ async function signInWithMagicLink(email: string) {
 
 ```typescript
 async function getCurrentUser() {
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
-  if (error) throw error;
-  return user;
+  const { data: { user }, error } = await supabase.auth.getUser()
+  if (error) throw error
+  return user
 }
 ```
 
@@ -184,12 +181,9 @@ async function getCurrentUser() {
 
 ```typescript
 async function getSession() {
-  const {
-    data: { session },
-    error,
-  } = await supabase.auth.getSession();
-  if (error) throw error;
-  return session;
+  const { data: { session }, error } = await supabase.auth.getSession()
+  if (error) throw error
+  return session
 }
 ```
 
@@ -197,8 +191,8 @@ async function getSession() {
 
 ```typescript
 async function signOut() {
-  const { error } = await supabase.auth.signOut();
-  if (error) throw error;
+  const { error } = await supabase.auth.signOut()
+  if (error) throw error
 }
 ```
 
@@ -206,22 +200,22 @@ async function signOut() {
 
 ```typescript
 useEffect(() => {
-  const {
-    data: { subscription },
-  } = supabase.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_IN') {
-      console.log('User signed in:', session?.user);
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    (event, session) => {
+      if (event === 'SIGNED_IN') {
+        console.log('User signed in:', session?.user)
+      }
+      if (event === 'SIGNED_OUT') {
+        console.log('User signed out')
+      }
+      if (event === 'TOKEN_REFRESHED') {
+        console.log('Token refreshed')
+      }
     }
-    if (event === 'SIGNED_OUT') {
-      console.log('User signed out');
-    }
-    if (event === 'TOKEN_REFRESHED') {
-      console.log('Token refreshed');
-    }
-  });
+  )
 
-  return () => subscription.unsubscribe();
-}, []);
+  return () => subscription.unsubscribe()
+}, [])
 ```
 
 ## Auth Callback Handler
@@ -230,42 +224,42 @@ useEffect(() => {
 
 ```typescript
 // app/auth/callback/route.ts
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
-import { NextResponse, type NextRequest } from 'next/server';
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+import { NextResponse, type NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  const { searchParams, origin } = new URL(request.url);
-  const code = searchParams.get('code');
-  const next = searchParams.get('next') ?? '/';
+  const { searchParams, origin } = new URL(request.url)
+  const code = searchParams.get('code')
+  const next = searchParams.get('next') ?? '/'
 
   if (code) {
-    const cookieStore = cookies();
+    const cookieStore = cookies()
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
           get(name: string) {
-            return cookieStore.get(name)?.value;
+            return cookieStore.get(name)?.value
           },
           set(name, value, options) {
-            cookieStore.set({ name, value, ...options });
+            cookieStore.set({ name, value, ...options })
           },
           remove(name, options) {
-            cookieStore.set({ name, value: '', ...options });
-          },
-        },
+            cookieStore.set({ name, value: '', ...options })
+          }
+        }
       }
-    );
+    )
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
+      return NextResponse.redirect(`${origin}${next}`)
     }
   }
 
-  return NextResponse.redirect(`${origin}/auth/error`);
+  return NextResponse.redirect(`${origin}/auth/error`)
 }
 ```
 
@@ -293,29 +287,29 @@ export default async function DashboardPage() {
 ### Client Component Protection
 
 ```typescript
-'use client';
+'use client'
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase/client';
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabase/client'
 
 export function useRequireAuth() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) {
-        router.push('/login');
+        router.push('/login')
       } else {
-        setUser(user);
+        setUser(user)
       }
-      setLoading(false);
-    });
-  }, [router]);
+      setLoading(false)
+    })
+  }, [router])
 
-  return { user, loading };
+  return { user, loading }
 }
 ```
 
@@ -329,19 +323,19 @@ serve(async (req) => {
   const supabase = createClient(
     Deno.env.get('SUPABASE_URL')!,
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-  );
+  )
 
-  const { userId, claims } = await req.json();
+  const { userId, claims } = await req.json()
 
   // Update user metadata (available in JWT)
   const { error } = await supabase.auth.admin.updateUserById(userId, {
-    app_metadata: claims,
-  });
+    app_metadata: claims
+  })
 
-  if (error) throw error;
+  if (error) throw error
 
-  return new Response(JSON.stringify({ success: true }));
-});
+  return new Response(JSON.stringify({ success: true }))
+})
 ```
 
 ### Reading Claims in RLS
@@ -357,20 +351,20 @@ CREATE POLICY "admin_only" ON admin_data FOR ALL
 ```typescript
 async function resetPassword(email: string) {
   const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${window.location.origin}/auth/reset-password`,
-  });
+    redirectTo: `${window.location.origin}/auth/reset-password`
+  })
 
-  if (error) throw error;
-  return data;
+  if (error) throw error
+  return data
 }
 
 async function updatePassword(newPassword: string) {
   const { data, error } = await supabase.auth.updateUser({
-    password: newPassword,
-  });
+    password: newPassword
+  })
 
-  if (error) throw error;
-  return data;
+  if (error) throw error
+  return data
 }
 ```
 
@@ -385,7 +379,6 @@ Topic: "auth jwt claims custom"
 ---
 
 Related Modules:
-
 - row-level-security.md - Auth integration with RLS
 - typescript-patterns.md - Type-safe auth patterns
 - edge-functions.md - Server-side auth verification

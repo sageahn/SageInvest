@@ -11,7 +11,6 @@ Retrieve all MFA enrollments for a user.
 Endpoint: GET /api/v2/users/{user_id}/enrollments
 
 Response includes:
-
 - Enrollment ID
 - Factor type
 - Status (confirmed, pending)
@@ -25,7 +24,6 @@ Remove a specific MFA enrollment.
 Endpoint: DELETE /api/v2/users/{user_id}/enrollments/{enrollment_id}
 
 Use cases:
-
 - User lost device
 - Factor replacement
 - Security incident response
@@ -37,7 +35,6 @@ Remove all MFA enrollments for a user.
 Endpoint: DELETE /api/v2/users/{user_id}/authenticators
 
 Effect:
-
 - Removes all enrolled factors
 - User must re-enroll on next MFA challenge
 - Recovery codes invalidated
@@ -49,7 +46,6 @@ Create new recovery codes for a user.
 Endpoint: POST /api/v2/users/{user_id}/recovery-code-regeneration
 
 Response:
-
 - New recovery codes array
 - Previous codes invalidated
 - User must store new codes
@@ -63,7 +59,6 @@ Initiate MFA challenge during authentication.
 Endpoint: POST /oauth/token (with mfa_token)
 
 Parameters:
-
 - mfa_token: Token from initial authentication
 - challenge_type: Factor type to challenge
 - authenticator_id: Specific enrollment (optional)
@@ -75,7 +70,6 @@ Initiate out-of-band challenge (push, SMS).
 Endpoint: POST /mfa/challenge
 
 Parameters:
-
 - mfa_token: MFA session token
 - challenge_type: oob
 - authenticator_id: Enrollment ID
@@ -88,7 +82,6 @@ Complete MFA verification.
 Endpoint: POST /oauth/token
 
 Parameters:
-
 - grant_type: mfa-oob or mfa-otp
 - mfa_token: MFA session token
 - otp: One-time password (for TOTP)
@@ -102,7 +95,6 @@ Parameters:
 Enroll user in MFA factor via API.
 
 Steps:
-
 1. Get enrollment ticket via Management API
 2. Generate enrollment data (QR, secret)
 3. Present to user for enrollment
@@ -115,7 +107,6 @@ Confirm pending enrollment.
 Endpoint: POST /mfa/associate
 
 Parameters:
-
 - mfa_token: Association token
 - otp: Verification code from new factor
 
@@ -126,7 +117,6 @@ Get configured MFA factors for tenant.
 Endpoint: GET /api/v2/guardian/factors
 
 Response includes:
-
 - Factor type
 - Enabled status
 - Configuration details
@@ -136,13 +126,11 @@ Response includes:
 ### Guardian (Push)
 
 Send push notification:
-
 - Endpoint handles notification delivery
 - Response includes challenge ID
 - Poll or webhook for response
 
 Guardian enrollment:
-
 - Generate enrollment ticket
 - Create QR code for app scanning
 - Confirm via app acknowledgment
@@ -150,7 +138,6 @@ Guardian enrollment:
 ### SMS/Voice
 
 Send verification code:
-
 - Endpoint triggers message delivery
 - Code valid for limited time
 - Rate limiting applies
@@ -158,7 +145,6 @@ Send verification code:
 ### TOTP
 
 Generate secret:
-
 - Create TOTP secret for enrollment
 - Encode as QR code or manual entry
 - Verify initial OTP to confirm
@@ -166,13 +152,11 @@ Generate secret:
 ### WebAuthn
 
 Create credential options:
-
 - Generate challenge
 - Define allowed authenticators
 - Set user verification requirement
 
 Verify credential:
-
 - Validate authenticator assertion
 - Confirm credential binding
 - Store public key
@@ -182,7 +166,6 @@ Verify credential:
 ### Enable User MFA Management
 
 Allow users to manage their own MFA:
-
 - View enrolled factors
 - Add new factors
 - Remove factors
@@ -191,7 +174,6 @@ Allow users to manage their own MFA:
 ### Implementation
 
 User MFA Portal:
-
 - Build custom UI or use Auth0 dashboard
 - Call Management API with user token
 - Implement proper authorization
@@ -202,7 +184,6 @@ User MFA Portal:
 ### Bulk MFA Reset
 
 Reset MFA for multiple users:
-
 - Export affected user list
 - Iterate with Management API
 - Log reset actions
@@ -211,7 +192,6 @@ Reset MFA for multiple users:
 ### MFA Enforcement
 
 Require MFA enrollment:
-
 - Use Rules or Actions
 - Check enrollment status
 - Redirect to enrollment if missing
@@ -220,7 +200,6 @@ Require MFA enrollment:
 ### Audit MFA Events
 
 Track MFA-related activities:
-
 - Enrollment events
 - Authentication events
 - Reset events
@@ -231,25 +210,21 @@ Track MFA-related activities:
 ### Common Errors
 
 mfa_required:
-
 - User needs to complete MFA
 - Provide mfa_token for challenge flow
 - Redirect to MFA flow
 
 invalid_otp:
-
 - OTP verification failed
 - May be expired or incorrect
 - Allow retry with rate limiting
 
 enrollment_not_found:
-
 - Requested enrollment does not exist
 - May be deleted or invalid ID
 - Handle gracefully
 
 rate_limited:
-
 - Too many MFA attempts
 - Implement backoff
 - Inform user of wait time
@@ -257,7 +232,6 @@ rate_limited:
 ### Error Response Handling
 
 Implement proper error handling:
-
 - Parse error codes
 - Display user-friendly messages
 - Log for debugging
@@ -266,21 +240,18 @@ Implement proper error handling:
 ## Security Considerations
 
 API Access:
-
 - Use appropriate API permissions
 - Implement rate limiting
 - Audit API usage
 - Rotate API credentials
 
 Token Handling:
-
 - MFA tokens are short-lived
 - Do not log sensitive tokens
 - Secure token storage
 - Implement proper expiration
 
 User Authorization:
-
 - Verify user identity before MFA changes
 - Require current authentication
 - Log administrative actions
@@ -289,21 +260,18 @@ User Authorization:
 ## Best Practices
 
 Implementation:
-
 - Use official SDKs when available
 - Implement proper error handling
 - Test all edge cases
 - Monitor API usage
 
 User Experience:
-
 - Clear error messages
 - Helpful enrollment guidance
 - Fallback options available
 - Support documentation
 
 Security:
-
 - Audit all MFA operations
 - Alert on mass resets
 - Monitor for abuse patterns

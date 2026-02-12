@@ -57,7 +57,6 @@ WITH (m = 16, ef_construction = 64);
 ```
 
 Parameters:
-
 - m: Maximum number of connections per layer (default 16, higher = more accurate but slower)
 - ef_construction: Size of dynamic candidate list during construction (default 64)
 
@@ -72,7 +71,6 @@ WITH (lists = 100);
 ```
 
 Guidelines for lists parameter:
-
 - Less than 1M rows: lists = rows / 1000
 - More than 1M rows: lists = sqrt(rows)
 
@@ -229,6 +227,5 @@ Topic: "postgresql full-text search tsvector"
 ---
 
 Related Modules:
-
 - row-level-security.md - Secure vector data access
 - typescript-patterns.md - Client-side search implementation

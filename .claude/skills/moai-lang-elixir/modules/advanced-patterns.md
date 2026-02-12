@@ -3,7 +3,6 @@
 ## Ecto Advanced Patterns
 
 Multi for Transactions:
-
 ```elixir
 def transfer_funds(from_account, to_account, amount) do
   Ecto.Multi.new()
@@ -21,7 +20,6 @@ end
 ```
 
 Query Composition:
-
 ```elixir
 defmodule MyApp.Accounts.UserQuery do
   import Ecto.Query
@@ -54,7 +52,6 @@ User
 ```
 
 Embedded Schemas:
-
 ```elixir
 defmodule MyApp.Order do
   use Ecto.Schema
@@ -62,7 +59,7 @@ defmodule MyApp.Order do
 
   schema "orders" do
     field :status, :string
-    embeds_one :shipping_address, Address, on_replace: :update
+    embeds_one :shipping_adddess, Adddess, on_replace: :update
     embeds_many :items, Item, on_replace: :delete
 
     timestamps()
@@ -71,12 +68,12 @@ defmodule MyApp.Order do
   def changeset(order, attrs) do
     order
     |> cast(attrs, [:status])
-    |> cast_embed(:shipping_address, required: true)
+    |> cast_embed(:shipping_adddess, required: true)
     |> cast_embed(:items, required: true)
   end
 end
 
-defmodule MyApp.Order.Address do
+defmodule MyApp.Order.Adddess do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -86,8 +83,8 @@ defmodule MyApp.Order.Address do
     field :zip, :string
   end
 
-  def changeset(address, attrs) do
-    address
+  def changeset(adddess, attrs) do
+    adddess
     |> cast(attrs, [:street, :city, :zip])
     |> validate_required([:street, :city, :zip])
   end
@@ -97,7 +94,6 @@ end
 ## OTP Advanced Patterns
 
 Supervisor Tree:
-
 ```elixir
 defmodule MyApp.Application do
   use Application
@@ -121,7 +117,6 @@ end
 ```
 
 Dynamic Supervisor:
-
 ```elixir
 defmodule MyApp.WorkerSupervisor do
   use DynamicSupervisor
@@ -147,7 +142,6 @@ end
 ```
 
 Registry for Named Processes:
-
 ```elixir
 # Start registry in application supervision tree
 {Registry, keys: :unique, name: MyApp.Registry}
@@ -173,7 +167,6 @@ end
 ## ExUnit Advanced Testing
 
 Async Tests with Setup:
-
 ```elixir
 defmodule MyApp.AccountsTest do
   use MyApp.DataCase, async: true
@@ -206,7 +199,6 @@ end
 ```
 
 LiveView Testing:
-
 ```elixir
 defmodule MyAppWeb.CounterLiveTest do
   use MyAppWeb.ConnCase
@@ -232,7 +224,6 @@ end
 ## Oban Background Jobs
 
 Job Worker:
-
 ```elixir
 defmodule MyApp.Workers.EmailWorker do
   use Oban.Worker, queue: :mailers, max_attempts: 3
@@ -258,7 +249,6 @@ end
 ```
 
 Unique Jobs:
-
 ```elixir
 defmodule MyApp.Workers.UniqueWorker do
   use Oban.Worker,
@@ -276,7 +266,6 @@ end
 ## Production Deployment
 
 Releases Configuration:
-
 ```elixir
 # config/runtime.exs
 import Config
@@ -301,7 +290,6 @@ end
 ```
 
 Dockerfile:
-
 ```dockerfile
 FROM elixir:1.17-alpine AS build
 
@@ -342,7 +330,6 @@ CMD ["bin/my_app", "start"]
 ## Distributed Systems with libcluster
 
 Cluster Configuration:
-
 ```elixir
 # config/prod.exs
 config :libcluster,
@@ -358,7 +345,6 @@ config :libcluster,
 ```
 
 Distributed GenServer:
-
 ```elixir
 defmodule MyApp.DistributedCache do
   use GenServer
@@ -390,7 +376,6 @@ end
 ## Telemetry and Observability
 
 Telemetry Events:
-
 ```elixir
 defmodule MyApp.Telemetry do
   require Logger
@@ -425,7 +410,6 @@ end
 ## Advanced LiveView Patterns
 
 LiveView Streams:
-
 ```elixir
 defmodule MyAppWeb.PostsLive do
   use MyAppWeb, :live_view
@@ -455,7 +439,6 @@ end
 ```
 
 LiveView Components:
-
 ```elixir
 defmodule MyAppWeb.Components.Modal do
   use Phoenix.Component
@@ -487,7 +470,6 @@ end
 ## Security Best Practices
 
 Authentication with Guardian:
-
 ```elixir
 defmodule MyApp.Guardian do
   use Guardian, otp_app: :my_app
@@ -518,7 +500,6 @@ end
 ```
 
 Input Validation:
-
 ```elixir
 defmodule MyApp.Accounts.UserValidator do
   import Ecto.Changeset
