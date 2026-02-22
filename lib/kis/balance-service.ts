@@ -26,9 +26,9 @@ export class KISBalanceService {
   private cache: Map<string, { data: BalanceResponse; expiresAt: number }> = new Map();
   private readonly CACHE_TTL_MS = 30000;
 
-  constructor(environment: KISEnvironment, appKey: string) {
+  constructor(environment: KISEnvironment, appKey: string, appSecret: string) {
     this.environment = environment;
-    this.middleware = new KISAuthMiddleware(environment, appKey);
+    this.middleware = new KISAuthMiddleware(environment, appKey, appSecret);
   }
 
   /**
@@ -124,8 +124,14 @@ export class KISBalanceService {
         url,
         params,
         needsAuth: true,
+        trId: this.environment === 'production' ? 'TTTC8434R' : 'VTTC8434R',
       });
 
+      // KIS API 비즈니스 에러 체크 (rt_cd !== '0'이면 실패)
+      const data = apiResponse.data as any;
+      if (data.rt_cd && data.rt_cd !== '0') {
+        throw new Error(`KIS API 에러: ${data.msg1 || data.msg_cd || '알 수 없는 오류'}`);
+      }
       return apiResponse.data;
     } catch (error) {
       console.error('KIS Balance API Error:', error);

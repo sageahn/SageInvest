@@ -45,7 +45,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     // 스크리닝 서비스 생성
     const appKey = config.app_key;
-    const screeningService = new MASScreeningService(config.environment, appKey);
+    const appSecret = config.app_secret;
+    const screeningService = new MASScreeningService(config.environment, appKey, appSecret);
 
     // 단일 종목 스크리닝 수행
     const result = await screeningService.screenSingleStock(code, maPeriod);

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
@@ -16,7 +16,11 @@ export const metadata: Metadata = {
   description: '개인 투자 자산 관리 대시보드 - KIS OpenAPI 기반',
   keywords: ['투자', '자산관리', 'KIS', '한국투자증권', '대시보드'],
   authors: [{ name: 'SageInvest Team' }],
-  viewport: 'width=device-width, initial-scale=1',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -25,8 +29,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body className={`${geist.variable} ${jetbrainsMono.variable}`}>{children}</body>
+    <html lang="ko" suppressHydrationWarning>
+      <body className={`${geist.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }

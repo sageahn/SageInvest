@@ -104,7 +104,7 @@ describe('MASScreeningService (SPEC-SCREENING-001)', () => {
   ];
 
   beforeAll(() => {
-    service = new MASScreeningService('mock', testAppKey);
+    service = new MASScreeningService('mock', testAppKey, 'test-app-secret');
   });
 
   describe('screenPortfolio', () => {
@@ -169,7 +169,7 @@ describe('MASScreeningService (SPEC-SCREENING-001)', () => {
       // Here we just verify the service correctly propagates null results
 
       // Create a fresh service
-      const freshService = new MASScreeningService('mock', testAppKey);
+      const freshService = new MASScreeningService('mock', testAppKey, 'test-app-secret');
 
       // Clear cache to ensure fresh results
       freshService.clearCache();

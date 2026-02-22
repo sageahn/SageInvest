@@ -33,9 +33,9 @@ export class KISMovingAverageService {
   private cache: Map<string, { data: MovingAverageComparison; expiresAt: number }> = new Map();
   private readonly CACHE_TTL_MS = 30000;
 
-  constructor(environment: KISEnvironment, appKey: string) {
+  constructor(environment: KISEnvironment, appKey: string, appSecret: string) {
     this.environment = environment;
-    this.middleware = new KISAuthMiddleware(environment, appKey);
+    this.middleware = new KISAuthMiddleware(environment, appKey, appSecret);
   }
 
   /**

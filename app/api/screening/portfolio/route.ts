@@ -47,8 +47,9 @@ export async function POST(request: NextRequest) {
 
     // 서비스 인스턴스 생성
     const appKey = config.app_key;
-    const balanceService = new KISBalanceService(config.environment, appKey);
-    const screeningService = new MASScreeningService(config.environment, appKey);
+    const appSecret = config.app_secret;
+    const balanceService = new KISBalanceService(config.environment, appKey, appSecret);
+    const screeningService = new MASScreeningService(config.environment, appKey, appSecret);
 
     // 1. 계좌 잔고에서 보유 종목 조회
     const balance = await balanceService.getBalance(cano, acntPrdtCd);

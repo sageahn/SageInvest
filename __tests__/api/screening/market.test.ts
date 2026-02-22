@@ -22,8 +22,11 @@ import { configRepository } from '@/lib/kis/config-repository';
 
 describe('Market Screening API', () => {
   const mockConfig = {
-    environment: 'real',
+    environment: 'mock' as const,
     app_key: 'test-app-key',
+    app_secret: 'test-app-secret',
+    created_at: new Date(),
+    updated_at: new Date(),
   };
 
   const mockScreeningResponse = {

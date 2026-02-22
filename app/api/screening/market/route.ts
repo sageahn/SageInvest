@@ -67,7 +67,8 @@ export async function POST(request: NextRequest) {
 
     // 스크리닝 서비스 생성
     const appKey = config.app_key;
-    const screeningService = new MASScreeningService(config.environment, appKey);
+    const appSecret = config.app_secret;
+    const screeningService = new MASScreeningService(config.environment, appKey, appSecret);
 
     // 시장 스크리닝 수행
     const screeningResponse = await screeningService.screenMarket(uniqueStockCodes, period);

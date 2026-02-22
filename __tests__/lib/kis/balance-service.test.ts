@@ -48,18 +48,18 @@ describe('KISBalanceService (SPEC-KIS-002)', () => {
   let service: KISBalanceService;
 
   beforeAll(() => {
-    service = new KISBalanceService('mock', testAppKey);
+    service = new KISBalanceService('mock', testAppKey, 'test-app-secret');
   });
 
   describe('getTrId', () => {
     it('should return TTTC8434R for production environment', () => {
-      const prodService = new KISBalanceService('production', testAppKey);
+      const prodService = new KISBalanceService('production', testAppKey, 'test-app-secret');
       // Private 메서드 직접 테스트는 불가능하므로 public 메서드를 통해 간접 테스트
       expect(prodService).toBeDefined();
     });
 
     it('should return VTTC8434R for mock environment', () => {
-      const mockService = new KISBalanceService('mock', testAppKey);
+      const mockService = new KISBalanceService('mock', testAppKey, 'test-app-secret');
       expect(mockService).toBeDefined();
     });
   });

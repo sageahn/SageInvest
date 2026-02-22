@@ -31,7 +31,7 @@ describe('KISStockInfoClient (SPEC-SCREENING-001)', () => {
   let client: KISStockInfoClient;
 
   beforeAll(() => {
-    client = new KISStockInfoClient('mock', testAppKey);
+    client = new KISStockInfoClient('mock', testAppKey, 'test-app-secret');
   });
 
   describe('getStockInfo', () => {
@@ -59,7 +59,7 @@ describe('KISStockInfoClient (SPEC-SCREENING-001)', () => {
 
     it('should detect KOSDAQ market correctly', async () => {
       // Mock KOSDAQ response
-      const mockClient = new KISStockInfoClient('mock', testAppKey);
+      const mockClient = new KISStockInfoClient('mock', testAppKey, 'test-app-secret');
       vi.mocked(mockClient['middleware'].makeRequest).mockResolvedValueOnce({
         data: {
           output: {
@@ -100,7 +100,7 @@ describe('KISStockInfoClient (SPEC-SCREENING-001)', () => {
 
   describe('Caching', () => {
     it('should cache stock info data', async () => {
-      const freshClient = new KISStockInfoClient('mock', testAppKey);
+      const freshClient = new KISStockInfoClient('mock', testAppKey, 'test-app-secret');
 
       // First call
       await freshClient.getStockInfo('005930');
@@ -125,12 +125,12 @@ describe('KISStockInfoClient (SPEC-SCREENING-001)', () => {
 
   describe('TR_ID', () => {
     it('should use VCTPF1602R for mock environment', () => {
-      const mockClient = new KISStockInfoClient('mock', testAppKey);
+      const mockClient = new KISStockInfoClient('mock', testAppKey, 'test-app-secret');
       expect(mockClient).toBeDefined();
     });
 
     it('should use CTPF1602R for production environment', () => {
-      const prodClient = new KISStockInfoClient('production', testAppKey);
+      const prodClient = new KISStockInfoClient('production', testAppKey, 'test-app-secret');
       expect(prodClient).toBeDefined();
     });
   });

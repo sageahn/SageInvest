@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
-type MenuKey = 'dashboard' | 'portfolio' | 'settings' | 'kis-settings';
+type MenuKey = 'dashboard' | 'portfolio' | 'watchlist' | 'settings' | 'kis-settings';
 
 interface AppShellProps {
   active: MenuKey;
@@ -22,6 +22,7 @@ const menus: Array<{
 }> = [
   { key: 'dashboard', href: '/dashboard', label: '대시보드' },
   { key: 'portfolio', href: '/kis/portfolio', label: '포트폴리오' },
+  { key: 'watchlist', href: '/watchlist', label: '관심 종목' },
   {
     key: 'settings',
     label: '설정',

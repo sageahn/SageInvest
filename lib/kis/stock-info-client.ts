@@ -33,9 +33,9 @@ export class KISStockInfoClient {
   private cache: Map<string, { data: StockBasicInfo; expiresAt: number }> = new Map();
   private readonly CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 1일
 
-  constructor(environment: KISEnvironment, appKey: string) {
+  constructor(environment: KISEnvironment, appKey: string, appSecret: string) {
     this.environment = environment;
-    this.middleware = new KISAuthMiddleware(environment, appKey);
+    this.middleware = new KISAuthMiddleware(environment, appKey, appSecret);
   }
 
   /**

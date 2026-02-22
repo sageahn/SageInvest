@@ -35,9 +35,9 @@ export class KISPriceHistoryClient {
   private readonly CACHE_TTL_MS_MARKET_OPEN = 5 * 60 * 1000; // 5분
   private readonly CACHE_TTL_MS_MARKET_CLOSED = 60 * 60 * 1000; // 1시간
 
-  constructor(environment: KISEnvironment, appKey: string) {
+  constructor(environment: KISEnvironment, appKey: string, appSecret: string) {
     this.environment = environment;
-    this.middleware = new KISAuthMiddleware(environment, appKey);
+    this.middleware = new KISAuthMiddleware(environment, appKey, appSecret);
   }
 
   /**

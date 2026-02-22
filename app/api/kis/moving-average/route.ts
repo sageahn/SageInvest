@@ -32,7 +32,8 @@ export async function GET(request: NextRequest) {
 
     // 이동평균선 서비스 생성
     const appKey = config.app_key;
-    const maService = new KISMovingAverageService(config.environment, appKey);
+    const appSecret = config.app_secret;
+    const maService = new KISMovingAverageService(config.environment, appKey, appSecret);
 
     // 이동평균선 비교 분석
     const comparison = await maService.compareSingleStock(stockCode, stockName, forceRefresh);

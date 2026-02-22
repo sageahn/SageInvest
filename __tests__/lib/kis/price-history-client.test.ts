@@ -52,7 +52,7 @@ describe('KISPriceHistoryClient (SPEC-SCREENING-001)', () => {
   let client: KISPriceHistoryClient;
 
   beforeAll(() => {
-    client = new KISPriceHistoryClient('mock', testAppKey);
+    client = new KISPriceHistoryClient('mock', testAppKey, 'test-app-secret');
   });
 
   describe('getPriceHistory', () => {
@@ -98,7 +98,7 @@ describe('KISPriceHistoryClient (SPEC-SCREENING-001)', () => {
     });
 
     it('should return empty array when no data', async () => {
-      const mockClient = new KISPriceHistoryClient('mock', testAppKey);
+      const mockClient = new KISPriceHistoryClient('mock', testAppKey, 'test-app-secret');
       vi.mocked(mockClient['middleware'].makeRequest).mockResolvedValueOnce({
         data: {
           output2: null,
@@ -134,7 +134,7 @@ describe('KISPriceHistoryClient (SPEC-SCREENING-001)', () => {
 
   describe('Caching', () => {
     it('should cache price history data', async () => {
-      const freshClient = new KISPriceHistoryClient('mock', testAppKey);
+      const freshClient = new KISPriceHistoryClient('mock', testAppKey, 'test-app-secret');
 
       const startDate = new Date(2026, 1, 20);
       const endDate = new Date(2026, 1, 22);
@@ -172,8 +172,8 @@ describe('KISPriceHistoryClient (SPEC-SCREENING-001)', () => {
 
   describe('TR_ID', () => {
     it('should use FHKST03010100 for both environments', () => {
-      const mockClient = new KISPriceHistoryClient('mock', testAppKey);
-      const prodClient = new KISPriceHistoryClient('production', testAppKey);
+      const mockClient = new KISPriceHistoryClient('mock', testAppKey, 'test-app-secret');
+      const prodClient = new KISPriceHistoryClient('production', testAppKey, 'test-app-secret');
 
       expect(mockClient).toBeDefined();
       expect(prodClient).toBeDefined();

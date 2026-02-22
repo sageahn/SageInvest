@@ -24,9 +24,9 @@ export class MASScreeningService {
   private cache: Map<string, { data: ScreeningResponse; expiresAt: number }> = new Map();
   private readonly CACHE_TTL_MS = 5 * 60 * 1000; // 5분
 
-  constructor(environment: KISEnvironment, appKey: string) {
-    this.stockInfoClient = new KISStockInfoClient(environment, appKey);
-    this.priceHistoryClient = new KISPriceHistoryClient(environment, appKey);
+  constructor(environment: KISEnvironment, appKey: string, appSecret: string) {
+    this.stockInfoClient = new KISStockInfoClient(environment, appKey, appSecret);
+    this.priceHistoryClient = new KISPriceHistoryClient(environment, appKey, appSecret);
     this.breakthroughDetector = new BreakthroughDetector();
   }
 

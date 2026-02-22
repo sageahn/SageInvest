@@ -18,9 +18,16 @@ export default function PortfolioPage() {
   const fetchPortfolio = async (forceRefresh = false) => {
     setLoading(true);
     setError(null);
+
+    // KIS API가 느릴 수 있으므로 타임아웃을 180초로 설정
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 180000); // 180초
+
     try {
       const url = forceRefresh ? '/api/kis/balance?forceRefresh=true' : '/api/kis/balance';
-      const response = await fetch(url);
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
         const err = (await response.json()) as { error?: string };
         throw new Error(err.error || '잔고조회 실패');
@@ -31,7 +38,12 @@ export default function PortfolioPage() {
       setHoldings(data.data.holdings);
       setSummary(data.data.summary);
     } catch (err) {
-      setError(err instanceof Error ? err.message : '잔고조회 실패');
+      clearTimeout(timeoutId);
+      if (err instanceof Error && err.name === 'AbortError') {
+        setError('요청 시간이 초과되었습니다. 다시 시도해주세요.');
+      } else {
+        setError(err instanceof Error ? err.message : '잔고조회 실패');
+      }
       setHoldings([]);
       setSummary(null);
     } finally {

@@ -21,8 +21,9 @@ export async function GET() {
 
     // 3. 잔고 조회 서비스 생성
     const appKey = config.app_key;
+    const appSecret = config.app_secret;
 
-    const balanceService = new KISBalanceService(config.environment, appKey);
+    const balanceService = new KISBalanceService(config.environment, appKey, appSecret);
 
     // 4. 계좌 요약만 조회 (경량)
     const summary = await balanceService.getAccountSummary(account.cano, account.acntPrdtCd);
