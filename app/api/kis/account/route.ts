@@ -71,6 +71,15 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('Account save failed:', error);
 
+    // 암호화 키 관련 에러
+    if (error.message?.includes('KIS_ENCRYPTION_KEY')) {
+      console.error('Encryption key error. Please check KIS_ENCRYPTION_KEY in .env file');
+      return NextResponse.json(
+        { error: '암호화 키 설정 오류. 관리자에게 문의하세요.' },
+        { status: 500 }
+      );
+    }
+
     // 중복 저장 오류 처리
     if (error.code === '23505') {
       return NextResponse.json({ error: '이미 저장된 계좌번호가 있습니다' }, { status: 409 });

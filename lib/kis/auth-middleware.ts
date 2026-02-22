@@ -62,8 +62,8 @@ export class KISAuthMiddleware {
           config.headers['hash'] = hash;
         }
 
-        // Log request
-        await logger.logRequest({
+        // Log request (fire-and-forget for performance)
+        logger.logRequest({
           request_id: requestId,
           endpoint: config.url || '',
           method: config.method?.toUpperCase() || 'GET',
@@ -98,8 +98,8 @@ export class KISAuthMiddleware {
       async (error: AxiosError) => {
         const requestId = error.config?.headers?.['X-Request-ID'] as string;
 
-        // Log error response
-        await logger.logResponse({
+        // Log error response (fire-and-forget for performance)
+        logger.logResponse({
           request_id: requestId,
           response_status: error.response?.status || 0,
           response_body: JSON.stringify(error.response?.data || {}),

@@ -33,13 +33,18 @@ export const pool = {
   query: (text: string, params?: any[]) => getPool().query(text, params),
 };
 
+// Check if query logging is enabled (default: false for production)
+const DB_LOG_QUERIES = process.env.DB_LOG_QUERIES === 'true';
+
 export async function query(text: string, params?: any[]): Promise<any> {
   const pool = getPool();
   const start = Date.now();
   try {
     const res = await pool.query(text, params);
     const duration = Date.now() - start;
-    console.log('Executed query', { text, duration, rows: res.rowCount });
+    if (DB_LOG_QUERIES) {
+      console.log('Executed query', { text, duration, rows: res.rowCount });
+    }
     return res;
   } catch (error) {
     console.error('Database query error', { text, error });

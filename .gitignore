@@ -118,6 +118,10 @@ logs/
 *-backup/
 *_backup_*/
 
+# DB Backups - keep sync file, ignore timestamped backups
+.db-backups/*.dump
+!.db-backups/sageinvest-sync.dump
+
 # ===========================================
 # Secrets and Credentials (CRITICAL)
 # ===========================================

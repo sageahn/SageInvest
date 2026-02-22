@@ -17,7 +17,10 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:push": "./scripts/db-sync.sh push",
+    "db:pull": "./scripts/db-sync.sh pull",
+    "db:status": "./scripts/db-sync.sh status"
   },
   "keywords": [],
   "author": "",
