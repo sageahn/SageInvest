@@ -109,7 +109,95 @@ export interface KISAccountSettingsMasked {
 }
 
 // ============================================================================
-// End of SPEC-KIS-002 Types
+// SPEC-KIS-003: Moving Average Comparison Types
+// ============================================================================
+
+/**
+ * 이동평균선 값 및 신호
+ * Moving Average value with comparison signal
+ */
+export interface MovingAverageValue {
+  value: number | null; // null if insufficient data
+  signal: 'above' | 'below' | 'na'; // 전일종가 대비 신호
+}
+
+/**
+ * 일봉 이동평균선 (5, 10, 20, 60, 80, 120, 240일)
+ * Daily Moving Averages
+ */
+export interface DailyMA {
+  ma5: MovingAverageValue;
+  ma10: MovingAverageValue;
+  ma20: MovingAverageValue;
+  ma60: MovingAverageValue;
+  ma80: MovingAverageValue;
+  ma120: MovingAverageValue;
+  ma240: MovingAverageValue;
+}
+
+/**
+ * 주봉 이동평균선 (5, 10, 20, 60주)
+ * Weekly Moving Averages
+ */
+export interface WeeklyMA {
+  ma5: MovingAverageValue;
+  ma10: MovingAverageValue;
+  ma20: MovingAverageValue;
+  ma60: MovingAverageValue;
+}
+
+/**
+ * 월봉 이동평균선 (5, 10, 20월)
+ * Monthly Moving Averages
+ */
+export interface MonthlyMA {
+  ma5: MovingAverageValue;
+  ma10: MovingAverageValue;
+  ma20: MovingAverageValue;
+}
+
+/**
+ * 이동평균선 비교 결과
+ * Moving Average Comparison Result
+ */
+export interface MovingAverageComparison {
+  stockCode: string; // 종목코드 (6자리)
+  stockName: string; // 종목명
+  previousClose: number; // 전일 종가
+  dailyMA: DailyMA; // 일봉 이동평균선
+  weeklyMA: WeeklyMA; // 주봉 이동평균선
+  monthlyMA: MonthlyMA; // 월봉 이동평균선
+  lastUpdated: Date; // 데이터 조회 시각
+}
+
+/**
+ * KIS API 차트 캔들 데이터 (일봉/주봉/월봉 공통)
+ * Chart candle data from KIS API
+ */
+export interface KISChartCandle {
+  stck_bsop_date: string; // 영업 일자 (YYYYMMDD)
+  stck_oprc: string; // 시가
+  stck_hgpr: string; // 고가
+  stck_lwpr: string; // 저가
+  stck_clpr: string; // 종가
+  acml_vol: string; // 누적 거래량
+  acml_tr_pbmn: string; // 누적 거래 대금
+}
+
+/**
+ * KIS API 차트 응답
+ * Chart API Response
+ */
+export interface KISChartApiResponse {
+  rt_cd: string; // 응답 코드
+  msg_cd: string; // 메시지 코드
+  msg1: string; // 메시지
+  output1?: any; // 헤더 정보
+  output2: KISChartCandle[]; // 캔들 배열
+}
+
+// ============================================================================
+// End of SPEC-KIS-003 Types
 // ============================================================================
 
 export interface KISAuthToken {
