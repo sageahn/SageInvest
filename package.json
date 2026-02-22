@@ -22,7 +22,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "@types/node": "^25.0.9",
     "@types/node-cron": "^3.0.11",

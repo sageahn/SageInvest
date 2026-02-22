@@ -1,9 +1,8 @@
 project:
-  name: SageInvest
-  description: ''
-  type: ''
-  locale: '{{LOCALE}}'
-  created_at: '2026-01-16T23:22:32.323638Z'
-  initialized: 'true'
-github:
-  profile_name: sageahn
+    created_at: "2026-01-16T23:22:32.323638Z"
+    description: ""
+    initialized: true
+    mode: personal
+    name: SageInvest
+    optimized: false
+    template_version: 2.4.6

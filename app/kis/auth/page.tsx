@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import AppShell from '@/app/components/app-shell';
 import { KISAuthToken, KISConfig } from '@/lib/kis/types';
 
 export default function KISAuthPage() {
@@ -11,9 +12,23 @@ export default function KISAuthPage() {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [currentConfig, setCurrentConfig] = useState<KISConfig | null>(null);
   const [currentToken, setCurrentToken] = useState<KISAuthToken | null>(null);
-  const [timeRemaining, setTimeRemaining] = useState<string>('');
+  const [timeRemaining, setTimeRemaining] = useState('');
 
   useEffect(() => {
+    const fetchCurrentStatus = async () => {
+      const [configRes, tokenRes] = await Promise.all([
+        fetch('/api/kis/config'),
+        fetch('/api/kis/status'),
+      ]);
+      if (configRes.ok) {
+        const config = (await configRes.json()) as KISConfig | null;
+        setCurrentConfig(config);
+      }
+      if (tokenRes.ok) {
+        const tokenData = (await tokenRes.json()) as { token?: KISAuthToken };
+        setCurrentToken(tokenData.token || null);
+      }
+    };
     fetchCurrentStatus();
     const interval = setInterval(fetchCurrentStatus, 5000);
     return () => clearInterval(interval);
@@ -24,106 +39,53 @@ export default function KISAuthPage() {
       setTimeRemaining('');
       return;
     }
-
-    const updateTimer = () => {
-      const now = new Date();
-      const diff = new Date(currentToken.expires_at).getTime() - now.getTime();
-
+    const timer = setInterval(() => {
+      const diff = new Date(currentToken.expires_at).getTime() - Date.now();
       if (diff <= 0) {
         setTimeRemaining('만료됨');
         return;
       }
-
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-      setTimeRemaining(`${hours}시간 ${minutes}분 ${seconds}초`);
-    };
-
-    updateTimer();
-    const timer = setInterval(updateTimer, 1000);
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      setTimeRemaining(`${h}시간 ${m}분 ${s}초`);
+    }, 1000);
     return () => clearInterval(timer);
   }, [currentToken]);
 
-  const fetchCurrentStatus = async () => {
-    try {
-      const [configRes, tokenRes] = await Promise.all([
-        fetch('/api/kis/config'),
-        fetch('/api/kis/status'),
-      ]);
-
-      if (configRes.ok) {
-        const config = (await configRes.json()) as Partial<KISConfig> | null;
-        if (config) {
-          setCurrentConfig({
-            app_key: config.app_key || '',
-            app_secret: config.app_secret || '',
-            environment: (config.environment as any) || 'production',
-            created_at: config.created_at || new Date(),
-            updated_at: config.updated_at || new Date(),
-          });
-        } else {
-          setCurrentConfig(null);
-        }
-      }
-
-      if (tokenRes.ok) {
-        const data = (await tokenRes.json()) as { token?: any };
-        setCurrentToken(data.token);
-      }
-    } catch (error) {
-      console.error(
-        'Failed to fetch status:',
-        error instanceof Error ? error.message : String(error)
-      );
-    }
-  };
-
-  const handleAuthenticate = async () => {
+  const authenticate = async () => {
     if (appKey.length !== 36 || appSecret.length !== 180) {
-      setMessage({ type: 'error', text: 'AppKey(36자)와 AppSecret(180자)를 정확히 입력해주세요.' });
+      setMessage({ type: 'error', text: 'AppKey(36) / AppSecret(180) 길이를 확인해주세요.' });
       return;
     }
-
     setLoading(true);
     setMessage(null);
-
     try {
       const response = await fetch('/api/kis/authenticate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ appKey, appSecret, environment }),
       });
-
-      if (!response.ok) {
-        throw new Error('인증 실패');
-      }
-
-      const data = (await response.json()) as { token?: any };
-      setCurrentToken(data.token);
-      setMessage({ type: 'success', text: '인증 성공! 토큰이 발급되었습니다.' });
+      if (!response.ok) throw new Error();
+      const data = (await response.json()) as { token?: KISAuthToken };
+      setCurrentToken(data.token || null);
+      setMessage({ type: 'success', text: '인증 성공' });
       setAppSecret('');
     } catch {
-      setMessage({ type: 'error', text: '인증 실패. 설정을 확인해주세요.' });
+      setMessage({ type: 'error', text: '인증 실패' });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleRefresh = async () => {
+  const refreshToken = async () => {
     setLoading(true);
-
     try {
       const response = await fetch('/api/kis/refresh', { method: 'POST' });
-
-      if (!response.ok) {
-        throw new Error('토큰 갱신 실패');
-      }
-
-      const data = (await response.json()) as { token?: any };
-      setCurrentToken(data.token);
-      setMessage({ type: 'success', text: '토큰이 갱신되었습니다.' });
+      if (!response.ok) throw new Error();
+      const data = (await response.json()) as { token?: KISAuthToken };
+      setCurrentToken(data.token || null);
+      setMessage({ type: 'success', text: '토큰 갱신 완료' });
     } catch {
       setMessage({ type: 'error', text: '토큰 갱신 실패' });
     } finally {
@@ -132,148 +94,71 @@ export default function KISAuthPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">KIS API 인증</h1>
-
-      <div className="max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Authentication Form */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold mb-4">인증 정보 입력</h2>
-
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">App Key</label>
-              <input
-                type="text"
-                value={appKey}
-                onChange={(e) => setAppKey((e.target as HTMLInputElement).value)}
-                placeholder="36자 App Key"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                maxLength={36}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">App Secret</label>
-              <input
-                type="password"
-                value={appSecret}
-                onChange={(e) => setAppSecret((e.target as HTMLInputElement).value)}
-                placeholder="180자 App Secret"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                maxLength={180}
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">환경</label>
-              <select
-                value={environment}
-                onChange={(e) =>
-                  setEnvironment((e.target as HTMLSelectElement).value as 'production' | 'mock')
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="production">Production (실전)</option>
-                <option value="mock">Mock (모의투자)</option>
-              </select>
-            </div>
-
-            {message && (
-              <div
-                className={`p-3 rounded-md ${
-                  message.type === 'success'
-                    ? 'bg-green-50 text-green-800 border border-green-200'
-                    : 'bg-red-50 text-red-800 border border-red-200'
-                }`}
-              >
-                {message.text}
-              </div>
-            )}
-
-            <button
-              onClick={handleAuthenticate}
-              disabled={loading || !appKey || !appSecret}
-              className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
-            >
-              {loading ? '인증 중...' : '인증하기'}
-            </button>
+    <AppShell active="auth" title="KIS 인증" subtitle="인증 정보 입력과 토큰 상태를 확인합니다.">
+      <div className="si-grid-2">
+        <section className="si-card">
+          <h3 style={{ marginTop: 0 }}>인증 정보 입력</h3>
+          <div className="si-field">
+            <label className="si-label">App Key</label>
+            <input
+              className="si-input"
+              value={appKey}
+              onChange={(e) => setAppKey(e.target.value)}
+              maxLength={36}
+              placeholder="36자 App Key"
+            />
           </div>
-        </div>
+          <div className="si-field">
+            <label className="si-label">App Secret</label>
+            <input
+              className="si-input"
+              type="password"
+              value={appSecret}
+              onChange={(e) => setAppSecret(e.target.value)}
+              maxLength={180}
+              placeholder="180자 App Secret"
+            />
+          </div>
+          <div className="si-field">
+            <label className="si-label">환경</label>
+            <select
+              className="si-select"
+              value={environment}
+              onChange={(e) => setEnvironment(e.target.value as 'production' | 'mock')}
+            >
+              <option value="production">Production</option>
+              <option value="mock">Mock</option>
+            </select>
+          </div>
+          <button className="si-btn si-btn-primary" onClick={authenticate} disabled={loading}>
+            인증하기
+          </button>
+        </section>
 
-        {/* Current Connection Info */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold mb-4">현재 연결 정보</h2>
-
-          {currentConfig ? (
-            <div className="space-y-3">
-              <div className="flex justify-between">
-                <span className="text-gray-600">App Key:</span>
-                <span className="font-mono text-sm">
-                  {currentConfig.app_key.substring(0, 8)}...
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-gray-600">환경:</span>
-                <span>{currentConfig.environment}</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-gray-600">상태:</span>
-                <span className="text-green-600 font-medium">구성됨</span>
-              </div>
-            </div>
-          ) : (
-            <p className="text-gray-500">구성된 설정이 없습니다</p>
-          )}
-
-          <hr className="my-4" />
-
+        <section className="si-card">
+          <h3 style={{ marginTop: 0 }}>현재 연결 정보</h3>
+          <p>환경: {currentConfig?.environment || '미설정'}</p>
+          <p>App Key: {currentConfig?.app_key ? `${currentConfig.app_key.slice(0, 8)}...` : '-'}</p>
           {currentToken ? (
-            <div className="space-y-3">
-              <h3 className="font-medium">토큰 정보</h3>
-
-              <div className="flex justify-between">
-                <span className="text-gray-600">유형:</span>
-                <span>{currentToken.token_type}</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-gray-600">만료까지:</span>
-                <span className={timeRemaining === '만료됨' ? 'text-red-600' : 'text-green-600'}>
-                  {timeRemaining}
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-gray-600">발급시간:</span>
-                <span className="text-sm">
-                  {new Date(currentToken.expires_at).toLocaleString()}
-                </span>
-              </div>
-
-              <button
-                onClick={handleRefresh}
-                disabled={loading}
-                className="w-full px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50"
-              >
-                {loading ? '갱신 중...' : '토큰 갱신'}
+            <>
+              <p>토큰 유형: {currentToken.token_type}</p>
+              <p>만료까지: {timeRemaining}</p>
+              <button className="si-btn si-btn-secondary" onClick={refreshToken} disabled={loading}>
+                토큰 갱신
               </button>
-            </div>
+              <div className="si-message success" style={{ marginTop: 12 }}>
+                현재 연결 상태: 정상. 토큰 유효 시간을 기준으로 자동 상태가 갱신됩니다.
+              </div>
+            </>
           ) : (
-            <div className="text-center py-4">
-              <p className="text-gray-500 mb-4">발급된 토큰이 없습니다</p>
-              <a
-                href="/kis/settings"
-                className="inline-block px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
-              >
-                설정 페이지로
-              </a>
+            <div className="si-message error" style={{ marginTop: 12 }}>
+              발급된 토큰이 없습니다. 먼저 인증을 진행해주세요.
             </div>
           )}
-        </div>
+        </section>
       </div>
-    </div>
+
+      {message && <div className={`si-message ${message.type}`}>{message.text}</div>}
+    </AppShell>
   );
 }
