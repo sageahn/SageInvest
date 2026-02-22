@@ -24,10 +24,9 @@ export async function GET(request: NextRequest) {
     }
 
     // 3. 잔고 조회 서비스 생성
-    const { app_secret: appSecret } = config;
     const appKey = config.app_key; // 이미 복호화된 상태
 
-    const balanceService = new KISBalanceService(config.environment, appKey, appSecret);
+    const balanceService = new KISBalanceService(config.environment, appKey);
 
     // 4. 잔고 조회
     const balance = await balanceService.getBalance(account.cano, account.acntPrdtCd, forceRefresh);
