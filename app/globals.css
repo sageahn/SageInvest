@@ -73,6 +73,40 @@ a {
   color: var(--foreground);
 }
 
+.si-nav-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.si-nav-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.si-nav-arrow {
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+
+.si-nav-submenu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 12px;
+  margin-top: 4px;
+}
+
+.si-nav-sublink {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
 .si-sidebar-footer {
   margin-top: auto;
   padding: 16px;

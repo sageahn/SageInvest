@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import AppShell from '@/app/components/app-shell';
-import { KISConfig } from '@/lib/kis/types';
+import { KISAuthToken, KISConfig } from '@/lib/kis/types';
 
 interface KISSettingsProps {
   initialConfig?: KISConfig | null;
@@ -24,6 +24,9 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
   const [acntPrdtCdInput, setAcntPrdtCdInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [currentConfig, setCurrentConfig] = useState<KISConfig | null>(null);
+  const [currentToken, setCurrentToken] = useState<KISAuthToken | null>(null);
+  const [timeRemaining, setTimeRemaining] = useState('');
 
   useEffect(() => {
     const loadAccountSettings = async () => {
@@ -34,6 +37,60 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
     };
     loadAccountSettings();
   }, []);
+
+  useEffect(() => {
+    const fetchCurrentStatus = async () => {
+      const [configRes, tokenRes] = await Promise.all([
+        fetch('/api/kis/config'),
+        fetch('/api/kis/status'),
+      ]);
+      if (configRes.ok) {
+        const config = (await configRes.json()) as KISConfig | null;
+        setCurrentConfig(config);
+      }
+      if (tokenRes.ok) {
+        const tokenData = (await tokenRes.json()) as { token?: KISAuthToken };
+        setCurrentToken(tokenData.token || null);
+      }
+    };
+    fetchCurrentStatus();
+    const interval = setInterval(fetchCurrentStatus, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (!currentToken?.expires_at) {
+      setTimeRemaining('');
+      return;
+    }
+    const timer = setInterval(() => {
+      const diff = new Date(currentToken.expires_at).getTime() - Date.now();
+      if (diff <= 0) {
+        setTimeRemaining('만료됨');
+        return;
+      }
+      const h = Math.floor(diff / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      setTimeRemaining(`${h}시간 ${m}분 ${s}초`);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [currentToken]);
+
+  const refreshToken = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/kis/refresh', { method: 'POST' });
+      if (!response.ok) throw new Error();
+      const data = (await response.json()) as { token?: KISAuthToken };
+      setCurrentToken(data.token || null);
+      setMessage({ type: 'success', text: '토큰 갱신 완료' });
+    } catch {
+      setMessage({ type: 'error', text: '토큰 갱신 실패' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const saveConfig = async () => {
     if (appKey.length !== 36 || appSecret.length !== 180) {
@@ -114,8 +171,8 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
   };
 
   return (
-    <AppShell active="settings" title="KIS 설정" subtitle="인증 정보와 계좌 정보를 관리합니다.">
-      <div className="si-grid-2">
+    <AppShell active="kis-settings" title="KIS 설정" subtitle="인증 정보와 계좌 정보를 관리합니다.">
+      <div className="si-grid-3">
         <section className="si-card">
           <h3 style={{ marginTop: 0 }}>API 인증 설정</h3>
           <div className="si-field">
@@ -194,12 +251,37 @@ export default function KISSettingsPage({ initialConfig }: KISSettingsProps) {
             계좌 저장
           </button>
         </section>
+
+        <section className="si-card">
+          <h3 style={{ marginTop: 0 }}>현재 연결 정보</h3>
+          <p style={{ marginTop: 0, color: 'var(--muted-foreground)' }}>
+            환경: {currentConfig?.environment || '미설정'}
+          </p>
+          <p style={{ color: 'var(--muted-foreground)' }}>
+            App Key: {currentConfig?.app_key ? `${currentConfig.app_key.slice(0, 8)}...` : '-'}
+          </p>
+          {currentToken ? (
+            <>
+              <p style={{ color: 'var(--muted-foreground)' }}>
+                토큰 유형: {currentToken.token_type}
+              </p>
+              <p style={{ color: 'var(--muted-foreground)' }}>만료까지: {timeRemaining}</p>
+              <button className="si-btn si-btn-secondary" onClick={refreshToken} disabled={loading}>
+                토큰 갱신
+              </button>
+              <div className="si-message success" style={{ marginTop: 12 }}>
+                현재 연결 상태: 정상. 토큰 유효 시간을 기준으로 자동 상태가 갱신됩니다.
+              </div>
+            </>
+          ) : (
+            <div className="si-message error" style={{ marginTop: 12 }}>
+              발급된 토큰이 없습니다. 먼저 인증을 진행해주세요.
+            </div>
+          )}
+        </section>
       </div>
 
       {message && <div className={`si-message ${message.type}`}>{message.text}</div>}
-      <div className="si-message success" style={{ marginTop: 12 }}>
-        설정 안내: AppKey/AppSecret 저장 후 연결 테스트를 수행하세요.
-      </div>
     </AppShell>
   );
 }
