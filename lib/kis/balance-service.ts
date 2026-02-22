@@ -26,9 +26,9 @@ export class KISBalanceService {
   private cache: Map<string, { data: BalanceResponse; expiresAt: number }> = new Map();
   private readonly CACHE_TTL_MS = 30000;
 
-  constructor(environment: KISEnvironment, appKey: string, appSecret: string) {
+  constructor(environment: KISEnvironment, appKey: string) {
     this.environment = environment;
-    this.middleware = new KISAuthMiddleware(environment, appKey, appSecret);
+    this.middleware = new KISAuthMiddleware(environment, appKey);
   }
 
   /**
