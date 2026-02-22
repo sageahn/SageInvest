@@ -7,6 +7,46 @@
 
 ## [Unreleased]
 
+### Added
+
+#### 관심 종목 관리 (SPEC-WATCHLIST-001)
+
+- 관심 종목 CRUD API 엔드포인트 (추가/삭제/순서변경/조회)
+- 최근 조회 종목 자동 기록 및 관리
+- KIS API 연동을 통한 실시간 가격 표시
+- 30초 자동 가격 갱신 (폴링)
+- 삭제 확인 모달 (ConfirmDialog)
+- 가격 업데이트 실패 시 이전 가격 유지 (fallback)
+- 관심 종목 페이지 (3개 서브탭: 최근 조회/전체/그룹별)
+- 네비게이션 메뉴 통합
+
+#### API Routes
+
+- GET/POST /api/watchlist - 관심 종목 목록 조회/추가
+- DELETE /api/watchlist/[id] - 관심 종목 삭제
+- PUT /api/watchlist/reorder - 순서 변경
+- GET/POST/DELETE /api/watchlist/recent - 최근 조회 관리
+- DELETE /api/watchlist/code/[code] - 종목코드 기반 삭제
+
+#### 데이터베이스
+
+- watchlist_groups 테이블 (그룹 관리, 향후 사용)
+- watchlist_items 테이블 (관심 종목 저장)
+- recently_viewed 테이블 (최근 조회 기록, 자동 50개 제한)
+
+### Fixed
+
+#### 가격 데이터 버그 수정
+
+- stockCode 빈 문자열 반환 버그 수정 (transformPriceResponse)
+- previousClose 전일종가 필드 매핑 오류 수정 (stck_sdpr 사용)
+- reorderItems 트랜잭션 래핑으로 원자적 순서 변경 보장
+
+### Testing
+
+- 95개 테스트 추가 (22 DB + 34 Service + 25 API Route + 14 Recent API)
+- 커버리지 99.42% 달성
+
 ### Changed
 
 #### SPEC-KIS-001 완료
