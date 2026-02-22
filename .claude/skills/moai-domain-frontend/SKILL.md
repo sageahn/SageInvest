@@ -1,21 +1,47 @@
 ---
-name: 'moai-domain-frontend'
-description: 'Frontend development specialist covering React 19, Next.js 16, Vue 3.5, and modern UI/UX patterns with component architecture. Use when building web UIs, implementing components, optimizing frontend performance, or integrating state management.'
-version: 2.0.0
-category: 'domain'
-modularized: true
+name: moai-domain-frontend
+description: >
+  Frontend development specialist covering React 19, Next.js 16, Vue 3.5,
+  and modern UI/UX patterns with component architecture. Use when building
+  web UIs, implementing components, optimizing frontend performance, or
+  integrating state management.
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Grep Glob mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-tags: ['frontend', 'react', 'nextjs', 'vue', 'ui', 'components']
-context7-libraries: ['/facebook/react', '/vercel/next.js', '/vuejs/vue']
-updated: 2026-01-11
-allowed-tools:
-  - Read
-  - Grep
-  - Glob
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
-status: 'active'
-author: 'MoAI-ADK Team'
+metadata:
+  version: "2.0.0"
+  category: "domain"
+  status: "active"
+  updated: "2026-01-11"
+  modularized: "true"
+  tags: "frontend, react, nextjs, vue, ui, components"
+  author: "MoAI-ADK Team"
+  context7-libraries: "/facebook/react, /vercel/next.js, /vuejs/vue"
+
+# MoAI Extension: Triggers
+triggers:
+  keywords:
+    - frontend
+    - UI
+    - component
+    - React
+    - Next.js
+    - Vue
+    - user interface
+    - responsive
+    - TypeScript
+    - JavaScript
+    - state management
+    - hooks
+    - props
+    - JSX
+    - TSX
+    - client-side
+    - browser
+    - DOM
+    - CSS
+    - Tailwind
 ---
 
 # Frontend Development Specialist
@@ -72,6 +98,12 @@ State Management in modules/state-management.md:
 Performance Optimization in modules/performance-optimization.md:
 
 - Code splitting, Dynamic imports, Image optimization, Memoization
+
+Vercel React Best Practices in modules/vercel-react-best-practices.md:
+
+- 45 rules across 8 categories from Vercel Engineering
+- Eliminating waterfalls, bundle optimization, server-side performance
+- Client-side data fetching, re-render optimization, rendering performance
 
 ---
 

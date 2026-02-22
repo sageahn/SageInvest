@@ -23,7 +23,7 @@ rule:
   constraints:
     PARAM:
       not:
-        regex: '.*:.*' # No type annotation
+        regex: '.*:.*'  # No type annotation
 message: 'Parameter missing type annotation'
 ```
 
@@ -147,7 +147,7 @@ rule:
   constraints:
     URL:
       not:
-        regex: '^https?://.*' # External links are OK
+        regex: '^https?://.*'  # External links are OK
 fix: '<Link href="$URL">$$$CHILDREN</Link>'
 message: 'Use next/link for internal navigation'
 ```
@@ -300,7 +300,6 @@ sg run --pattern '$PATTERN' --lang python --lang javascript
 ```
 
 Supported language identifiers:
-
 - `python`, `javascript`, `typescript`, `typescriptreact`
 - `go`, `rust`, `java`, `kotlin`, `scala`
 - `c`, `cpp`, `csharp`, `swift`

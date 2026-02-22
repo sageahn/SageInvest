@@ -9,9 +9,15 @@ const TAG_LENGTH = 16;
 function getEncryptionKey(): Buffer {
   const keyHex = process.env.KIS_ENCRYPTION_KEY;
   if (!keyHex) {
+    console.error('KIS_ENCRYPTION_KEY is not set. Please add it to .env file:');
+    console.error('  KIS_ENCRYPTION_KEY=<64-character-hex-string>');
+    console.error(
+      "Generate with: node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""
+    );
     throw new Error('KIS_ENCRYPTION_KEY environment variable is not set');
   }
   if (keyHex.length !== 64) {
+    console.error(`KIS_ENCRYPTION_KEY length is ${keyHex.length}, expected 64 characters`);
     throw new Error('KIS_ENCRYPTION_KEY must be 64 hex characters (32 bytes)');
   }
   return Buffer.from(keyHex, 'hex');

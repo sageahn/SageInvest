@@ -233,19 +233,16 @@ Disables browser features.
 ### Add MCP Server
 
 HTTP transport:
-
 ```bash
 claude mcp add --transport http server-name https://url
 ```
 
 Stdio transport:
-
 ```bash
 claude mcp add --transport stdio server-name command args
 ```
 
 SSE transport (deprecated):
-
 ```bash
 claude mcp add --transport sse server-name https://url
 ```

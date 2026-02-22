@@ -353,9 +353,9 @@ const OptimizedProductList = memo(({ products, onProductClick }) => {
   const processedProducts = useMemo(() => {
     return products.map((product) => ({
       ...product,
-      formattedPrice: new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
+      formattedPrice: new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
       }).format(product.price),
     }));
   }, [products]);
@@ -365,9 +365,9 @@ const OptimizedProductList = memo(({ products, onProductClick }) => {
     (product) => {
       onProductClick(product);
       // Track analytics
-      analytics.track('product_click', { productId: product.id });
+      analytics.track("product_click", { productId: product.id });
     },
-    [onProductClick]
+    [onProductClick],
   );
 
   return (
@@ -391,17 +391,17 @@ Bundle Optimization:
 module.exports = {
   optimization: {
     splitChunks: {
-      chunks: 'all',
+      chunks: "all",
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
+          name: "vendors",
+          chunks: "all",
         },
         common: {
-          name: 'common',
+          name: "common",
           minChunks: 2,
-          chunks: 'all',
+          chunks: "all",
           enforce: true,
         },
       },
@@ -413,7 +413,7 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
             cacheDirectory: true,
           },
@@ -594,18 +594,18 @@ Rust Formatting:
 ```yaml
 rust_formatting:
   tools:
-    - rustfmt: 'Official Rust formatter'
-    - clippy: 'Rust lints and optimization'
+    - rustfmt: "Official Rust formatter"
+    - clippy: "Rust lints and optimization"
 
   configuration:
   rustfmt:
-  edition: '2021'
+  edition: "2021"
   use_small_heuristics: true
-  width_heuristics: 'MaxWidth(100)'
+  width_heuristics: "MaxWidth(100)"
 
   clippy:
-  deny: ['warnings', 'clippy::all']
-  allow: ['clippy::too_many_arguments']
+  deny: ["warnings", "clippy::all"]
+  allow: ["clippy::too_many_arguments"]
 ```
 
 ````
@@ -793,23 +793,27 @@ Frontend Debugging Patterns:
 const ReactDebugPatterns = {
   // Component debugging
   componentDebug: {
-    tools: ['React DevTools', 'Console logging', 'Error boundaries'],
-    commonIssues: ['State updates', 'Prop drilling', 'Rendering cycles'],
-    strategies: ['State inspection', 'Prop tracing', 'Performance profiling'],
+    tools: ["React DevTools", "Console logging", "Error boundaries"],
+    commonIssues: ["State updates", "Prop drilling", "Rendering cycles"],
+    strategies: ["State inspection", "Prop tracing", "Performance profiling"],
   },
 
   // State management debugging
   stateDebug: {
-    tools: ['Redux DevTools', 'React Query DevTools', 'Console'],
-    commonIssues: ['State mutations', 'Async state', 'Cache invalidation'],
-    strategies: ['Time travel debugging', 'State snapshots', 'Action tracing'],
+    tools: ["Redux DevTools", "React Query DevTools", "Console"],
+    commonIssues: ["State mutations", "Async state", "Cache invalidation"],
+    strategies: ["Time travel debugging", "State snapshots", "Action tracing"],
   },
 
   // Performance debugging
   performanceDebug: {
-    tools: ['Chrome DevTools', 'React Profiler', 'Lighthouse'],
-    commonIssues: ['Render bottlenecks', 'Memory leaks', 'Bundle size'],
-    strategies: ['Component profiling', 'Memory analysis', 'Bundle optimization'],
+    tools: ["Chrome DevTools", "React Profiler", "Lighthouse"],
+    commonIssues: ["Render bottlenecks", "Memory leaks", "Bundle size"],
+    strategies: [
+      "Component profiling",
+      "Memory analysis",
+      "Bundle optimization",
+    ],
   },
 };
 ```
@@ -921,52 +925,52 @@ class DebuggingKnowledgeBase:
 
 ### 3. Process Orchestrator Examples
 
-#### Example 5: TDD Implementation Expert
+#### Example 5: DDD Implementation Expert
 
 ```yaml
 ---
-name: workflow-tdd
-description: Execute RED-GREEN-REFACTOR TDD cycle for implementing features with comprehensive test coverage. Called from /moai:2-run SPEC implementation and task delegation workflows.
+name: workflow-ddd
+description: Execute ANALYZE-PRESERVE-IMPROVE DDD cycle for implementing features with behavior preservation and comprehensive test coverage. Called from /moai:2-run SPEC implementation and task delegation workflows.
 tools: Read, Write, Edit, Bash, Grep, Glob, MultiEdit, TodoWrite
 model: sonnet
 skills: moai-lang-python, moai-domain-testing, moai-foundation-quality, moai-core-spec-authoring
 ---
 
-# TDD Implementation Expert
+# DDD Implementation Expert
 
-You are a Test-Driven Development implementation expert specializing in the RED-GREEN-REFACTOR cycle for robust feature development with comprehensive test coverage.
+You are a Domain-Driven Development implementation expert specializing in the ANALYZE-PRESERVE-IMPROVE cycle for robust feature development with behavior preservation and comprehensive test coverage.
 
 ## Core Responsibilities
 
-Primary Domain: TDD implementation and test automation
-Key Capabilities: RED-GREEN-REFACTOR cycle, test architecture, coverage optimization, quality gates
-Focus Areas: Test-first development, comprehensive coverage, code quality
+Primary Domain: DDD implementation and behavior preservation
+Key Capabilities: ANALYZE-PRESERVE-IMPROVE cycle, characterization tests, coverage optimization, quality gates
+Focus Areas: Behavior preservation, test-first development, comprehensive coverage, code quality
 
 ## Workflow Process
 
-### RED Phase: Write Failing Tests
-1. Analyze requirements and acceptance criteria
-2. Write comprehensive failing tests for desired behavior
-3. Define test cases for edge cases and error conditions
-4. Verify tests fail with appropriate error messages
+### ANALYZE Phase: Understand Existing Behavior
+1. Analyze requirements and acceptance criteria from SPEC document
+2. Study existing code behavior and dependencies
+3. Identify behavior preservation requirements
+4. Understand edge cases and error conditions
 
-### GREEN Phase: Make Tests Pass
-1. Implement minimal code to satisfy failing tests
-2. Follow simplest possible implementation approach
-3. Ensure all tests pass without modifying test logic
-4. Verify behavior matches requirements exactly
+### PRESERVE Phase: Protect Behavior with Tests
+1. Write characterization tests for existing behavior
+2. Create failing tests for new desired behavior
+3. Define comprehensive test cases including edge cases
+4. Verify tests capture current and expected behavior
 
-### REFACTOR Phase: Improve Code Quality
-1. Refactor implementation while maintaining test coverage
-2. Improve code structure, readability, and maintainability
-3. Optimize performance and eliminate code duplication
-4. Ensure all tests continue to pass throughout refactoring
+### IMPROVE Phase: Enhance Implementation
+1. Implement new functionality while preserving existing behavior
+2. Follow behavior preservation principles during refactoring
+3. Ensure all characterization tests continue passing
+4. Verify implementation matches SPEC requirements exactly
 
 ## Critical Constraints
 
 - No sub-agent spawning: This agent CANNOT create other sub-agents. Use Task() delegation for complex workflows.
 - Test Coverage: Maintain ≥90% test coverage for all implementations.
-- RED-GREEN-REFACTOR: Follow strict TDD cycle without skipping phases.
+- ANALYZE-PRESERVE-IMPROVE: Follow strict DDD cycle without skipping phases.
 - Quality Gates: All code must pass quality validation before completion.
 
 ## Example Workflows
@@ -1175,7 +1179,7 @@ TDD Quality Gates:
 - [ ] Implementation passes all quality gates
 - [ ] Code follows established style guidelines
 - [ ] Performance benchmarks meet requirements
-- [ ] Security considerations are addressed
+- [ ] Security considerations are adddessed
 - [ ] Documentation is comprehensive and accurate
 
 ### Coverage Requirements

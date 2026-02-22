@@ -3,7 +3,6 @@
 ## Advanced Eloquent Patterns (Laravel)
 
 Observers:
-
 ```php
 <?php
 
@@ -36,7 +35,6 @@ class UserObserver
 ```
 
 Accessors and Mutators:
-
 ```php
 <?php
 
@@ -72,7 +70,6 @@ class User extends Model
 ```
 
 Query Scopes:
-
 ```php
 <?php
 
@@ -107,7 +104,6 @@ Post::published()->byAuthor($user)->popular()->get();
 ## Doctrine Advanced Mapping (Symfony)
 
 Embeddables:
-
 ```php
 <?php
 
@@ -116,7 +112,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Embeddable]
-class Address
+class Adddess
 {
     #[ORM\Column(length: 255)]
     private string $street;
@@ -138,7 +134,7 @@ class Address
         $this->country = $country;
     }
 
-    public function getFullAddress(): string
+    public function getFullAdddess(): string
     {
         return "{$this->street}, {$this->city} {$this->postalCode}, {$this->country}";
     }
@@ -147,13 +143,12 @@ class Address
 #[ORM\Entity]
 class Company
 {
-    #[ORM\Embedded(class: Address::class)]
-    private Address $address;
+    #[ORM\Embedded(class: Adddess::class)]
+    private Adddess $adddess;
 }
 ```
 
 Inheritance Mapping:
-
 ```php
 <?php
 
@@ -187,7 +182,6 @@ class Admin extends Person
 ## Queue and Job Processing
 
 Laravel Queue Jobs:
-
 ```php
 <?php
 
@@ -239,7 +233,6 @@ ProcessUserData::dispatch($user)->delay(now()->addMinutes(10));
 ```
 
 Job Batching:
-
 ```php
 <?php
 
@@ -262,7 +255,6 @@ $batch = Bus::batch([
 ## Event-Driven Architecture
 
 Laravel Events:
-
 ```php
 <?php
 
@@ -302,7 +294,6 @@ class SendOrderConfirmation implements ShouldQueue
 ```
 
 Symfony Event Subscribers:
-
 ```php
 <?php
 
@@ -337,7 +328,6 @@ class RequestSubscriber implements EventSubscriberInterface
 ## Caching Strategies
 
 Redis Caching (Laravel):
-
 ```php
 <?php
 
@@ -384,7 +374,6 @@ class ProductService
 ## Security Best Practices
 
 OWASP Patterns:
-
 ```php
 <?php
 
@@ -414,7 +403,6 @@ class SecurityHeaders
 ```
 
 Rate Limiting:
-
 ```php
 <?php
 
@@ -444,7 +432,6 @@ class AppServiceProvider extends ServiceProvider
 ## CI/CD Integration
 
 GitHub Actions for PHP:
-
 ```yaml
 name: CI
 
@@ -494,7 +481,6 @@ jobs:
 ## Docker Configuration
 
 Production Dockerfile:
-
 ```dockerfile
 FROM php:8.3-fpm-alpine
 
@@ -521,7 +507,6 @@ CMD ["php-fpm"]
 ```
 
 Docker Compose:
-
 ```yaml
 version: '3.8'
 
@@ -537,7 +522,7 @@ services:
   nginx:
     image: nginx:alpine
     ports:
-      - '80:80'
+      - "80:80"
     volumes:
       - .:/var/www
       - ./nginx.conf:/etc/nginx/conf.d/default.conf

@@ -7,6 +7,20 @@
 # ============================================
 
 # ===========================================
+# Go Build Artifacts
+# ===========================================
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+cover.out
+cover.html
+cpu.prof
+mem.prof
+
+# ===========================================
 # Build Artifacts & Distribution
 # ===========================================
 build/
@@ -104,6 +118,10 @@ logs/
 *-backup/
 *_backup_*/
 
+# DB Backups - keep sync file, ignore timestamped backups
+.db-backups/*.dump
+!.db-backups/sageinvest-sync.dump
+
 # ===========================================
 # Secrets and Credentials (CRITICAL)
 # ===========================================
@@ -148,6 +166,7 @@ secret-*.*
 .claude/settings.local.*.json
 .claude/.env.local*
 .claude/local/
+.claude/plans/
 
 # Skill-specific credentials
 .claude/skills/*/.env*
@@ -155,6 +174,8 @@ secret-*.*
 .claude/skills/*/*/*secret*
 .claude/skills/*/*/*key*
 .claude/skills/*/*/*token*
+# Re-include legitimate skill module files containing "token" in their name
+!.claude/skills/*/modules/*token*.md
 
 # ===========================================
 # Node.js (for docs/Nextra)

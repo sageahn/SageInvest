@@ -20,13 +20,11 @@ Performance optimization module providing comprehensive profiling, bottleneck de
 ## Module Structure
 
 ### 1. Real-Time Monitoring
-
 [real-time-monitoring.md](./performance-optimization/real-time-monitoring.md)
 
 Continuous performance monitoring system with snapshot collection and alerting.
 
 Key Features:
-
 - Configurable sampling intervals (0.5-2.0 seconds)
 - CPU, memory, file handle, and thread monitoring
 - Custom metric callbacks for domain-specific tracking
@@ -34,7 +32,6 @@ Key Features:
 - Rolling snapshot buffer with configurable size
 
 Usage:
-
 ```python
 monitor = RealTimeMonitor(sampling_interval=0.5)
 monitor.start_monitoring()
@@ -45,13 +42,11 @@ metrics = monitor.get_average_metrics(5)
 ```
 
 ### 2. Profiler Core
-
 [profiler-core.md](./performance-optimization/profiler-core.md)
 
 CPU, memory, and line profiling infrastructure with statistical analysis.
 
 Key Features:
-
 - cProfile integration for CPU profiling
 - tracemalloc and memory_profiler for memory tracking
 - line_profiler for function-level timing
@@ -59,7 +54,6 @@ Key Features:
 - Function-level performance statistics
 
 Usage:
-
 ```python
 profiler = PerformanceProfiler(context7_client=context7)
 profiler.start_profiling(['cpu', 'memory', 'line'])
@@ -68,13 +62,11 @@ results = profiler.stop_profiling()
 ```
 
 ### 3. Bottleneck Detection
-
 [bottleneck-detection.md](./performance-optimization/bottleneck-detection.md)
 
 Automatic detection and classification of performance bottlenecks.
 
 Key Features:
-
 - CPU bottleneck detection with impact scoring
 - Memory leak identification and tracking
 - Real-time metric analysis
@@ -82,7 +74,6 @@ Key Features:
 - Context-aware optimization suggestions
 
 Usage:
-
 ```python
 detector = BottleneckDetector(profiler)
 bottlenecks = await detector.detect_bottlenecks(profile_results)
@@ -93,13 +84,11 @@ for bottleneck in bottlenecks[:5]:
 ```
 
 ### 4. Optimization Planning
-
 [optimization-plan.md](./performance-optimization/optimization-plan.md)
 
 Comprehensive optimization plan generation with execution ordering.
 
 Key Features:
-
 - Bottleneck prioritization by impact and complexity
 - Execution order optimization for minimal risk
 - Implementation complexity assessment
@@ -108,7 +97,6 @@ Key Features:
 - Validation strategy generation
 
 Usage:
-
 ```python
 planner = OptimizationPlanner(detector)
 plan = await planner.create_optimization_plan(bottlenecks)
@@ -118,13 +106,11 @@ print(f"Risk: {plan.risk_level}")
 ```
 
 ### 5. AI-Powered Optimization
-
 [ai-optimization.md](./performance-optimization/ai-optimization.md)
 
 Intelligent optimization suggestions using Context7 documentation integration.
 
 Key Features:
-
 - Context7 integration for latest performance patterns
 - Algorithm complexity analysis and recommendations
 - Data structure optimization suggestions
@@ -132,7 +118,6 @@ Key Features:
 - Hybrid AI and rule-based approach
 
 Usage:
-
 ```python
 optimizer = IntelligentOptimizer(context7_client=context7)
 suggestions = await optimizer.get_ai_optimization_suggestions(
@@ -182,21 +167,18 @@ print(f"Risk level: {plan.risk_level}")
 ## Performance Metrics Types
 
 ### CPU Metrics
-
 - Total time (function execution time excluding subcalls)
 - Cumulative time (total time including subcalls)
 - Call count (number of invocations)
 - Per-call time (average execution time)
 
 ### Memory Metrics
-
 - Current memory usage (bytes)
 - Peak memory usage (bytes)
 - Memory by function (line-level allocation)
 - Memory delta (before/after comparison)
 
 ### Real-Time Metrics
-
 - CPU percentage (process-wide)
 - Memory usage (MB and percentage)
 - Open file handles
@@ -206,35 +188,30 @@ print(f"Risk level: {plan.risk_level}")
 ## Optimization Categories
 
 ### Algorithm Improvements
-
 - Big-O complexity reduction
 - Dynamic programming for overlapping subproblems
 - Memoization for repeated calculations
 - Efficient search and sort algorithms
 
 ### Caching Strategies
-
 - LRU cache implementation
 - Memoization decorators
 - Query result caching
 - Object pooling
 
 ### Concurrency Improvements
-
 - Multiprocessing for CPU-bound tasks
 - Threading for I/O-bound operations
 - Asyncio for concurrent I/O
 - Thread/process pool execution
 
 ### Memory Optimizations
-
 - Generator usage for large datasets
 - Lazy loading patterns
 - Memory-efficient data structures
 - Object lifecycle management
 
 ### Data Structure Changes
-
 - Set/dict for O(1) lookups
 - Deque for queue operations
 - Numpy arrays for numerical data
@@ -243,7 +220,6 @@ print(f"Risk level: {plan.risk_level}")
 ## Best Practices
 
 ### Profiling
-
 1. **Baseline Measurement**: Always establish performance baseline before optimization
 2. **Realistic Workloads**: Profile with production-like data and usage patterns
 3. **Multiple Runs**: Profile multiple times to account for variability
@@ -251,14 +227,12 @@ print(f"Risk level: {plan.risk_level}")
 5. **Incremental Changes**: Profile after each optimization to measure impact
 
 ### Bottleneck Detection
-
 1. **Severity Prioritization**: Focus on critical and high severity bottlenecks first
 2. **Impact Scores**: Use quantitative scores to prioritize optimization efforts
 3. **Root Cause Analysis**: Understand underlying causes before applying fixes
 4. **Context Awareness**: Consider codebase context when suggesting optimizations
 
 ### Optimization Execution
-
 1. **One at a Time**: Apply optimizations individually to measure impact
 2. **Version Control**: Maintain git branches for each optimization
 3. **Comprehensive Testing**: Ensure functionality is preserved during optimization
@@ -266,7 +240,6 @@ print(f"Risk level: {plan.risk_level}")
 5. **Production Monitoring**: Monitor performance in staging before production rollout
 
 ### Risk Management
-
 1. **Low-Risk First**: Start with low-complexity, high-impact optimizations
 2. **Backup Strategy**: Always maintain ability to rollback changes
 3. **Testing Strategy**: Validate with comprehensive test suite
@@ -283,7 +256,6 @@ The AI-powered optimization module integrates with Context7 to provide:
 - Real-time documentation updates for 2025+ patterns
 
 Context7 Queries:
-
 ```python
 # Performance optimization patterns
 await context7.get_library_docs(
@@ -303,29 +275,23 @@ await context7.get_library_docs(
 ## Common Use Cases
 
 ### Web Application Optimization
-
 Profile request handlers, database queries, and template rendering to identify bottlenecks in web applications.
 
 ### Data Pipeline Optimization
-
 Optimize ETL processes, data transformation, and batch processing jobs for better throughput.
 
 ### API Performance
-
 Identify slow endpoints, optimize database queries, and implement caching strategies.
 
 ### Memory Leak Detection
-
 Track memory usage over time to identify and fix memory leaks in long-running processes.
 
 ### Algorithm Optimization
-
 Analyze algorithmic complexity and implement more efficient data structures and algorithms.
 
 ## Dependencies
 
 Required:
-
 - Python 3.8+
 - cProfile (standard library)
 - psutil (system monitoring)
@@ -334,7 +300,6 @@ Required:
 - tracemalloc (standard library)
 
 Optional:
-
 - Context7 MCP (AI-powered suggestions)
 - asyncio (async profiling support)
 
@@ -349,7 +314,6 @@ Optional:
 ## Performance Impact
 
 Profiling overhead varies by configuration:
-
 - CPU profiling: 5-15% overhead
 - Memory profiling: 10-20% overhead
 - Line profiling: 20-30% overhead

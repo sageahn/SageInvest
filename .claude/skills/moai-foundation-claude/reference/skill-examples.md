@@ -21,7 +21,7 @@ Examples Cover: Documentation skills, language-specific patterns, domain experti
 
 #### Example 1: API Documentation Generator
 
-````yaml
+```yaml
 ---
 name: moai-docs-api-generator
 description: Generate comprehensive API documentation from OpenAPI specifications and code comments. Use when you need to create, update, or analyze API documentation for REST/GraphQL services.
@@ -79,7 +79,7 @@ def generate_endpoint_docs(endpoint_spec):
  Response:
  {format_response(endpoint_spec.get('responses', {}))}
  """
-````
+```
 
 ```bash
 # Generate documentation from codebase
@@ -89,15 +89,13 @@ xargs python extract_docs.py --output ./docs/api/
 
 ## Best Practices
 
-DO:
-
+ DO:
 - Include authentication examples for all security schemes
 - Provide curl and client library examples for each endpoint
 - Validate all generated examples against actual API
 - Include error response documentation
 
-DON'T:
-
+ DON'T:
 - Generate documentation without example responses
 - Skip authentication and authorization details
 - Use deprecated OpenAPI specification versions
@@ -112,34 +110,30 @@ DON'T:
 ## Advanced Features
 
 ### Interactive Documentation
-
 Generate interactive API documentation with embedded testing tools:
-
 ```html
 <!-- Interactive API tester -->
 <div class="api-tester">
-  <input type="text" id="endpoint-url" placeholder="/api/users" />
-  <select id="http-method">
-    <option value="GET">GET</option>
-    <option value="POST">POST</option>
-  </select>
-  <button onclick="testEndpoint()">Test</button>
-  <pre id="response"></pre>
+ <input type="text" id="endpoint-url" placeholder="/api/users">
+ <select id="http-method">
+ <option value="GET">GET</option>
+ <option value="POST">POST</option>
+ </select>
+ <button onclick="testEndpoint()">Test</button>
+ <pre id="response"></pre>
 </div>
 ```
 
 ### Multi-language Client Examples
-
 Automatically generate client library examples in multiple languages:
-
 ```javascript
 // JavaScript/Node.js Example
 const response = await fetch('/api/users', {
-  method: 'GET',
-  headers: {
-    Authorization: `Bearer ${token}`,
-    'Content-Type': 'application/json',
-  },
+ method: 'GET',
+ headers: {
+ 'Authorization': `Bearer ${token}`,
+ 'Content-Type': 'application/json'
+ }
 });
 const users = await response.json();
 ```
@@ -154,8 +148,7 @@ response = requests.get('/api/users', headers={
 })
 users = response.json()
 ```
-
-````
+```
 
 #### Example 2: Code Comment Analyzer
 
@@ -223,21 +216,19 @@ def calculate_coverage(docstrings, total_elements):
  'total': total_elements,
  'coverage_percentage': round(coverage, 2)
  }
-````
+```
 
 ## Best Practices
 
-DO:
-
+ DO:
 - Analyze documentation completeness for all public APIs
 - Check for outdated or incorrect documentation
 - Consider comment quality, not just quantity
 - Generate reports with actionable recommendations
 
-DON'T:
-
+ DON'T:
 - Count comments without assessing their quality
-  Ignore different documentation styles across languages
+ Ignore different documentation styles across languages
 - Focus only on function-level documentation
 - Assume all comments are accurate or current
 
@@ -250,9 +241,7 @@ DON'T:
 ## Advanced Features
 
 ### Documentation Quality Scoring
-
 Implement sophisticated quality assessment:
-
 ```python
 def assess_docstring_quality(docstring, context):
  """Assess docstring quality on multiple dimensions."""
@@ -288,21 +277,18 @@ def assess_docstring_quality(docstring, context):
 ```
 
 ### Multi-language Standardization
-
 Normalize documentation patterns across languages:
-
 ```javascript
 // JavaScript JSDoc standardization
 function standardizeJSDoc(comment) {
-  // Ensure consistent JSDoc format
-  return comment
-    .replace(/\/\*\*?\s*\n/g, '/\n * ')
-    .replace(/\*\s*@\w+/g, ' * @')
-    .replace(/\s*\*\//g, ' */');
+ // Ensure consistent JSDoc format
+ return comment
+ .replace(/\/\*\*?\s*\n/g, '/\n * ')
+ .replace(/\*\s*@\w+/g, ' * @')
+ .replace(/\s*\*\//g, ' */');
 }
 ```
-
-````
+```
 
 ### 2. Language-Specific Skills
 
@@ -314,18 +300,18 @@ name: moai-python-testing-expert
 description: Comprehensive Python testing expertise covering pytest, unittest, mocking, and test-driven development patterns. Use when writing tests, setting up test infrastructure, or improving test coverage and quality.
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 version: 1.1.0
-tags: [python, testing, pytest, tdd, quality]
+tags: [python, testing, pytest, ddd, quality]
 updated: 2025-11-25
 status: active
 ---
 
 # Python Testing Expert
 
-Complete Python testing solution with pytest expertise, mocking strategies, test automation, and TDD patterns for production-ready code quality.
+Complete Python testing solution with pytest expertise, mocking strategies, test automation, and DDD testing patterns for production-ready code quality.
 
 ## Quick Reference (30 seconds)
 
-Design and implement comprehensive Python test suites using pytest, unittest, mocking frameworks, and TDD methodologies for reliable, maintainable code.
+Design and implement comprehensive Python test suites using pytest, unittest, mocking frameworks, and comprehensive testing methodologies for reliable, maintainable code.
 
 ## Implementation Guide
 
@@ -391,7 +377,7 @@ def test_external_api_integration(mock_get, sample_responses):
  'https://api.example.com/data',
  headers={'Authorization': 'Bearer token123'}
  )
-````
+```
 
 ```bash
 # pytest configuration and execution
@@ -422,16 +408,14 @@ pytest --cov=src --cov-report=html # With coverage report
 
 ## Best Practices
 
-DO:
-
+ DO:
 - Use descriptive test names that explain the scenario
 - Write independent tests that don't rely on execution order
 - Create realistic test data with factories or fixtures
 - Mock external dependencies but test integration points
 - Aim for 85%+ coverage with meaningful tests
 
-DON'T:
-
+ DON'T:
 - Write tests that depend on external services or real databases
 - Use hardcoded test data that makes tests brittle
 - Skip error handling and edge case testing
@@ -441,15 +425,13 @@ DON'T:
 ## Works Well With
 
 - [`moai-lang-python`](../moai-lang-python/SKILL.md) - Python language patterns
-- [`moai-tdd-implementer`](../moai-tdd-implementer/SKILL.md) - TDD methodology
+- [`moai-workflow-ddd`](../moai-workflow-ddd/SKILL.md) - DDD methodology
 - [`moai-quality-gate`](../moai-quality-gate/SKILL.md) - Quality validation
 
 ## Advanced Features
 
 ### Property-Based Testing
-
 Use Hypothesis for sophisticated testing:
-
 ```python
 from hypothesis import given, strategies as st
 
@@ -470,9 +452,7 @@ def test_string_concatenation_properties(str1, str2):
 ```
 
 ### Performance Testing
-
 Integrate performance testing with pytest:
-
 ```python
 import time
 import pytest
@@ -491,9 +471,7 @@ def test_api_response_time(client):
 ```
 
 ### Database Transaction Testing
-
 Test database transaction behavior:
-
 ```python
 @pytest.mark.django_db
 class TestUserCreationTransaction:
@@ -525,8 +503,7 @@ class TestUserCreationTransaction:
  user_count_after = User.objects.count()
  assert user_count_after == user_count_before
 ```
-
-````
+```
 
 #### Example 4: JavaScript/TypeScript Modern Patterns
 
@@ -703,20 +680,18 @@ const [even, odd] = numbers.partition(n => n % 2 === 0);
 
 const doubled = even.map(n => n * 2); // [4, 8, 12]
 const sum = doubled.reduce((acc, n) => acc + n, 0); // 24
-````
+```
 
 ## Best Practices
 
-DO:
-
+ DO:
 - Use strict TypeScript configuration for better type safety
 - Leverage utility types for type transformations
 - Implement proper error handling with typed exceptions
 - Use async/await consistently for asynchronous operations
 - Write pure functions when possible for better testability
 
-DON'T:
-
+ DON'T:
 - Use `any` type without justification
 - Mix callbacks and promises in the same codebase
 - Ignore TypeScript compilation errors or warnings
@@ -732,138 +707,137 @@ DON'T:
 ## Advanced Features
 
 ### Advanced Type Manipulation
-
 ```typescript
 // Type-safe event emitter
 interface EventEmitterEvents {
-  'user:login': (user: User) => void;
-  'user:logout': () => void;
-  error: (error: Error) => void;
+ 'user:login': (user: User) => void;
+ 'user:logout': () => void;
+ 'error': (error: Error) => void;
 }
 
 type EventHandler<T> = (payload: T) => void;
 
 class TypedEventEmitter<T extends Record<string, any>> {
-  private listeners = {} as Record<keyof T, Set<EventHandler<any>>>;
+ private listeners = {} as Record<keyof T, Set<EventHandler<any>>>;
 
-  on<K extends keyof T>(event: K, handler: EventHandler<T[K]>): void {
-    if (!this.listeners[event]) {
-      this.listeners[event] = new Set();
-    }
-    this.listeners[event].add(handler);
-  }
+ on<K extends keyof T>(event: K, handler: EventHandler<T[K]>): void {
+ if (!this.listeners[event]) {
+ this.listeners[event] = new Set();
+ }
+ this.listeners[event].add(handler);
+ }
 
-  off<K extends keyof T>(event: K, handler: EventHandler<T[K]>): void {
-    this.listeners[event]?.delete(handler);
-  }
+ off<K extends keyof T>(event: K, handler: EventHandler<T[K]>): void {
+ this.listeners[event]?.delete(handler);
+ }
 
-  emit<K extends keyof T>(event: K, payload: T[K]): void {
-    this.listeners[event]?.forEach((handler) => {
-      try {
-        handler(payload);
-      } catch (error) {
-        console.error(`Error in event handler for ${String(event)}:`, error);
-      }
-    });
-  }
+ emit<K extends keyof T>(event: K, payload: T[K]): void {
+ this.listeners[event]?.forEach(handler => {
+ try {
+ handler(payload);
+ } catch (error) {
+ console.error(`Error in event handler for ${String(event)}:`, error);
+ }
+ });
+ }
 }
 
 // Usage
 const emitter = new TypedEventEmitter<EventEmitterEvents>();
 emitter.on('user:login', (user) => {
-  console.log(`User logged in: ${user.name}`);
+ console.log(`User logged in: ${user.name}`);
 });
 emitter.emit('user:login', { id: 1, name: 'John' });
 ```
 
 ### Concurrent Programming Patterns
-
 ```typescript
 // Concurrent execution with error handling
 class ConcurrentExecutor {
-  async executeAll<T, U>(
-    tasks: Array<() => Promise<T>>,
-    concurrency: number = 3
-  ): Promise<Array<T | U>> {
-    const results: Array<T | U> = [];
-    const executing: Promise<void>[] = [];
+ async executeAll<T, U>(
+ tasks: Array<() => Promise<T>>,
+ concurrency: number = 3
+ ): Promise<Array<T | U>> {
+ const results: Array<T | U> = [];
+ const executing: Promise<void>[] = [];
 
-    for (const task of tasks) {
-      const promise = task()
-        .then((result) => {
-          results.push(result);
-        })
-        .catch((error) => {
-          results.push(error as U);
-        })
-        .finally(() => {
-          executing.splice(executing.indexOf(promise), 1);
-        });
+ for (const task of tasks) {
+ const promise = task()
+ .then(result => {
+ results.push(result);
+ })
+ .catch(error => {
+ results.push(error as U);
+ })
+ .finally(() => {
+ executing.splice(executing.indexOf(promise), 1);
+ });
 
-      executing.push(promise);
+ executing.push(promise);
 
-      if (executing.length >= concurrency) {
-        await Promise.race(executing);
-      }
-    }
+ if (executing.length >= concurrency) {
+ await Promise.race(executing);
+ }
+ }
 
-    await Promise.all(executing);
-    return results;
-  }
+ await Promise.all(executing);
+ return results;
+ }
 }
 
 // Rate-limited API calls
 class RateLimitedApi {
-  private queue: Array<() => Promise<any>> = [];
-  private processing = false;
-  private lastExecution = 0;
-  private readonly minInterval: number;
+ private queue: Array<() => Promise<any>> = [];
+ private processing = false;
+ private lastExecution = 0;
+ private readonly minInterval: number;
 
-  constructor(requestsPerSecond: number) {
-    this.minInterval = 1000 / requestsPerSecond;
-  }
+ constructor(requestsPerSecond: number) {
+ this.minInterval = 1000 / requestsPerSecond;
+ }
 
-  async execute<T>(task: () => Promise<T>): Promise<T> {
-    return new Promise((resolve, reject) => {
-      this.queue.push(async () => {
-        try {
-          const result = await task();
-          resolve(result);
-        } catch (error) {
-          reject(error);
-        }
-      });
+ async execute<T>(task: () => Promise<T>): Promise<T> {
+ return new Promise((resolve, reject) => {
+ this.queue.push(async () => {
+ try {
+ const result = await task();
+ resolve(result);
+ } catch (error) {
+ reject(error);
+ }
+ });
 
-      this.processQueue();
-    });
-  }
+ this.processQueue();
+ });
+ }
 
-  private async processQueue(): Promise<void> {
-    if (this.processing || this.queue.length === 0) {
-      return;
-    }
+ private async processQueue(): Promise<void> {
+ if (this.processing || this.queue.length === 0) {
+ return;
+ }
 
-    this.processing = true;
+ this.processing = true;
 
-    while (this.queue.length > 0) {
-      const now = Date.now();
-      const elapsed = now - this.lastExecution;
+ while (this.queue.length > 0) {
+ const now = Date.now();
+ const elapsed = now - this.lastExecution;
 
-      if (elapsed < this.minInterval) {
-        await new Promise((resolve) => setTimeout(resolve, this.minInterval - elapsed));
-      }
+ if (elapsed < this.minInterval) {
+ await new Promise(resolve =>
+ setTimeout(resolve, this.minInterval - elapsed)
+ );
+ }
 
-      const task = this.queue.shift()!;
-      await task();
-      this.lastExecution = Date.now();
-    }
+ const task = this.queue.shift()!;
+ await task();
+ this.lastExecution = Date.now();
+ }
 
-    this.processing = false;
-  }
+ this.processing = false;
+ }
 }
 ```
-
-````
+```
 
 ### 3. Domain-Specific Skills
 
@@ -1062,25 +1036,23 @@ def get_user_by_id(user_id: int) -> Optional[User]:
  logger.error(f"Database error when fetching user {{user_id}}: {{e}}")
  return None
  """
-````
+```
 
 ## Best Practices
 
-DO:
-
+ DO:
 - Follow defense-in-depth principle with multiple security layers
 - Implement proper logging and monitoring for security events
 - Use secure coding frameworks and libraries
 - Regularly update dependencies and security patches
 - Conduct periodic security assessments and penetration testing
 
-DON'T:
-
+ DON'T:
 - Roll your own cryptography or security implementations
 - Store sensitive data in plaintext or weak encryption
 - Trust client-side input without proper validation
 - Ignore security warnings from automated tools
-  Assume security through obscurity is sufficient
+ Assume security through obscurity is sufficient
 
 ## Works Well With
 
@@ -1091,7 +1063,6 @@ DON'T:
 ## Advanced Features
 
 ### Threat Modeling Integration
-
 ```python
 # Automated threat modeling
 class ThreatModelAnalyzer:
@@ -1137,7 +1108,6 @@ class ThreatModelAnalyzer:
 ```
 
 ### Continuous Security Monitoring
-
 ```python
 # Real-time security monitoring
 class SecurityMonitor:
@@ -1175,8 +1145,7 @@ class SecurityMonitor:
 
  return anomalies
 ```
-
-````
+```
 
 ### 4. Integration and Workflow Skills
 
@@ -1324,7 +1293,7 @@ jobs:
  - name: Run smoke tests
  run: |
  npm run test:smoke
-````
+```
 
 ```python
 # Terraform infrastructure as code
@@ -1469,18 +1438,16 @@ resource "aws_appautoscaling_policy" "ecs_policy_cpu" {
 
 ## Best Practices
 
-DO:
-
+ DO:
 - Implement proper secrets management using environment variables or secret stores
 - Use infrastructure as code for reproducible deployments
 - Implement proper monitoring and alerting for all services
 - Use blue-green or canary deployments for zero-downtime releases
 - Implement proper rollback mechanisms for failed deployments
 
-DON'T:
-
+ DON'T:
 - Hardcode credentials or sensitive information in configuration
-  Skip proper testing and validation in CI/CD pipelines
+ Skip proper testing and validation in CI/CD pipelines
 - Deploy directly to production without staging validation
 - Ignore security scanning and vulnerability assessment
 - Use manual processes for repetitive deployment tasks
@@ -1494,7 +1461,6 @@ DON'T:
 ## Advanced Features
 
 ### Multi-Environment Deployment
-
 ```python
 # Environment-specific configuration management
 class DeploymentManager:
@@ -1547,7 +1513,6 @@ class DeploymentManager:
 ```
 
 ### Automated Rollback
-
 ```yaml
 # Deployment with automatic rollback
 name: Deploy with Rollback
@@ -1589,8 +1554,7 @@ jobs:
  # Notify team
  notify-rollback.sh ${{ steps.deploy.outputs.new_version }} $PREVIOUS_VERSION
 ```
-
-````
+```
 
 ---
 
@@ -1633,10 +1597,9 @@ tags: [relevant, tags]
 updated: 2025-11-25
 status: active
 ---
-````
+```
 
 Content Development:
-
 - Start with Quick Reference
 - Build Implementation Guide with examples
 - Add Best Practices with DO/DON'T
@@ -1645,14 +1608,12 @@ Content Development:
 ### 4. Validation Phase
 
 Technical Validation:
-
 - YAML syntax validation
 - Code example testing
 - Link verification
 - Line count compliance
 
 Quality Validation:
-
 - Content clarity and specificity
 - Technical accuracy
 - User experience optimization
@@ -1661,7 +1622,6 @@ Quality Validation:
 ### 5. Publication Phase
 
 File Structure:
-
 ```
 skill-name/
  SKILL.md (≤500 lines)
@@ -1671,7 +1631,6 @@ skill-name/
 ```
 
 Version Control:
-
 - Semantic versioning
 - Change documentation
 - Update tracking
@@ -1684,14 +1643,12 @@ Version Control:
 ### Regular Review Schedule
 
 Monthly Reviews:
-
 - Check for official standards updates
 - Review example code for currency
 - Validate external links and references
 - Update best practices based on community feedback
 
 Quarterly Updates:
-
 - Major version compatibility checks
 - Performance optimization reviews
 - Integration testing with other skills

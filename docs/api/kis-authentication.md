@@ -309,7 +309,7 @@ console.log(token.expires_at);
 ```typescript
 import { KISAuthMiddleware } from '@/lib/kis/auth-middleware';
 
-const middleware = new KISAuthMiddleware('mock', appKey, appSecret);
+const middleware = new KISAuthMiddleware('mock', appKey);
 
 // GET 요청
 const response = await middleware.makeRequest({

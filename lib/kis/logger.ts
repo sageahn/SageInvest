@@ -18,41 +18,53 @@ export interface ApiLogResponse {
 
 export class KISLogger {
   /**
-   * Log API request
+   * Log API request (fire-and-forget for performance)
+   * Does not await the database operation to avoid blocking API calls
    */
-  async logRequest(data: ApiLogRequest): Promise<void> {
-    try {
-      const sanitizedHeaders = this.sanitizeData(data.request_headers);
-      const sanitizedBody = this.sanitizeData(data.request_body);
-
-      await query(
-        `INSERT INTO kis_api_logs (request_id, endpoint, method, request_headers, request_body)
-         VALUES ($1, $2, $3, $4, $5)`,
-        [data.request_id, data.endpoint, data.method, sanitizedHeaders, sanitizedBody]
-      );
-    } catch (error) {
+  logRequest(data: ApiLogRequest): void {
+    // Fire-and-forget: execute async operation without awaiting
+    this.logRequestAsync(data).catch((error) => {
       console.error('Failed to log API request:', error);
-      // Don't throw - logging failures should not break API calls
-    }
+    });
   }
 
   /**
-   * Log API response
+   * Internal async implementation for request logging
    */
-  async logResponse(data: ApiLogResponse): Promise<void> {
-    try {
-      const sanitizedBody = this.sanitizeData(data.response_body);
+  private async logRequestAsync(data: ApiLogRequest): Promise<void> {
+    const sanitizedHeaders = this.sanitizeData(data.request_headers);
+    const sanitizedBody = this.sanitizeData(data.request_body);
 
-      await query(
-        `UPDATE kis_api_logs
-         SET response_status = $1, response_body = $2, error_message = $3
-         WHERE request_id = $4`,
-        [data.response_status, sanitizedBody, data.error_message || null, data.request_id]
-      );
-    } catch (error) {
+    await query(
+      `INSERT INTO kis_api_logs (request_id, endpoint, method, request_headers, request_body)
+       VALUES ($1, $2, $3, $4, $5)`,
+      [data.request_id, data.endpoint, data.method, sanitizedHeaders, sanitizedBody]
+    );
+  }
+
+  /**
+   * Log API response (fire-and-forget for performance)
+   * Does not await the database operation to avoid blocking API calls
+   */
+  logResponse(data: ApiLogResponse): void {
+    // Fire-and-forget: execute async operation without awaiting
+    this.logResponseAsync(data).catch((error) => {
       console.error('Failed to log API response:', error);
-      // Don't throw - logging failures should not break API calls
-    }
+    });
+  }
+
+  /**
+   * Internal async implementation for response logging
+   */
+  private async logResponseAsync(data: ApiLogResponse): Promise<void> {
+    const sanitizedBody = this.sanitizeData(data.response_body);
+
+    await query(
+      `UPDATE kis_api_logs
+       SET response_status = $1, response_body = $2, error_message = $3
+       WHERE request_id = $4`,
+      [data.response_status, sanitizedBody, data.error_message || null, data.request_id]
+    );
   }
 
   /**

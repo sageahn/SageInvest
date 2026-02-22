@@ -22,14 +22,12 @@ Core Patterns: Sequential, Parallel, Conditional delegation. Coordination: Task(
 Description: Chain multiple sub-agents where each depends on the output of the previous agent.
 
 Use Cases:
-
 - Multi-phase development workflows
 - Quality assurance pipelines
 - Documentation generation cycles
 - Testing and deployment workflows
 
 Implementation:
-
 ```python
 # Sequential delegation example
 def sequential_workflow(user_request):
@@ -43,7 +41,7 @@ def sequential_workflow(user_request):
 
  # Phase 2: Implementation (passes spec as context)
  implementation_result = Task(
- subagent_type="workflow-tdd",
+ subagent_type="workflow-ddd",
  prompt="Implement from specification",
  context={
  "specification": spec_result,
@@ -84,14 +82,12 @@ result = sequential_workflow("Create user authentication system")
 ```
 
 Advantages:
-
 - Clear dependency management
 - Structured workflow progression
 - Easy error tracking and debugging
 - Predictable execution order
 
 Considerations:
-
 - Sequential execution time (may be slower)
 - Single point of failure
 - Limited parallelization opportunities
@@ -102,14 +98,12 @@ Considerations:
 Description: Execute multiple sub-agents simultaneously when tasks are independent.
 
 Use Cases:
-
 - Multi-component development
 - Parallel analysis tasks
 - Comprehensive testing scenarios
 - Independent quality checks
 
 Implementation:
-
 ```python
 # Parallel delegation example
 def parallel_workflow(project_requirements):
@@ -175,14 +169,12 @@ result = await parallel_workflow("E-commerce platform requirements")
 ```
 
 Advantages:
-
 - Faster execution for independent tasks
 - Efficient resource utilization
 - Natural parallelism in development workflows
 - Better scalability for complex projects
 
 Considerations:
-
 - Complex integration requirements
 - Synchronization challenges
 - Error handling across multiple agents
@@ -193,14 +185,12 @@ Considerations:
 Description: Route to different sub-agents based on analysis and classification.
 
 Use Cases:
-
 - Error classification and resolution
 - Problem type identification
 - Specialized task routing
 - Dynamic workflow adaptation
 
 Implementation:
-
 ```python
 # Conditional delegation example
 class ConditionalWorkflow:
@@ -265,14 +255,12 @@ result = workflow.analyze_and_resolve({"error": "Null pointer exception in user 
 ```
 
 Advantages:
-
 - Intelligent task routing
 - Specialized problem solving
 - Efficient resource allocation
 - Adaptive workflow behavior
 
 Considerations:
-
 - Complex classification logic
 - Error handling in routing
 - Agent selection criteria
@@ -283,14 +271,12 @@ Considerations:
 Description: Master agent coordinates multiple sub-agents in complex workflows.
 
 Use Cases:
-
 - Complex project initialization
 - Multi-phase development processes
 - Comprehensive quality assurance
 - End-to-end system deployment
 
 Implementation:
-
 ```yaml
 ---
 name: development-orchestrator
@@ -320,7 +306,7 @@ Focus Areas: End-to-end process automation, team coordination, quality assurance
 
 ### Phase 2: Development Coordination
 1. Coordinate specification creation with workflow-spec
-2. Manage implementation with workflow-tdd
+2. Manage implementation with workflow-ddd
 3. Oversee quality validation with core-quality
 4. Handle documentation generation with workflow-docs
 
@@ -349,7 +335,6 @@ Focus Areas: End-to-end process automation, team coordination, quality assurance
 ```
 
 Orchestration Implementation:
-
 ```python
 # Advanced orchestrator implementation
 class DevelopmentOrchestrator:
@@ -362,7 +347,7 @@ class DevelopmentOrchestrator:
  'dependencies': []
  },
  'implementation': {
- 'agent': 'workflow-tdd',
+ 'agent': 'workflow-ddd',
  'inputs': ['specification'],
  'outputs': ['code', 'tests'],
  'dependencies': ['specification']
@@ -440,7 +425,6 @@ class DevelopmentOrchestrator:
 ### Error Classification
 
 Error Types and Handling Strategies:
-
 ```python
 # Error handling strategies
 class ErrorHandler:
@@ -451,7 +435,7 @@ class ErrorHandler:
  'max_retries': 3,
  'fallback_agents': {
  'workflow-spec': 'requirements-analyst',
- 'workflow-tdd': 'code-developer',
+ 'workflow-ddd': 'code-developer',
  'core-quality': 'manual-review'
  }
  },
@@ -492,7 +476,6 @@ class ErrorHandler:
 ### Recovery Mechanisms
 
 Recovery Patterns:
-
 ```python
 # Workflow recovery mechanisms
 class RecoveryManager:
@@ -546,7 +529,6 @@ class RecoveryManager:
 ### Context Passing Strategies
 
 Optimal Context Patterns:
-
 ```python
 # Context optimization for agent delegation
 class ContextManager:
@@ -603,7 +585,6 @@ class ContextManager:
 ### Context Validation
 
 Context Quality Assurance:
-
 ```python
 # Context validation and sanitization
 class ContextValidator:
@@ -661,7 +642,6 @@ class ContextValidator:
 ### Parallelization Strategies
 
 Agent Parallelization:
-
 ```python
 # Parallel agent execution optimization
 class ParallelExecutor:
@@ -719,7 +699,6 @@ class ParallelExecutor:
 ### Caching and Optimization
 
 Agent Result Caching:
-
 ```python
 # Agent result caching for performance
 class AgentCache:
@@ -782,8 +761,7 @@ class AgentCache:
 ### 1. Agent Composition
 
 Composite Agent Pattern:
-
-````yaml
+```yaml
 ---
 name: full-stack-specialist
 description: Combine frontend, backend, database, and DevOps expertise for end-to-end application development. Use PROACTIVELY for complete application development requiring multiple domain expertise.
@@ -856,12 +834,11 @@ def handle_full_stack_request(request):
  "specialized_results": results,
  "integration": integration_result
  }
-````
+```
 
 ### 2. Adaptive Workflow Agents
 
 Dynamic Agent Selection:
-
 ```python
 # Adaptive workflow agent that adjusts based on project needs
 class AdaptiveWorkflowAgent:
@@ -871,7 +848,7 @@ class AdaptiveWorkflowAgent:
  'complexity_threshold': 7,
  'task_types': ['specification', 'requirements', 'planning']
  },
- 'workflow-tdd': {
+ 'workflow-ddd': {
  'complexity_threshold': 5,
  'task_types': ['implementation', 'development', 'coding']
  },
@@ -954,7 +931,6 @@ class AdaptiveWorkflowAgent:
 ### 3. Learning Agents
 
 Knowledge Accumulation:
-
 ```python
 # Learning agent that improves from experience
 class LearningAgent:
@@ -1029,33 +1005,28 @@ class LearningAgent:
 ### Multi-Agent Quality Gates
 
 Comprehensive Quality Framework:
-
 ```markdown
 ## Multi-Agent Quality Validation
 
 ### 1. Individual Agent Quality Checks
-
 - Each sub-agent validates its own outputs
 - Agent-specific quality metrics and standards
 - Error handling and recovery validation
 - Performance and efficiency assessment
 
 ### 2. Integration Quality Validation
-
 - Validate agent communication and data transfer
 - Check context passing and transformation accuracy
 - Verify workflow integrity and completeness
 - Assess overall system performance
 
 ### 3. End-to-End Quality Assurance
-
 - Complete workflow testing and validation
 - User acceptance criteria verification
 - System integration testing
 - Performance and scalability validation
 
 ### 4. Continuous Quality Improvement
-
 - Monitor agent performance over time
 - Identify improvement opportunities
 - Update agent configurations and strategies
@@ -1063,7 +1034,6 @@ Comprehensive Quality Framework:
 ```
 
 Quality Metrics Dashboard:
-
 ```python
 # Quality metrics tracking for multi-agent systems
 class QualityMetricsTracker:

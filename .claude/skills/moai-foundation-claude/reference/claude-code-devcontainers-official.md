@@ -12,7 +12,6 @@ Claude Code dev containers provide security-hardened development environments us
 ### Base Configuration
 
 Dev containers are built on:
-
 - Node.js 20 with essential development tools
 - Custom security firewall
 - VS Code Dev Containers integration
@@ -30,7 +29,6 @@ Dev containers are built on:
 Default-deny policy with whitelisted outbound connections:
 
 Allowed by default:
-
 - npm registry (registry.npmjs.org)
 - GitHub (github.com, api.github.com)
 - Claude API (api.anthropic.com)
@@ -42,7 +40,6 @@ All other external connections are blocked.
 ### Firewall Configuration
 
 The init-firewall.sh script establishes:
-
 - Outbound whitelist rules
 - Default-deny for unlisted domains
 - Startup verification of firewall status
@@ -66,7 +63,10 @@ The devcontainer.json can specify VS Code extensions:
 {
   "customizations": {
     "vscode": {
-      "extensions": ["ms-python.python", "esbenp.prettier-vscode"]
+      "extensions": [
+        "ms-python.python",
+        "esbenp.prettier-vscode"
+      ]
     }
   }
 }
@@ -93,7 +93,6 @@ Container-specific VS Code settings:
 ### Default Mounts
 
 Typical dev container mounts:
-
 - Workspace directory
 - Git credentials
 - SSH keys (optional)
@@ -135,13 +134,11 @@ When using --dangerously-skip-permissions:
 ### Recommended Use Cases
 
 Safe usage scenarios:
-
 - Controlled CI/CD pipelines
 - Isolated testing environments
 - Trusted internal repositories
 
 Unsafe scenarios:
-
 - Public code execution
 - Untrusted repository analysis
 - User-facing automation
@@ -231,7 +228,6 @@ RUN wget https://go.dev/dl/go1.21.0.linux-amd64.tar.gz && \
 ### Client Project Isolation
 
 Isolate client work:
-
 - Separate container per client
 - Independent credentials
 - No cross-contamination risk
@@ -239,7 +235,6 @@ Isolate client work:
 ### Team Onboarding
 
 Standardized setup:
-
 - Consistent tool versions
 - Pre-configured environment
 - Reduced setup time
@@ -247,7 +242,6 @@ Standardized setup:
 ### CI/CD Mirroring
 
 Match production:
-
 - Same dependencies
 - Same security policies
 - Reproducible builds
@@ -255,7 +249,6 @@ Match production:
 ### Development Standardization
 
 Team consistency:
-
 - Shared configurations
 - Common tooling
 - Unified workflows
@@ -332,7 +325,6 @@ iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
 ### Step 5: Open in Container
 
 In VS Code:
-
 1. Install Remote - Containers extension
 2. Command Palette: "Dev Containers: Reopen in Container"
 
@@ -363,7 +355,6 @@ In VS Code:
 ### Container Build Fails
 
 Check:
-
 - Dockerfile syntax
 - Network access during build
 - Base image availability
@@ -371,7 +362,6 @@ Check:
 ### Network Issues
 
 If connectivity problems occur:
-
 - Verify firewall rules
 - Check DNS resolution
 - Test allowed domains manually
@@ -379,7 +369,6 @@ If connectivity problems occur:
 ### Permission Issues
 
 If permission denied errors:
-
 - Check user configuration
 - Verify volume mount permissions
 - Review file ownership
@@ -387,7 +376,6 @@ If permission denied errors:
 ### VS Code Connection Issues
 
 If VS Code cannot connect:
-
 - Verify Docker is running
 - Check extension installation
 - Review devcontainer.json syntax

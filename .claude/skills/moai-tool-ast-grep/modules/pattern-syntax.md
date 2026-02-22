@@ -31,7 +31,7 @@ pattern: 'function $NAME($$$ARGS) { $$$BODY }'
 # - function bar(a, b, c) { console.log(a); return b + c; }
 ```
 
-### Anonymous Capture ($$\_)
+### Anonymous Capture ($$_)
 
 Matches any single node without capturing.
 
@@ -42,7 +42,7 @@ pattern: 'if ($$_) { return $VALUE }'
 # Useful when you don't need the matched value
 ```
 
-### Underscore Wildcard ($\_)
+### Underscore Wildcard ($_)
 
 Shorthand for anonymous single capture.
 
@@ -63,7 +63,7 @@ rule:
   pattern: 'useState($INIT)'
   inside:
     pattern: 'function $COMPONENT($$$PROPS) { $$$BODY }'
-    stopBy: end # Don't search nested functions
+    stopBy: end  # Don't search nested functions
 ```
 
 ### has
@@ -158,7 +158,6 @@ rule:
 ```
 
 Options:
-
 - `end` - Stop at the end of matched node
 - `neighbor` - Stop at immediate children
 - `rule` - Stop when a specific rule matches

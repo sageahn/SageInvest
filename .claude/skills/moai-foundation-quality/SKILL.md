@@ -1,20 +1,69 @@
 ---
-name: 'moai-foundation-quality'
-description: 'Enterprise code quality orchestrator with TRUST 5 validation, proactive analysis, and automated best practices enforcement'
-version: 2.2.0
-category: 'foundation'
-modularized: true
+name: moai-foundation-quality
+description: >
+  Code quality orchestrator enforcing TRUST 5 validation, proactive code analysis,
+  linting standards, and automated best practices.
+  Use when performing code review, quality gate checks, lint configuration,
+  TRUST 5 compliance validation, or establishing coding standards.
+  Do NOT use for writing tests (use moai-workflow-testing instead)
+  or debugging runtime errors (use expert-debug agent instead).
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Grep Glob mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-tags: ['foundation', 'quality', 'testing', 'validation', 'trust-5', 'best-practices', 'code-review']
-aliases: ['moai-foundation-quality']
-updated: 2026-01-11
-status: 'active'
-allowed-tools:
-  - Read
-  - Grep
-  - Glob
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+metadata:
+  version: "2.2.0"
+  category: "foundation"
+  status: "active"
+  updated: "2026-01-11"
+  modularized: "true"
+  tags: "foundation, quality, testing, validation, trust-5, best-practices, code-review"
+  aliases: "moai-foundation-quality"
+
+# MoAI Extension: Progressive Disclosure
+progressive_disclosure:
+  enabled: true
+  level1_tokens: 100
+  level2_tokens: 5000
+
+# MoAI Extension: Triggers
+triggers:
+  keywords:
+    - "quality"
+    - "testing"
+    - "test"
+    - "validation"
+    - "trust-5"
+    - "best practice"
+    - "code review"
+    - "linting"
+    - "coverage"
+    - "pytest"
+    - "security"
+    - "ci/cd"
+    - "quality gate"
+    - "proactive"
+    - "code smell"
+    - "technical debt"
+    - "refactoring"
+  agents:
+    - "manager-quality"
+    - "manager-ddd"
+    - "expert-testing"
+    - "expert-security"
+    - "expert-refactoring"
+  phases:
+    - "run"
+    - "sync"
+  languages:
+    - "python"
+    - "javascript"
+    - "typescript"
+    - "java"
+    - "go"
+    - "rust"
+    - "cpp"
+    - "csharp"
 ---
 
 # Enterprise Code Quality Orchestrator
@@ -146,7 +195,7 @@ Essential library mappings for quality analysis tools and frameworks. See [Best 
 Agents:
 
 - core-planner - Quality requirements planning
-- workflow-tdd - TDD implementation validation
+- workflow-ddd - DDD implementation validation
 - security-expert - Security vulnerability analysis
 - code-backend - Backend code quality
 - code-frontend - Frontend code quality
@@ -154,14 +203,14 @@ Agents:
 Skills:
 
 - moai-foundation-core - TRUST 5 framework reference
-- moai-tdd-implementation - TDD workflow validation
+- moai-workflow-ddd - DDD workflow validation
 - moai-security-owasp - Security compliance
 - moai-context7-integration - Context7 best practices
 - moai-performance-optimization - Performance analysis
 
 Commands:
 
-- /moai:2-run - TDD validation integration
+- /moai:2-run - DDD validation integration
 - /moai:3-sync - Documentation quality checks
 - /moai:9-feedback - Quality improvement feedback
 

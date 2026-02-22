@@ -1,20 +1,29 @@
 ---
-name: 'moai-lang-cpp'
-description: 'Modern C++ (C++23/C++20) development specialist covering RAII, smart pointers, concepts, ranges, modules, and CMake. Use when developing high-performance applications, games, system software, or embedded systems.'
-version: 1.1.0
-category: 'language'
-modularized: true
+name: moai-lang-cpp
+description: >
+  Modern C++ (C++23/C++20) development specialist covering RAII, smart pointers, concepts, ranges, modules, and CMake. Use when developing high-performance applications, games, system software, or embedded systems.
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Grep Glob Bash(g++:*) Bash(gcc:*) Bash(clang:*) Bash(clang++:*) Bash(cmake:*) Bash(make:*) Bash(ctest:*) Bash(valgrind:*) Bash(gdb:*) mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-tags: ['language', 'cpp', 'c++23', 'c++20', 'cmake', 'raii', 'smart-pointers', 'concepts']
-updated: 2026-01-11
-status: 'active'
-allowed-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+metadata:
+  version: "1.1.0"
+  category: "language"
+  status: "active"
+  updated: "2026-01-11"
+  modularized: "true"
+  tags: "language, cpp, c++23, c++20, cmake, raii, smart-pointers, concepts"
+
+# MoAI Extension: Progressive Disclosure
+progressive_disclosure:
+  enabled: true
+  level1_tokens: 100
+  level2_tokens: 5000
+
+# MoAI Extension: Triggers
+triggers:
+  keywords: ["C++", "cpp", "CMake", "RAII", "smart pointer", "concept", "range", ".cpp", ".hpp", "CMakeLists.txt", "vcpkg", "conan"]
+  languages: ["cpp", "c++"]
 ---
 
 ## Quick Reference (30 seconds)
@@ -52,7 +61,7 @@ std::expected for Error Handling: Create an enum class ParseError with InvalidFo
 
 std::print for Type-Safe Output: Include the print header and use std::println for formatted output with curly brace placeholders. Supports format specifiers like colon followed by hash x for hexadecimal or colon followed by .2f for floating point precision.
 
-Deducing This (Explicit Object Parameter): Define a Builder class with a data\_ member string. Create a template method append with template parameter Self that takes this Self and and a string_view parameter. Forward self with std::forward and return Self and and. This enables chaining on both lvalue and rvalue objects.
+Deducing This (Explicit Object Parameter): Define a Builder class with a data_ member string. Create a template method append with template parameter Self that takes this Self and and a string_view parameter. Forward self with std::forward and return Self and and. This enables chaining on both lvalue and rvalue objects.
 
 ### C++20 Features
 
@@ -113,7 +122,7 @@ See:
 
 - `moai-lang-rust` - Systems programming comparison and interop
 - `moai-domain-backend` - Backend service architecture
-- `moai-workflow-testing` - TDD and testing strategies
+- `moai-workflow-testing` - DDD and testing strategies
 - `moai-essentials-debug` - Debugging and profiling
 - `moai-foundation-quality` - TRUST 5 quality principles
 
@@ -123,7 +132,7 @@ See:
 
 Version Check: Run g++ --version to verify GCC 13+ for C++23 support, clang++ --version for Clang 17+, and cmake --version for CMake 3.28+.
 
-Common Compilation Flags: Use -std=c++23 with -Wall -Wextra -Wpedantic -O2 for standard builds. Add -fsanitize=address,undefined -g for debugging builds.
+Common Compilation Flags: Use -std=c++23 with -Wall -Wextra -Wpedantic -O2 for standard builds. Add -fsanitize=adddess,undefined -g for debugging builds.
 
 vcpkg Integration: Clone the vcpkg repository from GitHub, run bootstrap-vcpkg.sh, then install packages like fmt, nlohmann-json, and gtest using vcpkg install. Configure CMake with -DCMAKE_TOOLCHAIN_FILE pointing to vcpkg's buildsystems/vcpkg.cmake.
 

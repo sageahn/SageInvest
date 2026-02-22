@@ -19,6 +19,16 @@ SageInvest는 실시간 시세 정보, 포트폴리오 추적, 자산 분석 기
 
 상세 문서: [KIS OpenAPI 인증 시스템](docs/api/kis-authentication.md)
 
+### KIS 잔고조회 기능
+
+- 국내주식 계좌 잔고 실시간 조회
+- 보유 종목별 현재가, 평가손익, 수익률 확인
+- 계좌 전체 자산 요약 정보 제공
+- 대시보드 자산 위젯 표시
+- 페이지네이션을 통한 전체 보유 종목 조회
+
+상세 문서: [SPEC-KIS-002](.moai/specs/SPEC-KIS-002/spec.md)
+
 ### 기술 스택
 
 - **프레임워크**: Next.js 14+ (App Router)

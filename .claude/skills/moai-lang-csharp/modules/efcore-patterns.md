@@ -20,7 +20,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     {
         // Apply all configurations from assembly
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-
+        
         // Global query filters
         modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
         modelBuilder.Entity<Post>().HasQueryFilter(p => !p.IsDeleted);
@@ -41,7 +41,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                     break;
             }
         }
-
+        
         return base.SaveChangesAsync(cancellationToken);
     }
 }
@@ -64,7 +64,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
             sqlOptions.CommandTimeout(30);
             sqlOptions.MigrationsAssembly("MyApp.Infrastructure");
         });
-
+    
     if (builder.Environment.IsDevelopment())
     {
         options.EnableSensitiveDataLogging();
@@ -90,39 +90,39 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.ToTable("Users");
-
+        
         // Primary key
         builder.HasKey(u => u.Id);
         builder.Property(u => u.Id)
             .HasDefaultValueSql("NEWSEQUENTIALID()");
-
+        
         // Properties
         builder.Property(u => u.Name)
             .HasMaxLength(100)
             .IsRequired();
-
+        
         builder.Property(u => u.Email)
             .HasMaxLength(256)
             .IsRequired();
-
+        
         builder.Property(u => u.PasswordHash)
             .HasMaxLength(256)
             .IsRequired();
-
+        
         // Indexes
         builder.HasIndex(u => u.Email)
             .IsUnique()
             .HasDatabaseName("IX_Users_Email");
-
+        
         builder.HasIndex(u => u.Name)
             .HasDatabaseName("IX_Users_Name");
-
+        
         // Relationships
         builder.HasMany(u => u.Posts)
             .WithOne(p => p.Author)
             .HasForeignKey(p => p.AuthorId)
             .OnDelete(DeleteBehavior.Cascade);
-
+        
         builder.HasMany(u => u.Comments)
             .WithOne(c => c.Author)
             .HasForeignKey(c => c.AuthorId)
@@ -135,21 +135,21 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
     public void Configure(EntityTypeBuilder<Post> builder)
     {
         builder.ToTable("Posts");
-
+        
         builder.HasKey(p => p.Id);
-
+        
         builder.Property(p => p.Title)
             .HasMaxLength(200)
             .IsRequired();
-
+        
         builder.Property(p => p.Content)
             .HasColumnType("nvarchar(max)")
             .IsRequired();
-
+        
         builder.Property(p => p.Status)
             .HasConversion<string>()
             .HasMaxLength(20);
-
+        
         // Many-to-many relationship
         builder.HasMany(p => p.Tags)
             .WithMany(t => t.Posts)
@@ -168,7 +168,7 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
 ### Value Objects and Owned Types
 
 ```csharp
-public class Address
+public class Adddess
 {
     public string Street { get; private set; } = string.Empty;
     public string City { get; private set; } = string.Empty;
@@ -176,16 +176,16 @@ public class Address
     public string Country { get; private set; } = string.Empty;
 }
 
-public class AddressConfiguration : IEntityTypeConfiguration<User>
+public class AdddessConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.OwnsOne(u => u.Address, address =>
+        builder.OwnsOne(u => u.Adddess, adddess =>
         {
-            address.Property(a => a.Street).HasMaxLength(200);
-            address.Property(a => a.City).HasMaxLength(100);
-            address.Property(a => a.PostalCode).HasMaxLength(20);
-            address.Property(a => a.Country).HasMaxLength(100);
+            adddess.Property(a => a.Street).HasMaxLength(200);
+            adddess.Property(a => a.City).HasMaxLength(100);
+            adddess.Property(a => a.PostalCode).HasMaxLength(20);
+            adddess.Property(a => a.Country).HasMaxLength(100);
         });
     }
 }
@@ -203,7 +203,7 @@ public interface IRepository<T> where T : class
     Task<T?> GetByIdAsync(Guid id, CancellationToken ct = default);
     Task<IReadOnlyList<T>> GetAllAsync(CancellationToken ct = default);
     Task<IReadOnlyList<T>> FindAsync(
-        Expression<Func<T, bool>> predicate,
+        Expression<Func<T, bool>> predicate, 
         CancellationToken ct = default);
     Task<T> AddAsync(T entity, CancellationToken ct = default);
     Task AddRangeAsync(IEnumerable<T> entities, CancellationToken ct = default);
@@ -240,7 +240,7 @@ public class EfRepository<T>(AppDbContext context) : IRepository<T> where T : cl
         => await DbSet.ToListAsync(ct);
 
     public virtual async Task<IReadOnlyList<T>> FindAsync(
-        Expression<Func<T, bool>> predicate,
+        Expression<Func<T, bool>> predicate, 
         CancellationToken ct = default)
         => await DbSet.Where(predicate).ToListAsync(ct);
 
@@ -276,7 +276,7 @@ public class EfRepository<T>(AppDbContext context) : IRepository<T> where T : cl
         => await DbSet.CountAsync(ct);
 
     public virtual async Task<int> CountAsync(
-        Expression<Func<T, bool>> predicate,
+        Expression<Func<T, bool>> predicate, 
         CancellationToken ct = default)
         => await DbSet.CountAsync(predicate, ct);
 }
@@ -462,29 +462,29 @@ public async Task<User?> GetUserWithRecentPostsAsync(Guid id, CancellationToken 
 
 ```csharp
 public async Task<PagedResult<UserDto>> GetPagedUsersAsync(
-    int page,
-    int pageSize,
+    int page, 
+    int pageSize, 
     string? searchTerm,
     CancellationToken ct)
 {
     var query = context.Users.AsNoTracking();
-
+    
     if (!string.IsNullOrEmpty(searchTerm))
     {
-        query = query.Where(u =>
-            u.Name.Contains(searchTerm) ||
+        query = query.Where(u => 
+            u.Name.Contains(searchTerm) || 
             u.Email.Contains(searchTerm));
     }
-
+    
     var totalCount = await query.CountAsync(ct);
-
+    
     var items = await query
         .OrderBy(u => u.Name)
         .Skip((page - 1) * pageSize)
         .Take(pageSize)
         .Select(u => new UserDto(u.Id, u.Name, u.Email))
         .ToListAsync(ct);
-
+    
     return new PagedResult<UserDto>(items, totalCount, page, pageSize);
 }
 ```
@@ -539,8 +539,8 @@ public async Task UpdateUserRolesAsync(string oldRole, string newRole, Cancellat
 public async Task<List<User>> SearchUsersAsync(string searchTerm, CancellationToken ct)
     => await context.Users
         .FromSqlInterpolated($@"
-            SELECT * FROM Users
-            WHERE Name LIKE {'%' + searchTerm + '%'}
+            SELECT * FROM Users 
+            WHERE Name LIKE {'%' + searchTerm + '%'} 
             OR Email LIKE {'%' + searchTerm + '%'}")
         .ToListAsync(ct);
 
@@ -549,14 +549,14 @@ public async Task<List<UserStatistics>> GetUserStatisticsAsync(CancellationToken
 {
     var connection = context.Database.GetDbConnection();
     await connection.OpenAsync(ct);
-
+    
     await using var command = connection.CreateCommand();
     command.CommandText = @"
         SELECT u.Id, u.Name, COUNT(p.Id) as PostCount
         FROM Users u
         LEFT JOIN Posts p ON u.Id = p.AuthorId
         GROUP BY u.Id, u.Name";
-
+    
     var results = new List<UserStatistics>();
     await using var reader = await command.ExecuteReaderAsync(ct);
     while (await reader.ReadAsync(ct))
@@ -566,7 +566,7 @@ public async Task<List<UserStatistics>> GetUserStatisticsAsync(CancellationToken
             reader.GetString(1),
             reader.GetInt32(2)));
     }
-
+    
     return results;
 }
 ```

@@ -2,7 +2,7 @@
 import axios, { AxiosInstance, AxiosError, AxiosResponse } from 'axios';
 import { TokenManager } from './token-manager';
 import { logger } from './logger';
-import { retryWithBackoff } from './retry';
+
 import type { KISEnvironment } from './types';
 
 export interface KISRequestOptions {
@@ -13,6 +13,7 @@ export interface KISRequestOptions {
   data?: any;
   needsHash?: boolean;
   needsAuth?: boolean;
+  trId?: string;
 }
 
 export class KISAuthMiddleware {
@@ -27,7 +28,7 @@ export class KISAuthMiddleware {
     this.appSecret = appSecret;
 
     this.axiosInstance = axios.create({
-      timeout: 30000,
+      timeout: 120000, // KIS API가 느릴 수 있으므로 2분으로 증가
     });
 
     this.setupInterceptors();
@@ -53,9 +54,17 @@ export class KISAuthMiddleware {
           }
         }
 
-        // Add appkey header
+        // Add appkey and appsecret headers (required by KIS OpenAPI)
         config.headers['appkey'] = this.appKey;
         config.headers['appsecret'] = this.appSecret;
+
+        // Add content-type header for KIS API
+        config.headers['content-type'] = 'application/json; charset=utf-8';
+
+        // Add transaction ID header if provided
+        if (config.headers['tr_id']) {
+          // tr_id is already set by the request options
+        }
 
         // Add hash header for POST requests if needed
         if (config.method === 'post' && config.headers['needs-hash'] === 'true' && config.data) {
@@ -65,8 +74,8 @@ export class KISAuthMiddleware {
           config.headers['hash'] = hash;
         }
 
-        // Log request
-        await logger.logRequest({
+        // Log request (fire-and-forget for performance)
+        logger.logRequest({
           request_id: requestId,
           endpoint: config.url || '',
           method: config.method?.toUpperCase() || 'GET',
@@ -101,8 +110,8 @@ export class KISAuthMiddleware {
       async (error: AxiosError) => {
         const requestId = error.config?.headers?.['X-Request-ID'] as string;
 
-        // Log error response
-        await logger.logResponse({
+        // Log error response (fire-and-forget for performance)
+        logger.logResponse({
           request_id: requestId,
           response_status: error.response?.status || 0,
           response_body: JSON.stringify(error.response?.data || {}),
@@ -116,9 +125,8 @@ export class KISAuthMiddleware {
 
             // Retry original request with new token
             if (error.config) {
-              error.config.headers['Authorization'] = `Bearer ${await (
-                await this.tokenManager.getValidToken()
-              ).access_token}`;
+              const newToken = await this.tokenManager.getValidToken();
+              error.config.headers['Authorization'] = `Bearer ${newToken.access_token}`;
               return this.axiosInstance.request(error.config);
             }
           } catch (retryError) {
@@ -129,8 +137,8 @@ export class KISAuthMiddleware {
 
         // Handle 429 Too Many Requests - rate limit
         if (error.response?.status === 429) {
-          const retryAfter = error.response.headers['retry-after'];
-          const waitTime = retryAfter ? parseInt(retryAfter) * 1000 : 60000;
+          const retryAfter = error.response.headers['retry-after'] as string | undefined;
+          const waitTime = retryAfter ? parseInt(retryAfter, 10) * 1000 : 60000;
 
           await new Promise((resolve) => setTimeout(resolve, waitTime));
 
@@ -139,8 +147,8 @@ export class KISAuthMiddleware {
           }
         }
 
-        // Apply retry with exponential backoff for other errors
-        return retryWithBackoff(() => this.axiosInstance.request(error.config!));
+        // Throw error directly - retry is handled at the caller level if needed
+        throw error;
       }
     );
   }
@@ -155,6 +163,11 @@ export class KISAuthMiddleware {
       'needs-hash': options.needsHash === true ? 'true' : 'false',
     };
 
+    // Add transaction ID header if provided
+    if (options.trId) {
+      headers['tr_id'] = options.trId;
+    }
+
     return this.axiosInstance.request<T>({
       method: options.method,
       url: options.url,
@@ -165,7 +178,7 @@ export class KISAuthMiddleware {
   }
 
   private generateRequestId(): string {
-    return `req-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `req-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
   }
 
   private sanitizeHeaders(headers: any): Record<string, string> {

@@ -5,7 +5,6 @@ Comprehensive TRUST 5 quality framework validation for enterprise code quality a
 ## Overview
 
 The TRUST 5 framework validates five core quality principles:
-
 - Testable - Test coverage and quality
 - Readable - Code clarity and maintainability
 - Unified - Consistent patterns and standards
@@ -123,14 +122,14 @@ class SecuredValidator:
 
 ```yaml
 trust5_framework:
-  enabled: true
-  thresholds:
-  overall: 0.85
-  testable: 0.90
-  readable: 0.80
-  unified: 0.85
-  secured: 0.90
-  trackable: 0.80
+ enabled: true
+ thresholds:
+ overall: 0.85
+ testable: 0.90
+ readable: 0.80
+ unified: 0.85
+ secured: 0.90
+ trackable: 0.80
 ```
 
 ## Quality Gate Pipeline

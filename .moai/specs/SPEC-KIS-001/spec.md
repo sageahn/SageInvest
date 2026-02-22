@@ -1,12 +1,12 @@
 ---
 SPEC_ID: SPEC-KIS-001
 TITLE: KIS OpenAPI 인증 시스템
-STATUS: Planned
+STATUS: Completed
 PRIORITY: High
 ASSIGNED: Alfred (Orchestrator)
 DOMAIN: KIS (Korea Investment & Securities OpenAPI)
 CREATED: 2026-01-16T09:00:00Z
-UPDATED: 2026-01-16T10:30:00Z
+UPDATED: 2026-02-08T10:00:00Z
 LIFECYCLE: spec-anchored
 RELATED_SPECs: []
 EPIC: Core Infrastructure
@@ -22,6 +22,7 @@ LABELS: authentication, api, kis, securities, external-integration, ui-component
 | ------- | ---------- | ------ | ---------------------------------------------- |
 | 1.0.0   | 2026-01-16 | Alfred | 초기 SPEC 작성                                 |
 | 1.1.0   | 2026-01-16 | Alfred | KIS OpenAPI API 엔드포인트 및 UI 요구사항 추가 |
+| 1.2.0   | 2026-02-08 | Alfred | 구현 완료 및 상태 변경                         |
 
 ## ENVIRONMENT
 

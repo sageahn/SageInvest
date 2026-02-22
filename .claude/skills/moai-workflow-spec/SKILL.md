@@ -1,25 +1,48 @@
 ---
-name: 'moai-workflow-spec'
-description: 'SPEC workflow orchestration with EARS format, requirement clarification, and Plan-Run-Sync integration for MoAI-ADK development methodology'
-version: 1.2.0
-category: 'workflow'
-modularized: true
+name: moai-workflow-spec
+description: >
+  SPEC workflow orchestration with EARS format requirements, acceptance criteria,
+  and Plan-Run-Sync integration for MoAI-ADK development methodology.
+  Use when creating SPEC documents, writing EARS requirements, defining acceptance
+  criteria, planning features, or orchestrating the /moai plan phase.
+  Do NOT use for implementation (use moai-workflow-ddd instead)
+  or documentation generation (use moai-workflow-project instead).
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Write Edit Bash(git:*) Bash(ls:*) Bash(wc:*) Bash(mkdir:*) Grep Glob mcp__context7__resolve-library-id mcp__context7__get-library-docs
 user-invocable: false
-context: fork
-agent: Plan
-tags: ['workflow', 'spec', 'ears', 'requirements', 'moai-adk', 'planning']
-updated: 2026-01-08
-status: 'active'
-author: 'MoAI-ADK Team'
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Grep
-  - Glob
-  - mcp__context7__resolve-library-id
-  - mcp__context7__get-library-docs
+metadata:
+  version: "1.2.0"
+  category: "workflow"
+  status: "active"
+  updated: "2026-01-08"
+  modularized: "true"
+  tags: "workflow, spec, ears, requirements, moai-adk, planning"
+  author: "MoAI-ADK Team"
+  context: "fork"
+  agent: "Plan"
+
+# MoAI Extension: Progressive Disclosure
+progressive_disclosure:
+  enabled: true
+  level1_tokens: 100
+  level2_tokens: 5000
+
+# MoAI Extension: Triggers
+triggers:
+  keywords:
+    [
+      "SPEC",
+      "requirement",
+      "EARS",
+      "acceptance criteria",
+      "user story",
+      "planning",
+      "specification",
+      "requirements gathering",
+    ]
+  phases: ["plan"]
+  agents: ["manager-spec", "manager-strategy", "Plan"]
 ---
 
 # SPEC Workflow Management
@@ -70,7 +93,7 @@ SPEC-First Development Philosophy:
 - EARS format ensures unambiguous requirements
 - Requirement clarification prevents scope creep
 - Systematic validation through test scenarios
-- Integration with TDD workflow for implementation
+- Integration with DDD workflow for implementation
 - Quality gates enforce completion criteria
 - Constitution reference ensures project-wide consistency
 
@@ -167,7 +190,7 @@ For feature requests or problem-driven SPECs, apply Five Whys:
 - First Why: What immediate need drives this request?
 - Second Why: What underlying problem creates that need?
 - Third Why: What systemic factor contributes?
-- Root Cause: What fundamental issue must the solution address?
+- Root Cause: What fundamental issue must the solution adddess?
 
 Step 1 - Scope Definition:
 
@@ -210,8 +233,8 @@ PLAN Phase (/moai:1-plan):
 
 RUN Phase (/moai:2-run):
 
-- manager-tdd agent loads SPEC document
-- RED-GREEN-REFACTOR TDD cycle execution
+- manager-ddd agent loads SPEC document
+- ANALYZE-PRESERVE-IMPROVE DDD cycle execution
 - moai-workflow-testing skill reference for test patterns
 - Domain Expert agent delegation (expert-backend, expert-frontend, etc.)
 - Quality validation through manager-quality agent
@@ -259,11 +282,19 @@ For advanced patterns including SPEC templates, validation automation, and workf
 
 ### SPEC File Organization
 
-Directory Structure:
+Directory Structure (Standard 3-File Format):
 
-- .moai/specs/: SPEC document files (SPEC-001-feature-name.md)
+- .moai/specs/SPEC-{ID}/: SPEC document directory containing 3 required files
+  - spec.md: EARS format specification (Environment, Assumptions, Requirements, Specifications)
+  - plan.md: Implementation plan, milestones, technical approach
+  - acceptance.md: Detailed acceptance criteria, test scenarios (Given-When-Then format)
 - .moai/memory/: Session state files (last-session-state.json)
 - .moai/docs/: Generated documentation (api-documentation.md)
+
+[HARD] Required File Set:
+Every SPEC directory MUST contain all 3 files (spec.md, plan.md, acceptance.md)
+WHY: Complete SPEC structure ensures traceability, implementation guidance, and quality validation
+IMPACT: Missing files create incomplete requirements and prevent proper workflow execution
 
 ### SPEC Metadata Schema
 
@@ -330,12 +361,12 @@ Validation Checklist:
 
 ### Works Well With
 
-- moai-foundation-core: SPEC-First TDD methodology and TRUST 5 framework
-- moai-workflow-testing: TDD implementation and test automation
+- moai-foundation-core: SPEC-First DDD methodology and TRUST 5 framework
+- moai-workflow-testing: DDD implementation and test automation
 - moai-workflow-project: Project initialization and configuration
-- moai-worktree: Git Worktree management for parallel development
+- moai-workflow-worktree: Git Worktree management for parallel development
 - manager-spec: SPEC creation and requirement analysis agent
-- manager-tdd: TDD implementation based on SPEC requirements
+- manager-ddd: DDD implementation based on SPEC requirements
 - manager-quality: TRUST 5 quality validation and gate enforcement
 
 ### Integration Examples
@@ -370,6 +401,170 @@ Context Optimization:
 
 ---
 
-Version: 1.2.0 (SDD 2025 Standard Integration)
-Last Updated: 2025-12-30
-Integration Status: Complete - Full Plan-Run-Sync workflow with SDD 2025 features
+## SPEC Scope and Classification (NEW)
+
+### What Belongs in .moai/specs/
+
+The `.moai/specs/` directory is EXCLUSIVELY for SPEC documents that define features to be implemented.
+
+Valid SPEC Content:
+
+- Feature requirements in EARS format
+- Implementation plans with milestones
+- Acceptance criteria with Given/When/Then scenarios
+- Technical specifications for new functionality
+- User stories with clear deliverables
+
+SPEC Characteristics:
+
+- Forward-looking: Describes what WILL be built
+- Actionable: Contains implementation guidance
+- Testable: Includes acceptance criteria
+- Structured: Uses EARS format patterns
+
+### What Does NOT Belong in .moai/specs/
+
+| Document Type         | Why Not SPEC                  | Correct Location                          |
+| --------------------- | ----------------------------- | ----------------------------------------- |
+| Security Audit        | Analyzes existing code        | `.moai/reports/security-audit-{DATE}/`    |
+| Performance Report    | Documents current metrics     | `.moai/reports/performance-{DATE}/`       |
+| Dependency Analysis   | Reviews existing dependencies | `.moai/reports/dependency-review-{DATE}/` |
+| Architecture Overview | Documents current state       | `.moai/docs/architecture.md`              |
+| API Reference         | Documents existing APIs       | `.moai/docs/api-reference.md`             |
+| Meeting Notes         | Records decisions made        | `.moai/reports/meeting-{DATE}/`           |
+| Retrospective         | Analyzes past work            | `.moai/reports/retro-{DATE}/`             |
+
+### Exclusion Rules
+
+[HARD] Report vs SPEC Distinction:
+
+Reports analyze what EXISTS → `.moai/reports/`
+SPECs define what will be BUILT → `.moai/specs/`
+
+[HARD] Documentation vs SPEC Distinction:
+
+Documentation explains HOW TO USE → `.moai/docs/`
+SPECs define WHAT TO BUILD → `.moai/specs/`
+
+---
+
+## Migration Guide for Legacy Files
+
+### Scenario 1: Flat SPEC File → Directory Conversion
+
+Problem: `.moai/specs/SPEC-AUTH-001.md` exists as single file
+
+Solution Steps:
+
+1. Create directory: `mkdir -p .moai/specs/SPEC-AUTH-001/`
+2. Move content: `mv .moai/specs/SPEC-AUTH-001.md .moai/specs/SPEC-AUTH-001/spec.md`
+3. Create missing files:
+   - Extract implementation plan → `plan.md`
+   - Extract acceptance criteria → `acceptance.md`
+4. Verify structure: All 3 files present
+5. Commit: `git add . && git commit -m "refactor(spec): Convert SPEC-AUTH-001 to directory structure"`
+
+Validation Command:
+
+```bash
+# Check for flat SPEC files (should return empty)
+find .moai/specs -maxdepth 1 -name "SPEC-*.md" -type f
+```
+
+### Scenario 2: Unnumbered SPEC ID → Number Assignment
+
+Problem: `SPEC-REDESIGN` or `SPEC-SDK-INTEGRATION` without number
+
+Solution Steps:
+
+1. Find next available number:
+   ```bash
+   ls -d .moai/specs/SPEC-*-[0-9][0-9][0-9] 2>/dev/null | sort -t- -k3 -n | tail -1
+   ```
+2. Assign number: `SPEC-REDESIGN` → `SPEC-REDESIGN-001`
+3. Rename directory:
+   ```bash
+   mv .moai/specs/SPEC-REDESIGN .moai/specs/SPEC-REDESIGN-001
+   ```
+4. Update internal references in spec.md frontmatter
+5. Commit: `git commit -m "refactor(spec): Assign number to SPEC-REDESIGN → SPEC-REDESIGN-001"`
+
+### Scenario 3: Report in SPEC Directory → Separation
+
+Problem: Analysis/audit document in `.moai/specs/`
+
+Solution Steps:
+
+1. Identify document type from content
+2. Create reports directory:
+   ```bash
+   mkdir -p .moai/reports/security-audit-2025-01/
+   ```
+3. Move content:
+   ```bash
+   mv .moai/specs/SPEC-SECURITY-AUDIT/* .moai/reports/security-audit-2025-01/
+   rmdir .moai/specs/SPEC-SECURITY-AUDIT
+   ```
+4. Rename main file to report.md if needed
+5. Commit: `git commit -m "refactor: Move security audit from specs to reports"`
+
+### Scenario 4: Duplicate SPEC ID → Resolution
+
+Problem: Two directories with same SPEC ID
+
+Solution Steps:
+
+1. Compare creation dates:
+   ```bash
+   ls -la .moai/specs/ | grep SPEC-AUTH-001
+   ```
+2. Determine which is canonical (usually older one)
+3. Renumber newer one to next available:
+   ```bash
+   mv .moai/specs/SPEC-AUTH-001-duplicate .moai/specs/SPEC-AUTH-002
+   ```
+4. Update internal references
+5. Commit: `git commit -m "fix(spec): Resolve duplicate SPEC-AUTH-001 → SPEC-AUTH-002"`
+
+### Validation Script
+
+Run this script to identify SPEC organization issues:
+
+```bash
+#!/bin/bash
+# SPEC Organization Validator
+
+echo "=== SPEC Organization Check ==="
+
+# Check 1: Flat files in specs root
+echo -e "\n[Check 1] Flat SPEC files (should be empty):"
+find .moai/specs -maxdepth 1 -name "SPEC-*.md" -type f
+
+# Check 2: Directories without required files
+echo -e "\n[Check 2] SPEC directories missing required files:"
+for dir in .moai/specs/SPEC-*/; do
+  if [ -d "$dir" ]; then
+    missing=""
+    [ ! -f "${dir}spec.md" ] && missing="${missing}spec.md "
+    [ ! -f "${dir}plan.md" ] && missing="${missing}plan.md "
+    [ ! -f "${dir}acceptance.md" ] && missing="${missing}acceptance.md "
+    [ -n "$missing" ] && echo "$dir: Missing $missing"
+  fi
+done
+
+# Check 3: SPECs without numbers
+echo -e "\n[Check 3] SPECs without proper numbering:"
+ls -d .moai/specs/SPEC-*/ 2>/dev/null | grep -v -E 'SPEC-[A-Z]+-[0-9]{3}'
+
+# Check 4: Potential reports in specs
+echo -e "\n[Check 4] Potential reports in specs (check manually):"
+grep -l -r "findings\|recommendations\|audit\|analysis" .moai/specs/*/spec.md 2>/dev/null
+
+echo -e "\n=== Check Complete ==="
+```
+
+---
+
+Version: 1.3.0 (SDD 2025 Standard Integration + SPEC Scope Classification)
+Last Updated: 2026-01-21
+Integration Status: Complete - Full Plan-Run-Sync workflow with SDD 2025 features and Migration Guide

@@ -1,15 +1,30 @@
 ---
-name: 'moai-lang-go'
-description: 'Go 1.23+ development specialist covering Fiber, Gin, GORM, and concurrent programming patterns. Use when building high-performance microservices, CLI tools, or cloud-native applications.'
-version: 1.1.0
-category: 'language'
-modularized: false
+name: moai-lang-go
+description: >
+  Go 1.23+ development specialist covering Fiber, Gin, GORM, and concurrent programming patterns. Use when building high-performance microservices, CLI tools, or cloud-native applications.
+license: Apache-2.0
+compatibility: Designed for Claude Code
 user-invocable: false
-tags: ['go', 'golang', 'fiber', 'gin', 'concurrency', 'microservices']
-context7-libraries: ['/gofiber/fiber', '/gin-gonic/gin', '/go-gorm/gorm']
-related-skills: ['moai-lang-rust', 'moai-domain-backend']
-updated: 2026-01-11
-status: 'active'
+metadata:
+  version: "1.1.0"
+  category: "language"
+  status: "active"
+  updated: "2026-01-11"
+  modularized: "false"
+  tags: "go, golang, fiber, gin, concurrency, microservices"
+  context7-libraries: "/gofiber/fiber, /gin-gonic/gin, /go-gorm/gorm"
+  related-skills: "moai-lang-rust, moai-domain-backend"
+
+# MoAI Extension: Progressive Disclosure
+progressive_disclosure:
+  enabled: true
+  level1_tokens: 100
+  level2_tokens: 5000
+
+# MoAI Extension: Triggers
+triggers:
+  keywords: ["Go", "Golang", "Fiber", "Gin", "GORM", "Echo", "Chi", ".go", "go.mod", "goroutine", "channel", "generics", "concurrent", "testing", "benchmark", "fuzzing", "microservices", "gRPC"]
+  languages: ["go", "golang"]
 ---
 
 ## Quick Reference (30 seconds)
@@ -123,6 +138,16 @@ Define rootCmd as cobra.Command pointer with Use and Short fields. In init funct
 
 ## Advanced Patterns
 
+For comprehensive coverage including:
+
+- Advanced concurrency patterns (worker pools, rate limiting, errgroup)
+- Generics and type constraints
+- Interface design and composition
+- Comprehensive testing patterns (TDD, table-driven, benchmarks, fuzzing)
+- Performance optimization and profiling
+
+See: [reference/advanced.md](reference/advanced.md) for advanced patterns, [reference/testing.md](reference/testing.md) for testing patterns
+
 ### Performance Optimization
 
 PGO Build:
@@ -165,7 +190,7 @@ Spawn goroutine calling app.Listen. Create quit channel for os.Signal with buffe
 - moai-lang-rust for systems programming companion
 - moai-quality-security for security hardening
 - moai-essentials-debug for performance profiling
-- moai-workflow-tdd for test-driven development
+- moai-workflow-ddd for domain-driven development
 
 ---
 
@@ -187,9 +212,9 @@ Performance Diagnostics:
 
 ## Additional Resources
 
-See reference.md for complete framework reference, advanced patterns, and Context7 library mappings.
+See reference/advanced.md for advanced concurrency patterns, generics, and interface design.
 
-See examples.md for production-ready code including REST APIs, CLI tools, and deployment configurations.
+See reference/testing.md for comprehensive testing patterns including TDD, benchmarks, and fuzzing.
 
 ---
 

@@ -217,7 +217,7 @@ export function DynamicDocumentationPage({ section }: { section: string }) {
 
 ### 1. Full-Text Search Integration
 
-````typescript
+```typescript
 import Fuse from 'fuse.js';
 
 interface SearchableContent {
@@ -329,7 +329,7 @@ export function SearchBar() {
  </div>
  );
 }
-````
+```
 
 ---
 

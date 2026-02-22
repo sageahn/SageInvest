@@ -14,9 +14,9 @@ export async function retryWithBackoff<T>(
   options: RetryOptions = {}
 ): Promise<T> {
   const {
-    maxRetries = 5,
+    maxRetries = 3, // Reduced from 5 to 3 for faster failure
     baseDelay = 1000, // 1 second
-    maxDelay = 16000, // 16 seconds
+    maxDelay = 8000, // Reduced from 16s to 8s
     shouldRetry = defaultShouldRetry,
   } = options;
 
@@ -50,12 +50,33 @@ export async function retryWithBackoff<T>(
 }
 
 /**
- * Default retry condition - retry on network errors and 5xx
+ * Default retry condition - retry on network errors and 5xx only
+ * Do NOT retry on client errors (4xx) except 408 and 429
  */
 function defaultShouldRetry(error: any): boolean {
-  // Network errors
+  // Do not retry on client authentication/authorization errors
+  const nonRetryableStatusCodes = [
+    400, // Bad Request - client error
+    401, // Unauthorized - token expired (handled by middleware)
+    403, // Forbidden - permission denied
+    404, // Not Found
+    422, // Unprocessable Entity
+  ];
+
+  if (nonRetryableStatusCodes.includes(error.response?.status)) {
+    return false;
+  }
+
+  // Network errors (no response) - be conservative, don't retry indefinitely
   if (!error.response) {
-    return true;
+    // Only retry network errors if it's a timeout or connection issue
+    // Don't retry on DNS errors or other fatal network issues
+    const isNetworkRetryable =
+      error.code === 'ECONNRESET' ||
+      error.code === 'ETIMEDOUT' ||
+      error.code === 'ECONNREFUSED' ||
+      error.code === 'ENOTFOUND';
+    return isNetworkRetryable;
   }
 
   // HTTP status codes to retry
